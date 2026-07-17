@@ -130,7 +130,7 @@ public class WorkLogDAO {
 	public float sumBytaskId(float manHours) throws SQLException {
 		int ans = 0;
 		// SELECT文を準備する
-		String sql = "SELECT COUNT man_hours FROM work_logs WHERE task_id = ?";
+		String sql = "SELECT task_id,SUM(work_logs) FROM work_logs";
 		//デバッグ（SQL文の確認用）
 		System.out.println(sql);
 

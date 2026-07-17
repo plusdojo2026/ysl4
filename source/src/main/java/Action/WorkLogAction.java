@@ -33,9 +33,9 @@ public class WorkLogAction {
 		//		workLogList.add(dto);
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
-		int workLogsId = request.getParameter("work_logs_id");
-		int taskId = request.getParameter("task_id");
-		int userId = request.getParameter("user_id");
+		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
+		int taskId = Integer.parseInt(request.getParameter("task_id"));
+		int userId = Integer.parseInt(request.getParameter("user_id"));
 		Date workDate = request.getParameter("work_date");
 		float manHours = request.getParameter("man_hours");
 		String jobContents = request.getParameter("job_contents");
@@ -47,11 +47,10 @@ public class WorkLogAction {
 		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
 		request.setAttribute("WorkLogList", WorkLogList);
 		return page;
-	}
 
-	WorkLogService service = new WorkLogService();
-	//serviceに処理を依頼
-	int ans = service.WorkLogRegist(
+		WorkLogService service = new WorkLogService();
+		//serviceに処理を依頼
+		int ans = service.WorkLogRegist(
 				workLogsId,
 				taskId,
 				userId,
@@ -60,18 +59,17 @@ public class WorkLogAction {
 				jobContents,
 				cAt,
 				uAt);
-	//ちゃんと登録できたか確認
-	if(ans==1)
-	{
-		request.setAttribute("msg", "※" + name + "の登録完了！");
-	}else
-	{
-		request.setAttribute("msg", "※登録失敗！IDが重複しています");
-	}
-	//工数情報を全て取得する
-	ArrayList<WorkLogDTO> WorkLogList = service.selectAll();request.setAttribute("WorkLogList",WorkLogList);
+		//ちゃんと登録できたか確認
+		if (ans == 1) {
+			request.setAttribute("msg", "※" + name + "の登録完了！");
+		} else {
+			request.setAttribute("msg", "※登録失敗！IDが重複しています");
+		}
+		//工数情報を全て取得する
+		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		request.setAttribute("WorkLogList", WorkLogList);
 
-	return page;
+		return page;
 	}
 
 	//従業員の削除メソッド---------------------------------------
