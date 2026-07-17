@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class TaskDTO {
+	
+	public TaskDTO() {
+		
+	}
 
 	public TaskDTO(int taskId, String taskName, int projectId, int managerId, Date startDate, Date dueDate,
 			int estimatedManhours, int progress, String status, String priority, String description,
