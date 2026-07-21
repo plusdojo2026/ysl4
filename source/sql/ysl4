@@ -1,0 +1,132 @@
+//データベース作成
+
+	CREATE DATABASE pinkElephant;
+	USE pinkElephant;
+
+//ユーザーテーブル 
+
+CREATE TABLE Users (
+	user_id INT AUTO_INCREMENT PRIMARY KEY, 
+    login_id VARCHAR(20) NOT NULL UNIQUE, 
+    password_hash VARCHAR(255),
+    name VARCHAR(30),
+    email VARCHAR(100),
+    is_admin BOOLEAN,
+    is_valid BOOLEAN,
+    c_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    u_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+ 
+ //案件テーブル 
+ 
+  CREATE TABLE Projects(
+  project_id INT AUTO_INCREMENT PRIMARY KEY,
+  project_code VARCHAR(20) UNIQUE NOT NULL,
+  project_name VARCHAR(50) NOT NULL,
+  customer_name VARCHAR(40),
+  create_member_id INT,
+  project_manager_id INT,
+  start_date VARCHAR(15),
+  due_date VARCHAR(15),
+  estimated_manhours INT NOT NULL,
+  actual_manhours INT DEFAULT 0,
+  description VARCHAR(255),
+  status VARCHAR(10) NOT NULL DEFAULT '進行中',
+  priority VARCHAR(10) NOT NULL DEFAULT '中',
+  c_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  u_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(create_member_id) REFERENCES Users(user_id),
+  FOREIGN KEY(project_manager_id) REFERENCES Users(user_id)
+  );
+  
+  //タスクテーブル 
+  
+  CREATE TABLE Tasks(
+  task_id INT AUTO_INCREMENT PRIMARY KEY,
+  task_name VARCHAR(50) NOT NULL,
+  project_id INT NOT NULL,
+  manager_id INT,
+  start_date VARCHAR(10),
+  due_date VARCHAR(15),
+  estimated_manhours INT NOT NULL,
+  progress INT DEFAULT 0,
+  status VARCHAR(10) NOT NULL DEFAULT '未着手',
+  priority VARCHAR(10) NOT NULL DEFAULT '中',
+  description VARCHAR(255),
+  c_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  u_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(project_id) REFERENCES Projects(project_id),
+  FOREIGN KEY(manager_id) REFERENCES Users(user_id)
+  );
+  
+  //工数テーブル 
+  
+  CREATE TABLE WorkLogs(
+  work_logs_id INT AUTO_INCREMENT PRIMARY KEY,
+  task_id INT NOT NULL,
+  user_id INT NOT NULL,
+  work_date VARCHAR(15) NOT NULL,
+  man_hours FLOAT CHECK (man_hours % 0.5 = 0) NOT NULL DEFAULT 0,
+  job_contents VARCHAR(255),
+  c_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  u_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(task_id) REFERENCES Tasks(task_id),
+  FOREIGN KEY(user_id) REFERENCES Users(user_id)
+  );
+
+  //サンプルデータ 
+  
+USE pinkElephant;
+
+  //1. ユーザーデータの登録
+
+INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_valid, c_at) VALUES
+(NULL, 'tanaka.taro',       'password123', '田中 太郎',     'taro.tanaka@company.co.jp',       TRUE,  TRUE,  '2024-04-01 10:00:00'),
+(NULL, 'sato.hanako',       'password123', '佐藤 花子',     'hanako.sato@company.co.jp',       FALSE, TRUE,  '2024-04-03 11:00:00'),
+(NULL, 'suzuki.ichiro',     'password123', '鈴木 一郎',     'ichiro.suzuki@company.co.jp',     FALSE, TRUE,  '2024-04-05 09:30:00'),
+(NULL, 'takahashi.misaki',  'password123', '高橋 美咲',     'misaki.takahashi@company.co.jp',  FALSE, TRUE,  '2024-04-08 13:15:00'),
+(NULL, 'yamamoto.kenta',    'password123', '山本 健太',     'kenta.yamamoto@company.co.jp',    FALSE, TRUE,  '2024-04-10 10:45:00'),
+(NULL, 'watanabe.ken',      'password123', '渡辺 健',       'ken.watanabe@company.co.jp',      FALSE, TRUE,  '2024-04-12 14:00:00'),
+(NULL, 'ito.yuka',          'password123', '伊藤 由香',     'yuka.ito@company.co.jp',          FALSE, TRUE,  '2024-04-15 16:20:00'),
+(NULL, 'admin.system',      'password123', 'システム管理者', 'admin@company.co.jp',             TRUE,  FALSE, '2024-03-25 09:00:00');
+
+
+-- 2. 案件データの登録
+INSERT INTO Projects (project_id, project_code, project_name, customer_name, create_member_id, project_manager_id, start_date, due_date, estimated_manhours, actual_manhours, description, status, priority) VALUES
+(NULL, 'PJ-001', 'ECサイト刷新プロジェクト', '株式会社サンプル', 1, 2, '2024/04/01', '2024/09/30', 200, 148, 'ECサイト刷新に伴う要件定義、設計、開発、テストを管理する案件です。', '進行中', '高'),
+(NULL, 'PJ-002', '社内勤怠システム改修',     '自社開発',         8, 1, '2024/05/01', '2024/07/31', 80,  45,  'バックオフィス効率化のための改修。', '進行中', '中');
+
+
+  //3. タスクデータの登録
+
+INSERT INTO Tasks (task_name, project_id, manager_id, start_date, due_date, estimated_manhours, progress, status, priority, description) VALUES
+('要件定義書の作成',     1, 1, '2024/04/15', '2024/04/15', 24, 100, '完了',   '高', '要件定義の作成タスク'),
+('デザインレビュー',     1, 2, '2024/05/30', '2024/05/30', 16, 50,  '進行中', '中', 'デザインレビュータスク'),
+('API仕様書の作成',     1, 3, '2024/05/29', '2024/05/29', 20, 60,  '進行中', '高', '期限超過アラートあり'),
+('テストケース作成',     1, 4, '2024/06/10', '2024/06/10', 18, 0,   '未着手', '中', 'テストケース作成タスク'),
+('ユーザーマニュアル作成', 1, 5, '2024/06/20', '2024/06/20', 12, 35,  '進行中', '低', 'マニュアル作成タスク'),
+('勤怠DB設計の見直し',   2, 6, '2024/05/10', '2024/05/20', 30, 80,  '進行中', '中', '別案件の追加タスク');
+
+
+  //4. 工数ログデータの登録
+
+INSERT INTO WorkLogs (task_id, user_id, work_date, man_hours, job_contents) VALUES
+(1, 1, '2024/04/15', 8.0, '要件定義骨子作成'),
+(1, 1, '2024/04/16', 6.5, '要件定義詳細詰め'),
+(1, 1, '2024/05/22', 4.0, '要件定義書の最終確認とレビュー対応'),
+(2, 2, '2024/05/20', 3.5, 'プロトタイプ作成'),
+(2, 2, '2024/05/23', 2.0, 'UIレビューと修正指摘の反映'),
+(3, 3, '2024/05/21', 4.5, 'API基本設計'),
+(3, 3, '2024/05/24', 3.0, 'API認証フローの整理と仕様書更新'),
+(4, 4, '2024/06/01', 5.5, 'テスト計画書読み込み'),
+(5, 5, '2024/06/05', 2.0, '構成案作成'),
+(6, 6, '2024/05/11', 7.5, '既存スキーマ調査'),
+(6, 6, '2024/05/12', 6.0, 'インデックス最適化案作成'),
+(1, 7, '2024/04/15', 4.0, '要件定義サポート'),
+(2, 1, '2024/05/23', 1.5, 'デザインレビュー同席'),
+(3, 2, '2024/05/24', 2.5, 'API仕様フィードバック'),
+(6, 3, '2024/05/13', 3.0, 'DB設計レビュー参加');
+
+SELECT * FROM Users;
+SELECT * FROM Projects;
+SELECT * FROM Tasks;
+SELECT * FROM WorkLogs;
