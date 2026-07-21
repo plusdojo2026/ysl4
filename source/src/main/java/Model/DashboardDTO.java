@@ -20,19 +20,19 @@ public class DashboardDTO {
     // 自分のタスク進捗率を表示する
     private int myTaskProgressRate;
 
-    // プロジェクト全体の進捗率を表示する
+    // 全タスクの平均進捗率を表示する
     private int allTaskProgressRate;
 
-    // 今月の工数達成率を表示する
+    // ホーム画面では月次予算を入力しないため初期値0で使う
     private int monthlyWorkAchievementRate;
 
-    // 自分のタスク一覧を表示する
-    private List<AssignedTaskDTO> assignedTaskList = new ArrayList<>();
-
     // 進行中案件一覧を表示する
-    private List<InProgressProjectDTO> inProgressProjectList = new ArrayList<>();
+    private List<ProjectsDTO> inProgressProjectList = new ArrayList<>();
 
-    // 予定件数 (追加機能)
+    // 自分の担当タスク一覧を表示する
+    private List<TaskDTO> assignedTaskList = new ArrayList<>();
+
+    // 追加機能用の予定件数
     // private int todayScheduleCount;
 
     public int getInProgressProjectCount() {
@@ -91,28 +91,28 @@ public class DashboardDTO {
         this.monthlyWorkAchievementRate = monthlyWorkAchievementRate;
     }
 
-    public List<AssignedTaskDTO> getAssignedTaskList() {
-        return assignedTaskList;
-    }
-
-    public void setAssignedTaskList(List<AssignedTaskDTO> assignedTaskList) {
-        if (assignedTaskList == null) {
-            this.assignedTaskList = new ArrayList<>();
-            return;
-        }
-        this.assignedTaskList = assignedTaskList;
-    }
-
-    public List<InProgressProjectDTO> getInProgressProjectList() {
+    public List<ProjectsDTO> getInProgressProjectList() {
         return inProgressProjectList;
     }
 
-    public void setInProgressProjectList(List<InProgressProjectDTO> inProgressProjectList) {
+    public void setInProgressProjectList(List<ProjectsDTO> inProgressProjectList) {
         if (inProgressProjectList == null) {
             this.inProgressProjectList = new ArrayList<>();
             return;
         }
         this.inProgressProjectList = inProgressProjectList;
+    }
+
+    public List<TaskDTO> getAssignedTaskList() {
+        return assignedTaskList;
+    }
+
+    public void setAssignedTaskList(List<TaskDTO> assignedTaskList) {
+        if (assignedTaskList == null) {
+            this.assignedTaskList = new ArrayList<>();
+            return;
+        }
+        this.assignedTaskList = assignedTaskList;
     }
 
     // 追加機能用の予定件数getter
@@ -124,132 +124,4 @@ public class DashboardDTO {
     // public void setTodayScheduleCount(int todayScheduleCount) {
     //     this.todayScheduleCount = todayScheduleCount;
     // }
-
-    public static class AssignedTaskDTO {
-
-        // タスク詳細への遷移で使う
-        private int taskId;
-
-        // タスク名を表示する
-        private String taskName;
-
-        // 案件名を表示する
-        private String projectName;
-
-        // 期限をyyyy-MM-dd文字列で表示する
-        private String dueDate;
-
-        // 優先度を表示する
-        private String priority;
-
-        // 進捗率を表示する
-        private int progress;
-
-        // ステータスを表示する
-        private String status;
-
-        public int getTaskId() {
-            return taskId;
-        }
-
-        public void setTaskId(int taskId) {
-            this.taskId = taskId;
-        }
-
-        public String getTaskName() {
-            return taskName;
-        }
-
-        public void setTaskName(String taskName) {
-            this.taskName = taskName;
-        }
-
-        public String getProjectName() {
-            return projectName;
-        }
-
-        public void setProjectName(String projectName) {
-            this.projectName = projectName;
-        }
-
-        public String getDueDate() {
-            return dueDate;
-        }
-
-        public void setDueDate(String dueDate) {
-            this.dueDate = dueDate;
-        }
-
-        public String getPriority() {
-            return priority;
-        }
-
-        public void setPriority(String priority) {
-            this.priority = priority;
-        }
-
-        public int getProgress() {
-            return progress;
-        }
-
-        public void setProgress(int progress) {
-            this.progress = progress;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-    }
-
-    // static付きなので進行中案件の表示用DTOとして単体で使える
-    public static class InProgressProjectDTO {
-
-        // 案件詳細への遷移で使う
-        private int projectId;
-
-        // 案件名を表示する
-        private String projectName;
-
-        // 進捗率を表示する
-        private int progress;
-
-        // ステータスを表示する
-        private String status;
-
-        public int getProjectId() {
-            return projectId;
-        }
-
-        public void setProjectId(int projectId) {
-            this.projectId = projectId;
-        }
-
-        public String getProjectName() {
-            return projectName;
-        }
-
-        public void setProjectName(String projectName) {
-            this.projectName = projectName;
-        }
-
-        public int getProgress() {
-            return progress;
-        }
-
-        public void setProgress(int progress) {
-            this.progress = progress;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-    }
 }
