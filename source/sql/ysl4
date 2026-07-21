@@ -1,7 +1,7 @@
 //データベース作成
 
-	CREATE DATABASE pinkElephant;
-	USE pinkElephant;
+	CREATE DATABASE ysl4;
+	USE ysl4;
 
 //ユーザーテーブル 
 
