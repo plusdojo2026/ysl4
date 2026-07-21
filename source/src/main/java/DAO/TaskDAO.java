@@ -128,7 +128,7 @@ public class TaskDAO {
 		return TaskList;
 	}
 
-	//IDを取得する
+	//TaskIDを取得する
 	public TaskDTO findById(int projectId) throws SQLException {
 
 		TaskDTO dto = null;
@@ -169,5 +169,90 @@ public class TaskDAO {
 		// serviceに返却する
 		return dto;
 	}
+
+	//全てのProjectIDを取得する
+	public int countAllByProjectId(int projectId) throws SQLException {
+
+		// SELECT文を準備する
+		String sql = "SELECT COUNT * FROM Tasks WHERE project_id=?";
+
+		// デバッグ（SQL文の確認用）
+		System.out.println(sql);
+
+		// まとめる
+		PreparedStatement pStmt = conn.prepareStatement(sql);
+		pStmt.setInt(1, projectId);
+
+		// SELECT文を実行し、結果表を取得する
+		ResultSet rs = pStmt.executeQuery();
+
+		// 初期値0
+		int count = 0;
+
+		// 結果
+		if (rs.next()) {
+			return rs.getInt(1);
+		}
+
+		// serviceに返却する falseの場合は初期値
+		return count;
+	}
+
+	//完了したProjectIDを取得する
+	public int countCompletedByProjectId(int projectId) throws SQLException {
+
+		// SELECT文を準備する
+		String sql = "SELECT COUNT * FROM Tasks WHERE project_id=? AND status = '完了'";
+
+		// デバッグ（SQL文の確認用）
+		System.out.println(sql);
+
+		// まとめる
+		PreparedStatement pStmt = conn.prepareStatement(sql);
+		pStmt.setInt(1, projectId);
+
+		// SELECT文を実行し、結果表を取得する
+		ResultSet rs = pStmt.executeQuery();
+
+		// 初期値0
+		int count = 0;
+
+		// 結果
+		if (rs.next()) {
+			return rs.getInt(1);
+		}
+
+		// serviceに返却する falseの場合は初期値
+		return count;
+	}
+	
+	//担当タスクについてuserIDを取得する
+		public int countAssignedTasks(int userId) throws SQLException {
+
+			// SELECT文を準備する
+			String sql = "SELECT COUNT * FROM Tasks WHERE manager_id=?";
+
+			// デバッグ（SQL文の確認用）
+			System.out.println(sql);
+
+			// まとめる
+			PreparedStatement pStmt = conn.prepareStatement(sql);
+			pStmt.setInt(1, userId);
+
+			// SELECT文を実行し、結果表を取得する
+			ResultSet rs = pStmt.executeQuery();
+
+			// 初期値0
+			int count = 0;
+
+			// 結果
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+
+			// serviceに返却する falseの場合は初期値
+			return count;
+		}
+		
 
 }
