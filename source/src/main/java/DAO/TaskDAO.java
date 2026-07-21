@@ -409,4 +409,26 @@ public class TaskDAO {
 
 	}
 
+	//タスクを削除する
+	public int taskDelete(int taskId) throws SQLException {
+
+		// SELECT文を準備する
+		String sql = "DELETE FROM Tasks WHERE task_id = ?";
+
+		// デバッグ（SQL文の確認用）
+		System.out.println(sql);
+
+		// まとめる
+		PreparedStatement pStmt = conn.prepareStatement(sql);
+
+		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
+
+		// 移し替え
+
+		pStmt.setInt(1, taskId);
+
+		return pStmt.executeUpdate();
+
+	}
+
 }
