@@ -1,8 +1,6 @@
 package Action;
 
 import java.io.UnsupportedEncodingException;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,11 +34,9 @@ public class WorkLogAction {
 		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
 		int taskId = Integer.parseInt(request.getParameter("task_id"));
 		int userId = Integer.parseInt(request.getParameter("user_id"));
-		Date workDate = request.getParameter("work_date");
-		float manHours = request.getParameter("man_hours");
+		String workDate = request.getParameter("work_date");
+		float manHours = Float.parseFloat(request.getParameter("man_hours"));
 		String jobContents = request.getParameter("job_contents");
-		Timestamp cAt = request.getParameter("c_at");
-		Timestamp uAt = request.getParameter("u_at");
 
 		//ユーザー情報を全て取得する
 		WorkLogService service = new WorkLogService();
@@ -56,9 +52,7 @@ public class WorkLogAction {
 				userId,
 				workDate,
 				manHours,
-				jobContents,
-				cAt,
-				uAt);
+				jobContents);
 		//ちゃんと登録できたか確認
 		if (ans == 1) {
 			request.setAttribute("msg", "※" + name + "の登録完了！");
