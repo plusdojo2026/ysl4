@@ -75,7 +75,7 @@ CREATE TABLE Users (
 
   //サンプルデータ 
   
-USE pinkElephant;
+USE ysl4;
 
   //1. ユーザーデータの登録
 

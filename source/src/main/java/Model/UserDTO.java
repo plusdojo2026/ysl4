@@ -1,0 +1,89 @@
+package dto;
+
+import java.io.Serializable;
+
+public class UserDTO implements Serializable {
+	private int userId;//ユーザーID
+	private int loginId;//ログインID
+	private String passwordHash;//パスワード
+	private String name;//名前
+	private String email;//メールアドレス
+	private boolean isAdmin;//権限フラグ
+	private boolean isValid;//ステータス
+	private Timestamp createdAt;//作成日
+	private Timestamp updateAt;//編集日
+	
+	//ゲッターとセッター
+	
+	public int getUserId() {
+		return userId;
+	}
+	
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
+	public int getLoginId() {
+		return loginId;
+	}
+	
+	public void setLoginId(int loginId) {
+		this.loginId = loginId;
+	}
+	
+	public String getPasswordHash() {
+		return passwordHash;
+	}
+	
+	public void setPasswordHash(String passwordHash) {
+		this.passwordHash = passwordHash;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public boolean getIsAdmin() {
+		return isAdmin;
+	}
+	
+	public void setIsAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+	
+	public boolean getIsValid() {
+		return isValid;
+	}
+	
+	public void setIsValid(boolean isValid) {
+		this.isValid = isValid;
+	}
+	
+	public Timestamp getCreatedAt() {
+		return createdAt;
+	}
+	
+	public void setCreatedAt(Timestamp createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public Timestamp getUpdateAt() {
+		return updateAt;
+	}
+	
+	public void setUpdateAt(Timestamp updateAt) {
+		this.updateAt = updateAt;
+	}
+}
