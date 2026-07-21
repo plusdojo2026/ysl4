@@ -333,15 +333,15 @@ public class TaskDAO {
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
-		
+
 		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
 
 		// 移し替え
 		pStmt.setString(1, dto.getTaskName());
 		pStmt.setInt(2, dto.getProjectId());
 		pStmt.setInt(3, dto.getManagerId());
-		pStmt.setDate(4,new java.sql.Date(dto.getStartDate().getTime()));
-		pStmt.setDate(5,new java.sql.Date(dto.getDueDate().getTime()));
+		pStmt.setDate(4, new java.sql.Date(dto.getStartDate().getTime()));
+		pStmt.setDate(5, new java.sql.Date(dto.getDueDate().getTime()));
 		pStmt.setInt(6, dto.getEstimatedManhours());
 		pStmt.setInt(7, dto.getProgress());
 		pStmt.setString(8, dto.getStatus());
@@ -350,6 +350,63 @@ public class TaskDAO {
 
 		return pStmt.executeUpdate();
 
-		}
+	}
+
+	//タスクを更新する
+	public int taskUpdate(TaskDTO dto) throws SQLException {
+
+		// SELECT文を準備する
+		String sql = "UPDATE Tasks SET ,task_name=?,project_id=?,manager_id=?"
+				+ ",start_date=?, due_date=?, estimated_manhours=?, progress=?"
+				+ ",status=?, priority=?, description=? , WHERE task_id=?";
+
+		// デバッグ（SQL文の確認用）
+		System.out.println(sql);
+
+		// まとめる
+		PreparedStatement pStmt = conn.prepareStatement(sql);
+
+		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
+
+		// 移し替え
+		pStmt.setString(1, dto.getTaskName());
+		pStmt.setInt(2, dto.getProjectId());
+		pStmt.setInt(3, dto.getManagerId());
+		pStmt.setDate(4, new java.sql.Date(dto.getStartDate().getTime()));
+		pStmt.setDate(5, new java.sql.Date(dto.getDueDate().getTime()));
+		pStmt.setInt(6, dto.getEstimatedManhours());
+		pStmt.setInt(7, dto.getProgress());
+		pStmt.setString(8, dto.getStatus());
+		pStmt.setString(9, dto.getPriority());
+		pStmt.setString(10, dto.getDescription());
+
+		return pStmt.executeUpdate();
+
+	}
+
+	//進捗・ステータスを更新する
+	public int updateStatusAndProgress(int taskId, String status, int progress)
+			throws SQLException {
+
+		// SELECT文を準備する
+		String sql = "UPDATE Tasks ,SET status = ?, progress = ? ,WHERE task_id = ?";
+
+		// デバッグ（SQL文の確認用）
+		System.out.println(sql);
+
+		// まとめる
+		PreparedStatement pStmt = conn.prepareStatement(sql);
+
+		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
+
+		// 移し替え
+
+		pStmt.setString(1, status);
+		pStmt.setInt(2, progress);
+		pStmt.setInt(3, taskId);
+
+		return pStmt.executeUpdate();
+
+	}
 
 }
