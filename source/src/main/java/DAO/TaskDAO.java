@@ -320,9 +320,7 @@ public class TaskDAO {
 	}
 
 	//タスク登録をする
-	public TaskDTO taskInsert(TaskDTO dto) throws SQLException {
-
-		TaskDTO dto = null;
+	public int taskInsert(TaskDTO dto) throws SQLException {
 
 		// SELECT文を準備する
 		String sql = "INSERT INTO Tasks(\"task_name, project_id, manager_id,"
@@ -335,32 +333,23 @@ public class TaskDAO {
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
-		pStmt.setInt(1, projectId);
-		// SELECT文を実行し、結果表を取得する
-
-		ResultSet rs = pStmt.executeQuery();
+		
+		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
 
 		// 移し替え
-		while (rs.next()) {
+		pStmt.setString(1, dto.getTaskName());
+		pStmt.setInt(2, dto.getProjectId());
+		pStmt.setInt(3, dto.getManagerId());
+		pStmt.setDate(4,new java.sql.Date(dto.getStartDate().getTime()));
+		pStmt.setDate(5,new java.sql.Date(dto.getDueDate().getTime()));
+		pStmt.setInt(6, dto.getEstimatedManhours());
+		pStmt.setInt(7, dto.getProgress());
+		pStmt.setString(8, dto.getStatus());
+		pStmt.setString(9, dto.getPriority());
+		pStmt.setString(10, dto.getDescription());
 
-			dto = new TaskDTO();
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setTaskName(rs.getString("task_name"));
-			dto.setProjectId(rs.getInt("project_id"));
-			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getDate("start_date"));
-			dto.setDueDate(rs.getDate("due_date"));
-			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
-			dto.setProgress(rs.getInt("progress"));
-			dto.setStatus(rs.getString("status"));
-			dto.setPriority(rs.getString("priority"));
-			dto.setDescription(rs.getString("description"));
-			dto.setCreatedAt(rs.getTimestamp("c_at"));
-			dto.setUpdatedAt(rs.getTimestamp("u_at"));
+		return pStmt.executeUpdate();
 
 		}
 
-		// serviceに返却する
-		return dto;
-	}
 }
