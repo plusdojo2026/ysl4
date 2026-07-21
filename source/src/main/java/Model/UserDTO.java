@@ -1,6 +1,7 @@
-package dto;
+package Model;
 
 import java.io.Serializable;
+import java.sql.LocalDate;
 
 public class UserDTO implements Serializable {
 	private int userId;//ユーザーID
@@ -10,8 +11,8 @@ public class UserDTO implements Serializable {
 	private String email;//メールアドレス
 	private boolean isAdmin;//権限フラグ
 	private boolean isValid;//ステータス
-	private Timestamp createdAt;//作成日
-	private Timestamp updateAt;//編集日
+	private Date createdAt;//作成日
+	private Date updateAt;//編集日
 	
 	//ゲッターとセッター
 	
