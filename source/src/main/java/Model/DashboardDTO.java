@@ -32,7 +32,7 @@ public class DashboardDTO {
     // 進行中案件一覧を表示する
     private List<InProgressProjectDTO> inProgressProjectList = new ArrayList<>();
 
-    // 追加機能用の予定件数
+    // 予定件数 (追加機能)
     // private int todayScheduleCount;
 
     public int getInProgressProjectCount() {
@@ -125,7 +125,6 @@ public class DashboardDTO {
     //     this.todayScheduleCount = todayScheduleCount;
     // }
 
-    // static付きなのでDashboardDTOを作らなくても型として使える
     public static class AssignedTaskDTO {
 
         // タスク詳細への遷移で使う

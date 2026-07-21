@@ -127,7 +127,6 @@ public class MonthlySummaryDTO {
         this.workLogDetailList = workLogDetailList;
     }
 
-    // static付きなのでMonthlySummaryDTOを作らなくても行データの型として使える
     public static class ProjectSummaryDTO {
 
         // 予算入力欄のnameに使う
@@ -197,7 +196,6 @@ public class MonthlySummaryDTO {
         }
     }
 
-    // static付きなのでメンバー別集計の行データとして使える
     public static class MemberSummaryDTO {
 
         // 担当者名を表示する
@@ -245,7 +243,6 @@ public class MonthlySummaryDTO {
         }
     }
 
-    // static付きなので工数明細の行データとして使える
     public static class WorkLogDetailDTO {
 
         // 作業日をyyyy-MM-dd文字列で表示する
