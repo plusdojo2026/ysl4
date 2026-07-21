@@ -19,140 +19,171 @@ public class Controller extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    // ログイン画面のJSPパス
     private static final String JSP_LOGIN = "/WEB-INF/jsp/login.jsp";
-    private static final String JSP_LOGOUT = "/WEB-INF/jsp/logout.jsp";
-    private static final String JSP_PASSWORD_RESET = "/WEB-INF/jsp/passwordReset.jsp";
+
+    // エラー画面のJSPパス
     private static final String JSP_ERROR = "/WEB-INF/jsp/error.jsp";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // ログアウト後に戻るボタンで前画面が出ないようにする
+        setNoCache(response);
+
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        String pageId = getRequestValue(request, "page_id", "pageId");
+        String pageId = request.getParameter("page_id");
         String movePath = JSP_LOGIN;
 
         try {
-            if (isEmpty(pageId) || "L001".equals(pageId)) {
+            // 未ログインならログイン画面へ戻す
+            if (!isPublicPage(pageId) && !isLoggedIn(request)) {
+                redirect(request, response, "Controller?page_id=L001");
+                return;
+            }
+
+            if (isBlank(pageId) || "L001".equals(pageId)) {
                 movePath = JSP_LOGIN;
 
-            } else if (!isLogin(request)) {
-                movePath = "redirect:Controller?page_id=L001";
-
-            } else if ("D001".equals(pageId)) {
-                movePath = new DashboardAction(request).show();
+            } else if ("H001".equals(pageId)) {
+                movePath = new DashboardAction(request).showHome();
 
             } else if ("S001".equals(pageId)) {
-                movePath = new SummaryAction(request, response).show();
+                movePath = new SummaryAction(request, response).showMonthlySummary();
 
             } else if ("M004".equals(pageId)) {
-                movePath = JSP_PASSWORD_RESET;
+                movePath = "/WEB-INF/jsp/passwordReset.jsp";
 
             } else {
-                request.setAttribute("errMsg", "指定された画面が見つかりません");
                 movePath = JSP_ERROR;
             }
 
-        } catch (Exception e) {
-            request.setAttribute("errMsg", "画面表示中にエラーが発生しました");
-            request.setAttribute("exception", e);
-            movePath = JSP_ERROR;
-        }
+            move(request, response, movePath);
 
-        move(request, response, movePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            request.setAttribute("errMsg", "画面表示中にエラーが発生しました");
+            move(request, response, JSP_ERROR);
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        // ログアウト後に戻るボタンで前画面が出ないようにする
+        setNoCache(response);
+
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
 
-        String pageId = getRequestValue(request, "page_id", "pageId");
-        String buttonId = getRequestValue(request, "button_id", "buttonId");
+        String pageId = request.getParameter("page_id");
+        String buttonId = request.getParameter("button_id");
         String movePath = JSP_LOGIN;
 
         try {
-            if ("none".equals(pageId) && "ログアウト".equals(buttonId)) {
-                HttpSession session = request.getSession(false);
-
-                // ログイン情報を破棄する
-                if (session != null) {
-                    session.invalidate();
-                }
-
-                movePath = JSP_LOGOUT;
-
-            } else if ("L001".equals(pageId) && "ログイン".equals(buttonId)) {
+            // ログイン処理だけは未ログインで通す
+            if (isLoginRequest(pageId, buttonId)) {
                 movePath = new LoginAction(request).login();
+                move(request, response, movePath);
+                return;
+            }
 
-            } else if (!isLogin(request)) {
-                movePath = "redirect:Controller?page_id=L001";
+            // ログアウト処理はセッション切れでも通す
+            if ("none".equals(pageId) && "ログアウト".equals(buttonId)) {
+                movePath = new LoginAction(request).logout();
+                move(request, response, movePath);
+                return;
+            }
 
-            } else if ("L001".equals(pageId) && "変更".equals(buttonId)) {
+            // その他のPOSTはログイン必須にする
+            if (!isLoggedIn(request)) {
+                redirect(request, response, "Controller?page_id=L001");
+                return;
+            }
+
+            if ("L002".equals(pageId) && "変更".equals(buttonId)) {
                 movePath = new LoginAction(request).changePassword();
-
-            } else if ("S001".equals(pageId) && "表示".equals(buttonId)) {
-                movePath = new SummaryAction(request, response).search();
-
-            } else if ("S002".equals(pageId) && "CSV出力".equals(buttonId)) {
-                movePath = new SummaryAction(request, response).exportCsv();
 
             } else if ("M004".equals(pageId) && "リセット".equals(buttonId)) {
                 movePath = new LoginAction(request).resetPassword();
 
+            } else if ("S001".equals(pageId) && "表示".equals(buttonId)) {
+                movePath = new SummaryAction(request, response).searchMonthlySummary();
+
+            } else if ("S001".equals(pageId) && "CSV出力".equals(buttonId)) {
+                movePath = new SummaryAction(request, response).downloadCsv();
+
             } else {
-                request.setAttribute("errMsg", "指定された処理が見つかりません");
                 movePath = JSP_ERROR;
             }
 
+            move(request, response, movePath);
+
         } catch (Exception e) {
+            e.printStackTrace();
             request.setAttribute("errMsg", "処理中にエラーが発生しました");
-            request.setAttribute("exception", e);
-            movePath = JSP_ERROR;
+            move(request, response, JSP_ERROR);
         }
-
-        // CSV出力時はAction内でresponseへ書き込み済み
-        if (movePath == null) {
-            return;
-        }
-
-        move(request, response, movePath);
     }
 
-    private boolean isLogin(HttpServletRequest request) {
+    private static boolean isLoginRequest(String pageId, String buttonId) {
+
+        // staticなのでpageIdとbuttonIdだけでログイン処理か判定できる
+        return "L001".equals(pageId) && "ログイン".equals(buttonId);
+    }
+
+    private static boolean isPublicPage(String pageId) {
+
+        // staticなのでpageIdだけで認証不要ページか判定できる
+        return isBlank(pageId) || "L001".equals(pageId);
+    }
+
+    private static boolean isLoggedIn(HttpServletRequest request) {
+
+        // staticなのでrequestだけでログイン状態を判定できる
         HttpSession session = request.getSession(false);
         return session != null && session.getAttribute("loginUser") != null;
     }
 
-    private String getRequestValue(HttpServletRequest request, String snakeName, String camelName) {
-        String value = request.getParameter(snakeName);
+    private static boolean isBlank(String value) {
 
-        // 既存コードがキャメルケースの場合も拾う
-        if (isEmpty(value)) {
-            value = request.getParameter(camelName);
-        }
-
-        return value;
+        // staticなので文字列だけで空判定ができる
+        return value == null || value.trim().isEmpty();
     }
 
-    private boolean isEmpty(String value) {
-        return value == null || value.trim().isEmpty();
+    private static void setNoCache(HttpServletResponse response) {
+
+        // staticなのでresponseだけでキャッシュ禁止を設定できる
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
     }
 
     private void move(HttpServletRequest request, HttpServletResponse response, String movePath)
             throws ServletException, IOException {
 
+        // CSV出力などresponseへ直接書いた場合は遷移しない
+        if (movePath == null) {
+            return;
+        }
+
         if (movePath.startsWith("redirect:")) {
-            String redirectPath = movePath.substring("redirect:".length());
-            response.sendRedirect(request.getContextPath() + "/" + redirectPath);
+            redirect(request, response, movePath.replaceFirst("redirect:", ""));
             return;
         }
 
         RequestDispatcher dispatcher = request.getRequestDispatcher(movePath);
         dispatcher.forward(request, response);
+    }
+
+    private static void redirect(HttpServletRequest request, HttpServletResponse response, String path)
+            throws IOException {
+
+        // staticなのでrequestとresponseだけでリダイレクトできる
+        response.sendRedirect(request.getContextPath() + "/" + path);
     }
 }
