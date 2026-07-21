@@ -14,7 +14,7 @@ public class DashboardDTO {
     // 期限超過タスク数を表示する
     private int overdueTaskCount;
 
-    // 今月の自分の工数を表示する
+    // 今月の自分の登録工数を表示する
     private float monthlyMyManhours;
 
     // 自分のタスク進捗率を表示する
@@ -26,14 +26,14 @@ public class DashboardDTO {
     // 今月の工数達成率を表示する
     private int monthlyWorkAchievementRate;
 
-    // 今日の予定件数を表示する(追加機能)
-//    private int todayScheduleCount;
-
     // 自分のタスク一覧を表示する
     private List<AssignedTaskDTO> assignedTaskList = new ArrayList<>();
 
     // 進行中案件一覧を表示する
     private List<InProgressProjectDTO> inProgressProjectList = new ArrayList<>();
+
+    // 追加機能用の予定件数
+    // private int todayScheduleCount;
 
     public int getInProgressProjectCount() {
         return inProgressProjectCount;
@@ -91,15 +91,6 @@ public class DashboardDTO {
         this.monthlyWorkAchievementRate = monthlyWorkAchievementRate;
     }
 
-    //(追加機能)
-//    public int getTodayScheduleCount() {
-//        return todayScheduleCount;
-//    }
-//
-//    public void setTodayScheduleCount(int todayScheduleCount) {
-//        this.todayScheduleCount = todayScheduleCount;
-//    }
-
     public List<AssignedTaskDTO> getAssignedTaskList() {
         return assignedTaskList;
     }
@@ -124,6 +115,17 @@ public class DashboardDTO {
         this.inProgressProjectList = inProgressProjectList;
     }
 
+    // 追加機能用の予定件数getter
+    // public int getTodayScheduleCount() {
+    //     return todayScheduleCount;
+    // }
+
+    // 追加機能用の予定件数setter
+    // public void setTodayScheduleCount(int todayScheduleCount) {
+    //     this.todayScheduleCount = todayScheduleCount;
+    // }
+
+    // static付きなのでDashboardDTOを作らなくても型として使える
     public static class AssignedTaskDTO {
 
         // タスク詳細への遷移で使う
@@ -135,7 +137,7 @@ public class DashboardDTO {
         // 案件名を表示する
         private String projectName;
 
-        // 期限を表示する
+        // 期限をyyyy-MM-dd文字列で表示する
         private String dueDate;
 
         // 優先度を表示する
@@ -204,6 +206,7 @@ public class DashboardDTO {
         }
     }
 
+    // static付きなので進行中案件の表示用DTOとして単体で使える
     public static class InProgressProjectDTO {
 
         // 案件詳細への遷移で使う
