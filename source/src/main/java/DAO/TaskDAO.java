@@ -17,7 +17,7 @@ public class TaskDAO {
 		this.conn = conn;
 	}
 
-	//タスクの一覧を取得する
+	//全タスクの一覧を取得する
 	public ArrayList<TaskDTO> selectAll() throws SQLException {
 		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
 
@@ -54,12 +54,13 @@ public class TaskDAO {
 		return TaskList;
 	}
 
-	//案件一覧を取得する
-	public ArrayList<TaskDTO> selectByProjectId() throws SQLException {
+	//条件に合うタスクを取得する
+	public ArrayList<TaskDTO> selectByProjectId(int projectId)
+			throws SQLException {
 		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM Tasks";
+		String sql = "SELECT * FROM Tasks WHERE project_id = ?";
 		//デバッグ（SQL文の確認用）
 		System.out.println(sql);
 
@@ -91,7 +92,7 @@ public class TaskDAO {
 		return TaskList;
 	}
 
-	//検索のための一覧を取得する
+	//検索したタスクを取得する
 	public ArrayList<TaskDTO> search() throws SQLException {
 		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
 
@@ -128,11 +129,11 @@ public class TaskDAO {
 		return TaskList;
 	}
 
-	//全てのProjectIDを取得する
+	//指定案件の全てのタスク総数を取得する
 	public int countAllByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT * FROM Tasks WHERE project_id=?";
+		String sql = "SELECT COUNT (*) FROM Tasks WHERE project_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -156,11 +157,11 @@ public class TaskDAO {
 		return count;
 	}
 
-	//完了したProjectIDを取得する
+	//完了したタスク数を取得する
 	public int countCompletedByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT * FROM Tasks WHERE project_id=? AND status = '完了'";
+		String sql = "SELECT COUNT (*) FROM Tasks WHERE project_id=? AND status = '完了'";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -184,7 +185,7 @@ public class TaskDAO {
 		return count;
 	}
 
-	//担当タスクについてuserIDを取得する
+	//担当タスク数を取得する
 	public int countAssignedTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
@@ -212,7 +213,7 @@ public class TaskDAO {
 		return count;
 	}
 
-	//期限切れタスクを取得する
+	//期限超過タスクを取得する
 	public int countOverdueTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
@@ -240,7 +241,7 @@ public class TaskDAO {
 		return count;
 	}
 
-	//担当タスクリストを取得する
+	//担当タスク一覧を取得する
 	public ArrayList<TaskDTO> selectAssignedTasks(int user) throws SQLException {
 		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
 
