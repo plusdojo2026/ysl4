@@ -1,6 +1,5 @@
 package Model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class WorkLogDTO {
@@ -8,13 +7,13 @@ public class WorkLogDTO {
 	private int workLogsId;
 	private int taskId;
 	private int userId;
-	private Date workDate;
+	private String workDate;
 	private float manHours;
 	private String jobContents;
 	private Timestamp cAt;
 	private Timestamp uAt;
 
-	public WorkLogDTO(int workLogsId, int taskId, int userId, Date workDate, float manHours, String jobContents,
+	public WorkLogDTO(int workLogsId, int taskId, int userId, String workDate, float manHours, String jobContents,
 			Timestamp cAt, Timestamp uAt) {
 		super();
 		this.workLogsId = workLogsId;
@@ -51,11 +50,11 @@ public class WorkLogDTO {
 		this.userId = userId;
 	}
 
-	public Date getWorkDate() {
+	public String getWorkDate() {
 		return workDate;
 	}
 
-	public void setWorkDate(Date workDate) {
+	public void setWorkDate(String workDate) {
 		this.workDate = workDate;
 	}
 
