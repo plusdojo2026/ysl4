@@ -8,7 +8,7 @@ public class MonthlySummaryDTO {
     // 集計対象月をyyyy-MM形式で保持する
     private String targetMonth;
 
-    // 画面で入力された月次予算工数を保持する
+    // 画面で手入力された月次予算工数を保持する
     private float monthlyBudgetManhours;
 
     // 対象月の実績工数合計を保持する
@@ -33,7 +33,7 @@ public class MonthlySummaryDTO {
     private List<MemberSummaryDTO> memberSummaryList = new ArrayList<>();
 
     // 工数明細を保持する
-    private List<WorkLogDetailDTO> workLogDetailList = new ArrayList<>();
+    private List<WorkLogDTO> monthlyWorkLogList = new ArrayList<>();
 
     public String getTargetMonth() {
         return targetMonth;
@@ -115,36 +115,28 @@ public class MonthlySummaryDTO {
         this.memberSummaryList = memberSummaryList;
     }
 
-    public List<WorkLogDetailDTO> getWorkLogDetailList() {
-        return workLogDetailList;
+    public List<WorkLogDTO> getMonthlyWorkLogList() {
+        return monthlyWorkLogList;
     }
 
-    public void setWorkLogDetailList(List<WorkLogDetailDTO> workLogDetailList) {
-        if (workLogDetailList == null) {
-            this.workLogDetailList = new ArrayList<>();
+    public void setMonthlyWorkLogList(List<WorkLogDTO> monthlyWorkLogList) {
+        if (monthlyWorkLogList == null) {
+            this.monthlyWorkLogList = new ArrayList<>();
             return;
         }
-        this.workLogDetailList = workLogDetailList;
+        this.monthlyWorkLogList = monthlyWorkLogList;
     }
 
     public static class ProjectSummaryDTO {
 
-        // 予算入力欄のnameに使う
+        // static内部クラスなのでMonthlySummaryDTOの中で案件別行をまとめられる
+        // ファイルを増やさずに案件別集計の1行を表す
+
         private int projectId;
-
-        // 案件コードを表示する
         private String projectCode;
-
-        // 案件名を表示する
         private String projectName;
-
-        // 対象月の案件別実績工数を表示する
         private float actualManhours;
-
-        // 画面で入力された案件別予算工数を表示する
         private float budgetManhours;
-
-        // 予算に対する達成率を表示する
         private int achievementRate;
 
         public int getProjectId() {
@@ -198,16 +190,12 @@ public class MonthlySummaryDTO {
 
     public static class MemberSummaryDTO {
 
-        // 担当者名を表示する
+        // static内部クラスなのでMonthlySummaryDTOの中でメンバー別行をまとめられる
+        // ファイルを増やさずにメンバー別集計の1行を表す
+
         private String memberName;
-
-        // 担当者別の工数を表示する
         private float manhours;
-
-        // 対象月に担当したタスク数を表示する
         private int taskCount;
-
-        // 月間総工数に対する割合を表示する
         private int percentage;
 
         public String getMemberName() {
@@ -240,75 +228,6 @@ public class MonthlySummaryDTO {
 
         public void setPercentage(int percentage) {
             this.percentage = percentage;
-        }
-    }
-
-    public static class WorkLogDetailDTO {
-
-        // 作業日をyyyy-MM-dd文字列で表示する
-        private String workDate;
-
-        // 案件名を表示する
-        private String projectName;
-
-        // タスク名を表示する
-        private String taskName;
-
-        // 担当者名を表示する
-        private String userName;
-
-        // 工数を表示する
-        private float manhours;
-
-        // 作業内容を表示する
-        private String jobContents;
-
-        public String getWorkDate() {
-            return workDate;
-        }
-
-        public void setWorkDate(String workDate) {
-            this.workDate = workDate;
-        }
-
-        public String getProjectName() {
-            return projectName;
-        }
-
-        public void setProjectName(String projectName) {
-            this.projectName = projectName;
-        }
-
-        public String getTaskName() {
-            return taskName;
-        }
-
-        public void setTaskName(String taskName) {
-            this.taskName = taskName;
-        }
-
-        public String getUserName() {
-            return userName;
-        }
-
-        public void setUserName(String userName) {
-            this.userName = userName;
-        }
-
-        public float getManhours() {
-            return manhours;
-        }
-
-        public void setManhours(float manhours) {
-            this.manhours = manhours;
-        }
-
-        public String getJobContents() {
-            return jobContents;
-        }
-
-        public void setJobContents(String jobContents) {
-            this.jobContents = jobContents;
         }
     }
 }
