@@ -5,7 +5,7 @@ import java.sql.Date;
 
 public class UserDTO implements Serializable {
 	private int userId;//ユーザーID
-	private int loginId;//ログインID
+	private String loginId;//ログインID
 	private String passwordHash;//パスワード
 	private String name;//名前
 	private String email;//メールアドレス
@@ -24,11 +24,11 @@ public class UserDTO implements Serializable {
 		this.userId = userId;
 	}
 	
-	public int getLoginId() {
+	public String getLoginId() {
 		return loginId;
 	}
 	
-	public void setLoginId(int loginId) {
+	public void setLoginId(String loginId) {
 		this.loginId = loginId;
 	}
 	
