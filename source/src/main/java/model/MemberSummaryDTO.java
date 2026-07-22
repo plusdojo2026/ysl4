@@ -1,4 +1,4 @@
-package dto;
+package model;
 
 import java.io.Serializable;
 
@@ -13,15 +13,15 @@ public class MemberSummaryDTO implements Serializable {
 	
 	//ゲッターとセッター
 	public float getManHours() {
-		return manhours;
+		return manHours;
 	}
 	
 	public void setManHours(float manHours) {
-		this.manhours = manHours;
+		this.manHours = manHours;
 	}
 	
 	public int getUserId() {
-		return manhours;
+		return userId;
 	}
 	
 	public void setUserId(int userId) {

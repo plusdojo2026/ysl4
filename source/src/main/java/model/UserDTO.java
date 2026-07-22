@@ -1,7 +1,7 @@
-package Model;
+package model;
 
 import java.io.Serializable;
-import java.sql.LocalDate;
+import java.sql.Date;
 
 public class UserDTO implements Serializable {
 	private int userId;//ユーザーID
@@ -72,19 +72,19 @@ public class UserDTO implements Serializable {
 		this.isValid = isValid;
 	}
 	
-	public Timestamp getCreatedAt() {
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 	
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 	
-	public Timestamp getUpdateAt() {
+	public Date getUpdateAt() {
 		return updateAt;
 	}
 	
-	public void setUpdateAt(Timestamp updateAt) {
+	public void setUpdateAt(Date updateAt) {
 		this.updateAt = updateAt;
 	}
 }
