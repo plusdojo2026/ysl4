@@ -1,12 +1,12 @@
-package Action;
+package action;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import Model.WorkLogDTO;
-import Service.WorkLogService;
+import model.WorkLogDTO;
+import service.WorkLogService;
 
 public class WorkLogAction {
 

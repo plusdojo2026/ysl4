@@ -1,11 +1,11 @@
-package Service;
+package service;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import DAO.WorkLogDAO;
-import Model.WorkLogDTO;
+import dao.WorkLogDAO;
+import model.WorkLogDTO;
 
 public class WorkLogService extends DBAccess {
 	//親クラスのDBAccessが実行される

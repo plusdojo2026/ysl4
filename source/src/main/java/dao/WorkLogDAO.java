@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import Model.WorkLogDTO;
-import Model.WorkLogDTO.projectWorkLogDTO;
+import model.WorkLogDTO;
+import model.WorkLogDTO.projectWorkLogDTO;
 
 public class WorkLogDAO {
 
