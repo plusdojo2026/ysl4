@@ -1,7 +1,6 @@
 package Model;
 
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class ProjectsDTO {
@@ -9,7 +8,7 @@ public class ProjectsDTO {
 	public ProjectsDTO() {}
 	
 	public ProjectsDTO(int projectId, String projectCode, String projectName, String customerName, int createMemberId,
-			int projectManagerId, Date startDate, Date dueDate, String description, String status, String priority,
+			int projectManagerId, String startDate, String dueDate, String description, String status, String priority,
 			Timestamp cAt, Timestamp uAt) {
 		super();
 		this.projectId = projectId;
@@ -33,8 +32,8 @@ public class ProjectsDTO {
 	private String customerName;
 	private int createMemberId;
 	private int projectManagerId;
-	private Date startDate;
-	private Date dueDate;
+	private String startDate;
+	private String dueDate;
 	private String description;
 	private String status;
 	private String priority;
@@ -77,16 +76,16 @@ public class ProjectsDTO {
 	public void setProjectManagerId(int projectManagerId) {
 		this.projectManagerId = projectManagerId;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 	public String getDescription() {
