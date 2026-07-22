@@ -24,7 +24,7 @@ public class UserDAO {
 		UserDTO dto = null;
 
 		//SELECT文を用意する
-		String sql = "SELECT * FROM Users WHERE loginId = ? and passwordHash = ? and isAdmin = ? and isValid = ?";
+		String sql = "SELECT * FROM Users WHERE login_id = ? and password_hash = ? and is_admin = ? and is_valid = ?";
 		//デバック(SQL文の確認用)
 		System.out.println(sql);
 
@@ -43,10 +43,10 @@ public class UserDAO {
 		//移し替え
 		while (rs.next()) {
 			dto = new UserDTO();
-			dto.setLoginId(rs.getString("loginId"));
-			dto.setPasswordHash(rs.getString("passwordHash"));
-			dto.setIsAdmin(rs.getBoolean("isAdmin"));
-			dto.setIsValid(rs.getBoolean("isValid"));
+			dto.setLoginId(rs.getString("login_id"));
+			dto.setPasswordHash(rs.getString("password_hash"));
+			dto.setIsAdmin(rs.getBoolean("is_admin"));
+			dto.setIsValid(rs.getBoolean("is_valid"));
 		}
 		//serviceに返却する
 		return dto;
@@ -57,7 +57,7 @@ public class UserDAO {
 		UserDTO dto = null;
 
 		//SELECT文を用意する
-		String sql = "SELECT FROM Users WHERE userId = ?";
+		String sql = "SELECT FROM Users WHERE user_id = ?";
 		//デバック(SQL文の確認用)
 		System.out.println(sql);
 
@@ -73,7 +73,7 @@ public class UserDAO {
 		//結果が１件あれば、DTOに値をセットする
 		if (rs.next()) {
 			dto = new UserDTO();
-			dto.setUserId(rs.getInt("userId"));
+			dto.setUserId(rs.getInt("user_id"));
 		}
 		rs.close();
 		pStmt.close();
@@ -99,14 +99,14 @@ public class UserDAO {
 		//移し替え
 		while (rs.next()) {
 			UserDTO dto = new UserDTO();
-			dto.setUserId(rs.getInt("userId"));
-			dto.setLoginId(rs.getString("loginId"));
+			dto.setUserId(rs.getInt("user_id"));
+			dto.setLoginId(rs.getString("login_id"));
 			dto.setName(rs.getString("name"));
 			dto.setEmail(rs.getString("email"));
-			dto.setIsAdmin(rs.getBoolean("isAdmin"));
-			dto.setIsValid(rs.getBoolean("isValid"));
-			dto.setCreatedAt(rs.getDate("createdAt"));
-			dto.setUpdateAt(rs.getDate("updateAt"));
+			dto.setIsAdmin(rs.getBoolean("is_admin"));
+			dto.setIsValid(rs.getBoolean("is_valid"));
+			dto.setCreatedAt(rs.getDate("c_at"));
+			dto.setUpdateAt(rs.getDate("u_at"));
 			userList.add(dto);
 		}
 		//serviceに返却する
@@ -149,7 +149,7 @@ public class UserDAO {
 		
 			int ans = 0;
 			//SELECT文を用意する
-			String sql = "UPDATE Users SET userId = ?, passwordHash = ?, name = ?, email = ?, isAdmin = ?, isValid = ?, createdAt = ?, updateAt = ?";
+			String sql = "UPDATE Users SET user_id = ?, password_hash = ?, name = ?, email = ?, is_admin = ?, is_valid = ?, c_at = ?, u_at = ?";
 			//デバック(SQL文の確認用)
 			System.out.println(sql);
 			
@@ -177,7 +177,7 @@ public class UserDAO {
 		
 		int ans = 0;
 		//SELECT文を用意する
-		String sql = "UPDATE Users SET passwordHash = ?";
+		String sql = "UPDATE Users SET password_hash = ?";
 		//デバック(SQL文の確認用)
 		System.out.println(sql);
 		
@@ -217,7 +217,7 @@ public class UserDAO {
 	public ArrayList<UserDTO>selectValidUsers() throws SQLException{
 		ArrayList<UserDTO> validUserList = new ArrayList<UserDTO>();
 
-		String sql = "SELECT * FROM users WHERE is_valid= ture";
+		String sql = "SELECT * FROM users WHERE is_valid = true";
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		try(ResultSet rs = pStmt.executeQuery()) {
 
@@ -241,15 +241,16 @@ public class UserDAO {
 	}
 
 	//ユーザーの有効・無効状態の更新
-	public int updateValidity(int userId, boolean isValid) throws SQLException{
+	public int updateValidity(int userId, boolean isValid, Date updateAt) throws SQLException{
 		int ans = 0;
 		
-		String sql = "Update users SET is_valid= ? WHERE user_id = ?";
+		String sql = "Update users SET is_valid = ?, updateAt = ? WHERE user_id = ?";
 		// まとめる
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
 			pStmt.setBoolean(1, isValid);
 			pStmt.setInt(2, userId);
+			pStmt.setDate(3, updateAt);
 			
 			// SELECT文を実行し、結果表を取得する
 			ans = pStmt.executeUpdate();
