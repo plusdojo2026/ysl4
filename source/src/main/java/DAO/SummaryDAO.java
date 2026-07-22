@@ -199,7 +199,7 @@ public class SummaryDAO {
 
     private void setParams(PreparedStatement ps, Object... params) throws SQLException {
 
-        // privateなのでSQLの?へ値を入れる処理をDAO内部で共通化する
+        // SQLの?へ値を入れる処理をDAO内部で共通化する
         if (params == null) {
             return;
         }

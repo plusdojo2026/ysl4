@@ -26,7 +26,6 @@ public class SummaryAction {
 
     public String show() {
 
-        // クラス図準拠のpublicメソッド
         // 月次集計画面を今月で初期表示する
         String targetMonth = currentMonth();
 
@@ -43,7 +42,6 @@ public class SummaryAction {
 
     public String search() {
 
-        // クラス図準拠のpublicメソッド
         // 指定月と画面入力予算で月次集計を再表示する
         String targetMonth = request.getParameter("target_month");
         String monthlyBudgetText = request.getParameter("monthly_budget_manhours");
@@ -61,7 +59,6 @@ public class SummaryAction {
 
     public String exportCsv() {
 
-        // クラス図準拠のpublicメソッド
         // 指定月の工数明細をCSVで出力する
         String targetMonth = request.getParameter("target_month");
 
@@ -79,15 +76,15 @@ public class SummaryAction {
             e.printStackTrace();
         }
 
-        // responseへ直接書いたためControllerでは遷移しない
+        // Controllerでは遷移しない
         return null;
     }
 
     private static void applyBudgetInput(MonthlySummaryDTO summary, String monthlyBudgetText,
             Map<String, String[]> parameterMap) {
 
-        // private staticなのでSummaryAction内部だけで使う予算反映処理
-        // publicメソッドをクラス図準拠に保つため内部処理へ分ける
+        // SummaryAction内部だけで使う予算反映処理
+        // メソッドをクラス図準拠に保つため内部処理へ分ける
         if (summary == null) {
             return;
         }
@@ -109,7 +106,7 @@ public class SummaryAction {
 
     private static Map<Integer, Float> createProjectBudgetMap(Map<String, String[]> parameterMap) {
 
-        // private staticなのでSummaryAction内部だけで使う予算Map作成処理
+        // SummaryAction内部だけで使う予算Map作成処理
         // name="budget_案件ID" の入力値を案件IDごとにまとめる
         Map<Integer, Float> budgetMap = new HashMap<>();
 
@@ -137,7 +134,7 @@ public class SummaryAction {
 
     private static String normalizeTargetMonth(String targetMonth) {
 
-        // private staticなのでSummaryAction内部だけで使う月補正処理
+        // SummaryAction内部だけで使う月補正処理
         // 不正な入力なら今月を返す
         if (targetMonth == null || !targetMonth.matches("\\d{4}-\\d{2}")) {
             return currentMonth();
@@ -148,14 +145,14 @@ public class SummaryAction {
 
     private static String currentMonth() {
 
-        // private staticなのでSummaryAction内部だけで使う今月取得処理
+        // SummaryAction内部だけで使う今月取得処理
         // yyyy-MM形式で画面とServiceへ渡す
         return java.time.LocalDate.now().toString().substring(0, 7);
     }
 
     private static float parseFloat(String value) {
 
-        // private staticなのでSummaryAction内部だけで使うfloat変換処理
+        // SummaryAction内部だけで使うfloat変換処理
         // 数値以外なら0として扱う
         if (value == null || value.trim().isEmpty()) {
             return 0f;
@@ -170,7 +167,7 @@ public class SummaryAction {
 
     private static int parseInt(String value) {
 
-        // private staticなのでSummaryAction内部だけで使うint変換処理
+        // SummaryAction内部だけで使うint変換処理
         // 数値以外なら-1として扱う
         if (value == null || value.trim().isEmpty()) {
             return -1;
@@ -185,7 +182,7 @@ public class SummaryAction {
 
     private static int calcRate(float value, float total) {
 
-        // private staticなのでSummaryAction内部だけで使う割合計算処理
+        // SummaryAction内部だけで使う割合計算処理
         // 0除算を避けるためtotalが0以下なら0を返す
         if (total <= 0f) {
             return 0;

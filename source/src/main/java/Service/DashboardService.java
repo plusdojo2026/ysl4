@@ -16,7 +16,6 @@ public class DashboardService extends DBAccess {
 
     public DashboardDTO getDashboard(int userId) {
 
-        // クラス図準拠のpublicメソッド
         // ホーム画面に表示する値をまとめて返す
         DashboardDTO dto = new DashboardDTO();
 
@@ -87,7 +86,6 @@ public class DashboardService extends DBAccess {
 
     public List<TaskDTO> selectAssignedTasks(int userId) {
 
-        // クラス図準拠のpublicメソッド
         // 自分の担当タスク一覧だけが必要な場合に使う
         List<TaskDTO> list = new ArrayList<>();
 

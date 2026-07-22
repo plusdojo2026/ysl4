@@ -32,7 +32,7 @@ public class DashboardDTO {
     // 自分の担当タスク一覧を表示する
     private List<TaskDTO> assignedTaskList = new ArrayList<>();
 
-    // 追加機能用の予定件数
+    // 予定件数(追加機能)
     // private int todayScheduleCount;
 
     public int getInProgressProjectCount() {

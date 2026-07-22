@@ -9,7 +9,7 @@ public class DBAccess {
     // ServiceとDAOで共有するDB接続
     protected Connection conn;
 
-    // MySQLドライバ名
+    // MySQLドライバ
     private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     // ローカルDB接続先
@@ -24,16 +24,17 @@ public class DBAccess {
     // DBパスワード
     private static final String DB_PASSWORD = "password";
 
+    //複数SQLを扱うので、トランザクションがある方がいい????
     protected void access() throws SQLException {
 
         try {
             // JDBCドライバを読み込む
             Class.forName(DRIVER_NAME);
 
-            // DBへ接続する
+            // DBへ接続
             conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-            // 手動commitにする
+            // 手動commit
             conn.setAutoCommit(false);
 
         } catch (ClassNotFoundException e) {

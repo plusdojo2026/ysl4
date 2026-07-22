@@ -129,7 +129,7 @@ public class MonthlySummaryDTO {
 
     public static class ProjectSummaryDTO {
 
-        // static内部クラスなのでMonthlySummaryDTOの中で案件別行をまとめられる
+        // MonthlySummaryDTOの中で案件別行をまとめる
         // ファイルを増やさずに案件別集計の1行を表す
 
         private int projectId;
@@ -190,7 +190,7 @@ public class MonthlySummaryDTO {
 
     public static class MemberSummaryDTO {
 
-        // static内部クラスなのでMonthlySummaryDTOの中でメンバー別行をまとめられる
+        // MonthlySummaryDTOの中でメンバー別行をまとめる
         // ファイルを増やさずにメンバー別集計の1行を表す
 
         private String memberName;
