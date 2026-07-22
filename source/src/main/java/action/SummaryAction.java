@@ -1,4 +1,4 @@
-package Action;
+package action;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Model.MonthlySummaryDTO;
-import Service.SummaryService;
+import model.MonthlySummaryDTO;
+import service.SummaryService;
 
 public class SummaryAction {
 

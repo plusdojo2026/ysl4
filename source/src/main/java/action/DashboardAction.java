@@ -1,11 +1,11 @@
-package Action;
+package action;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import Model.DashboardDTO;
-import Model.UserDTO;
-import Service.DashboardService;
+import model.DashboardDTO;
+import model.UserDTO;
+import service.DashboardService;
 
 public class DashboardAction {
 

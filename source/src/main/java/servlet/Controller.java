@@ -1,4 +1,4 @@
-package Servlet;
+package servlet;
 
 import java.io.IOException;
 
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import Action.DashboardAction;
-import Action.LoginAction;
-import Action.SummaryAction;
+import action.DashboardAction;
+import action.LoginAction;
+import action.SummaryAction;
 
 // 
 @WebServlet("/Controller")

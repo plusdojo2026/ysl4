@@ -1,4 +1,4 @@
-package Service;
+package service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import DAO.UserDAO;
-import Model.UserDTO;
+import dao.UserDAO;
+import model.UserDTO;
 
 public class UserService extends DBAccess {
 

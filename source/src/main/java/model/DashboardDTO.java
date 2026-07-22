@@ -1,9 +1,11 @@
-package Model;
+package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardDTO {
+
+public class DashboardDTO implements Serializable {
 
     // 進行中案件数を表示する
     private int inProgressProjectCount;

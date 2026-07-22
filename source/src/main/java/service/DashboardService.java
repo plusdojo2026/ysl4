@@ -1,16 +1,16 @@
-package Service;
+package service;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import DAO.ProjectsDAO;
-import DAO.TaskDAO;
-import DAO.WorkLogDAO;
-import Model.DashboardDTO;
-import Model.ProjectsDTO;
-import Model.TaskDTO;
+import dao.ProjectsDAO;
+import dao.TaskDAO;
+import dao.WorkLogDAO;
+import model.DashboardDTO;
+import model.ProjectsDTO;
+import model.TaskDTO;
 
 public class DashboardService extends DBAccess {
 

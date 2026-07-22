@@ -1,13 +1,13 @@
-package Service;
+package service;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import DAO.SummaryDAO;
-import Model.MonthlySummaryDTO;
-import Model.WorkLogDTO;
+import dao.SummaryDAO;
+import model.MonthlySummaryDTO;
+import model.WorkLogDTO;
 
 public class SummaryService extends DBAccess {
 
