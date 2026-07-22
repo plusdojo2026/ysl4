@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import Model.WorkLogDTO;
+import Model.WorkLogDTO.projectWorkLogDTO;
 
 public class WorkLogDAO {
 
@@ -18,7 +19,7 @@ public class WorkLogDAO {
 		this.conn = conn;
 	}
 
-	//ユーザーの一覧を取得するメソッド
+	//工数の一覧を取得するメソッド
 	public ArrayList<WorkLogDTO> selectAll() throws SQLException {
 		ArrayList<WorkLogDTO> workLogList = new ArrayList<WorkLogDTO>();
 
@@ -50,7 +51,7 @@ public class WorkLogDAO {
 		return workLogList;
 	}
 
-	//ユーザー登録のメソッド---------------------------------------
+	//工数登録のメソッド---------------------------------------
 	public int WorkLogInsert(
 			int workLogsId,
 			int taskId,
@@ -86,8 +87,8 @@ public class WorkLogDAO {
 		return ans;
 	}
 
-	//ユーザー削除用のメソッド---------------------------------------
-	public int WorkLogDelete(int workLogsId) throws SQLException {
+	//工数削除用のメソッド---------------------------------------
+	public int WorkLogDelete(String workLogsId) throws SQLException {
 
 		int ans = 0;
 		// SELECT文を準備する
@@ -98,7 +99,7 @@ public class WorkLogDAO {
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		// SQL文実際に挿入、当てはめる
-		pStmt.setInt(1, workLogsId);
+		pStmt.setString(1, workLogsId);
 
 		// SELECT文を実行し、結果表を取得する
 		ans = pStmt.executeUpdate();
@@ -204,13 +205,13 @@ public class WorkLogDAO {
 	}
 
 	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示
-	public ArrayList<MonthlySummaryDTO> selectRateByProject() throws SQLException {
-		ArrayList<WorkLogDTO> workLogList = new ArrayList<WorkLogDTO>();
+	public ArrayList<WorkLogDTO.projectWorkLogDTO> selectRateByProject() throws SQLException {
+		ArrayList<WorkLogDTO.projectWorkLogDTO> workLogList = new ArrayList<WorkLogDTO.projectWorkLogDTO>();
 
-		String sql = "SELECT task_id,task_name,user_id,user_name,SUM(man_hours),description "
+		String sql = "SELECT work_date,task_name,user_name,SUM(man_hours),description "
 				+ "FROM tasks innner join users on tasks.user_id = users.user_id"
 				+ "innner join work_logs on tasks.task_id = work_logs.task_id"
-				+ "where task_id = ?"
+				+ "where project_id = ?"
 				+ "group by tasks.task_id,tasks.task_name";
 		//デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -223,15 +224,12 @@ public class WorkLogDAO {
 
 		//移し替え
 		while (rs.next()) {
-			dto MonthlySummaryDTO = new MonthlySummaryDTO(0, 0, 0, null, 0, sql, null, null);
-			//			dto.setWorkLogsId(rs.getInt("work_logs_id"));
-			//			dto.setTaskId(rs.getInt("task_id"));
-			//			dto.setUserId(rs.getInt("user_id"));
-			//			dto.setWorkDate(rs.getString("work_date"));
-			//			dto.setManHours(rs.getFloat("man_hours"));
-			//			dto.setJobContents(rs.getString("job_contents"));
-			//			dto.setcAt(rs.getTimestamp("c_at"));
-			//			dto.setuAt(rs.getTimestamp("u_at"));
+			projectWorkLogDTO dto = new projectWorkLogDTO();
+			dto.setWorkDateString(rs.getString(""));
+			dto.setTaskNameString(rs.getString(""));
+			dto.setPersonInCharge(rs.getString(""));
+			dto.setWorkLogSum(rs.getString(""));
+			dto.setDescription(rs.getString(""));
 			workLogList.add(dto);
 		}
 		//serviceに返却する
@@ -239,13 +237,10 @@ public class WorkLogDAO {
 	}
 
 	//指定月の工数ログを取得　月次集計CVS出力
-	public ArrayList<MonthlySummaryDTO> selectByMonth() throws SQLException {
+	public ArrayList<WorkLogDTO> selectByMonth() throws SQLException {
 		ArrayList<WorkLogDTO> workLogList = new ArrayList<WorkLogDTO>();
 
-		String sql = "SELECT task_id,task_name,user_id,user_name,SUM(man_hours),description "
-				+ "FROM tasks innner join users on tasks.user_id = users.user_id"
-				+ "innner join work_logs on tasks.task_id = work_logs.task_id"
-				+ "group by tasks.task_id,tasks.task_name";
+		String sql = "SELECT * from work_log where date = ?";
 		//デバッグ（SQL文の確認用）
 		System.out.println(sql);
 
@@ -257,15 +252,15 @@ public class WorkLogDAO {
 
 		//移し替え
 		while (rs.next()) {
-			dto MonthlySummaryDTO = new MonthlySummaryDTO(0, 0, 0, null, 0, sql, null, null);
-			//			dto.setWorkLogsId(rs.getInt("work_logs_id"));
-			//			dto.setTaskId(rs.getInt("task_id"));
-			//			dto.setUserId(rs.getInt("user_id"));
-			//			dto.setWorkDate(rs.getString("work_date"));
-			//			dto.setManHours(rs.getFloat("man_hours"));
-			//			dto.setJobContents(rs.getString("job_contents"));
-			//			dto.setcAt(rs.getTimestamp("c_at"));
-			//			dto.setuAt(rs.getTimestamp("u_at"));
+			WorkLogDTO dto = new WorkLogDTO(0, 0, 0, null, 0, null, null, null);
+			dto.setWorkLogsId(rs.getInt("work_logs_id"));
+			dto.setTaskId(rs.getInt("task_id"));
+			dto.setUserId(rs.getInt("user_id"));
+			dto.setWorkDate(rs.getString("work_date"));
+			dto.setManHours(rs.getFloat("man_hours"));
+			dto.setJobContents(rs.getString("job_contents"));
+			dto.setcAt(rs.getTimestamp("c_at"));
+			dto.setuAt(rs.getTimestamp("u_at"));
 			workLogList.add(dto);
 		}
 		//serviceに返却する

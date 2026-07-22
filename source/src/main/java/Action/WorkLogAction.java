@@ -18,17 +18,8 @@ public class WorkLogAction {
 	}
 
 	//工数の登録メソッド---------------------------------------
-	public String regist() throws UnsupportedEncodingException {
+	public String WorkLogRegist() throws UnsupportedEncodingException {
 		String page = "/WEB-INF/jsp/menu.jsp";
-		//		dto.setWorkLogsId(rs.getInt("work_logs_id"));
-		//		dto.setTaskId(rs.getInt("task_id"));
-		//		dto.setUserId(rs.getInt("user_id"));
-		//		dto.setWorkDate(rs.getDate("work_date"));
-		//		dto.setManHours(rs.getFloat("man_hours"));
-		//		dto.setJobContents(rs.getString("job_contents"));
-		//		dto.setcAt(rs.getTimestamp("c_at"));
-		//		dto.setuAt(rs.getTimestamp("u_at"));
-		//		workLogList.add(dto);
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
 		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
@@ -38,29 +29,19 @@ public class WorkLogAction {
 		float manHours = Float.parseFloat(request.getParameter("man_hours"));
 		String jobContents = request.getParameter("job_contents");
 
-		//ユーザー情報を全て取得する
-		WorkLogService service = new WorkLogService();
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
-		return page;
-
 		WorkLogService service = new WorkLogService();
 		//serviceに処理を依頼
-		int ans = service.WorkLogRegist(
-				workLogsId,
-				taskId,
-				userId,
-				workDate,
-				manHours,
-				jobContents);
+		int ans = service.WorkLogInsert(workLogsId, taskId, userId, workDate, manHours, jobContents, null, null);
 		//ちゃんと登録できたか確認
 		if (ans == 1) {
-			request.setAttribute("msg", "※" + name + "の登録完了！");
+			request.setAttribute("msg", "※登録完了！");
 		} else {
 			request.setAttribute("msg", "※登録失敗！IDが重複しています");
 		}
+
 		//工数情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		WorkLogService insetservice = new WorkLogService();
+		ArrayList<WorkLogDTO> WorkLogList = insetservice.selectAll();
 		request.setAttribute("WorkLogList", WorkLogList);
 
 		return page;
@@ -72,7 +53,7 @@ public class WorkLogAction {
 
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
-		String id = request.getParameter("id");
+		String workLogsId = request.getParameter("work_logs_id");
 
 		WorkLogService service = new WorkLogService();
 		//serviceに処理を依頼

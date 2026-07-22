@@ -1,6 +1,8 @@
 package Model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class WorkLogDTO {
 
@@ -12,6 +14,8 @@ public class WorkLogDTO {
 	private String jobContents;
 	private Timestamp cAt;
 	private Timestamp uAt;
+	// 進行中案件一覧を表示する
+	private List<projectWorkLogDTO> ProjectWorkLogList = new ArrayList<>();
 
 	public WorkLogDTO(int workLogsId, int taskId, int userId, String workDate, float manHours, String jobContents,
 			Timestamp cAt, Timestamp uAt) {
@@ -90,4 +94,57 @@ public class WorkLogDTO {
 		this.uAt = uAt;
 	}
 
+	public static class projectWorkLogDTO {
+		//工数の作業日
+		private String workDate;
+		//タスク名
+		private String taskName;
+		//タスク担当者名
+		private String personInCharge;
+		//タスクの工数の合計
+		private String workLogSum;
+		//タスクの説明
+		private String description;
+
+		public String getWorkDateString() {
+			return workDate;
+		}
+
+		public void setWorkDateString(String workDateString) {
+			this.workDate = workDateString;
+		}
+
+		public String getTaskNameString() {
+			return taskName;
+		}
+
+		public void setTaskNameString(String taskNameString) {
+			this.taskName = taskNameString;
+		}
+
+		public String getPersonInCharge() {
+			return personInCharge;
+		}
+
+		public void setPersonInCharge(String personInCharge) {
+			this.personInCharge = personInCharge;
+		}
+
+		public String getWorkLogSum() {
+			return workLogSum;
+		}
+
+		public void setWorkLogSum(String workLogSum) {
+			this.workLogSum = workLogSum;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+	}
 }
