@@ -57,7 +57,7 @@ public class UserDAO {
 		UserDTO dto = null;
 
 		//SELECT文を用意する
-		String sql = "SELECT FROM Users WHERE user_id = ?";
+		String sql = "SELECT * FROM Users WHERE user_id = ?";
 		//デバック(SQL文の確認用)
 		System.out.println(sql);
 
@@ -149,7 +149,7 @@ public class UserDAO {
 		
 			int ans = 0;
 			//SELECT文を用意する
-			String sql = "UPDATE Users SET user_id = ?, password_hash = ?, name = ?, email = ?, is_admin = ?, is_valid = ?, c_at = ?, u_at = ?";
+			String sql = "UPDATE Users SET user_id = ?, password_hash = ?, name = ?, email = ?, is_admin = ?, is_valid = ?, c_at = ?, u_at = ? WHERE login_id = ?";
 			//デバック(SQL文の確認用)
 			System.out.println(sql);
 			
@@ -173,18 +173,19 @@ public class UserDAO {
 	}
 	
 	//パスワードの更新
-	public int updatePassword(String passwordHash) throws SQLException {
+	public int updatePassword(int userId, String passwordHash) throws SQLException {
 		
 		int ans = 0;
 		//SELECT文を用意する
-		String sql = "UPDATE Users SET password_hash = ?";
+		String sql = "UPDATE Users SET password_hash = ? WHERE user_id = ?";
 		//デバック(SQL文の確認用)
 		System.out.println(sql);
 		
 		//まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		
-		pStmt.setString(1, passwordHash);
+		pStmt.setInt(1, userId);
+		pStmt.setString(2, passwordHash);
 		
 		//SELECT文を実行し、結果表を取得する
 		ans = pStmt.executeUpdate();
@@ -217,7 +218,7 @@ public class UserDAO {
 	public ArrayList<UserDTO>selectValidUsers() throws SQLException{
 		ArrayList<UserDTO> validUserList = new ArrayList<UserDTO>();
 
-		String sql = "SELECT * FROM users WHERE is_valid = true";
+		String sql = "SELECT * FROM Users WHERE is_valid = true";
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		try(ResultSet rs = pStmt.executeQuery()) {
 
@@ -244,13 +245,14 @@ public class UserDAO {
 	public int updateValidity(int userId, boolean isValid, Date updateAt) throws SQLException{
 		int ans = 0;
 		
-		String sql = "Update users SET is_valid = ?, updateAt = ? WHERE user_id = ?";
+		String sql = "Update Users SET is_valid = ?, updateAt = ? WHERE user_id = ?";
 		// まとめる
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setBoolean(1, isValid);
-			pStmt.setInt(2, userId);
+			pStmt.setInt(1, userId);
+			pStmt.setBoolean(2, isValid);
 			pStmt.setDate(3, updateAt);
+
 			
 			// SELECT文を実行し、結果表を取得する
 			ans = pStmt.executeUpdate();
