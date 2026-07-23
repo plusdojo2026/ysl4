@@ -48,7 +48,7 @@ public class WorkLogAction {
 	}
 
 	//工数の削除メソッド---------------------------------------
-	public String delete() throws UnsupportedEncodingException {
+	public String WorkLogDelete() throws UnsupportedEncodingException {
 		String page = "/WEB-INF/jsp/taskDetail.jsp";
 
 		//値の取得
@@ -64,6 +64,49 @@ public class WorkLogAction {
 		} else {
 			request.setAttribute("msg", "※削除失敗！");
 		}
+		//ユーザー情報を全て取得する
+		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		request.setAttribute("WorkLogList", WorkLogList);
+
+		return page;
+	}
+
+	//指定タスクの工数ログまとめて削除するメソッド---------------------------------------
+	public String DeleteByTaskId() throws UnsupportedEncodingException {
+		String page = "/WEB-INF/jsp/taskDetail.jsp";
+
+		//値の取得
+		request.setCharacterEncoding("UTF-8");
+		int taskId = Integer.parseInt(request.getParameter("task_id"));
+
+		WorkLogService service = new WorkLogService();
+		//serviceに処理を依頼
+		int ans = service.DeleteByTaskId(taskId);
+		//ちゃんと削除できたか確認
+		if (ans == 1) {
+			request.setAttribute("msg", "※削除完了！");
+		} else {
+			request.setAttribute("msg", "※削除失敗！");
+		}
+		//ユーザー情報を全て取得する
+		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		request.setAttribute("WorkLogList", WorkLogList);
+
+		return page;
+	}
+
+	//指定タスクの実績工数を取得するメソッド---------------------------------------
+	public String sumBytaskId() throws UnsupportedEncodingException {
+		String page = "/WEB-INF/jsp/taskDetail.jsp";
+
+		//値の取得
+		request.setCharacterEncoding("UTF-8");
+		String taskId = request.getParameter("task_id");
+
+		WorkLogService service = new WorkLogService();
+		//serviceに処理を依頼
+		int ans = service.deleteByTaskId(taskId);
+
 		//ユーザー情報を全て取得する
 		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
 		request.setAttribute("WorkLogList", WorkLogList);
