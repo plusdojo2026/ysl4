@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 
 import java.sql.Timestamp;
@@ -8,7 +8,7 @@ public class ProjectsDTO {
 	public ProjectsDTO() {}
 	
 	public ProjectsDTO(int projectId, String projectCode, String projectName, String customerName, int createMemberId,
-			int projectManagerId, String startDate, String dueDate, String description, String status, String priority,
+			int projectManagerId, String startDate, String dueDate, int estimatedManhours, int actualManhours, String description, String status, String priority,
 			Timestamp cAt, Timestamp uAt) {
 		super();
 		this.projectId = projectId;
@@ -19,6 +19,8 @@ public class ProjectsDTO {
 		this.projectManagerId = projectManagerId;
 		this.startDate = startDate;
 		this.dueDate = dueDate;
+		this.estimatedManhours = estimatedManhours;
+		this.actualManhours =actualManhours;
 		this.description = description;
 		this.status = status;
 		this.priority = priority;
@@ -35,6 +37,8 @@ public class ProjectsDTO {
 	private String startDate;
 	private String dueDate;
 	private String description;
+	private int estimatedManhours;
+	private int actualManhours;
 	private String status;
 	private String priority;
 	private Timestamp cAt;
@@ -88,6 +92,18 @@ public class ProjectsDTO {
 	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
+	public int getEstimatedManhours() {
+		return estimatedManhours;
+	}
+	public void setEstimatedManhours(int estimatedManhours) {
+		this.estimatedManhours = estimatedManhours;
+	}
+	public int getActualManhours() {
+		return actualManhours;
+	}
+	public void setActualManhours(int actualManhours) {
+		this.actualManhours= actualManhours;
+	}	
 	public String getDescription() {
 		return description;
 	}
