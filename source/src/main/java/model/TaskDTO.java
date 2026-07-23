@@ -1,7 +1,6 @@
-package Model;
+package model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class TaskDTO {
 	
@@ -9,7 +8,7 @@ public class TaskDTO {
 		
 	}
 
-	public TaskDTO(int taskId, String taskName, int projectId, int managerId, Date startDate, Date dueDate,
+	public TaskDTO(int taskId, String taskName, int projectId, int managerId, String startDate, String dueDate,
 			int estimatedManhours, int progress, String status, String priority, String description,
 			Timestamp createdAt, Timestamp updatedAt) {
 
@@ -33,8 +32,8 @@ public class TaskDTO {
 	private String taskName;
 	private int projectId;
 	private int managerId;
-	private Date startDate;
-	private Date dueDate;
+	private String startDate;
+	private String dueDate;
 	private int estimatedManhours;
 	private int progress;
 	private String status;
@@ -75,19 +74,19 @@ public class TaskDTO {
 		this.managerId = managerId;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getDueDate() {
+	public String getDueDate() {
 		return dueDate;
 	}
 
-	public void setDueDate(Date dueDate) {
+	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
 	}
 
