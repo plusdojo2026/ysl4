@@ -34,6 +34,23 @@ public class TaskService extends DBAccess {
 		return taskList;
 	}
 
+	// キーワード検索
+		public ArrayList<TaskDTO> search() {
+
+			ArrayList<TaskDTO> taskList = null;
+
+			TaskDAO dao = new TaskDAO(super.conn);
+
+			try {
+				taskList = dao.search();//変数にconditionを入れる
+			} catch (SQLException e) {
+				System.out.println("SQL文おかしいよ");
+				e.printStackTrace();
+			}
+
+			return taskList;
+		}
+		
 	// プロジェクトIDで検索
 	public ArrayList<TaskDTO> selectByProjectId(int projectId) {
 

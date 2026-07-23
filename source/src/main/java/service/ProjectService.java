@@ -1,72 +1,171 @@
-package Service;
+package service;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
-import DAO.ProjectsDAO;
-import Model.ProjectsDTO;
+import dao.ProjectsDAO;
+import model.ProjectsDTO;
 
 public class ProjectService extends DBAccess {
-	
+
 	public ProjectService() {
-		super.access();
-	}
-	
-	//案件を登録するメソッド
-	public int projectInsert(ProjectsDTO dto) {
-		
-		ProjectsDAO dao = new ProjectsDAO(conn);
-		int ans = 0;
-		
 		try {
-			ans = dao.projectInsert(dto);
+			super.access();
 		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
 			e.printStackTrace();
 		}
-		
-		return ans;
-		}
-		
-	//案件参照
-    public ProjectsDTO findById(int projectId) {
-
-    ProjectsDTO dto = null;
-    ProjectsDAO dao = new ProjectsDAO(super.conn);
-
-    try {
-        dto = dao.findById(projectId);
-    } catch (SQLException e) {
-
-        System.out.println("SQL文おかしいよ");
-        e.printStackTrace();
-    }
-
-    super.close();
-    return dto;
-}
-  //更新
-
- // 案件ステータスを更新するメソッド---------------------------------------
- public int updateStatus(int projectId, String status) {
-
-     ProjectsDAO dao = new ProjectsDAO(super.conn);
-
-     int ans = 0;
-
-     try {
-
-         ans = dao.updateStatus(projectId, status);
-
-     } catch (SQLException e) {
-
-         System.out.println("SQL文おかしいよ");
-         e.printStackTrace();
-
-     }
-
-     super.close();
-
-     return ans;
- }
-
-		
 	}
+
+	//案件一覧取得
+	public List<ProjectsDTO> selectAll() {
+
+		List<ProjectsDTO> projectList = null;
+
+		ProjectsDAO dao = new ProjectsDAO(super.conn);
+
+		try {
+			projectList = dao.selectAll();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			}
+
+		return projectList;
+				
+
+	}
+
+	// 案件検索
+	public List<ProjectsDTO> search(String condition) {
+	
+	List<ProjectsDTO> projectList = null;
+	ProjectsDAO dao = new ProjectsDAO(super.conn);
+	
+	try {
+	projectList = dao.search(condition);
+	} catch (SQLException e) {
+	e.printStackTrace();
+	}
+	
+	super.close();
+	
+	return projectList;
+	
+	}
+	
+	// 案件ID検索
+	
+	public ProjectsDTO findById(int projectId) {
+	ProjectsDTO dto = null;
+	
+	ProjectsDAO dao = new ProjectsDAO(super.conn);
+	
+	try {
+	
+	dto = dao.findById(projectId);
+	} catch (SQLException e) {
+	e.printStackTrace();
+	}
+
+	super.close();
+	return dto;
+	
+	}
+	
+	// 案件登録
+	
+	public int regist(ProjectsDTO dto) {
+	int ans = 0;
+	
+	ProjectsDAO dao = new ProjectsDAO(super.conn);
+	
+	try {
+	ans = dao.projectInsert(dto);
+	} catch (SQLException e) {
+	e.printStackTrace();
+	}
+	super.close();
+	return ans;
+	
+	}
+	
+	// 案件更新
+	
+	public int update(ProjectsDTO dto) {
+	
+	int ans = 0;
+	
+	ProjectsDAO dao = new ProjectsDAO(super.conn);
+	
+	try {
+	ans = dao.update(dto);
+	} catch (SQLException e) {
+	e.printStackTrace();
+	}
+
+	super.close();
+	return ans;
+	
+	}
+	
+	// ステータス変更
+	
+	public int changeStatus(int projectId, String status) {
+
+	int ans = 0;
+
+	ProjectsDAO dao = new ProjectsDAO(super.conn);
+
+	try {
+	ans = dao.updateStatus(projectId, status);
+	} catch (SQLException e) {
+	e.printStackTrace();
+	}
+	super.close();
+	return ans;
+	
+	}
+	
+	// 案件コード重複チェック
+	public boolean existsProjectCode(String projectCode) {
+	boolean exists = false;
+	
+	ProjectsDAO dao = new ProjectsDAO(super.conn);
+
+	try {
+	exists = dao.existsProjectCode(projectCode);
+	} catch (SQLException e) {	
+	e.printStackTrace();	
+	}
+
+	super.close();
+	return exists;
+	}
+ 
+	 //詳細情報取得
+	public ProjectsDTO findDetail(int projectId)  {
+		
+		ProjectsDTO dto = null;		
+		ProjectsDAO dao = new ProjectsDAO(super.conn);
+		
+		dto = dao.findDetail(projectId);
+		
+		super.close();		
+		return dto;
+	}
+	
+	//プルダウンなどフォーム表示に必要なデータを取得する
+	public Map<String,Object> getProjectFormData() throws SQLException {
+		
+		Map<String,Object> formData = null;
+		
+		ProjectsDAO dao = new ProjectsDAO(super.conn);
+		
+		formData = dao.getProjectFormData();
+		
+		super.close();
+		
+	return formData;
+	}
+}
