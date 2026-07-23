@@ -98,7 +98,7 @@ public class TaskDAO {
 		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM Tasks";
+		String sql = "SELECT * FROM Tasks WHERE task_name LIKE '%?%' ";
 		//デバッグ（SQL文の確認用）
 		System.out.println(sql);
 

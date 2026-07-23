@@ -28,7 +28,42 @@ public class TaskAction {
 		ArrayList<TaskDTO> taskList = selectservice.selectAll();
 		request.setAttribute("taskList", taskList);
 
-		return "/WEB-INF/jsp/taskList.jsp";
+		return page;
 	}
+
+	//プロジェクトID検索
+	public String selectByProjectId() throws UnsupportedEncodingException {
+		String page = "/WEB-INF/jsp/taskList.jsp";
+		
+		//ユーザーが操作した情報を受け取る
+		String keyword = request.getParameter("keyword");
+		
+		//Serviceに接続する
+		//TaskService service = new TaskService();
+		
+		TaskService searchservice = new TaskService();
+		ArrayList<TaskDTO> taskList = searchservice.selectByProjectId(0);
+		request.setAttribute("taskList", taskList);
+		request.setAttribute("keyword", keyword);
+		return page;
+	}
+	
+	//タスクID検索
+		public String search() throws UnsupportedEncodingException {
+			String page = "/WEB-INF/jsp/taskList.jsp";
+			
+			//ユーザーが操作した情報を受け取る
+			String keyword = request.getParameter("keyword");
+			
+			//Serviceに接続する 一覧所得
+			//TaskService service = new TaskService();
+			
+			//検索語の一覧表示
+			TaskService searchservice = new TaskService();
+//			ArrayList<TaskDTO> taskList = searchservice.findById(0);
+//			request.setAttribute("taskList", taskList);
+			request.setAttribute("keyword", keyword);
+			return page;
+		}
 
 }
