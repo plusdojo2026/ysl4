@@ -2,7 +2,7 @@
 /*すべてのページに適応される*/
 :root {
 	--main-color: #F6ADC6;
-	--secondary-color: #ffffff;
+	--secondary-color: #F5C9C6;
 	--tertiary-color: #fff;
 	--background-color: #F8F8F8;
 	--hightlight-color: #F6ADC6;
@@ -20,7 +20,7 @@ html {
 	font-size: 16px;
 	/* フォントの種類を設定 */
 	font-family: alba;
-	background-color: var(--background-color);
+	background-color: #fef9fb;
 }
 
 * {
@@ -182,9 +182,9 @@ main {
 	padding: 40px 50px;
 	min-height: 600px;
 	max-width: 1000px;
-	background-color: var(--secondary-color);
+	background-color: #fef9fb;
 	/* 影をつける設定 */
-	box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
+	/*box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.20);
 }
 
 /* footerの設定 */
