@@ -1,4 +1,4 @@
-package DAO;
+package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Model.TaskDTO;
+import model.TaskDTO;
 
 public class TaskDAO {
 
@@ -39,8 +39,8 @@ public class TaskDAO {
 			dto.setTaskName(rs.getString("task_name"));
 			dto.setProjectId(rs.getInt("project_id"));
 			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getDate("start_date"));
-			dto.setDueDate(rs.getDate("due_date"));
+			dto.setStartDate(rs.getString("start_date"));
+			dto.setDueDate(rs.getString("due_date"));
 			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
 			dto.setProgress(rs.getInt("progress"));
 			dto.setStatus(rs.getString("status"));
@@ -66,6 +66,7 @@ public class TaskDAO {
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
+		pStmt.setInt(1, projectId);
 
 		// SELECT文を実行し、結果表を取得する
 		ResultSet rs = pStmt.executeQuery();
@@ -77,8 +78,8 @@ public class TaskDAO {
 			dto.setTaskName(rs.getString("task_name"));
 			dto.setProjectId(rs.getInt("project_id"));
 			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getDate("start_date"));
-			dto.setDueDate(rs.getDate("due_date"));
+			dto.setStartDate(rs.getString("start_date"));
+			dto.setDueDate(rs.getString("due_date"));
 			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
 			dto.setProgress(rs.getInt("progress"));
 			dto.setStatus(rs.getString("status"));
@@ -114,8 +115,8 @@ public class TaskDAO {
 			dto.setTaskName(rs.getString("task_name"));
 			dto.setProjectId(rs.getInt("project_id"));
 			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getDate("start_date"));
-			dto.setDueDate(rs.getDate("due_date"));
+			dto.setStartDate(rs.getString("start_date"));
+			dto.setDueDate(rs.getString("due_date"));
 			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
 			dto.setProgress(rs.getInt("progress"));
 			dto.setStatus(rs.getString("status"));
@@ -133,7 +134,7 @@ public class TaskDAO {
 	public int countAllByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT (*) FROM Tasks WHERE project_id=?";
+		String sql = "SELECT COUNT(*) FROM Tasks WHERE project_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -161,7 +162,7 @@ public class TaskDAO {
 	public int countCompletedByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT (*) FROM Tasks WHERE project_id=? AND status = '完了'";
+		String sql = "SELECT COUNT(*) FROM Tasks WHERE project_id=? AND status = '完了'";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -189,7 +190,7 @@ public class TaskDAO {
 	public int countAssignedTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT * FROM Tasks WHERE manager_id=?";
+		String sql = "SELECT COUNT(*) FROM Tasks WHERE manager_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -217,7 +218,8 @@ public class TaskDAO {
 	public int countOverdueTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT * FROM Tasks WHERE manager_id=? AND due_date < CURRENT_DATE";
+		String sql = "SELECT COUNT(*) FROM Tasks"
+				+ " WHERE manager_id=? AND due_date < CURRENT_DATE";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -252,6 +254,7 @@ public class TaskDAO {
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
+		pStmt.setInt(1, user);
 
 		// SELECT文を実行し、結果表を取得する
 		ResultSet rs = pStmt.executeQuery();
@@ -263,8 +266,8 @@ public class TaskDAO {
 			dto.setTaskName(rs.getString("task_name"));
 			dto.setProjectId(rs.getInt("project_id"));
 			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getDate("start_date"));
-			dto.setDueDate(rs.getDate("due_date"));
+			dto.setStartDate(rs.getString("start_date"));
+			dto.setDueDate(rs.getString("due_date"));
 			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
 			dto.setProgress(rs.getInt("progress"));
 			dto.setStatus(rs.getString("status"));
@@ -279,19 +282,19 @@ public class TaskDAO {
 	}
 
 	//TaskIDを取得する
-	public TaskDTO findById(int projectId) throws SQLException {
+	public TaskDTO findById(int taskId) throws SQLException {
 
 		TaskDTO dto = null;
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM projects WHERE project_id=?";
+		String sql = "SELECT * FROM Tasks WHERE task_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
-		pStmt.setInt(1, projectId);
+		pStmt.setInt(1, taskId);
 		// SELECT文を実行し、結果表を取得する
 
 		ResultSet rs = pStmt.executeQuery();
@@ -304,8 +307,8 @@ public class TaskDAO {
 			dto.setTaskName(rs.getString("task_name"));
 			dto.setProjectId(rs.getInt("project_id"));
 			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getDate("start_date"));
-			dto.setDueDate(rs.getDate("due_date"));
+			dto.setStartDate(rs.getString("start_date"));
+			dto.setDueDate(rs.getString("due_date"));
 			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
 			dto.setProgress(rs.getInt("progress"));
 			dto.setStatus(rs.getString("status"));
@@ -324,10 +327,11 @@ public class TaskDAO {
 	public int taskInsert(TaskDTO dto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "INSERT INTO Tasks(\"task_name, project_id, manager_id,"
-				+ "start_date, due_date, estimated_manhours,"
-				+ "progress, status, priority, description)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO Tasks(" +
+				"task_name, project_id, manager_id, " +
+				"start_date, due_date, estimated_manhours, " +
+				"progress, status, priority, description) " +
+				"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -341,8 +345,8 @@ public class TaskDAO {
 		pStmt.setString(1, dto.getTaskName());
 		pStmt.setInt(2, dto.getProjectId());
 		pStmt.setInt(3, dto.getManagerId());
-		pStmt.setDate(4, new java.sql.Date(dto.getStartDate().getTime()));
-		pStmt.setDate(5, new java.sql.Date(dto.getDueDate().getTime()));
+		pStmt.setString(4, dto.getStartDate());
+		pStmt.setString(5, dto.getDueDate());
 		pStmt.setInt(6, dto.getEstimatedManhours());
 		pStmt.setInt(7, dto.getProgress());
 		pStmt.setString(8, dto.getStatus());
@@ -357,9 +361,9 @@ public class TaskDAO {
 	public int taskUpdate(TaskDTO dto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE Tasks SET ,task_name=?,project_id=?,manager_id=?"
-				+ ",start_date=?, due_date=?, estimated_manhours=?, progress=?"
-				+ ",status=?, priority=?, description=? , WHERE task_id=?";
+		String sql = "UPDATE Tasks SET task_name=?, project_id=?, manager_id=?"
+				+ ", start_date=?, due_date=?, estimated_manhours=?, progress=?"
+				+ ", status=?, priority=?, description=? WHERE task_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -373,13 +377,14 @@ public class TaskDAO {
 		pStmt.setString(1, dto.getTaskName());
 		pStmt.setInt(2, dto.getProjectId());
 		pStmt.setInt(3, dto.getManagerId());
-		pStmt.setDate(4, new java.sql.Date(dto.getStartDate().getTime()));
-		pStmt.setDate(5, new java.sql.Date(dto.getDueDate().getTime()));
+		pStmt.setString(4, dto.getStartDate());
+		pStmt.setString(5, dto.getDueDate());
 		pStmt.setInt(6, dto.getEstimatedManhours());
 		pStmt.setInt(7, dto.getProgress());
 		pStmt.setString(8, dto.getStatus());
 		pStmt.setString(9, dto.getPriority());
 		pStmt.setString(10, dto.getDescription());
+		pStmt.setInt(11, dto.getTaskId());
 
 		return pStmt.executeUpdate();
 
@@ -390,7 +395,7 @@ public class TaskDAO {
 			throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE Tasks ,SET status = ?, progress = ? ,WHERE task_id = ?";
+		String sql = "UPDATE Tasks SET status = ?, progress = ? WHERE task_id = ?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
