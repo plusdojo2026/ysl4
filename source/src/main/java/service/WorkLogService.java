@@ -81,7 +81,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定タスクの工数ログをまとめて削除
-	public int deleteByTaskId(String taskId) {
+	public int DeleteByTaskId(int taskId) {
 		WorkLogDAO dao = new WorkLogDAO(conn);
 		int ans = 0;
 		try {
@@ -94,7 +94,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定タスクの実績工数合計を取得
-	public float sumBytaskId(String taskId) {
+	public float sumBytaskId(int taskId) {
 		WorkLogDAO dao = new WorkLogDAO(conn);
 		float ans = 0;
 		try {
