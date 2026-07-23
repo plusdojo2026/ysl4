@@ -85,23 +85,13 @@ public class MemberAction {
 	//メンバーの登録メソッド---------------------------------
 	public String regist() throws UnsupportedEncodingException {
 		//DTOの箱を用意
-		UserDTO dto = null;
 	
 	//一般ユーザーはアクセスできないバリデーション
 	if(!isAdminUser()) {
 		return REDIRECT_HOME + "&msg=" + encode("管理者のみ利用できます。");
 	}
 	
-	
-	//値の取得
-	request.setCharacterEncoding("UTF-8");
-	String userId = request.getParameter("user_id");
-	String loginId = request.getParameter("login_id");
-	String name = request.getParameter("name");
-	String email = request.getParameter("email");
-	String IsAdmin = request.getParameter("is_admin");
-	String IsValid = request.getParameter("is_valid");
-	String CreatedAt = request.getParameter("c_at");
+	UserDTO dto = createUserDtoForRegist();
 	
 	//入力値チェック
 	if(loginId.trim().equals("") || name.trim().equals("") || IsAdmin.trim().equals("") || IsValid.trim().equals("")) {
@@ -111,7 +101,6 @@ public class MemberAction {
 	
 	//必須項目すべてが入力されていたら、serviceを実体化
 	UserService service = new UserService();
-	dto = service.regist(userId,loginId, name, email, IsAdmin, IsValid, CreatedAt);
 	}
 	
 	/**
@@ -143,5 +132,35 @@ public class MemberAction {
 		return URLEncoder.encode(value, StandardCharsets.UTF_8);
 	}
 	
+	/**
+     * 登録用のUserDTOを作る
+     * メンバー登録画面の入力値をDTOに詰める
+     * @return 登録用ユーザーDTO
+     */
+    private UserDTO createUserDtoForRegist() {
+
+        // 空DTOを作る
+        UserDTO userDto = new UserDTO();
+
+        // ログインIDを設定する
+        userDto.setLoginId(request.getParameter("login_id"));
+
+        // 初期パスワードを設定する
+        userDto.setPasswordHash(request.getParameter("initial_password"));
+
+        // 氏名を設定する
+        userDto.setName(request.getParameter("name"));
+
+        // メールアドレスを設定する
+        userDto.setEmail(request.getParameter("email"));
+
+        // 管理者フラグを設定する
+        userDto.setAdmin(parseAdmin());
+
+        // 登録時は有効ユーザーとして扱う
+        userDto.setIsValid(true);
+
+        return userDto;
+    }
 
 }
