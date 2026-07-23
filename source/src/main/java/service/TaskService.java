@@ -1,10 +1,10 @@
-package Service;
+package service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import DAO.TaskDAO;
-import Model.TaskDTO;
+import dao.TaskDAO;
+import model.TaskDTO;
 
 public class TaskService extends DBAccess {
 
