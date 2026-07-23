@@ -149,21 +149,21 @@ public class UserDAO {
 		
 			int ans = 0;
 			//SELECT文を用意する
-			String sql = "UPDATE Users SET user_id = ?, password_hash = ?, name = ?, email = ?, is_admin = ?, is_valid = ?, c_at = ?, u_at = ? WHERE login_id = ?";
+			String sql = "UPDATE Users SET password_hash = ?, name = ?, email = ?, is_admin = ?, is_valid = ?, c_at = ?, u_at = ? WHERE user_id = ?";
 			//デバック(SQL文の確認用)
 			System.out.println(sql);
 			
 			//まとめる
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 			
-			pStmt.setInt(1, userId);
-			pStmt.setString(2, passwordHash);
-			pStmt.setString(3, name);
-			pStmt.setString(4, email);
-			pStmt.setBoolean(5, isAdmin);
-			pStmt.setBoolean(6, isValid);
-			pStmt.setDate(7, createdAt);
-			pStmt.setDate(8, updateAt);
+			pStmt.setString(1, passwordHash);
+			pStmt.setString(2, name);
+			pStmt.setString(3, email);
+			pStmt.setBoolean(4, isAdmin);
+			pStmt.setBoolean(5, isValid);
+			pStmt.setDate(6, createdAt);
+			pStmt.setDate(7, updateAt);
+			pStmt.setInt(8, userId);
 			
 			//SELECT文を実行し、結果表を取得する
 			ans = pStmt.executeUpdate();
@@ -184,8 +184,8 @@ public class UserDAO {
 		//まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		
-		pStmt.setInt(1, userId);
-		pStmt.setString(2, passwordHash);
+		pStmt.setString(1, passwordHash);
+		pStmt.setInt(2, userId);
 		
 		//SELECT文を実行し、結果表を取得する
 		ans = pStmt.executeUpdate();
@@ -249,9 +249,9 @@ public class UserDAO {
 		// まとめる
 			PreparedStatement pStmt = conn.prepareStatement(sql);
 
-			pStmt.setInt(1, userId);
-			pStmt.setBoolean(2, isValid);
-			pStmt.setDate(3, updateAt);
+			pStmt.setBoolean(1, isValid);
+			pStmt.setDate(2, updateAt);
+			pStmt.setInt(3, userId);
 
 			
 			// SELECT文を実行し、結果表を取得する
