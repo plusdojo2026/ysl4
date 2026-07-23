@@ -35,6 +35,12 @@
   </style>
 </head>
 <body>
+<header>
+<%@ include file="/WEB-INF/jsp/header.jsp" %>
+</header>
+<footer>
+<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+</footer>
 <!--ここから案件詳細のjsp-->
 	<h1>案件詳細</h1>
 <!--ここまで案件詳細jsp-->
