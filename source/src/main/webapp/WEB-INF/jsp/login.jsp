@@ -6,7 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ログイン | TaskManager</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/summary.css">
+    
 </head>
 <body class="login-page">
 
@@ -49,5 +51,6 @@
 
     <script src="${pageContext.request.contextPath}/js/validation.js"></script>
     <script src="${pageContext.request.contextPath}/js/common.js"></script>
+
 </body>
 </html>

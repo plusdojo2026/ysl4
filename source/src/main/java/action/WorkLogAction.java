@@ -19,7 +19,7 @@ public class WorkLogAction {
 
 	//工数の登録メソッド---------------------------------------
 	public String WorkLogRegist() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/menu.jsp";
+		String page = "/WEB-INF/jsp/taskDetail.jsp";
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
 		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
@@ -47,9 +47,9 @@ public class WorkLogAction {
 		return page;
 	}
 
-	//従業員の削除メソッド---------------------------------------
+	//工数の削除メソッド---------------------------------------
 	public String delete() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/menu.jsp";
+		String page = "/WEB-INF/jsp/taskDetail.jsp";
 
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
