@@ -66,7 +66,7 @@ public class WorkLogService extends DBAccess {
 		return ans;
 	}
 
-	//ユーザーを削除するメソッド---------------------------------------
+	//工数を削除するメソッド---------------------------------------
 	public int WorkLogDelete(String workLogsId) {
 		//DAOに処理を任せる
 		WorkLogDAO dao = new WorkLogDAO(conn);
@@ -81,7 +81,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定タスクの工数ログをまとめて削除
-	public int deleteByTaskId(int taskId) {
+	public int deleteByTaskId(String taskId) {
 		WorkLogDAO dao = new WorkLogDAO(conn);
 		int ans = 0;
 		try {
@@ -94,7 +94,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定タスクの実績工数合計を取得
-	public float sumBytaskId(int taskId) {
+	public float sumBytaskId(String taskId) {
 		WorkLogDAO dao = new WorkLogDAO(conn);
 		float ans = 0;
 		try {

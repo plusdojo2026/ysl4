@@ -109,7 +109,7 @@ public class WorkLogDAO {
 	}
 
 	//指定タスクの工数ログをまとめて削除
-	public int DeleteBytaskId(int workLogsId) throws SQLException {
+	public int DeleteBytaskId(int taskId) throws SQLException {
 		int ans = 0;
 		// SELECT文を準備する
 		String sql = "DELETE FROM user WHERE task_id = ?";
@@ -119,7 +119,7 @@ public class WorkLogDAO {
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		// SQL文実際に挿入、当てはめる
-		pStmt.setInt(1, workLogsId);
+		pStmt.setInt(1, taskId);
 
 		// SELECT文を実行し、結果表を取得する
 		ans = pStmt.executeUpdate();
@@ -129,7 +129,7 @@ public class WorkLogDAO {
 	}
 
 	//指定タスクの実績工数合計を取得
-	public float sumBytaskId(float manHours) throws SQLException {
+	public float sumBytaskId(float taskId) throws SQLException {
 		float ans = 0;
 		// SELECT文を準備する
 		String sql = "SELECT SUM(man_hours) FROM work_logs WHERE task id = ?";
@@ -139,7 +139,7 @@ public class WorkLogDAO {
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		// SQL文実際に挿入、当てはめる
-		pStmt.setFloat(1, manHours);
+		pStmt.setFloat(1, taskId);
 
 		// SELECT文を実行し、結果表を取得する
 		ans = pStmt.executeUpdate();

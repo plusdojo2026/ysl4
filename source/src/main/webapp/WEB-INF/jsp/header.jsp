@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div class="header">
-		Taskmanager　
+		Taskmanager
 		<form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
 		<%-- HH = header home--%>>
 			<input type="hidden" name="page_id" value="HH">
@@ -48,6 +48,36 @@
 		</c:if>
 		
 	</div>
+	<%-- ><nav class="nav">
+        <div class="navbar">
+        	<div class="logo">
+            	<a href="/a1/user/top"></a>
+            	<p><a href="/a1/user/top">紫陽花ダイアリー</a></p>
+        	</div>
+            <ul class="center">
+                <li>
+                    <a href="/ysl4/jsp/home">ホーム</a>
+                </li>
+                <li>
+                    <a href="/a1/user/calendar">案件一覧</a>
+                </li>
+                <li>
+                    <a href="/a1/user/status>タスク管理</a>
+                </li>
+                <li>
+                    <a href="/a1/user/survey">月次集計</a>
+                </li>
+                <li>
+                	<a href="/a1/user/servlet">メンバー管理</a>
+                </li>
+            </ul>
+            <ul class="right">
+                <li>
+                    <a href="/a1/logout" id="login">ログアウト</a>
+                </li>
+            </ul>
+        </div>
+</nav>--%>
 	<script>
 	//ログアウトボタンが押されたときの処理
 		function logout(){
