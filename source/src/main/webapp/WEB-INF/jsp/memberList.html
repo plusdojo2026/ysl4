@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>メンバー管理</title>
 <link rel="stylesheet" href="/webapp/css/common.css">
+<link rel="stylesheet" href="/webapp/css/member.css">
 <!-- ${pageContext.request.contextPath}/css/common.css -->
 </head>
 
@@ -18,73 +19,53 @@
 <!-- <%@ include file="/WEB-INF/jsp/footer.jsp" %> -->
 </footer>	
 		
-		<div class ="main">
-            <div class="list-top">
-			<h3>メンバー一覧</h3>
-            <h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
-            </div>
-            
+	<div class ="main">
+		<div class="under-header">
+		<img class="regist-elephant" src="/webapp/img/elephant(1).png">
+		<div class="text-wrap">	
+		<h3>メンバー一覧</h3>
+        <h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
+		<p>管理者専用</p>
+	</div>
+	</div>
+		<div class="member-dashboard">
+			<div class="member-count">総メンバー数<span>9</span>人</div>
+			<div class="member-count">有効メンバー数<span>7</span>人</div>
+			<div class="member-count">管理者数<span>2</span>人</div>
+			<div class="member-count">無効メンバー数<span>1</span>人</div>
+		</div>   
             <!-- <span class="msg">${msg}</span> -->
 			<form> 
                 <!-- method="POST" action="<c:url value='/Controller'/>" -->
 				<input type="hidden" name="page_id" value="M001">
+				<div class="member-search">
 				<table>
 					<tr>
-						<td>ログインID<span>必須</span></td>
-						<td><input type="text" class="input-text" name="id" value="" required></td>
+						<td>キーワード</td>
+						<td><input type="text" class="keyword" name="keyword" value="" placeholder="氏名などで検索"></td>
                         <!-- value="${param.id }"				 -->
-						<td>氏名<span>必須</span></td>
-						<td><input type="text" class="input-text" name="name" value=""></td>
-                        <!-- value="${param.name }" -->
-					</tr>
-					<tr>
-                        <td>新規パスワード<span>必須</span></td>
-						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
-                        <td>新規パスワード確認<span>必須</span></td>
-						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
-					</tr>
-					<tr>
-                        <td>メールアドレス<span>任意</span></td>
-						<td><input type="text" class="input-text" name="address" value=""></td>
-                        <!-- value="${param.email}" -->
-						<td>権限<span>必須</span></td>
-						<td >
-							<label>
-							    <input type="radio" name="kan" value="0" checked>
-                                 <!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
-							    一般ユーザー
-                                <input type="radio" name="kan" value="1">
-                                <!-- <c:if test="${param.kan == '1'}" -->
-                                管理者
-						    </label>
-                    </tr>
-                    <tr>
-                        <td>状態<span>必須</span></td>
-                        <td>
-						    <label>
-							    <input type="radio" name="kan" value="1"checked>
-							    有効
-                                 <input type="radio" name="kan" value="1">
-							    無効
-						    </label>
-                        </td>						  
-						    <td colspan="3">
-						    	<input type="submit" name="button_id" value="メンバー一覧へ" onclick="return list()">
-						  		<input type="submit" name="button_id" value="保存して終了" onclick="return regist()">
-                                <input type="submit" class="submit-btn" name="button_id" value="保存して続けて登録" onclick="return regist()">
-						  	</td>						  
+						<td>権限</td>
+						<td>
+						 <select>
+							<option>一般ユーザー</option><!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
+							<option>管理者</option> <!-- <c:if test="${param.kan == '1'}" -->
+						 </select>
 						</td>
+						<td>状態</td>
+						<td>
+						 <select>
+							<option>有効</option>
+							<option>無効</option>
+						 </select>
+						</td>                 					  
+						<td colspan="2">
+                          <input type="submit" class="submit-btn" name="button_id" value="検索" onclick="return regist()">
+						  <input type="reset" name="button_id" value="クリア">
+						</td>						  
 					</tr>
 				</table>
+				</div>
 			</form>				
 		</div>
-		<script>		
-		function regist(){
-			if (!confirm("登録します。よろしいですか？")) {
-			  // OK（はい）を押したときの処理
-				return false;
-			} 
-		}
-		</script>
 </body>
 </html>
