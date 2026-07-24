@@ -35,31 +35,14 @@ public class TaskService extends DBAccess {
 	}
 
 	// キーワード検索
-		public ArrayList<TaskDTO> search() {
-
-			ArrayList<TaskDTO> taskList = null;
-
-			TaskDAO dao = new TaskDAO(super.conn);
-
-			try {
-				taskList = dao.search();//変数にconditionを入れる
-			} catch (SQLException e) {
-				System.out.println("SQL文おかしいよ");
-				e.printStackTrace();
-			}
-
-			return taskList;
-		}
-		
-	// プロジェクトIDで検索
-	public ArrayList<TaskDTO> selectByProjectId(int projectId) {
+	public ArrayList<TaskDTO> search() {
 
 		ArrayList<TaskDTO> taskList = null;
 
 		TaskDAO dao = new TaskDAO(super.conn);
 
 		try {
-			taskList = dao.selectByProjectId(projectId);
+			taskList = dao.selectAll();
 		} catch (SQLException e) {
 			System.out.println("SQL文おかしいよ");
 			e.printStackTrace();
@@ -83,6 +66,40 @@ public class TaskService extends DBAccess {
 		}
 
 		return dto;
+	}
+
+	// タスクID検索
+	public TaskDTO findDetail(int taskId) {
+
+		TaskDTO dto = null;
+
+		TaskDAO dao = new TaskDAO(super.conn);
+
+		try {
+			dto = dao.findById(taskId);
+		} catch (SQLException e) {
+			System.out.println("SQL文おかしいよ");
+			e.printStackTrace();
+		}
+
+		return dto;
+	}
+
+	// プロジェクトIDで検索
+	public ArrayList<TaskDTO> selectByProjectId(int projectId) {
+
+		ArrayList<TaskDTO> taskList = null;
+
+		TaskDAO dao = new TaskDAO(super.conn);
+
+		try {
+			taskList = dao.selectByProjectId(projectId);
+		} catch (SQLException e) {
+			System.out.println("SQL文おかしいよ");
+			e.printStackTrace();
+		}
+
+		return taskList;
 	}
 
 	// タスク登録
@@ -190,14 +207,14 @@ public class TaskService extends DBAccess {
 	}
 
 	// 担当タスク一覧取得
-	public ArrayList<TaskDTO> selectAssignedTasks(int userId) {
+	public ArrayList<TaskDTO> getTaskFormData(int projectId) {
 
 		ArrayList<TaskDTO> taskList = null;
 
 		TaskDAO dao = new TaskDAO(super.conn);
 
 		try {
-			taskList = dao.selectAssignedTasks(userId);
+			taskList = dao.selectAssignedTasks(projectId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
