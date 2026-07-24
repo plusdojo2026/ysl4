@@ -184,7 +184,7 @@ main {
 	max-width: 1000px;
 	background-color: #fef9fb;
 	/* 影をつける設定 */
-	/*box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.20);
+	box-shadow: 2px 2px 10px 0px rgba(0, 0, 0, 0.20);
 }
 
 /* footerの設定 */
