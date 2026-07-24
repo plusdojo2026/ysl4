@@ -2,6 +2,7 @@ package action;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -134,57 +135,62 @@ public class WorkLogAction {
 	}
 
 	//指定タスクの工数ログを確認するメソッド---------------------------------------
-	public ArrayList<WorkLogDTO> selectByTaskId() throws UnsupportedEncodingException {
+	public String selectByTaskId() throws UnsupportedEncodingException {
 		String page = "/WEB-INF/jsp/taskDetail.jsp";
+
+		ArrayList<WorkLogDTO> WorkLogList = new ArrayList<>();
 
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
-		String taskId = request.getParameter("task_id");
+		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
 		WorkLogService service = new WorkLogService();
 		//serviceに処理を依頼
-		int ans = service.sumByProjectId(projectId);
+		WorkLogList = service.selectByTaskId(taskId);
 
 		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		//		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
 		request.setAttribute("WorkLogList", WorkLogList);
 
 		return page;
 	}
 
 	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示---------------------------------------
-	public ArrayList<WorkLogDTO> selectByTaskId() throws UnsupportedEncodingException {
+	public String selectRateByProject() throws UnsupportedEncodingException {
 		String page = "/WEB-INF/jsp/taskDetail.jsp";
 
+		List<WorkLogDTO.projectWorkLogDTO> WorkLogList = new ArrayList<>();
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
-		String taskId = request.getParameter("project_id");
+		int taskId = Integer.parseInt(request.getParameter("task_id"));
 
 		WorkLogService service = new WorkLogService();
 		//serviceに処理を依頼
-		int ans = service.sumByProjectId(projectId);
+		WorkLogList = service.selectRateByProject(taskId);
 
 		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		//		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
 		request.setAttribute("WorkLogList", WorkLogList);
 
 		return page;
 	}
 
 	////指定月の工数ログを取得　月次集計CVS出力---------------------------------------
-	public ArrayList<WorkLogDTO> selectByTaskId() throws UnsupportedEncodingException {
+	public String selectByMonth() throws UnsupportedEncodingException {
 		String page = "/WEB-INF/jsp/taskDetail.jsp";
 
+		ArrayList<WorkLogDTO> WorkLogList = new ArrayList<>();
 		//値の取得
 		request.setCharacterEncoding("UTF-8");
-		String taskId = request.getParameter("project_id");
+		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
+		String workDate = request.getParameter("work_date");
 
 		WorkLogService service = new WorkLogService();
 		//serviceに処理を依頼
-		int ans = service.sumByProjectId(projectId);
+		WorkLogList = service.selectByMonth(workLogsId, workDate);
 
 		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
+		//		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
 		request.setAttribute("WorkLogList", WorkLogList);
 
 		return page;

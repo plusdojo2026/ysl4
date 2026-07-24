@@ -120,7 +120,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定タスクの工数ログを確認
-	public ArrayList<WorkLogDTO> selectByTaskId() {
+	public ArrayList<WorkLogDTO> selectByTaskId(int taskId) {
 		ArrayList<WorkLogDTO> taskWorkLogList = null;
 
 		WorkLogDAO dao = new WorkLogDAO(super.conn);
@@ -136,7 +136,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示
-	public ArrayList<WorkLogDTO.projectWorkLogDTO> selectRateByProject() {
+	public ArrayList<WorkLogDTO.projectWorkLogDTO> selectRateByProject(int projectId) {
 		ArrayList<WorkLogDTO.projectWorkLogDTO> newtaskWorkLogList = null;
 
 		WorkLogDAO dao = new WorkLogDAO(super.conn);
@@ -152,7 +152,7 @@ public class WorkLogService extends DBAccess {
 	}
 
 	//指定月の工数ログを取得　月次集計CVS出力
-	public ArrayList<WorkLogDTO> selectByMonth() {
+	public ArrayList<WorkLogDTO> selectByMonth(int workLogsId,String date) {
 		ArrayList<WorkLogDTO> monthWorkLogList = null;
 
 		WorkLogDAO dao = new WorkLogDAO(super.conn);
