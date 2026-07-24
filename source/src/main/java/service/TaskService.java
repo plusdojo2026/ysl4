@@ -4,7 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import dao.TaskDAO;
+import dao.WorkLogDAO;
 import model.TaskDTO;
+
 
 public class TaskService extends DBAccess {
 
@@ -35,14 +37,14 @@ public class TaskService extends DBAccess {
 	}
 
 	// キーワード検索
-	public ArrayList<TaskDTO> search() {
+	public ArrayList<TaskDTO> search(String condition) {
 
 		ArrayList<TaskDTO> taskList = null;
 
 		TaskDAO dao = new TaskDAO(super.conn);
 
 		try {
-			taskList = dao.selectAll();
+			taskList = dao.search(condition);
 		} catch (SQLException e) {
 			System.out.println("SQL文おかしいよ");
 			e.printStackTrace();
@@ -51,7 +53,7 @@ public class TaskService extends DBAccess {
 		return taskList;
 	}
 
-	// タスクID検索
+	// 案件検索
 	public TaskDTO findById(int taskId) {
 
 		TaskDTO dto = null;
@@ -69,21 +71,40 @@ public class TaskService extends DBAccess {
 	}
 
 	// タスクID検索
-	public TaskDTO findDetail(int taskId) {
+	
+	public TaskDTO findDetail(int taskId) throws SQLException {
 
-		TaskDTO dto = null;
+	    // findByIdメソッドでタスク情報を取得
+	    TaskDTO taskDto = findById(taskId);
 
-		TaskDAO dao = new TaskDAO(super.conn);
+	    // タスクが存在しない場合
+	    if (taskDto == null) {
+	        return null;
+	    }
 
-		try {
-			dto = dao.findById(taskId);
-		} catch (SQLException e) {
-			System.out.println("SQL文おかしいよ");
-			e.printStackTrace();
-		}
+	    // 工数ログを取得
+	    WorkLogDAO workLogDao = new WorkLogDAO(conn);
 
-		return dto;
+	    taskDto.setWorkLogs(workLogDao.selectByTaskId(taskId));
+
+	    return taskDto;
 	}
+//  ボツ
+//	public TaskDTO findDetail(int taskId) {
+//
+//		TaskDTO dto = null;
+//
+//		TaskDAO dao = new TaskDAO(super.conn);
+//
+//		try {
+//			dto = dao.findById(taskId);
+//		} catch (SQLException e) {
+//			System.out.println("SQL文おかしいよ");
+//			e.printStackTrace();
+//		}
+//
+//		return dto;
+//	}
 
 	// プロジェクトIDで検索
 	public ArrayList<TaskDTO> selectByProjectId(int projectId) {
@@ -214,7 +235,7 @@ public class TaskService extends DBAccess {
 		TaskDAO dao = new TaskDAO(super.conn);
 
 		try {
-			taskList = dao.selectAssignedTasks(projectId);
+			taskList = dao.getTaskFormData(projectId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

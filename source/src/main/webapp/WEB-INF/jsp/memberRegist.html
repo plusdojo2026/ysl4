@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>メンバー管理</title>
 <link rel="stylesheet" href="/webapp/css/common.css">
+<link rel="stylesheet" href="/webapp/css/member.css">
 <!-- ${pageContext.request.contextPath}/css/common.css -->
 </head>
 
@@ -19,8 +20,14 @@
 </footer>	
 		
 		<div class ="main">
+		 <div class="under-header">
+			<img class="regist-elephant" src="/webapp/img/elephant(1).png">
+			<div class="text-wrap">
 			<h3>メンバー登録</h3>
             <h4>新しいメンバーを登録してください。</h4>
+			<p>管理者専用</p>
+			</div>
+		 </div>
             
             <!-- <span class="msg">${msg}</span> -->
 			<form> 
@@ -28,47 +35,47 @@
 				<input type="hidden" name="page_id" value="M001">
 				<table>
 					<tr>
-						<td>ログインID<span>必須</span></td>
+						<td>ログインID<span class="required-item">必須</span></td>
 						<td><input type="text" class="input-text" name="id" value="" required></td>
                         <!-- value="${param.id }"				 -->
-						<td>氏名<span>必須</span></td>
+						<td>氏名<span class="required-item">必須</span></td>
 						<td><input type="text" class="input-text" name="name" value=""></td>
                         <!-- value="${param.name }" -->
 					</tr>
 					<tr>
-                        <td>新規パスワード<span>必須</span></td>
+                        <td>新規パスワード<span class="required-item">必須</span></td>
 						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
-                        <td>新規パスワード確認<span>必須</span></td>
+                        <td>新規パスワード確認<span class="required-item">必須</span></td>
 						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
 					</tr>
 					<tr>
-                        <td>メールアドレス<span>任意</span></td>
+                        <td>メールアドレス<span class="option-item">任意</span></td>
 						<td><input type="text" class="input-text" name="address" value=""></td>
                         <!-- value="${param.email}" -->
-						<td>権限<span>必須</span></td>
+						<td>権限<span class="required-item">必須</span></td>
 						<td >
 							<label>
-							    <input type="radio" name="kan" value="0" checked>
+							    <input type="radio" name="kan" value="1" checked>
                                  <!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
 							    一般ユーザー
-                                <input type="radio" name="kan" value="1">
+                                <input type="radio" name="kan" value="2">
                                 <!-- <c:if test="${param.kan == '1'}" -->
                                 管理者
 						    </label>
                     </tr>
                     <tr>
-                        <td>状態<span>必須</span></td>
+                        <td>状態<span class="required-item">必須</span></td>
                         <td>
 						    <label>
-							    <input type="radio" name="kan" value="1"checked>
+							    <input type="radio" name="kan" value="1" checked>
 							    有効
-                                 <input type="radio" name="kan" value="1">
+                                 <input type="radio" name="kan" value="2">
 							    無効
 						    </label>
                         </td>						  
 						    <td colspan="3">
-						    	<input type="submit" name="button_id" value="メンバー一覧へ" onclick="return list()">
-						  		<input type="submit" name="button_id" value="保存して終了" onclick="return regist()">
+						    	<input type="submit" class="cancel-btn" name="button_id" value="メンバー一覧へ" onclick="return list()">
+						  		<input type="submit" class="cancel-btn" name="button_id" value="保存して終了" onclick="return regist()">
                                 <input type="submit" class="submit-btn" name="button_id" value="保存して続けて登録" onclick="return regist()">
 						  	</td>						  
 						</td>
