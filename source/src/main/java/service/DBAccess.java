@@ -13,10 +13,10 @@ public class DBAccess {
     private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
     // ローカルDB接続先
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/pinkElephant?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
+//    private static final String DB_URL = "jdbc:mysql://localhost:3306/pinkElephant?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
     
     //	デプロイDB接続先
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306/ysl4?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/ysl4?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
 
     // DBユーザー名
     private static final String DB_USER = "root";

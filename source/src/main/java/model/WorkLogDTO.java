@@ -9,6 +9,7 @@ public class WorkLogDTO {
 	private int workLogsId;
 	private int taskId;
 	private int userId;
+	private String userName;
 	private String workDate;
 	private float manHours;
 	private String jobContents;
@@ -17,17 +18,22 @@ public class WorkLogDTO {
 	// 進行中案件一覧を表示する
 	private List<projectWorkLogDTO> ProjectWorkLogList = new ArrayList<>();
 
-	public WorkLogDTO(int workLogsId, int taskId, int userId, String workDate, float manHours, String jobContents,
+	public WorkLogDTO(int workLogsId, int taskId, int userId, String userName,  String workDate, float manHours, String jobContents,
 			Timestamp cAt, Timestamp uAt) {
 		super();
 		this.workLogsId = workLogsId;
 		this.taskId = taskId;
 		this.userId = userId;
+		this.userName = userName;
 		this.workDate = workDate;
 		this.manHours = manHours;
 		this.jobContents = jobContents;
 		this.cAt = cAt;
 		this.uAt = uAt;
+	}
+	
+	//コンストラクタ
+	public WorkLogDTO() {
 	}
 
 	public int getWorkLogsId() {
@@ -54,6 +60,14 @@ public class WorkLogDTO {
 		this.userId = userId;
 	}
 
+	public String setUserName() {
+		return userName;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	public String getWorkDate() {
 		return workDate;
 	}

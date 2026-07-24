@@ -172,38 +172,42 @@ public class WorkLogDAO {
 	}
 
 	//指定タスクの工数ログを確認
-	public ArrayList<WorkLogDTO> selectByTaskId() throws SQLException {
+	public ArrayList<WorkLogDTO> selectByTaskId(int taskId) throws SQLException {
 
-		ArrayList<WorkLogDTO> workLogList = new ArrayList<WorkLogDTO>();
+	    ArrayList<WorkLogDTO> workLogList = new ArrayList<>();
 
-		// SELECT文を準備する
-		String sql = "SELECT * FROM work_logs WHERE task_id = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+	    String sql =
+	            "SELECT * " +
+	            "FROM work_logs " +
+	            "WHERE task_id = ? " +
+	            "ORDER BY work_date DESC";
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+	    try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
 
-		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+	        pStmt.setInt(1, taskId);
 
-		//移し替え
-		while (rs.next()) {
-			WorkLogDTO dto = new WorkLogDTO(0, 0, 0, null, 0, sql, null, null);
-			dto.setWorkLogsId(rs.getInt("work_logs_id"));
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setUserId(rs.getInt("user_id"));
-			dto.setWorkDate(rs.getString("work_date"));
-			dto.setManHours(rs.getFloat("man_hours"));
-			dto.setJobContents(rs.getString("job_contents"));
-			dto.setcAt(rs.getTimestamp("c_at"));
-			dto.setuAt(rs.getTimestamp("u_at"));
-			workLogList.add(dto);
-		}
-		//serviceに返却する
-		return workLogList;
+	        try (ResultSet rs = pStmt.executeQuery()) {
+
+	            while (rs.next()) {
+
+	                WorkLogDTO dto = new WorkLogDTO();
+
+	                dto.setWorkLogsId(rs.getInt("work_logs_id"));
+	                dto.setTaskId(rs.getInt("task_id"));
+	                dto.setUserId(rs.getInt("user_id"));
+	                dto.setWorkDate(rs.getString("work_date"));
+	                dto.setManHours(rs.getFloat("man_hours"));
+	                dto.setJobContents(rs.getString("job_contents"));
+	                dto.setcAt(rs.getTimestamp("c_at"));
+	                dto.setuAt(rs.getTimestamp("u_at"));
+
+	                workLogList.add(dto);
+	            }
+	        }
+	    }
+
+	    return workLogList;
 	}
-
 	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示
 	public ArrayList<WorkLogDTO.projectWorkLogDTO> selectRateByProject() throws SQLException {
 		ArrayList<WorkLogDTO.projectWorkLogDTO> workLogList = new ArrayList<WorkLogDTO.projectWorkLogDTO>();

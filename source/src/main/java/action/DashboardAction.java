@@ -9,26 +9,38 @@ import service.DashboardService;
 
 public class DashboardAction {
 
-    // Controllerから受け取ったrequestを保持する
-    private final HttpServletRequest request;
+	// Controllerから受け取ったrequestを保持する
+	private final HttpServletRequest request;
 
-    public DashboardAction(HttpServletRequest request) {
-        this.request = request;
-    }
+	public DashboardAction(HttpServletRequest request) {
+		this.request = request;
+	}
 
-    public String show() {
+	public String show() {
 
-        // クラス図準拠のpublicメソッド
-        // ホーム兼ダッシュボード画面を表示する
-        HttpSession session = request.getSession(false);
-        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+	    HttpSession session = request.getSession(false);
 
-        DashboardService service = new DashboardService();
-        DashboardDTO dashboard = service.getDashboard(loginUser.getUserId());
+	    if (session == null) {
+	        return "redirect:Controller?page_id=L001";
+	    }
 
-        // JSPで使うDTOをrequestへ渡す
-        request.setAttribute("dashboard", dashboard);
+	    System.out.println("① session取得");
+	    UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 
-        return "/WEB-INF/jsp/home.jsp";
-    }
+	    if (loginUser == null) {
+	        return "redirect:Controller?page_id=L001";
+	    }
+
+	    System.out.println("② loginUser取得");
+	    DashboardService service = new DashboardService();
+	    
+	    System.out.println("③ service作成");
+	    DashboardDTO dashboard = service.getDashboard(loginUser.getUserId());
+	    
+	    System.out.println("④ dashboard取得");
+
+	    request.setAttribute("dashboard", dashboard);
+
+	    return "/WEB-INF/jsp/home.jsp";
+	}
 }
