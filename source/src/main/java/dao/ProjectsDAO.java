@@ -274,32 +274,31 @@ public class ProjectsDAO {
 	//進行中の案件の件数取得
 	public int countInProgressProjects() throws SQLException {
 
-		int count = 0;
-
-		String sql = "SELECT COUNT(*) "
+		String sql = "SELECT COUNT(*) AS in_progress_project_count "
 				+ "FROM projects "
-				+ "WHERE status = '進行中'";
+				+ "WHERE status = '進行中'";;
 
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 
 		ResultSet rs = pStmt.executeQuery();
 
 		if (rs.next()) {
-			count = rs.getInt(1);
+			return rs.getInt("in_progress_project_count");
 		}
 
-		return count;
+		return 0;
 	}
 
 	//進行中案件一覧取得
 	public List<ProjectsDTO> selectInProgressProjects()
 			throws SQLException {
 
-		List<ProjectsDTO> projectList = new ArrayList<ProjectsDTO>();
+		List<ProjectsDTO> projectList = new ArrayList<>();
 
 		String sql = "SELECT * "
 				+ "FROM projects "
-				+ "WHERE status = '進行中'";
+				+ "WHERE status = '進行中'"
+				+ " ORDER BY p.due_date ASC, p.c_at DESC";;
 
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 

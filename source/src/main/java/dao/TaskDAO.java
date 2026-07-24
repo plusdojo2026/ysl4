@@ -149,7 +149,7 @@ public class TaskDAO {
 	public int countAllByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) AS task_count FROM Tasks WHERE project_id=?";
+		String sql = "SELECT COUNT(*) AS task_count FROM tasks WHERE project_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -174,7 +174,7 @@ public class TaskDAO {
 	public int countCompletedByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) AS completed_task_count FROM Tasks WHERE project_id=? AND status = '完了'";
+		String sql = "SELECT COUNT(*) AS completed_task_count FROM tasks WHERE project_id=? AND status = '完了'";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -198,7 +198,7 @@ public class TaskDAO {
 	public int countAssignedTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) AS assigned_task_count FROM Tasks WHERE manager_id=?";
+		String sql = "SELECT COUNT(*) AS assigned_task_count FROM tasks WHERE manager_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -230,7 +230,7 @@ public class TaskDAO {
 
         String sql =
                 "SELECT COUNT(*) AS incomplete_assigned_task_count "
-                + "FROM Tasks "
+                + "FROM tasks "
                 + "WHERE manager_id = ? "
                 + "AND status <> ?";
 
@@ -259,9 +259,9 @@ public class TaskDAO {
 
 		// SELECT文を準備する
 		String sql = "SELECT COUNT(*) AS overdue_task_count "
-				+ "FROM Tasks"
+				+ "FROM tasks"
 				+ " WHERE manager_id=? "
-				+ "AND status <> ? "
+				+ "AND status <> '完了' "
 				+ "AND due_date < CURRENT_DATE";
 
 		// デバッグ（SQL文の確認用）
@@ -269,21 +269,20 @@ public class TaskDAO {
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
+		//ユーザーiDを条件に設定
 		pStmt.setInt(1, userId);
+
 
 		// SELECT文を実行し、結果表を取得する
 		ResultSet rs = pStmt.executeQuery();
 
-		// 初期値0
-		int count = 0;
-
 		// 結果
 		if (rs.next()) {
-			return rs.getInt(1);
+			return rs.getInt("overdue_task_count");
 		}
 
 		// serviceに返却する falseの場合は初期値
-		return count;
+		return 0;
 	}
 
 	//担当タスク一覧を取得する
@@ -292,8 +291,7 @@ public class TaskDAO {
 
 		// SELECT文を準備する
 		String sql = baseSelectSql()
-				+ "FROM Tasks "
-				+ "WHERE manager_id = ? "
+				+ "WHERE t.manager_id = ? "
 				+ ORDER_BY_DUE_DATE_ASC;
 		
 		//デバッグ（SQL文の確認用）
@@ -385,7 +383,7 @@ public class TaskDAO {
 	public int taskInsert(TaskDTO taskDto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "INSERT INTO Tasks(" +
+		String sql = "INSERT INTO tasks(" +
 				"task_name, project_id, manager_id, " +
 				"start_date, due_date, estimated_manhours, " +
 				"progress, status, priority, description) " +
@@ -437,7 +435,7 @@ public class TaskDAO {
 	public int taskUpdate(TaskDTO taskDto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE Tasks SET "
+		String sql = "UPDATE tasks SET "
 				+ "task_name=?, "
 				+ "project_id=?, "
 				+ "manager_id=?, "
@@ -501,7 +499,7 @@ public class TaskDAO {
 	public int updateStatusAndProgress(int taskId, String status, int progress)throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE Tasks SET "
+		String sql = "UPDATE tasks SET "
 				+ "status = ?, "
 				+ "progress = ?, "
 				+ "u_at = CURRENT_TIMESTAMP "
@@ -529,7 +527,7 @@ public class TaskDAO {
 	public int taskDelete(int taskId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "DELETE FROM Tasks WHERE task_id = ?";
+		String sql = "DELETE FROM tasks WHERE task_id = ?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -564,7 +562,7 @@ public class TaskDAO {
                 + "t.estimated_manhours, "
                 + "COALESCE(( "
                 + "    SELECT SUM(wl.man_hours) "
-                + "    FROM WorkLogs wl "
+                + "    FROM workLogs wl "
                 + "    WHERE wl.task_id = t.task_id "
                 + "), 0) AS actual_manhours, "
                 + "t.progress, "
@@ -573,14 +571,13 @@ public class TaskDAO {
                 + "t.description, "
                 + "DATE_FORMAT(t.c_at, '%Y-%m-%d %H:%i:%s') AS c_at, "
                 + "DATE_FORMAT(t.u_at, '%Y-%m-%d %H:%i:%s') AS u_at "
-                + "FROM Tasks t "
+                + "FROM tasks t "
                 + "INNER JOIN Projects p ON t.project_id = p.project_id "
-                + "LEFT JOIN Users u ON t.manager_id = u.user_id";
+                + "LEFT JOIN Users u ON t.manager_id = u.user_id ";
 	}
 	
 	/** 一覧表示順 */
-    private static final String ORDER_BY_DUE_DATE_ASC =
-            " ORDER BY t.due_date ASC, t.c_at DESC";
+    private static final String ORDER_BY_DUE_DATE_ASC = " ORDER BY t.due_date ASC, t.c_at DESC";
 
 	
 	 /**

@@ -4,166 +4,151 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * ダッシュボード画面に表示する情報をまとめるDTO
+ * 件数カードと一覧表示用のListを保持する
+ */
 public class DashboardDTO implements Serializable {
 
-    // 進行中案件数を表示する
+    /** シリアライズ用ID */
+    private static final long serialVersionUID = 1L;
+
+    /** 進行中案件数 */
     private int inProgressProjectCount;
 
-    // 自分の担当タスク数を表示する
+    /** 担当タスク数 */
     private int assignedTaskCount;
 
-    // 期限超過タスク数を表示する
+    /** 期限超過タスク数 */
     private int overdueTaskCount;
 
-    // 今月の自分の登録工数を表示する
-    private float monthlyMyManhours;
-
-    // 自分のタスク進捗率を表示する
-    private int myTaskProgressRate;
-
-    // 全タスクの平均進捗率を表示する
-    private int allTaskProgressRate;
-
-    // ホーム画面では月次予算を入力しないため初期値0で使う
-    private int monthlyWorkAchievementRate;
-
-    // 進行中案件一覧を表示する
+    /** 進行中案件一覧 */
     private List<ProjectsDTO> inProgressProjectList = new ArrayList<>();
 
-    // 自分の担当タスク一覧を表示する
+    /** 担当タスク一覧 */
     private List<TaskDTO> assignedTaskList = new ArrayList<>();
-    
-    //期限超過タスク一覧
-    private List<TaskDTO> overdueTaskList = new ArrayList<>();
-    
-    //最新工数ログ取得
-    private List<WorkLogDTO> recentWorkLogList = new ArrayList<>();
-    
-    //今月の工数ログ件数をを取得
-    private int monthlyWorkLogCount;
 
-    // 予定件数(追加機能)
-    // private int todayScheduleCount;
-
+    /**
+     * 進行中案件数を取得する
+     * @return 進行中案件数
+     */
     public int getInProgressProjectCount() {
         return inProgressProjectCount;
     }
 
+    /**
+     * 進行中案件数を設定する
+     * @param inProgressProjectCount 進行中案件数
+     */
     public void setInProgressProjectCount(int inProgressProjectCount) {
         this.inProgressProjectCount = inProgressProjectCount;
     }
 
+    /**
+     * 担当タスク数を取得する
+     * @return 担当タスク数
+     */
     public int getAssignedTaskCount() {
         return assignedTaskCount;
     }
 
+    /**
+     * 担当タスク数を設定する
+     * @param assignedTaskCount 担当タスク数
+     */
     public void setAssignedTaskCount(int assignedTaskCount) {
         this.assignedTaskCount = assignedTaskCount;
     }
 
+    /**
+     * 期限超過タスク数を取得する
+     * @return 期限超過タスク数
+     */
     public int getOverdueTaskCount() {
         return overdueTaskCount;
     }
 
+    /**
+     * 期限超過タスク数を設定する
+     * @param overdueTaskCount 期限超過タスク数
+     */
     public void setOverdueTaskCount(int overdueTaskCount) {
         this.overdueTaskCount = overdueTaskCount;
     }
 
-    public float getMonthlyMyManhours() {
-        return monthlyMyManhours;
-    }
-
-    public void setMonthlyMyManhours(float monthlyMyManhours) {
-        this.monthlyMyManhours = monthlyMyManhours;
-    }
-
-    public int getMyTaskProgressRate() {
-        return myTaskProgressRate;
-    }
-
-    public void setMyTaskProgressRate(int myTaskProgressRate) {
-        this.myTaskProgressRate = myTaskProgressRate;
-    }
-
-    public int getAllTaskProgressRate() {
-        return allTaskProgressRate;
-    }
-
-    public void setAllTaskProgressRate(int allTaskProgressRate) {
-        this.allTaskProgressRate = allTaskProgressRate;
-    }
-
-    public int getMonthlyWorkAchievementRate() {
-        return monthlyWorkAchievementRate;
-    }
-
-    public void setMonthlyWorkAchievementRate(int monthlyWorkAchievementRate) {
-        this.monthlyWorkAchievementRate = monthlyWorkAchievementRate;
-    }
-
+    /**
+     * 進行中案件一覧を取得する
+     * @return 進行中案件一覧
+     */
     public List<ProjectsDTO> getInProgressProjectList() {
         return inProgressProjectList;
     }
 
+    /**
+     * 進行中案件一覧を設定する
+     * nullの場合は空Listを設定する
+     * @param inProgressProjectList 進行中案件一覧
+     */
     public void setInProgressProjectList(List<ProjectsDTO> inProgressProjectList) {
         if (inProgressProjectList == null) {
             this.inProgressProjectList = new ArrayList<>();
             return;
         }
+
         this.inProgressProjectList = inProgressProjectList;
     }
 
+    /**
+     * 担当タスク一覧を取得する
+     * @return 担当タスク一覧
+     */
     public List<TaskDTO> getAssignedTaskList() {
         return assignedTaskList;
     }
 
+    /**
+     * 担当タスク一覧を設定する
+     * nullの場合は空Listを設定する
+     * @param assignedTaskList 担当タスク一覧
+     */
     public void setAssignedTaskList(List<TaskDTO> assignedTaskList) {
         if (assignedTaskList == null) {
             this.assignedTaskList = new ArrayList<>();
             return;
         }
+
         this.assignedTaskList = assignedTaskList;
     }
-    
-    public List<TaskDTO> getOverdueTaskList() {
-    	return overdueTaskList;
-    }
-    
-    public void setOverdueTaskList(List<TaskDTO> overdueTaskList) {
-    	if (overdueTaskList == null) {
-    		this.overdueTaskList = new ArrayList<>();
-    		return;
-    	}
-    	this.overdueTaskList = overdueTaskList;
-    }
-    
-    public List<WorkLogDTO> getRecentWorkLogList() {
-    	return recentWorkLogList;
-    }
-    
-    public void setRecentWorkLogList(List<WorkLogDTO> recentWorkLogList) {
-    	if (recentWorkLogList == null) {
-    		this.recentWorkLogList = new ArrayList<>();
-    		return;
-    	}
-    }
-    
-    public int getMonthlyWorkLogCount() {
-    	return monthlyWorkLogCount;
-    }
-    
-    public void setMonthlyWorkLogCount(int monthlyWorkLogCount) {
-    	this.monthlyWorkLogCount = monthlyWorkLogCount;
+
+    /**
+     * クラス図のmyTaskCount表記に対応する
+     * @return 担当タスク数
+     */
+    public int getMyTaskCount() {
+        return assignedTaskCount;
     }
 
-    // 追加機能用の予定件数getter
-    // public int getTodayScheduleCount() {
-    //     return todayScheduleCount;
-    // }
+    /**
+     * クラス図のmyTaskCount表記に対応する
+     * @param myTaskCount 担当タスク数
+     */
+    public void setMyTaskCount(int myTaskCount) {
+        this.assignedTaskCount = myTaskCount;
+    }
 
-    // 追加機能用の予定件数setter
-    // public void setTodayScheduleCount(int todayScheduleCount) {
-    //     this.todayScheduleCount = todayScheduleCount;
-    // }
+    /**
+     * クラス図のactiveProjectCount表記に対応する
+     * @return 進行中案件数
+     */
+    public int getActiveProjectCount() {
+        return inProgressProjectCount;
+    }
+
+    /**
+     * クラス図のactiveProjectCount表記に対応する
+     * @param activeProjectCount 進行中案件数
+     */
+    public void setActiveProjectCount(int activeProjectCount) {
+        this.inProgressProjectCount = activeProjectCount;
+    }
 }

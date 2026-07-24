@@ -36,15 +36,15 @@ public class WorkLogDAO {
 
 		//移し替え
 		while (rs.next()) {
-			WorkLogDTO dto = new WorkLogDTO(0, 0, 0, null, 0, sql, null, null);
+			WorkLogDTO dto = new WorkLogDTO();
 			dto.setWorkLogsId(rs.getInt("work_logs_id"));
 			dto.setTaskId(rs.getInt("task_id"));
 			dto.setUserId(rs.getInt("user_id"));
 			dto.setWorkDate(rs.getString("work_date"));
 			dto.setManHours(rs.getFloat("man_hours"));
 			dto.setJobContents(rs.getString("job_contents"));
-			dto.setcAt(rs.getTimestamp("c_at"));
-			dto.setuAt(rs.getTimestamp("u_at"));
+			dto.setcAt(rs.getDate("c_at"));
+			dto.setuAt(rs.getDate("u_at"));
 			workLogList.add(dto);
 		}
 		//serviceに返却する
@@ -198,8 +198,8 @@ public class WorkLogDAO {
 	                dto.setWorkDate(rs.getString("work_date"));
 	                dto.setManHours(rs.getFloat("man_hours"));
 	                dto.setJobContents(rs.getString("job_contents"));
-	                dto.setcAt(rs.getTimestamp("c_at"));
-	                dto.setuAt(rs.getTimestamp("u_at"));
+	                dto.setcAt(rs.getDate("c_at"));
+	                dto.setuAt(rs.getDate("u_at"));
 
 	                workLogList.add(dto);
 	            }
@@ -256,15 +256,15 @@ public class WorkLogDAO {
 
 		//移し替え
 		while (rs.next()) {
-			WorkLogDTO dto = new WorkLogDTO(0, 0, 0, null, 0, null, null, null);
+			WorkLogDTO dto = new WorkLogDTO();
 			dto.setWorkLogsId(rs.getInt("work_logs_id"));
 			dto.setTaskId(rs.getInt("task_id"));
 			dto.setUserId(rs.getInt("user_id"));
 			dto.setWorkDate(rs.getString("work_date"));
 			dto.setManHours(rs.getFloat("man_hours"));
 			dto.setJobContents(rs.getString("job_contents"));
-			dto.setcAt(rs.getTimestamp("c_at"));
-			dto.setuAt(rs.getTimestamp("u_at"));
+			dto.setcAt(rs.getDate("c_at"));
+			dto.setuAt(rs.getDate("u_at"));
 			workLogList.add(dto);
 		}
 		//serviceに返却する
