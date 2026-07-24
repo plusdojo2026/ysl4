@@ -33,6 +33,15 @@ public class DashboardDTO implements Serializable {
 
     // 自分の担当タスク一覧を表示する
     private List<TaskDTO> assignedTaskList = new ArrayList<>();
+    
+    //期限超過タスク一覧
+    private List<TaskDTO> overdueTaskList = new ArrayList<>();
+    
+    //最新工数ログ取得
+    private List<WorkLogDTO> recentWorkLogList = new ArrayList<>();
+    
+    //今月の工数ログ件数をを取得
+    private int monthlyWorkLogCount;
 
     // 予定件数(追加機能)
     // private int todayScheduleCount;
@@ -115,6 +124,37 @@ public class DashboardDTO implements Serializable {
             return;
         }
         this.assignedTaskList = assignedTaskList;
+    }
+    
+    public List<TaskDTO> getOverdueTaskList() {
+    	return overdueTaskList;
+    }
+    
+    public void setOverdueTaskList(List<TaskDTO> overdueTaskList) {
+    	if (overdueTaskList == null) {
+    		this.overdueTaskList = new ArrayList<>();
+    		return;
+    	}
+    	this.overdueTaskList = overdueTaskList;
+    }
+    
+    public List<WorkLogDTO> getRecentWorkLogList() {
+    	return recentWorkLogList;
+    }
+    
+    public void setRecentWorkLogList(List<WorkLogDTO> recentWorkLogList) {
+    	if (recentWorkLogList == null) {
+    		this.recentWorkLogList = new ArrayList<>();
+    		return;
+    	}
+    }
+    
+    public int getMonthlyWorkLogCount() {
+    	return monthlyWorkLogCount;
+    }
+    
+    public void setMonthlyWorkLogCount(int monthlyWorkLogCount) {
+    	this.monthlyWorkLogCount = monthlyWorkLogCount;
     }
 
     // 追加機能用の予定件数getter

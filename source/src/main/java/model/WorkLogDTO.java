@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,25 +9,31 @@ public class WorkLogDTO {
 	private int workLogsId;
 	private int taskId;
 	private int userId;
+	private String userName;
 	private String workDate;
 	private float manHours;
 	private String jobContents;
-	private Timestamp cAt;
-	private Timestamp uAt;
+	private Date cAt;
+	private Date uAt;
 	// 進行中案件一覧を表示する
 	private List<projectWorkLogDTO> ProjectWorkLogList = new ArrayList<>();
 
-	public WorkLogDTO(int workLogsId, int taskId, int userId, String workDate, float manHours, String jobContents,
-			Timestamp cAt, Timestamp uAt) {
+	public WorkLogDTO(int workLogsId, int taskId, int userId, String userName,  String workDate, float manHours, String jobContents,
+			Date cAt, Date uAt) {
 		super();
 		this.workLogsId = workLogsId;
 		this.taskId = taskId;
 		this.userId = userId;
+		this.userName = userName;
 		this.workDate = workDate;
 		this.manHours = manHours;
 		this.jobContents = jobContents;
 		this.cAt = cAt;
 		this.uAt = uAt;
+	}
+	
+	//コンストラクタ
+	public WorkLogDTO() {
 	}
 
 	public int getWorkLogsId() {
@@ -54,6 +60,14 @@ public class WorkLogDTO {
 		this.userId = userId;
 	}
 
+	public String setUserName() {
+		return userName;
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
 	public String getWorkDate() {
 		return workDate;
 	}
@@ -78,19 +92,19 @@ public class WorkLogDTO {
 		this.jobContents = jobContents;
 	}
 
-	public Timestamp getcAt() {
+	public Date getcAt() {
 		return cAt;
 	}
 
-	public void setcAt(Timestamp cAt) {
+	public void setcAt(Date cAt) {
 		this.cAt = cAt;
 	}
 
-	public Timestamp getuAt() {
+	public Date getuAt() {
 		return uAt;
 	}
 
-	public void setuAt(Timestamp uAt) {
+	public void setuAt(Date uAt) {
 		this.uAt = uAt;
 	}
 

@@ -19,7 +19,6 @@ public class LoginAction {
 
     public String login() {
 
-        // クラス図準拠のpublicメソッド
         // ログイン画面の入力値で認証する
         String loginId = request.getParameter("login_id");
         String password = request.getParameter("password");
@@ -36,11 +35,15 @@ public class LoginAction {
 
         HttpSession session = request.getSession(true);
 
+
         // セッション固定化対策→ログイン成功時にIDを変更する
         request.changeSessionId();
 
         // ログインユーザー情報をセッションに保存する
         session.setAttribute("loginUser", loginUser);
+
+        System.out.println("ログイン成功");
+        System.out.println("loginUser=" + loginUser);
 
         return "redirect:Controller?page_id=H001";
     }
@@ -59,7 +62,6 @@ public class LoginAction {
 
     public String changePassword() {
 
-        // クラス図準拠のpublicメソッド
         // 現在パスワード確認後に新パスワードを保存する
         HttpSession session = request.getSession(false);
 
@@ -68,6 +70,7 @@ public class LoginAction {
         }
 
         UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+        System.out.println("◎◎◎ loginUser=" + loginUser);
         String currentPassword = request.getParameter("current_password");
         String newPassword = request.getParameter("new_password");
         String confirmPassword = request.getParameter("confirm_password");

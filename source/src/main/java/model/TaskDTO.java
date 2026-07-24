@@ -1,6 +1,7 @@
 package model;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.util.List;
 
 public class TaskDTO {
 	
@@ -8,39 +9,50 @@ public class TaskDTO {
 		
 	}
 
-	public TaskDTO(int taskId, String taskName, int projectId, int managerId, String startDate, String dueDate,
-			int estimatedManhours, int progress, String status, String priority, String description,
-			Timestamp createdAt, Timestamp updatedAt) {
+	public TaskDTO(int taskId, String taskName, int projectId,String projectName, int managerId, String managerName, String startDate, String dueDate,
+			float estimatedManhours, float actualManhours, int progress, String status, String priority, String description, List<WorkLogDTO> workLogs, 
+			Date createdAt, Date updatedAt, boolean overdue) {
 
 		super();
 		this.taskId = taskId;
 		this.taskName = taskName;
 		this.projectId = projectId;
+		this.projectName = projectName;
 		this.managerId = managerId;
+		this.managerName = managerName;
 		this.startDate = startDate;
 		this.dueDate = dueDate;
 		this.estimatedManhours = estimatedManhours;
+		this.actualManhours = actualManhours;
 		this.progress = progress;
 		this.status = status;
 		this.priority = priority;
 		this.description = description;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.overdue = overdue;
 	}
 
 	private int taskId;
 	private String taskName;
 	private int projectId;
+	private String projectName;
 	private int managerId;
+	private String managerName;
 	private String startDate;
 	private String dueDate;
-	private int estimatedManhours;
+	private float estimatedManhours;
+	private float actualManhours;
 	private int progress;
 	private String status;
 	private String priority;
 	private String description;
-	private Timestamp createdAt;
-	private Timestamp updatedAt;
+	private List<WorkLogDTO> workLogs;
+	private List<ProjectsDTO> projectList;
+	private List<UserDTO> userList;
+	private Date createdAt;
+	private Date updatedAt;
+	private boolean overdue;
 
 	public int getTaskId() {
 		return taskId;
@@ -65,6 +77,14 @@ public class TaskDTO {
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
+	
+	public String getProjectName() {
+		return projectName;
+	}
+	
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 
 	public int getManagerId() {
 		return managerId;
@@ -72,6 +92,14 @@ public class TaskDTO {
 
 	public void setManagerId(int managerId) {
 		this.managerId = managerId;
+	}
+	
+	public String getManagerName() {
+		return managerName;
+	}
+	
+	public void setManagerName(String managerName) {
+		this.managerName = managerName;
 	}
 
 	public String getStartDate() {
@@ -90,12 +118,20 @@ public class TaskDTO {
 		this.dueDate = dueDate;
 	}
 
-	public int getEstimatedManhours() {
+	public float getEstimatedManhours() {
 		return estimatedManhours;
 	}
 
-	public void setEstimatedManhours(int estimatedManhours) {
+	public void setEstimatedManhours(float estimatedManhours) {
 		this.estimatedManhours = estimatedManhours;
+	}
+	
+	public float getActualManhours() {
+		return actualManhours;
+	}
+	
+	public void setActualManhours(float actualManhours) {
+		this.actualManhours = actualManhours;
 	}
 
 	public int getProgress() {
@@ -129,21 +165,53 @@ public class TaskDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public List<WorkLogDTO> getWorkLogs() {
+	    return workLogs;
+	}
 
-	public Timestamp getCreatedAt() {
+	public void setWorkLogs(List<WorkLogDTO> workLogs) {
+	    this.workLogs = workLogs;
+	}
+	
+	public List<ProjectsDTO> getProjectList() {
+	    return projectList;
+	}
+
+	public void setProjectList(List<ProjectsDTO> projectList) {
+	    this.projectList = projectList;
+	}
+
+	public List<UserDTO> getUserList() {
+	    return userList;
+	}
+
+	public void setUserList(List<UserDTO> userList) {
+	    this.userList = userList;
+	}
+
+	public Date getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Timestamp createdAt) {
+	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	public Timestamp getUpdatedAt() {
+	public Date getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(Timestamp updatedAt) {
+	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+	public boolean getOverdue() {
+		return overdue;
+	}
+	
+	public void setoverdue(boolean overdue) {
+		this.overdue = overdue;
 	}
 
 }
