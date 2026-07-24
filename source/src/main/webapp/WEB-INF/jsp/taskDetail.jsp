@@ -43,9 +43,42 @@
 </footer>
 <!--ここから案件詳細のjsp-->
 	<h1>案件詳細</h1>
+	<p>タスク詳細と工数ログを確認できます</p>
+	<div>
+	案件詳細へ
+	</div>
+	<div>
+	<>編集
+	</div>
+	<div>
+	<input type= bottun name="" value="ステータス変更">
+	</div>
+	
+	<div>
+	案件名<c:out value="${taskList.projectName}" /><br>
+	担当者<c:out value="${taskList.userName}" /><br>
+	ステータス<c:out value="${taskList.status}" /><br>
+	優先度<c:out value="${taskList.priority}" /><br>
+	開始日<c:out value="${taskList.startDate}" /><br>
+	期限<c:out value="${taskList.dueDate}" /><br>
+	説明<c:out value="${taskList.discription}" /><br>
+	進捗<c:out value="${taskList.progress}" />
+	見積もり工数
+	実績工数
+	進捗率
+	残工数
+</div>
+	<c:forEach var="uib" items="${workLogList}" >
+	作業日
+	担当者
+	工数
+	作業内容
+	操作
+	<input type="submit" name="botton" value="削除">
+	</c:forEach>
 <!--ここまで案件詳細jsp-->
 	
-  <button onclick="openModal(${taskList.projectName},${taskList.taskName})">工数登録</button>
+  <button onclick="openModal('${taskList.projectName}','${taskList.taskName}')">工数登録</button>
 
   <!-- モーダル本体 -->
   <div id="modal" class="modal-background">
