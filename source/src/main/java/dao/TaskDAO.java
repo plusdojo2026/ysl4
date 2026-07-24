@@ -94,7 +94,7 @@ public class TaskDAO {
 	}
 
 	//検索したタスクを取得する
-	public ArrayList<TaskDTO> search() throws SQLException {
+	public ArrayList<TaskDTO> search(String condition) throws SQLException {
 		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
 
 		// SELECT文を準備する
