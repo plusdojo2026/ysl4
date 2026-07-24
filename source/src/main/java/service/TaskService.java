@@ -41,9 +41,9 @@ public class TaskService extends DBAccess {
 	}
 
 	// キーワード検索
-	public ArrayList<TaskDTO> search(String condition) {
+	public List<TaskDTO> search(TaskDTO condition) {
 
-		ArrayList<TaskDTO> taskList = null;
+		List<TaskDTO> taskList = null;
 
 		TaskDAO dao = new TaskDAO(super.conn);
 

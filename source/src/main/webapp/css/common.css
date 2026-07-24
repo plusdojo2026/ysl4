@@ -163,7 +163,7 @@ header {
 	width: 60%;
 	margin: 0.5rem 10px 1.5rem 0;
 	padding: 10px 16px;
-	border: 2px solid #e1e5e9;
+	border: 1.5px solid #e1e5e9;
 	border-radius: 8px;
 	font-size: 16px;
 	transition: border-color 0.3s ease, box-shadow 0.2s ease;

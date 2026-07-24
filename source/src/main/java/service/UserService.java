@@ -107,8 +107,8 @@ public class UserService extends DBAccess {
      * メンバー一覧画面で使う
      * @return ユーザー一覧
      */
-    public List<UserDTO> selectAll() {
-        List<UserDTO> userList = new ArrayList<>();
+    public ArrayList<UserDTO> selectAll() {
+        ArrayList<UserDTO> userList = new ArrayList<>();
         try {
             // DB接続を開始する
             access();
