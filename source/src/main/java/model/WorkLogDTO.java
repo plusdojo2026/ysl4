@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +13,13 @@ public class WorkLogDTO {
 	private String workDate;
 	private float manHours;
 	private String jobContents;
-	private Timestamp cAt;
-	private Timestamp uAt;
+	private Date cAt;
+	private Date uAt;
 	// 進行中案件一覧を表示する
 	private List<projectWorkLogDTO> ProjectWorkLogList = new ArrayList<>();
 
 	public WorkLogDTO(int workLogsId, int taskId, int userId, String userName,  String workDate, float manHours, String jobContents,
-			Timestamp cAt, Timestamp uAt) {
+			Date cAt, Date uAt) {
 		super();
 		this.workLogsId = workLogsId;
 		this.taskId = taskId;
@@ -92,19 +92,19 @@ public class WorkLogDTO {
 		this.jobContents = jobContents;
 	}
 
-	public Timestamp getcAt() {
+	public Date getcAt() {
 		return cAt;
 	}
 
-	public void setcAt(Timestamp cAt) {
+	public void setcAt(Date cAt) {
 		this.cAt = cAt;
 	}
 
-	public Timestamp getuAt() {
+	public Date getuAt() {
 		return uAt;
 	}
 
-	public void setuAt(Timestamp uAt) {
+	public void setuAt(Date uAt) {
 		this.uAt = uAt;
 	}
 

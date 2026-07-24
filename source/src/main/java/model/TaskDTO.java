@@ -11,7 +11,7 @@ public class TaskDTO {
 
 	public TaskDTO(int taskId, String taskName, int projectId,String projectName, int managerId, String managerName, String startDate, String dueDate,
 			float estimatedManhours, float actualManhours, int progress, String status, String priority, String description, List<WorkLogDTO> workLogs, 
-			Date createdAt, Date updatedAt) {
+			Date createdAt, Date updatedAt, boolean overdue) {
 
 		super();
 		this.taskId = taskId;
@@ -30,6 +30,7 @@ public class TaskDTO {
 		this.description = description;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.overdue = overdue;
 	}
 
 	private int taskId;
@@ -47,8 +48,11 @@ public class TaskDTO {
 	private String priority;
 	private String description;
 	private List<WorkLogDTO> workLogs;
+	private List<ProjectsDTO> projectList;
+	private List<UserDTO> userList;
 	private Date createdAt;
 	private Date updatedAt;
+	private boolean overdue;
 
 	public int getTaskId() {
 		return taskId;
@@ -169,6 +173,22 @@ public class TaskDTO {
 	public void setWorkLogs(List<WorkLogDTO> workLogs) {
 	    this.workLogs = workLogs;
 	}
+	
+	public List<ProjectsDTO> getProjectList() {
+	    return projectList;
+	}
+
+	public void setProjectList(List<ProjectsDTO> projectList) {
+	    this.projectList = projectList;
+	}
+
+	public List<UserDTO> getUserList() {
+	    return userList;
+	}
+
+	public void setUserList(List<UserDTO> userList) {
+	    this.userList = userList;
+	}
 
 	public Date getCreatedAt() {
 		return createdAt;
@@ -184,6 +204,14 @@ public class TaskDTO {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+	
+	public boolean getOverdue() {
+		return overdue;
+	}
+	
+	public void setoverdue(boolean overdue) {
+		this.overdue = overdue;
 	}
 
 }
