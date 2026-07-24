@@ -105,6 +105,25 @@ img, canvas{
 .submit-btn:active {
 	background-color: #F6ADC6;
 }
+
+.cancel-btn {
+	padding-left: 9px;
+	padding-right: 9px;
+	height: 1.7em;
+	cursor: pointer;
+	background-color: var(--background-color);
+	color: var(--button-color);
+	border: 1.5px solid var(--hightlight-color);
+	border-radius: 4px;
+	font-size: 16px;
+}
+
+.cancel-btn:hover{
+	background-color: #F6ADC6;
+}
+.cancel-btn:active {
+	background-color: #F6ADC6;
+}
 /* headerの設定 */
 header {
 	background-color: var(--main-color);
