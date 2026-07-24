@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,124 +19,137 @@ public class TaskDAO {
 		this.conn = conn;
 	}
 
-	//全タスクの一覧を取得する
-	public ArrayList<TaskDTO> selectAll() throws SQLException {
-		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
+	/**
+     * タスクを全件取得する
+     * クラス図のselectAllに対応する
+     * @return タスク一覧
+     * @throws SQLException SQLエラー
+     */
+    public ArrayList<TaskDTO> selectAll() throws SQLException {
 
-		// SELECT文の下準備
-		String sql = "SELECT * FROM Tasks";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+        ArrayList<TaskDTO> taskList = new ArrayList<>();
 
-		// コネクションとSQLをまとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+        String sql = baseSelectSql()
+                + ORDER_BY_DUE_DATE_ASC;
 
-		// SELECT文を実行(executeQuery)し、結果表をResultSetに取得する
-		ResultSet rs = pStmt.executeQuery();
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-		//reはDAOでしか使えないのでArrayList移し替え
-		while (rs.next()) {
-			TaskDTO dto = new TaskDTO();
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setTaskName(rs.getString("task_name"));
-			dto.setProjectId(rs.getInt("project_id"));
-			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getString("start_date"));
-			dto.setDueDate(rs.getString("due_date"));
-			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
-			dto.setProgress(rs.getInt("progress"));
-			dto.setStatus(rs.getString("status"));
-			dto.setPriority(rs.getString("priority"));
-			dto.setDescription(rs.getString("description"));
-			dto.setCreatedAt(rs.getDate("c_at"));
-			dto.setUpdatedAt(rs.getDate("u_at"));
-			TaskList.add(dto);
-		}
-		//serviceに返却する
-		return TaskList;
-	}
+            // 取得結果を1行ずつDTOへ変換する
+            while (rs.next()) {
+                taskList.add(setToTaskDTO(rs));
+            }
+        }
 
-	//条件に合うタスクを取得する
-	public ArrayList<TaskDTO> selectByProjectId(int projectId)
-			throws SQLException {
-		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
+        return taskList;
+    }
 
-		// SELECT文を準備する
-		String sql = "SELECT * FROM Tasks WHERE project_id = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+    /**
+     * 条件に合うタスクを取得する
+     * クラス図のselectByProjectIdに対応する
+     * @param projectId 案件ID
+     * @return タスク一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<TaskDTO> selectByProjectId(int projectId) throws SQLException {
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		pStmt.setInt(1, projectId);
+        List<TaskDTO> taskList = new ArrayList<>();
 
-		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+        String sql = baseSelectSql()
+                + " WHERE t.project_id = ?"
+                + ORDER_BY_DUE_DATE_ASC;
 
-		//移し替え
-		while (rs.next()) {
-			TaskDTO dto = new TaskDTO();
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setTaskName(rs.getString("task_name"));
-			dto.setProjectId(rs.getInt("project_id"));
-			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getString("start_date"));
-			dto.setDueDate(rs.getString("due_date"));
-			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
-			dto.setProgress(rs.getInt("progress"));
-			dto.setStatus(rs.getString("status"));
-			dto.setPriority(rs.getString("priority"));
-			dto.setDescription(rs.getString("description"));
-			dto.setCreatedAt(rs.getDate("c_at"));
-			dto.setUpdatedAt(rs.getDate("u_at"));
-			TaskList.add(dto);
-		}
-		//serviceに返却する
-		return TaskList;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	//検索したタスクを取得する
-	public ArrayList<TaskDTO> search(String condition) throws SQLException {
-		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
+            // 案件IDを条件に設定する
+            ps.setInt(1, projectId);
 
-		// SELECT文を準備する
-		String sql = "SELECT * FROM Tasks WHERE task_name LIKE '%?%' ";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+            try (ResultSet rs = ps.executeQuery()) {
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+                // 案件に紐づくタスクを一覧に詰める
+                while (rs.next()) {
+                    taskList.add(setToTaskDTO(rs));
+                }
+            }
+        }
 
-		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+        return taskList;
+    }
+    
+    
+    /**
+     * 検索条件に合うタスクを取得する
+     * @param condition 検索条件を入れたTaskDTO
+     * @return 検索後のタスク一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<TaskDTO> search(TaskDTO condition) throws SQLException {
 
-		//移し替え
-		while (rs.next()) {
-			TaskDTO dto = new TaskDTO();
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setTaskName(rs.getString("task_name"));
-			dto.setProjectId(rs.getInt("project_id"));
-			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getString("start_date"));
-			dto.setDueDate(rs.getString("due_date"));
-			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
-			dto.setProgress(rs.getInt("progress"));
-			dto.setStatus(rs.getString("status"));
-			dto.setPriority(rs.getString("priority"));
-			dto.setDescription(rs.getString("description"));
-			dto.setCreatedAt(rs.getDate("c_at"));
-			dto.setUpdatedAt(rs.getDate("u_at"));
-			TaskList.add(dto);
-		}
-		//serviceに返却する
-		return TaskList;
-	}
+        List<TaskDTO> taskList = new ArrayList<>();
+        List<Object> params = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(baseSelectSql());
+        List<String> conditions = new ArrayList<>();
+
+        // タスク名がある場合はキーワード検索に使う
+        if (condition != null && hasText(condition.getTaskName())) {
+            conditions.add("(t.task_name LIKE ? OR p.project_name LIKE ? OR t.description LIKE ?)");
+            String keyword = "%" + condition.getTaskName() + "%";
+            params.add(keyword);
+            params.add(keyword);
+            params.add(keyword);
+        }
+
+        // 案件IDがある場合は条件に追加する
+        if (condition != null && condition.getProjectId() > 0) {
+            conditions.add("t.project_id = ?");
+            params.add(condition.getProjectId());
+        }
+
+        // ステータスがある場合は条件に追加する
+        if (condition != null && hasText(condition.getStatus())) {
+            conditions.add("t.status = ?");
+            params.add(condition.getStatus());
+        }
+
+        // 担当者IDがある場合は条件に追加する
+        if (condition != null && condition.getManagerId() > 0) {
+            conditions.add("t.manager_id = ?");
+            params.add(condition.getManagerId());
+        }
+
+        // 条件がある場合だけWHERE句を追加する
+        if (!conditions.isEmpty()) {
+            sql.append(" WHERE ");
+            sql.append(String.join(" AND ", conditions));
+        }
+
+        // 表示順を追加する
+        sql.append(ORDER_BY_DUE_DATE_ASC);
+
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+        	// 検索条件を順番に設定する
+        	for (int i = 0; i < params.size(); i++) {
+        	    ps.setObject(i + 1, params.get(i));
+        	}
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                // 検索結果を一覧に詰める
+                while (rs.next()) {
+                    taskList.add(setToTaskDTO(rs));
+                }
+            }
+        }
+
+        return taskList;
+    }
 
 	//指定案件の全てのタスク総数を取得する
 	public int countAllByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) FROM Tasks WHERE project_id=?";
+		String sql = "SELECT COUNT(*) AS task_count FROM Tasks WHERE project_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -147,23 +161,20 @@ public class TaskDAO {
 		// SELECT文を実行し、結果表を取得する
 		ResultSet rs = pStmt.executeQuery();
 
-		// 初期値0
-		int count = 0;
 
 		// 結果
 		if (rs.next()) {
-			return rs.getInt(1);
+			return rs.getInt("task_count");
 		}
 
-		// serviceに返却する falseの場合は初期値
-		return count;
+		return 0;
 	}
 
 	//完了したタスク数を取得する
 	public int countCompletedByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) FROM Tasks WHERE project_id=? AND status = '完了'";
+		String sql = "SELECT COUNT(*) AS completed_task_count FROM Tasks WHERE project_id=? AND status = '完了'";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -175,23 +186,19 @@ public class TaskDAO {
 		// SELECT文を実行し、結果表を取得する
 		ResultSet rs = pStmt.executeQuery();
 
-		// 初期値0
-		int count = 0;
-
 		// 結果
 		if (rs.next()) {
-			return rs.getInt(1);
+			return rs.getInt("completed_task_count");
 		}
 
-		// serviceに返却する falseの場合は初期値
-		return count;
+		return 0;
 	}
 
 	//担当タスク数を取得する
 	public int countAssignedTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) FROM Tasks WHERE manager_id=?";
+		String sql = "SELECT COUNT(*) AS assigned_task_count FROM Tasks WHERE manager_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -203,24 +210,59 @@ public class TaskDAO {
 		// SELECT文を実行し、結果表を取得する
 		ResultSet rs = pStmt.executeQuery();
 
-		// 初期値0
-		int count = 0;
 
 		// 結果
 		if (rs.next()) {
-			return rs.getInt(1);
+			return rs.getInt("assigned_task_count");
 		}
 
-		// serviceに返却する falseの場合は初期値
-		return count;
+		return 0;
 	}
+	
+	/**
+     * 指定ユーザーの未完了担当タスク数を取得する
+     * クラス図のcountAssignedTasksに対応する
+     * @param userId ユーザーID
+     * @return 担当タスク数
+     * @throws SQLException SQLエラー
+     */
+    public int inCompleteCountAssignedTasks(int userId) throws SQLException {
+
+        String sql =
+                "SELECT COUNT(*) AS incomplete_assigned_task_count "
+                + "FROM Tasks "
+                + "WHERE manager_id = ? "
+                + "AND status <> ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            // ユーザーIDを条件に設定する
+            ps.setInt(1, userId);
+
+            // 完了以外を対象にする
+            ps.setString(2, "完了");
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                // 件数を返す
+                if (rs.next()) {
+                    return rs.getInt("incomplete_assigned_task_count");
+                }
+            }
+        }
+
+        return 0;
+    }
 
 	//期限超過タスクを取得する
 	public int countOverdueTasks(int userId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) FROM Tasks"
-				+ " WHERE manager_id=? AND due_date < CURRENT_DATE";
+		String sql = "SELECT COUNT(*) AS overdue_task_count "
+				+ "FROM Tasks"
+				+ " WHERE manager_id=? "
+				+ "AND status <> ? "
+				+ "AND due_date < CURRENT_DATE";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -245,39 +287,31 @@ public class TaskDAO {
 	}
 
 	//担当タスク一覧を取得する
-	public ArrayList<TaskDTO> selectAssignedTasks(int user) throws SQLException {
-		ArrayList<TaskDTO> TaskList = new ArrayList<TaskDTO>();
+	public List<TaskDTO> selectAssignedTasks(int userId) throws SQLException {
+		List<TaskDTO> TaskList = new ArrayList<>();
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM Tasks WHERE manager_id = ?";
+		String sql = baseSelectSql()
+				+ "FROM Tasks "
+				+ "WHERE manager_id = ? "
+				+ ORDER_BY_DUE_DATE_ASC;
+		
 		//デバッグ（SQL文の確認用）
 		System.out.println(sql);
 
 		// まとめる
 		PreparedStatement pStmt = conn.prepareStatement(sql);
-		pStmt.setInt(1, user);
+		pStmt.setInt(1, userId);
 
 		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+		try (ResultSet rs = pStmt.executeQuery()) {
 
-		//移し替え
-		while (rs.next()) {
-			TaskDTO dto = new TaskDTO();
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setTaskName(rs.getString("task_name"));
-			dto.setProjectId(rs.getInt("project_id"));
-			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getString("start_date"));
-			dto.setDueDate(rs.getString("due_date"));
-			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
-			dto.setProgress(rs.getInt("progress"));
-			dto.setStatus(rs.getString("status"));
-			dto.setPriority(rs.getString("priority"));
-			dto.setDescription(rs.getString("description"));
-			dto.setCreatedAt(rs.getDate("c_at"));
-			dto.setUpdatedAt(rs.getDate("u_at"));
-			TaskList.add(dto);
-		}
+            // 担当タスクを一覧に詰める
+            while (rs.next()) {
+                TaskList.add(setToTaskDTO(rs));
+            }
+        }
+
 		//serviceに返却する
 		return TaskList;
 	}
@@ -297,7 +331,7 @@ public class TaskDAO {
                 + " WHERE t.manager_id = ?"
                 + " AND t.status <> ?"
                 + " AND t.due_date < CURRENT_DATE"
-                + " ORDER BY t.due_date ASC, t.c_at DESC";
+                + ORDER_BY_DUE_DATE_ASC;
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -324,7 +358,8 @@ public class TaskDAO {
 		TaskDTO dto = null;
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM Tasks WHERE task_id=?";
+		String sql = baseSelectSql()
+				+ "WHERE task_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -333,28 +368,13 @@ public class TaskDAO {
 		PreparedStatement pStmt = conn.prepareStatement(sql);
 		pStmt.setInt(1, taskId);
 		// SELECT文を実行し、結果表を取得する
+		try (ResultSet rs = pStmt.executeQuery()) {
 
-		ResultSet rs = pStmt.executeQuery();
-
-		// 移し替え
-		while (rs.next()) {
-
-			dto = new TaskDTO();
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setTaskName(rs.getString("task_name"));
-			dto.setProjectId(rs.getInt("project_id"));
-			dto.setManagerId(rs.getInt("manager_id"));
-			dto.setStartDate(rs.getString("start_date"));
-			dto.setDueDate(rs.getString("due_date"));
-			dto.setEstimatedManhours(rs.getInt("estimated_manhours"));
-			dto.setProgress(rs.getInt("progress"));
-			dto.setStatus(rs.getString("status"));
-			dto.setPriority(rs.getString("priority"));
-			dto.setDescription(rs.getString("description"));
-			dto.setCreatedAt(rs.getDate("c_at"));
-			dto.setUpdatedAt(rs.getDate("u_at"));
-
-		}
+            // 取得できた1行をDTOへ変換する
+            if (rs.next()) {
+                dto = setToTaskDTO(rs);
+            }
+        }
 
 		// serviceに返却する
 		return dto;
@@ -362,7 +382,7 @@ public class TaskDAO {
 
 
 	//タスク登録をする
-	public int taskInsert(TaskDTO dto) throws SQLException {
+	public int taskInsert(TaskDTO taskDto) throws SQLException {
 
 		// SELECT文を準備する
 		String sql = "INSERT INTO Tasks(" +
@@ -379,29 +399,57 @@ public class TaskDAO {
 
 		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
 
-		// 移し替え
-		pStmt.setString(1, dto.getTaskName());
-		pStmt.setInt(2, dto.getProjectId());
-		pStmt.setInt(3, dto.getManagerId());
-		pStmt.setString(4, dto.getStartDate());
-		pStmt.setString(5, dto.getDueDate());
-		pStmt.setFloat(6, dto.getEstimatedManhours());
-		pStmt.setInt(7, dto.getProgress());
-		pStmt.setString(8, dto.getStatus());
-		pStmt.setString(9, dto.getPriority());
-		pStmt.setString(10, dto.getDescription());
+		// タスク名を設定する
+		pStmt.setString(1, taskDto.getTaskName());
 
+        // 案件IDを設定する
+		pStmt.setInt(2, taskDto.getProjectId());
+
+        // 担当者IDを設定する
+        pStmt.setInt(3, taskDto.getManagerId());
+
+        // 開始日を設定する
+        pStmt.setDate(4, toSqlDate(taskDto.getStartDate()));
+
+        // 期限日を設定する
+        pStmt.setDate(5, toSqlDate(taskDto.getDueDate()));
+
+        // 見積工数を設定する
+        pStmt.setFloat(6, taskDto.getEstimatedManhours());
+
+        // 進捗率を設定する
+        pStmt.setInt(7, taskDto.getProgress());
+
+        // ステータスを設定する
+        pStmt.setString(8, taskDto.getStatus());
+
+        // 優先度を設定する
+        pStmt.setString(9, taskDto.getPriority());
+
+        // 説明を設定する
+        pStmt.setString(10, taskDto.getDescription());
+        
 		return pStmt.executeUpdate();
 
 	}
 
-	//タスクを更新する
-	public int taskUpdate(TaskDTO dto) throws SQLException {
+	//タスク編集
+	public int taskUpdate(TaskDTO taskDto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE Tasks SET task_name=?, project_id=?, manager_id=?"
-				+ ", start_date=?, due_date=?, estimated_manhours=?, progress=?"
-				+ ", status=?, priority=?, description=? WHERE task_id=?";
+		String sql = "UPDATE Tasks SET "
+				+ "task_name=?, "
+				+ "project_id=?, "
+				+ "manager_id=?, "
+				+ "start_date=?, "
+				+ "due_date=?, "
+				+ "estimated_manhours=?, "
+				+ "progress=?, "
+				+ "status=?, "
+				+ "priority=?, "
+				+ "description=? "
+				+ "u_at = CURRENT_TIMESTAMP "
+				+ "WHERE task_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -412,28 +460,52 @@ public class TaskDAO {
 		// SELECT文を実行し、結果表を取得する ResultSet rs = pStmt.executeQuery();
 
 		// 移し替え
-		pStmt.setString(1, dto.getTaskName());
-		pStmt.setInt(2, dto.getProjectId());
-		pStmt.setInt(3, dto.getManagerId());
-		pStmt.setString(4, dto.getStartDate());
-		pStmt.setString(5, dto.getDueDate());
-		pStmt.setFloat(6, dto.getEstimatedManhours());
-		pStmt.setInt(7, dto.getProgress());
-		pStmt.setString(8, dto.getStatus());
-		pStmt.setString(9, dto.getPriority());
-		pStmt.setString(10, dto.getDescription());
-		pStmt.setInt(11, dto.getTaskId());
+		// タスク名を設定する
+		pStmt.setString(1, taskDto.getTaskName());
+
+        // 案件IDを設定する
+		pStmt.setInt(2, taskDto.getProjectId());
+
+        // 担当者IDを設定する
+        pStmt.setInt(3, taskDto.getManagerId());
+
+        // 開始日を設定する
+        pStmt.setDate(4, toSqlDate(taskDto.getStartDate()));
+
+        // 期限日を設定する
+        pStmt.setDate(5, toSqlDate(taskDto.getDueDate()));
+
+        // 見積工数を設定する
+        pStmt.setFloat(6, taskDto.getEstimatedManhours());
+
+        // 進捗率を設定する
+        pStmt.setInt(7, taskDto.getProgress());
+
+        // ステータスを設定する
+        pStmt.setString(8, taskDto.getStatus());
+
+        // 優先度を設定する
+        pStmt.setString(9, taskDto.getPriority());
+
+        // 説明を設定する
+        pStmt.setString(10, taskDto.getDescription());
+
+        // タスクIDを条件に設定する
+        pStmt.setInt(11, taskDto.getTaskId());
 
 		return pStmt.executeUpdate();
 
 	}
 
 	//進捗・ステータスを更新する
-	public int updateStatusAndProgress(int taskId, String status, int progress)
-			throws SQLException {
+	public int updateStatusAndProgress(int taskId, String status, int progress)throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE Tasks SET status = ?, progress = ? WHERE task_id = ?";
+		String sql = "UPDATE Tasks SET "
+				+ "status = ?, "
+				+ "progress = ?, "
+				+ "u_at = CURRENT_TIMESTAMP "
+				+ "WHERE task_id = ?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -506,6 +578,11 @@ public class TaskDAO {
                 + "LEFT JOIN Users u ON t.manager_id = u.user_id";
 	}
 	
+	/** 一覧表示順 */
+    private static final String ORDER_BY_DUE_DATE_ASC =
+            " ORDER BY t.due_date ASC, t.c_at DESC";
+
+	
 	 /**
      * ResultSetの1行をTaskDTOへ変換する
      * SELECT系メソッドの詰め替え処理を共通化する
@@ -566,6 +643,32 @@ public class TaskDAO {
         taskDto.setUpdatedAt(rs.getDate("u_at"));
 
         return taskDto;
+    }
+    
+    /**
+     * yyyy-MM-dd形式の文字列をSQL用Dateへ変換する
+     * 未入力の場合はnullを返す
+     * @param value 日付文字列
+     * @return SQL用Date
+     */
+    private Date toSqlDate(String value) {
+
+        // 未入力の場合はnullをDBへ渡す
+        if (!hasText(value)) {
+            return null;
+        }
+
+        // yyyy-MM-dd形式をDateへ変換する
+        return Date.valueOf(value);
+    }
+    
+    /**
+     * 文字列が入力されているかチェック
+     * @param value 確認する文字列
+     * @return 入力ありならtrue
+     */
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
     }
 
 }
