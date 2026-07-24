@@ -54,22 +54,22 @@ public class TaskAction {
 	}
 
 	//　！！キーワード検索メモ！！
-//	public String search() throws UnsupportedEncodingException {
-//		String page = "/WEB-INF/jsp/taskList.jsp";
-//
-//		//ユーザーが操作した情報を受け取る
-//		String keyword = request.getParameter("keyword");
-//
-//		//Serviceに接続する 一覧所得
-//		//TaskService service = new TaskService();
-//
-//		//検索語の一覧表示
-//		TaskService searchservice = new TaskService();
-//		//				ArrayList<TaskDTO> taskList = searchservice.search(0);
-//		//				request.setAttribute("taskList", taskList);
-//		request.setAttribute("keyword", keyword);
-//		return page;
-//	}
+	//	public String search() throws UnsupportedEncodingException {
+	//		String page = "/WEB-INF/jsp/taskList.jsp";
+	//
+	//		//ユーザーが操作した情報を受け取る
+	//		String keyword = request.getParameter("keyword");
+	//
+	//		//Serviceに接続する 一覧所得
+	//		//TaskService service = new TaskService();
+	//
+	//		//検索語の一覧表示
+	//		TaskService searchservice = new TaskService();
+	//		//				ArrayList<TaskDTO> taskList = searchservice.search(0);
+	//		//				request.setAttribute("taskList", taskList);
+	//		request.setAttribute("keyword", keyword);
+	//		return page;
+	//	}
 
 	//プロジェクトID検索
 	public String selectByProjectId() throws UnsupportedEncodingException {
@@ -77,13 +77,13 @@ public class TaskAction {
 
 		//ユーザーが操作した情報を受け取る
 		String keyword = request.getParameter("keyword");
-		
+
 		TaskService searchservice = new TaskService();
-		
+
 		ArrayList<TaskDTO> taskList = searchservice.selectByProjectId(0);
-		
+
 		request.setAttribute("taskList", taskList);
-		
+
 		request.setAttribute("keyword", keyword);
 		return page;
 	}
@@ -97,7 +97,7 @@ public class TaskAction {
 
 		//検索語の一覧表示
 		TaskService searchservice = new TaskService();
-		
+
 		request.setAttribute("keyword", keyword);
 		return page;
 	}
@@ -107,8 +107,7 @@ public class TaskAction {
 
 		String page = "/WEB-INF/jsp/taskDetail.jsp";
 
-		int taskId = Integer.parseInt(
-				request.getParameter("taskId"));
+		int taskId = Integer.parseInt(request.getParameter("taskId"));
 
 		TaskService service = new TaskService();
 
@@ -123,6 +122,27 @@ public class TaskAction {
 		request.setAttribute("task", task);
 
 		return page;
+	}
+
+	// 登録画面表示
+	public String showRegist() {
+		
+		return "/WEB-INF/jsp/taskRegist.jsp";
+		
+	}
+	
+	//タスク登録
+	public String regist() throws UnsupportedEncodingException {
+		String page = "/WEB-INF/jsp/menu.jsp";
+
+		//値の取得
+		request.setCharacterEncoding("UTF-8");
+		String taskName = request.getParameter("taskName");
+		String estimateHours = request.getParameter("estimateHours");
+		String status = request.getParameter("status");
+		String priority = request.getParameter("priority");
+		
+
 	}
 
 }
