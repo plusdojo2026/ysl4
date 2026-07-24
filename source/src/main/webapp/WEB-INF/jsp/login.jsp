@@ -43,7 +43,7 @@
                     <label for="password">パスワード</label>
                     <input type="password" id="password" name="password" autocomplete="current-password" required>
                 </div>
-
+				<div id="error_message" class="e-msg"></div>
                 <button type="submit" class="btn btn-primary btn-full">ログイン</button>
             </form>
         </section>
@@ -51,6 +51,20 @@
 
     <script src="${pageContext.request.contextPath}/js/validation.js"></script>
     <script src="${pageContext.request.contextPath}/js/common.js"></script>
+    <script>
+	const formObj = document.getElementById('loginForm');
+	const errorMessageObj = document.getElementById('error_message');
 
+	formObj.addEventListener('submit', function(event) { 
+	//毎回エラーメッセージををリセットする
+	errorMessageObj.innerHTML = '';
+	
+	//メールアドレス空欄を確認
+	if (formObj.login_id.value === '' || formObj.password.value === '') {
+	    errorMessageObj.innerHTML += '※フィールドを入力してください。<br>';
+	    event.preventDefault();
+	}
+	});
+	    </script>
 </body>
 </html>
