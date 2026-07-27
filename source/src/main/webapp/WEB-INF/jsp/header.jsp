@@ -7,37 +7,20 @@
 </head>
 <body>
 	
-	<nav class="nav">
-        <div class="navbar">
-        	<div class="logo">
-            	<a href="/ysl4/jsp/home"></a>
-            	<p><a href="/ysl4/jsp/home">タスクマネージャー</a></p>
-        	</div>
-            <ul class="center">
-                <li>
-                    <a href="/ysl4/jsp/home">ホーム</a>
-                </li>
-                <li>
-                    <a href="/ysl4/jsp/projectList">案件一覧</a>
-                </li>
-                <li>
-                    <a href="/ysl4/jsp/taskList>タスク管理</a>
-                </li>
-                <li>
-                    <a href="/ysl4/jsp/monthlySummary">月次集計</a>
-                </li>
-                <li>
-                	<a href="/ysl4/jsp/menberList">メンバー管理</a>
-                </li>
-                
-            </ul>
-            <ul class="right">
-                <li>
-                    <a href="/ysl4/jsp/logout" id="logout" onclick="return logout()">ログアウト</a>
-                </li>
-            </ul>
+ <div class="app-layout">
+        <aside class="header-menu">
+            <div class="side-title">TaskManager</div>
+            <nav class="side-nav">
+                <a href="${pageContext.request.contextPath}/Controller?page_id=H001" class="nav-link" data-page="H001">ホーム</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=P001" class="nav-link" data-page="P001">案件一覧</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=T001" class="nav-link" data-page="T001">タスク一覧</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=S001" class="nav-link" data-page="S001">月次集計</a>
+                <c:if test="${loginUser.isAdmin}">
+                    <a href="${pageContext.request.contextPath}/Controller?page_id=M001" class="nav-link" data-page="M001">メンバー管理</a>
+                </c:if>
+            </nav>
+        </aside>
         </div>
-</nav>
 	<script>
 	//ログアウトボタンが押されたときの処理
 		function logout(){

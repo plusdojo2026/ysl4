@@ -10,12 +10,13 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>ホーム | TaskManager</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/summary.css">
 </head>
 <body>
 
     <div class="app-layout">
-        <aside class="side-menu">
+        <aside class="header-menu">
             <div class="side-title">TaskManager</div>
             <nav class="side-nav">
                 <a href="${pageContext.request.contextPath}/Controller?page_id=H001" class="nav-link" data-page="H001">ホーム</a>
@@ -27,6 +28,7 @@
                 </c:if>
             </nav>
         </aside>
+        </div>
 
         <div class="main-area">
             <header class="app-header">

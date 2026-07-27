@@ -48,7 +48,7 @@
 	案件詳細へ
 	</div>
 	<div>
-	<link rel href= >編集
+	<a href="/ysl4/jsp/taskEdit">編集</a>
 	</div>
 	<div>
 	<input type= bottun name="" value="ステータス変更">
