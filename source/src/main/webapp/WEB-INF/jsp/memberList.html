@@ -26,10 +26,13 @@
 			<h3>メンバー一覧</h3>
         	<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
 			<p>管理者専用</p>
+			<input type="submit" name="regist-btn" value="＋　メンバー登録">
 			</div>
 		</div>
 		<div class="member-dashboard">
-			<div class="member-count">総メンバー数<span>9</span>人</div>
+			<div class="member-count"><img src="/webapp/img/people.png" width="90" height="100">
+				<span class="block-box">総メンバー数</span>
+				<span class="actual-member-count">9</span>人</div>
 			<div class="member-count">有効メンバー数<span>7</span>人</div>
 			<div class="member-count">管理者数<span>2</span>人</div>
 			<div class="member-count">無効メンバー数<span>1</span>人</div>
@@ -60,7 +63,7 @@
 						</td>                 					  
 						<td colspan="2">
                           <input type="submit" class="submit-btn" name="button_id" value="検索" onclick="return regist()">
-						  <input type="reset" name="button_id" value="クリア">
+						  <input type="reset" class="clear-btn" name="button_id" value="クリア">
 						</td>						  
 					</tr>
 				</table>
@@ -69,13 +72,13 @@
 		  <div class="member-list">
 			<table>
 			  <tr>
-				<td>ログインID</td>
-				<td>氏名</td>
-				<td>メールアドレス</td>
-				<td>権限</td>
-				<td>状態</td>
-				<td>登録日</td>
-				<td>操作</td>
+				<th>ログインID</th>
+				<th>氏名</th>
+				<th>メールアドレス</th>
+				<th>権限</th>
+				<th>状態</th>
+				<th>登録日</th>
+				<th>操作</th>
 			  </tr>
 			  <tr>
 				<td>aaaa</td>
@@ -88,11 +91,10 @@
 			  </tr>
 			</table>
 		  </div>
-		<ul class="pagination">
-		  <li>前へ</li>
+		<ul class="pagination" th:each="user:${userList}">
 		  <li>1</li>
+		  <!-- th:text="${user.loginId}" -->
 		  <li>2</li>
-		  <li>3</li>
 		  <li>次へ</li>
 		</ul>
 	</div>
