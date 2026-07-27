@@ -1,164 +1,161 @@
 package model;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-public class WorkLogDTO {
+/**
+ * 工数ログ情報を保持するDTO
+ * WorkLogsテーブルの値と画面表示用の値を受け渡す
+ */
+public class WorkLogDTO implements Serializable {
 
-	private int workLogsId;
-	private int taskId;
-	private int userId;
-	private String userName;
-	private String workDate;
-	private float manHours;
-	private String jobContents;
-	private Date cAt;
-	private Date uAt;
-	// 進行中案件一覧を表示する
-	private List<projectWorkLogDTO> ProjectWorkLogList = new ArrayList<>();
+    /** シリアルバージョンID */
+    private static final long serialVersionUID = 1L;
 
-	public WorkLogDTO(int workLogsId, int taskId, int userId, String userName,  String workDate, float manHours, String jobContents,
-			Date cAt, Date uAt) {
-		super();
-		this.workLogsId = workLogsId;
-		this.taskId = taskId;
-		this.userId = userId;
-		this.userName = userName;
-		this.workDate = workDate;
-		this.manHours = manHours;
-		this.jobContents = jobContents;
-		this.cAt = cAt;
-		this.uAt = uAt;
-	}
-	
-	//コンストラクタ
-	public WorkLogDTO() {
-	}
+    /** 工数ログID */
+    private int workLogsId;
 
-	public int getWorkLogsId() {
-		return workLogsId;
-	}
+    /** タスクID */
+    private int taskId;
 
-	public void setWorkLogsId(int workLogsId) {
-		this.workLogsId = workLogsId;
-	}
+    /** タスク名 */
+    private String taskName;
 
-	public int getTaskId() {
-		return taskId;
-	}
+    /** 案件ID */
+    private int projectId;
 
-	public void setTaskId(int taskId) {
-		this.taskId = taskId;
-	}
+    /** 案件名 */
+    private String projectName;
 
-	public int getUserId() {
-		return userId;
-	}
+    /** 作業者ID */
+    private int userId;
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    /** 作業者名 */
+    private String userName;
 
-	public String setUserName() {
-		return userName;
-	}
-	
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-	
-	public String getWorkDate() {
-		return workDate;
-	}
+    /** 作業日 */
+    private String workDate;
 
-	public void setWorkDate(String workDate) {
-		this.workDate = workDate;
-	}
+    /** 工数 */
+    private float manHours;
 
-	public float getManHours() {
-		return manHours;
-	}
+    /** 作業内容 */
+    private String jobContents;
 
-	public void setManHours(float manHours) {
-		this.manHours = manHours;
-	}
+    /** 作成日時 */
+    private String createdAt;
 
-	public String getJobContents() {
-		return jobContents;
-	}
+    /** 更新日時 */
+    private String updatedAt;
 
-	public void setJobContents(String jobContents) {
-		this.jobContents = jobContents;
-	}
+    public int getWorkLogsId() {
+        return workLogsId;
+    }
 
-	public Date getcAt() {
-		return cAt;
-	}
+    public void setWorkLogsId(int workLogsId) {
+        this.workLogsId = workLogsId;
+    }
 
-	public void setcAt(Date cAt) {
-		this.cAt = cAt;
-	}
+    public int getWorkLogId() {
+        return workLogsId;
+    }
 
-	public Date getuAt() {
-		return uAt;
-	}
+    public void setWorkLogId(int workLogId) {
+        this.workLogsId = workLogId;
+    }
 
-	public void setuAt(Date uAt) {
-		this.uAt = uAt;
-	}
+    public int getTaskId() {
+        return taskId;
+    }
 
-	public static class projectWorkLogDTO {
-		//工数の作業日
-		private String workDate;
-		//タスク名
-		private String taskName;
-		//タスク担当者名
-		private String personInCharge;
-		//タスクの工数の合計
-		private String workLogSum;
-		//タスクの説明
-		private String description;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
-		public String getWorkDateString() {
-			return workDate;
-		}
+    public String getTaskName() {
+        return taskName;
+    }
 
-		public void setWorkDateString(String workDateString) {
-			this.workDate = workDateString;
-		}
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
-		public String getTaskNameString() {
-			return taskName;
-		}
+    public int getProjectId() {
+        return projectId;
+    }
 
-		public void setTaskNameString(String taskNameString) {
-			this.taskName = taskNameString;
-		}
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
 
-		public String getPersonInCharge() {
-			return personInCharge;
-		}
+    public String getProjectName() {
+        return projectName;
+    }
 
-		public void setPersonInCharge(String personInCharge) {
-			this.personInCharge = personInCharge;
-		}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-		public String getWorkLogSum() {
-			return workLogSum;
-		}
+    public int getUserId() {
+        return userId;
+    }
 
-		public void setWorkLogSum(String workLogSum) {
-			this.workLogSum = workLogSum;
-		}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-		public String getDescription() {
-			return description;
-		}
+    public String getUserName() {
+        return userName;
+    }
 
-		public void setDescription(String description) {
-			this.description = description;
-		}
+    public String getName() {
+        return userName;
+    }
 
-	}
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setName(String name) {
+        this.userName = name;
+    }
+
+    public String getWorkDate() {
+        return workDate;
+    }
+
+    public void setWorkDate(String workDate) {
+        this.workDate = workDate;
+    }
+
+    public float getManHours() {
+        return manHours;
+    }
+
+    public void setManHours(float manHours) {
+        this.manHours = manHours;
+    }
+
+    public String getJobContents() {
+        return jobContents;
+    }
+
+    public void setJobContents(String jobContents) {
+        this.jobContents = jobContents;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

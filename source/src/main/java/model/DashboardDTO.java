@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ダッシュボード画面に表示する情報をまとめるD
+ * ダッシュボード画面に表示する情報をまとめる
  * 件数カードと一覧表示用のListを保持する
  */
 public class DashboardDTO implements Serializable {
@@ -141,7 +141,6 @@ public class DashboardDTO implements Serializable {
     }
 
     /**
-     * クラス図のmyTaskCount表記に対応する
      * @return 担当タスク数
      */
     public int getMyTaskCount() {
@@ -149,7 +148,6 @@ public class DashboardDTO implements Serializable {
     }
 
     /**
-     * クラス図のmyTaskCount表記に対応する
      * @param myTaskCount 担当タスク数
      */
     public void setMyTaskCount(int myTaskCount) {
@@ -157,7 +155,6 @@ public class DashboardDTO implements Serializable {
     }
 
     /**
-     * クラス図のactiveProjectCount表記に対応する
      * @return 進行中案件数
      */
     public int getActiveProjectCount() {
@@ -165,7 +162,6 @@ public class DashboardDTO implements Serializable {
     }
 
     /**
-     * クラス図のactiveProjectCount表記に対応する
      * @param activeProjectCount 進行中案件数
      */
     public void setActiveProjectCount(int activeProjectCount) {

@@ -1,198 +1,339 @@
 package action;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import model.TaskDTO;
+import model.UserDTO;
 import model.WorkLogDTO;
 import service.WorkLogService;
 
+/**
+ * 工数ログ関連の画面処理を担当するAction
+ * Controllerから呼ばれてServiceへ処理を依頼
+ */
 public class WorkLogAction {
 
-	HttpServletRequest request;
+    /** 工数登録モーダル */
+    private static final String JSP_WORK_LOG_MODAL = "/WEB-INF/jsp/workLogModal.jsp";
 
-	//コンストラクタ
-	public WorkLogAction(HttpServletRequest request) {
-		this.request = request;
-	}
+    /** タスク一覧へ戻すredirect */
+    private static final String REDIRECT_TASK_LIST = "redirect:Controller?page_id=T001";
 
-	//工数の登録メソッド---------------------------------------
-	public String WorkLogRegist() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
-		int taskId = Integer.parseInt(request.getParameter("task_id"));
-		int userId = Integer.parseInt(request.getParameter("user_id"));
-		String workDate = request.getParameter("work_date");
-		float manHours = Float.parseFloat(request.getParameter("man_hours"));
-		String jobContents = request.getParameter("job_contents");
+    /** タスク詳細へ戻すredirect */
+    private static final String REDIRECT_TASK_DETAIL = "redirect:Controller?page_id=T002";
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		int ans = service.WorkLogInsert(workLogsId, taskId, userId, workDate, manHours, jobContents, null, null);
-		//ちゃんと登録できたか確認
-		if (ans == 1) {
-			request.setAttribute("msg", "※登録完了！");
-		} else {
-			request.setAttribute("msg", "※登録失敗！IDが重複しています");
-		}
+    /** request */
+    private final HttpServletRequest request;
 
-		//工数情報を全て取得する
-		WorkLogService insetservice = new WorkLogService();
-		ArrayList<WorkLogDTO> WorkLogList = insetservice.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+    /**
+     * requestを受け取る。
+     *
+     * @param request 画面から送られた情報
+     */
+    public WorkLogAction(HttpServletRequest request) {
+        this.request = request;
+    }
 
-		return page;
-	}
+    /**
+     * 工数登録モーダルを表示する。
+     *
+     * @return 遷移先JSP
+     */
+    public String showRegist() {
 
-	//工数の削除メソッド---------------------------------------
-	public String WorkLogDelete() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+        if (getLoginUser() == null) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("ログインしてください");
+        }
 
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		String workLogsId = request.getParameter("work_logs_id");
+        int taskId = parseInt(getParam("task_id", "taskId"));
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		int ans = service.WorkLogDelete(workLogsId);
-		//ちゃんと削除できたか確認
-		if (ans == 1) {
-			request.setAttribute("msg", "※削除完了！");
-		} else {
-			request.setAttribute("msg", "※削除失敗！");
-		}
-		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        if (taskId <= 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスクIDが不正です");
+        }
 
-		return page;
-	}
+        WorkLogService service = new WorkLogService();
+        TaskDTO taskDto = service.getWorkLogFormData(taskId);
 
-	//指定タスクの工数ログまとめて削除するメソッド---------------------------------------
-	public String DeleteByTaskId() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+        if (taskDto == null) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("対象タスクが見つかりません");
+        }
 
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int taskId = Integer.parseInt(request.getParameter("task_id"));
+        WorkLogDTO workLogDto = new WorkLogDTO();
+        workLogDto.setTaskId(taskId);
+        workLogDto.setWorkDate(LocalDate.now().toString());
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		int ans = service.DeleteByTaskId(taskId);
-		//ちゃんと削除できたか確認
-		if (ans == 1) {
-			request.setAttribute("msg", "※削除完了！");
-		} else {
-			request.setAttribute("msg", "※削除失敗！");
-		}
-		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        request.setAttribute("task", taskDto);
+        request.setAttribute("workLog", workLogDto);
 
-		return page;
-	}
+        return JSP_WORK_LOG_MODAL;
+    }
 
-	//指定タスクの実績工数を取得するメソッド---------------------------------------
-	public String sumBytaskId() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+    /**
+     * 工数ログを登録する。
+     *
+     * @return 遷移先
+     */
+    public String regist() {
 
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int taskId = Integer.parseInt(request.getParameter("task_id"));
+        UserDTO loginUser = getLoginUser();
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		float ans = service.sumBytaskId(taskId);
+        if (loginUser == null) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("ログインしてください");
+        }
 
-		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        WorkLogDTO workLogDto = createWorkLogDtoForRegist(loginUser);
+        String errorMessage = validateForRegist(workLogDto);
 
-		return page;
-	}
+        if (hasText(errorMessage)) {
+            setRegistFormData(workLogDto);
+            request.setAttribute("errMsg", errorMessage);
+            request.setAttribute("workLog", workLogDto);
+            return JSP_WORK_LOG_MODAL;
+        }
 
-	//指定案件の合計工数を取得するメソッド---------------------------------------
-	public String sumByProjectId() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+        WorkLogService service = new WorkLogService();
+        int result = service.regist(workLogDto);
 
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int projectId = Integer.parseInt(request.getParameter("project_id"));
+        if (result > 0) {
+            return createTaskDetailRedirect(
+                    workLogDto.getTaskId(),
+                    "工数を登録しました");
+        }
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		float ans = service.sumByProjectId(projectId);
+        setRegistFormData(workLogDto);
+        request.setAttribute("errMsg", "工数登録に失敗しました");
+        request.setAttribute("workLog", workLogDto);
 
-		//ユーザー情報を全て取得する
-		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        return JSP_WORK_LOG_MODAL;
+    }
 
-		return page;
-	}
+    /**
+     * 工数ログを削除する。
+     *
+     * @return 遷移先
+     */
+    public String delete() {
 
-	//指定タスクの工数ログを確認するメソッド---------------------------------------
-	public String selectByTaskId() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+        if (getLoginUser() == null) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("ログインしてください");
+        }
 
-		ArrayList<WorkLogDTO> WorkLogList = new ArrayList<>();
+        int workLogsId = parseInt(
+                getParam(
+                        "work_logs_id",
+                        "workLogsId",
+                        "work_log_id",
+                        "workLogId"));
 
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int taskId = Integer.parseInt(request.getParameter("task_id"));
+        int taskId = parseInt(getParam("task_id", "taskId"));
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		WorkLogList = service.selectByTaskId(taskId);
+        if (workLogsId <= 0) {
+            return createTaskDetailRedirect(taskId, "工数ログIDが不正です");
+        }
 
-		//ユーザー情報を全て取得する
-		//		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        WorkLogService service = new WorkLogService();
+        int result = service.delete(workLogsId);
 
-		return page;
-	}
+        if (result > 0) {
+            return createTaskDetailRedirect(taskId, "工数を削除しました");
+        }
 
-	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示---------------------------------------
-	public String selectRateByProject() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+        return createTaskDetailRedirect(taskId, "工数削除に失敗しました");
+    }
 
-		List<WorkLogDTO.projectWorkLogDTO> WorkLogList = new ArrayList<>();
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int taskId = Integer.parseInt(request.getParameter("task_id"));
+    /**
+     * 登録用DTOを作る。
+     *
+     * @param loginUser ログインユーザー
+     * @return 工数ログDTO
+     */
+    private WorkLogDTO createWorkLogDtoForRegist(UserDTO loginUser) {
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		WorkLogList = service.selectRateByProject(taskId);
+        WorkLogDTO workLogDto = new WorkLogDTO();
 
-		//ユーザー情報を全て取得する
-		//		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        workLogDto.setTaskId(parseInt(getParam("task_id", "taskId")));
+        workLogDto.setUserId(loginUser.getUserId());
+        workLogDto.setWorkDate(getParam("work_date", "workDate"));
+        workLogDto.setManHours(parseFloat(getParam("man_hours", "manHours")));
+        workLogDto.setJobContents(getParam("job_contents", "jobContents"));
 
-		return page;
-	}
+        return workLogDto;
+    }
 
-	////指定月の工数ログを取得　月次集計CVS出力---------------------------------------
-	public String selectByMonth() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+    /**
+     * 登録前入力チェックを行う。
+     *
+     * @param workLogDto 工数ログDTO
+     * @return エラーメッセージ
+     */
+    private String validateForRegist(WorkLogDTO workLogDto) {
 
-		ArrayList<WorkLogDTO> WorkLogList = new ArrayList<>();
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		int workLogsId = Integer.parseInt(request.getParameter("work_logs_id"));
-		String workDate = request.getParameter("work_date");
+        if (workLogDto.getTaskId() <= 0) {
+            return "タスクIDが不正です";
+        }
 
-		WorkLogService service = new WorkLogService();
-		//serviceに処理を依頼
-		WorkLogList = service.selectByMonth(workLogsId, workDate);
+        if (workLogDto.getUserId() <= 0) {
+            return "ログイン情報が不正です";
+        }
 
-		//ユーザー情報を全て取得する
-		//		ArrayList<WorkLogDTO> WorkLogList = service.selectAll();
-		request.setAttribute("WorkLogList", WorkLogList);
+        if (!hasText(workLogDto.getWorkDate())) {
+            return "作業日を入力してください";
+        }
 
-		return page;
-	}
+        if (workLogDto.getManHours() < 0.5f
+                || workLogDto.getManHours() > 24.0f) {
+            return "工数は0.5から24の範囲で入力してください";
+        }
+
+        if (workLogDto.getManHours() * 2 != Math.floor(workLogDto.getManHours() * 2)) {
+            return "工数は0.5単位で入力してください";
+        }
+
+        if (hasText(workLogDto.getJobContents()) && workLogDto.getJobContents().length() > 255) {
+            return "作業内容は255文字以内で入力してください";
+        }
+
+        return "";
+    }
+
+    /**
+     * エラー時の再表示情報を設定する。
+     *
+     * @param workLogDto 工数ログDTO
+     */
+    private void setRegistFormData(WorkLogDTO workLogDto) {
+
+        if (workLogDto == null || workLogDto.getTaskId() <= 0) {
+            return;
+        }
+
+        WorkLogService service = new WorkLogService();
+        TaskDTO taskDto = service.getWorkLogFormData(workLogDto.getTaskId());
+
+        request.setAttribute("task", taskDto);
+    }
+
+    /**
+     * タスク詳細へのredirectを作る。
+     *
+     * @param taskId タスクID
+     * @param message メッセージ
+     * @return redirect文字列
+     */
+    private String createTaskDetailRedirect(int taskId, String message) {
+
+        if (taskId <= 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode(message);
+        }
+
+        return REDIRECT_TASK_DETAIL
+                + "&task_id=" + taskId
+                + "&msg=" + encode(message);
+    }
+
+    /**
+     * ログインユーザーを取得する。
+     *
+     * @return ログインユーザー
+     */
+    private UserDTO getLoginUser() {
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return null;
+        }
+
+        Object loginUser = session.getAttribute("loginUser");
+
+        if (!(loginUser instanceof UserDTO)) {
+            return null;
+        }
+
+        return (UserDTO) loginUser;
+    }
+
+    /**
+     * requestから値を取得する。
+     *
+     * @param names name候補
+     * @return 取得値
+     */
+    private String getParam(String... names) {
+
+        for (String name : names) {
+            String value = request.getParameter(name);
+
+            if (value != null) {
+                return value.trim();
+            }
+        }
+
+        return "";
+    }
+
+    /**
+     * 文字列をintに変換する。
+     *
+     * @param value 変換前文字列
+     * @return 変換後数値
+     */
+    private int parseInt(String value) {
+
+        if (!hasText(value)) {
+            return -1;
+        }
+
+        try {
+            return Integer.parseInt(value);
+
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * 文字列をfloatに変換する。
+     *
+     * @param value 変換前文字列
+     * @return 変換後数値
+     */
+    private float parseFloat(String value) {
+
+        if (!hasText(value)) {
+            return -1;
+        }
+
+        try {
+            return Float.parseFloat(value);
+
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * 文字列が入力されているか確認する。
+     *
+     * @param value 確認する文字列
+     * @return 入力ありならtrue
+     */
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    /**
+     * URL用文字列へ変換する。
+     *
+     * @param value 変換前文字列
+     * @return 変換後文字列
+     */
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
 }

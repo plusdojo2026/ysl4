@@ -480,8 +480,8 @@ public class ProjectsDAO {
         projectDto.setTaskCount(rs.getInt("task_count"));
         projectDto.setCompletedTaskCount(rs.getInt("completed_task_count"));
         projectDto.setProgressRate(calcProgressRate(
-                projectDto.getCompletedTaskCount(),
-                projectDto.getTaskCount()));
+        projectDto.getCompletedTaskCount(),
+        projectDto.getTaskCount()));
         projectDto.setCreatedAt(rs.getString("c_at"));
         projectDto.setUpdatedAt(rs.getString("u_at"));
 
@@ -489,7 +489,7 @@ public class ProjectsDAO {
     }
 
     /**
-     * Listに入れた検索条件をPreparedStatementへ設定する
+     * Listに入れた検索条件をPreparedStatementへ設定
      * Mapは使わずListの順番で管理する
      * @param ps SQL実行準備オブジェクト
      * @param params 設定値一覧

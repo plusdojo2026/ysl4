@@ -2,42 +2,77 @@ package service;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 
 import dao.SummaryDAO;
+import model.MemberSummaryDTO;
 import model.MonthlySummaryDTO;
+import model.ProjectSummaryDTO;
 import model.WorkLogDTO;
 
+/**
+ * 月次集計の業務処理を担当するService。
+ * 集計DTO作成、割合計算、CSV作成を行う。
+ */
 public class SummaryService extends DBAccess {
 
+    /** CSVヘッダー */
+    private static final String CSV_HEADER =
+            "日付,案件名,タスク名,担当者,工数(h),作業内容";
+
+    /**
+     * 月次集計画面用データを取得する。
+     *
+     * @param targetMonth 対象月 yyyy-MM
+     * @return 月次集計DTO
+     */
     public MonthlySummaryDTO getMonthlySummary(String targetMonth) {
 
-        // クラス図準拠のpublicメソッド
-        // 指定月の月次集計をまとめて返す
-        String safeTargetMonth = normalizeTargetMonth(targetMonth);
-        MonthlySummaryDTO dto = new MonthlySummaryDTO();
+        String month = normalizeTargetMonth(targetMonth);
+        MonthlySummaryDTO summaryDto = new MonthlySummaryDTO();
+
+        summaryDto.setTargetMonth(month);
 
         try {
             access();
 
-            SummaryDAO dao = new SummaryDAO(conn);
+            SummaryDAO summaryDao = new SummaryDAO(conn);
 
-            dto.setTargetMonth(safeTargetMonth);
-            dto.setMonthlyTotalManhours(dao.selectMonthlyTotal(safeTargetMonth));
-            dto.setMonthlyProjectCount(dao.countMonthlyProjects(safeTargetMonth));
-            dto.setMonthlyMemberCount(dao.countMonthlyMembers(safeTargetMonth));
-            dto.setProjectSummaryList(dao.selectProjectSummary(safeTargetMonth));
-            dto.setMemberSummaryList(dao.selectMemberSummary(safeTargetMonth));
-            dto.setMonthlyWorkLogList(dao.selectMonthlyWorkLogs(safeTargetMonth));
+            Float monthlyTotal = summaryDao.selectMonthlyTotal(month);
+            int projectCount = summaryDao.countMonthlyProjects(month);
+            int activeMemberCount = summaryDao.countMonthlyMembers(month);
+            List<ProjectSummaryDTO> projectSummaryList =
+                    summaryDao.selectProjectSummary(month);
+            List<MemberSummaryDTO> memberSummaryList =
+                    summaryDao.selectMemberSummary(month);
+            List<WorkLogDTO> monthlyWorkLogList =
+                    summaryDao.selectMonthlyWorkLogs(month);
 
-            // 予算工数は画面入力で反映するためServiceでは0にする
-            dto.setMonthlyBudgetManhours(0f);
-            dto.setBudgetAlertCount(0);
-            dto.setMonthlyAchievementRate(0);
+            for (ProjectSummaryDTO dto : projectSummaryList) {
+                dto.setAchievementRate(
+                        calcAchievementRate(
+                                dto.getActualManhours(),
+                                dto.getEstimatedManhours()));
+            }
 
-            // メンバー別割合だけ実績合計から計算する
-            applyMemberPercentage(dto.getMemberSummaryList(), dto.getMonthlyTotalManhours());
+            for (MemberSummaryDTO dto : memberSummaryList) {
+                dto.setAchievementRate(
+                        calcAchievementRate(
+                                dto.getActualManHours(),
+                                dto.getEstimatedManhours()));
+            }
+
+            summaryDto.setMonthlyTotalManHours(monthlyTotal);
+            summaryDto.setTotalManHours(monthlyTotal);
+            summaryDto.setProjectCount(projectCount);
+            summaryDto.setActiveMemberCount(activeMemberCount);
+            summaryDto.setOverrunProjectCount(
+                    countOverrunProjects(projectSummaryList));
+            summaryDto.setProjectSummaryList(projectSummaryList);
+            summaryDto.setMemberSummaryList(memberSummaryList);
+            summaryDto.setMonthlyWorkLogList(monthlyWorkLogList);
 
             commit();
 
@@ -49,107 +84,31 @@ public class SummaryService extends DBAccess {
             close();
         }
 
-        return dto;
+        return summaryDto;
     }
 
-    public List<MonthlySummaryDTO.ProjectSummaryDTO> getProjectSummary(String targetMonth) {
+    /**
+     * 指定月の案件別集計を取得する。
+     *
+     * @param targetMonth 対象月 yyyy-MM
+     * @return 案件別集計一覧
+     */
+    public List<ProjectSummaryDTO> getProjectSummary(String targetMonth) {
 
-        // クラス図準拠のpublicメソッド
-        // 案件別集計だけが必要な場合に使う
-        String safeTargetMonth = normalizeTargetMonth(targetMonth);
-        List<MonthlySummaryDTO.ProjectSummaryDTO> list = new ArrayList<>();
-
-        try {
-            access();
-            SummaryDAO dao = new SummaryDAO(conn);
-            list = dao.selectProjectSummary(safeTargetMonth);
-            commit();
-
-        } catch (SQLException e) {
-            rollback();
-            e.printStackTrace();
-
-        } finally {
-            close();
-        }
-
-        return list;
-    }
-
-    public List<MonthlySummaryDTO.MemberSummaryDTO> getMemberSummary(String targetMonth) {
-
-        // クラス図準拠のpublicメソッド
-        // メンバー別集計だけが必要な場合に使う
-        String safeTargetMonth = normalizeTargetMonth(targetMonth);
-        List<MonthlySummaryDTO.MemberSummaryDTO> list = new ArrayList<>();
-
-        try {
-            access();
-            SummaryDAO dao = new SummaryDAO(conn);
-            list = dao.selectMemberSummary(safeTargetMonth);
-            float total = dao.selectMonthlyTotal(safeTargetMonth);
-            applyMemberPercentage(list, total);
-            commit();
-
-        } catch (SQLException e) {
-            rollback();
-            e.printStackTrace();
-
-        } finally {
-            close();
-        }
-
-        return list;
-    }
-
-    public List<WorkLogDTO> getMonthlyWorkLogs(String targetMonth) {
-
-        // クラス図準拠のpublicメソッド
-        // 工数明細だけが必要な場合に使う
-        String safeTargetMonth = normalizeTargetMonth(targetMonth);
-        List<WorkLogDTO> list = new ArrayList<>();
-
-        try {
-            access();
-            SummaryDAO dao = new SummaryDAO(conn);
-            list = dao.selectMonthlyWorkLogs(safeTargetMonth);
-            commit();
-
-        } catch (SQLException e) {
-            rollback();
-            e.printStackTrace();
-
-        } finally {
-            close();
-        }
-
-        return list;
-    }
-
-    public byte[] createCsv(String targetMonth) {
-
-        // クラス図準拠のpublicメソッド
-        // 指定月の工数明細をCSV形式のbyte配列で返す
-        String safeTargetMonth = normalizeTargetMonth(targetMonth);
-        StringBuilder csv = new StringBuilder();
+        List<ProjectSummaryDTO> projectSummaryList = new ArrayList<>();
+        String month = normalizeTargetMonth(targetMonth);
 
         try {
             access();
 
-            SummaryDAO dao = new SummaryDAO(conn);
-            List<WorkLogDTO> list = dao.selectMonthlyWorkLogs(safeTargetMonth);
+            SummaryDAO summaryDao = new SummaryDAO(conn);
+            projectSummaryList = summaryDao.selectProjectSummary(month);
 
-            // Excelで文字化けしにくいようにBOMを付ける
-            csv.append('\uFEFF');
-            csv.append("日付,案件名,タスク名,担当者,工数(h),作業内容\n");
-
-            for (WorkLogDTO dto : list) {
-                csv.append(escapeCsv(dto.getWorkDate())).append(",");
-                csv.append(escapeCsv(dto.getProjectName())).append(",");
-                csv.append(escapeCsv(dto.getTaskName())).append(",");
-                csv.append(escapeCsv(dto.getUserName())).append(",");
-                csv.append(dto.getManHours()).append(",");
-                csv.append(escapeCsv(dto.getJobContents())).append("\n");
+            for (ProjectSummaryDTO dto : projectSummaryList) {
+                dto.setAchievementRate(
+                        calcAchievementRate(
+                                dto.getActualManhours(),
+                                dto.getEstimatedManhours()));
             }
 
             commit();
@@ -162,55 +121,201 @@ public class SummaryService extends DBAccess {
             close();
         }
 
+        return projectSummaryList;
+    }
+
+    /**
+     * 指定月のメンバー別集計を取得する。
+     *
+     * @param targetMonth 対象月 yyyy-MM
+     * @return メンバー別集計一覧
+     */
+    public List<MemberSummaryDTO> getMemberSummary(String targetMonth) {
+
+        List<MemberSummaryDTO> memberSummaryList = new ArrayList<>();
+        String month = normalizeTargetMonth(targetMonth);
+
+        try {
+            access();
+
+            SummaryDAO summaryDao = new SummaryDAO(conn);
+            memberSummaryList = summaryDao.selectMemberSummary(month);
+
+            Float monthlyTotal = summaryDao.selectMonthlyTotal(month);
+
+            for (MemberSummaryDTO dto : memberSummaryList) {
+                dto.setAchievementRate(
+                        calcAchievementRate(
+                                dto.getActualManHours(),
+                                dto.getEstimatedManhours()));
+
+                dto.setAchivementRate(
+                        calcPercentage(
+                                dto.getManHours(),
+                                monthlyTotal));
+            }
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return memberSummaryList;
+    }
+
+    /**
+     * 指定月の工数明細を取得する。
+     *
+     * @param targetMonth 対象月 yyyy-MM
+     * @return 工数明細一覧
+     */
+    public List<WorkLogDTO> getMonthlyWorkLogs(String targetMonth) {
+
+        List<WorkLogDTO> workLogList = new ArrayList<>();
+        String month = normalizeTargetMonth(targetMonth);
+
+        try {
+            access();
+
+            SummaryDAO summaryDao = new SummaryDAO(conn);
+            workLogList = summaryDao.selectMonthlyWorkLogs(month);
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return workLogList;
+    }
+
+    /**
+     * 指定月の工数明細CSVを作成する。
+     *
+     * @param targetMonth 対象月 yyyy-MM
+     * @return CSVデータ
+     */
+    public byte[] createCsv(String targetMonth) {
+
+        List<WorkLogDTO> workLogList = getMonthlyWorkLogs(targetMonth);
+        StringBuilder csv = new StringBuilder();
+
+        csv.append('\uFEFF');
+        csv.append(CSV_HEADER).append("\r\n");
+
+        for (WorkLogDTO dto : workLogList) {
+            csv.append(escapeCsv(dto.getWorkDate())).append(",");
+            csv.append(escapeCsv(dto.getProjectName())).append(",");
+            csv.append(escapeCsv(dto.getTaskName())).append(",");
+            csv.append(escapeCsv(dto.getUserName())).append(",");
+            csv.append(dto.getManHours()).append(",");
+            csv.append(escapeCsv(dto.getJobContents())).append("\r\n");
+        }
+
         return csv.toString().getBytes(StandardCharsets.UTF_8);
     }
 
-    private static void applyMemberPercentage(List<MonthlySummaryDTO.MemberSummaryDTO> memberList, float total) {
+    /**
+     * 予定工数に対する実績割合を計算する。
+     *
+     * @param actual 実績工数
+     * @param estimated 予定工数
+     * @return 達成率
+     */
+    private double calcAchievementRate(Float actual, Float estimated) {
 
-        // private staticなのでSummaryService内部だけで使う割合反映処理
-        // DBへ保存せず画面表示用DTOへ計算結果を入れる
-        if (memberList == null) {
-            return;
+        if (actual == null || estimated == null || estimated <= 0f) {
+            return 0;
         }
 
-        for (MonthlySummaryDTO.MemberSummaryDTO dto : memberList) {
-            dto.setPercentage(calcRate(dto.getManhours(), total));
-        }
+        return Math.round((actual / estimated) * 1000.0) / 10.0;
     }
 
-    private static String normalizeTargetMonth(String targetMonth) {
+    /**
+     * 全体に対する割合を計算する。
+     *
+     * @param value 値
+     * @param total 全体
+     * @return 割合
+     */
+    private double calcPercentage(Float value, Float total) {
 
-        // private staticなのでSummaryService内部だけで使う月補正処理
-        // 不正な入力なら今月を使う
-        if (targetMonth == null || !targetMonth.matches("\\d{4}-\\d{2}")) {
-            return java.time.LocalDate.now().toString().substring(0, 7);
+        if (value == null || total == null || total <= 0f) {
+            return 0;
+        }
+
+        return Math.round((value / total) * 1000.0) / 10.0;
+    }
+
+    /**
+     * 超過案件数を数える。
+     *
+     * @param projectSummaryList 案件別集計一覧
+     * @return 超過案件数
+     */
+    private int countOverrunProjects(
+            List<ProjectSummaryDTO> projectSummaryList) {
+
+        if (projectSummaryList == null) {
+            return 0;
+        }
+
+        int count = 0;
+
+        for (ProjectSummaryDTO dto : projectSummaryList) {
+            if (dto.getEstimatedManhours() > 0
+                    && dto.getActualManhours()
+                    > dto.getEstimatedManhours()) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    /**
+     * 対象月をyyyy-MM形式へ補正する。
+     *
+     * @param targetMonth 対象月
+     * @return 補正後対象月
+     */
+    private String normalizeTargetMonth(String targetMonth) {
+
+        if (targetMonth == null
+                || !targetMonth.matches("\\d{4}-\\d{2}")) {
+            return YearMonth.now().toString();
         }
 
         return targetMonth;
     }
 
-    private static int calcRate(float value, float total) {
+    /**
+     * CSV用文字列へ変換する。
+     *
+     * @param value 変換前文字列
+     * @return CSV用文字列
+     */
+    private String escapeCsv(String value) {
 
-        // private staticなのでSummaryService内部だけで使う割合計算
-        // 0除算を避けるためtotalが0以下なら0を返す
-        if (total <= 0f) {
-            return 0;
-        }
-
-        return Math.round((value / total) * 100f);
-    }
-
-    private static String escapeCsv(String value) {
-
-        // private staticなのでSummaryService内部だけで使うCSV加工処理
-        // カンマや改行がある文字列をCSV用に囲む
         if (value == null) {
             return "";
         }
 
         String escaped = value.replace("\"", "\"\"");
 
-        if (escaped.contains(",") || escaped.contains("\n") || escaped.contains("\r")) {
+        if (escaped.contains(",")
+                || escaped.contains("\"")
+                || escaped.contains("\r")
+                || escaped.contains("\n")) {
             return "\"" + escaped + "\"";
         }
 

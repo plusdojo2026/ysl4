@@ -318,9 +318,9 @@ public class TaskService extends DBAccess {
             ProjectsDAO projectsDao = new ProjectsDAO(conn);
             UserDAO userDao = new UserDAO(conn);
 
-            List<ProjectDTO> projectList = projectsDao.selectInProgress();
+            List<ProjectsDTO> projectList = projectsDao.selectInProgressProjects();
             List<UserDTO> userList = userDao.selectValidUsers();
-            ProjectDTO selectedProject = null;
+            ProjectsDTO selectedProject = null;
 
             if (projectId > 0) {
                 selectedProject = projectsDao.findById(projectId);

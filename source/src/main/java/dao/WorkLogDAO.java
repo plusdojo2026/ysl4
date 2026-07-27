@@ -1,273 +1,350 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.WorkLogDTO;
-import model.WorkLogDTO.projectWorkLogDTO;
 
+/**
+ * WorkLogsテーブルを操作するDAO
+ * 工数ログの取得、登録、削除、集計を担当する
+ */
 public class WorkLogDAO {
 
-	public Connection conn = null;
+    /** DB接続 */
+    private final Connection conn;
 
-	//コネクションを保持するコンストラクタ
-	public WorkLogDAO(Connection conn) {
-		this.conn = conn;
-	}
+    /** 工数ログID列名 */
+    private static final String WORK_LOG_ID_COLUMN = "work_logs__id";
 
-	//工数の一覧を取得するメソッド
-	public ArrayList<WorkLogDTO> selectAll() throws SQLException {
-		ArrayList<WorkLogDTO> workLogList = new ArrayList<WorkLogDTO>();
+    /** 最新工数ログ表示件数 */
+    private static final int LATEST_LIMIT = 10;
 
-		// SELECT文を準備する
-		String sql = "SELECT * FROM work_logs";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+    /** 工数ログ表示順 */
+    private static final String ORDER_BY_WORK_DATE_DESC =
+            " ORDER BY wl.work_date DESC, wl.c_at DESC";
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+    /**
+     * DB接続を受け取る。
+     *
+     * @param conn DB接続
+     */
+    public WorkLogDAO(Connection conn) {
+        this.conn = conn;
+    }
 
-		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+    /**
+     * 工数ログを全件取得する。
+     *
+     * @return 工数ログ一覧
+     * @throws SQLException SQLエラー
+     */
+    public ArrayList<WorkLogDTO> selectAll() throws SQLException {
 
-		//移し替え
-		while (rs.next()) {
-			WorkLogDTO dto = new WorkLogDTO();
-			dto.setWorkLogsId(rs.getInt("work_logs_id"));
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setUserId(rs.getInt("user_id"));
-			dto.setWorkDate(rs.getString("work_date"));
-			dto.setManHours(rs.getFloat("man_hours"));
-			dto.setJobContents(rs.getString("job_contents"));
-			dto.setcAt(rs.getDate("c_at"));
-			dto.setuAt(rs.getDate("u_at"));
-			workLogList.add(dto);
-		}
-		//serviceに返却する
-		return workLogList;
-	}
+        ArrayList<WorkLogDTO> workLogList = new ArrayList<>();
 
-	//工数登録のメソッド---------------------------------------
-	public int WorkLogInsert(
-			int workLogsId,
-			int taskId,
-			int userId,
-			String workDate,
-			float manHours,
-			String jobContents,
-			Timestamp cAt,
-			Timestamp uAt) throws SQLException {
+        String sql = baseSelectSql()
+                + ORDER_BY_WORK_DATE_DESC;
 
-		int ans = 0;
-		// SELECT文を準備する
-		String sql = "INSERT INTO work_logs VALUES(?,?,?,?,?,?,?,?)";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+            while (rs.next()) {
+                workLogList.add(setToWorkLogDTO(rs));
+            }
+        }
 
-		pStmt.setInt(1, workLogsId);
-		pStmt.setInt(2, taskId);
-		pStmt.setInt(3, userId);
-		pStmt.setString(4, workDate);
-		pStmt.setFloat(5, manHours);
-		pStmt.setString(6, jobContents);
-		pStmt.setTimestamp(7, cAt);
-		pStmt.setTimestamp(8, uAt);
+        return workLogList;
+    }
 
-		// SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
+    /**
+     * タスクIDに紐づく工数ログを取得する。
+     *
+     * @param taskId タスクID
+     * @return 工数ログ一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<WorkLogDTO> selectByTaskId(int taskId) throws SQLException {
 
-		//serviceに返却する
-		return ans;
-	}
+        List<WorkLogDTO> workLogList = new ArrayList<>();
 
-	//工数削除用のメソッド---------------------------------------
-	public int WorkLogDelete(String workLogsId) throws SQLException {
+        String sql = baseSelectSql()
+                + " WHERE wl.task_id = ?"
+                + ORDER_BY_WORK_DATE_DESC;
 
-		int ans = 0;
-		// SELECT文を準備する
-		String sql = "DELETE FROM user WHERE work_logs_id = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		// SQL文実際に挿入、当てはめる
-		pStmt.setString(1, workLogsId);
+            ps.setInt(1, taskId);
 
-		// SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    workLogList.add(setToWorkLogDTO(rs));
+                }
+            }
+        }
 
-		//serviceに返却する
-		return ans;
-	}
+        return workLogList;
+    }
 
-	//指定タスクの工数ログをまとめて削除
-	public int DeleteBytaskId(int taskId) throws SQLException {
-		int ans = 0;
-		// SELECT文を準備する
-		String sql = "DELETE FROM user WHERE task_id = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+    /**
+     * 案件IDに紐づく最新工数ログを取得する。
+     *
+     * @param projectId 案件ID
+     * @return 最新工数ログ一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<WorkLogDTO> selectLatestByProjectId(int projectId) throws SQLException {
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		// SQL文実際に挿入、当てはめる
-		pStmt.setInt(1, taskId);
+        List<WorkLogDTO> workLogList = new ArrayList<>();
 
-		// SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
+        String sql = baseSelectSql()
+                + " WHERE t.project_id = ?"
+                + ORDER_BY_WORK_DATE_DESC
+                + " LIMIT ?";
 
-		//serviceに返却する
-		return ans;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	//指定タスクの実績工数合計を取得
-	public float sumBytaskId(float taskId) throws SQLException {
-		float ans = 0;
-		// SELECT文を準備する
-		String sql = "SELECT SUM(man_hours) FROM work_logs WHERE task id = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+            ps.setInt(1, projectId);
+            ps.setInt(2, LATEST_LIMIT);
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		// SQL文実際に挿入、当てはめる
-		pStmt.setFloat(1, taskId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    workLogList.add(setToWorkLogDTO(rs));
+                }
+            }
+        }
 
-		// SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
+        return workLogList;
+    }
 
-		//serviceに返却する
-		return ans;
-	}
+    /**
+     * 対象月の工数ログを取得する。
+     *
+     * @param targetMonth 対象月 yyyy-MM
+     * @return 工数ログ一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<WorkLogDTO> selectByMonth(String targetMonth) throws SQLException {
 
-	//指定案件の合計工数を取得
-	public float sumByProjectId(float manHours) throws SQLException {
-		int ans = 0;
-		// SELECT文を準備する
-		String sql = "SELECT SUM(man_hours) "
-				+ "FROM projects innner join tasks on projects.projecct_id = tasks.project_id"
-				+ "innner join work_logs on tasks.task_id = work_logs.task_id"
-				+ "where projectid = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+        List<WorkLogDTO> workLogList = new ArrayList<>();
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		// SQL文実際に挿入、当てはめる
-		pStmt.setFloat(1, manHours);
+        String sql = baseSelectSql()
+                + " WHERE DATE_FORMAT(wl.work_date, '%Y-%m') = ?"
+                + ORDER_BY_WORK_DATE_DESC;
 
-		// SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-		//serviceに返却する
-		return ans;
-	}
+            ps.setString(1, targetMonth);
 
-	//指定タスクの工数ログを確認
-	public ArrayList<WorkLogDTO> selectByTaskId(int taskId) throws SQLException {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    workLogList.add(setToWorkLogDTO(rs));
+                }
+            }
+        }
 
-	    ArrayList<WorkLogDTO> workLogList = new ArrayList<>();
+        return workLogList;
+    }
 
-	    String sql =
-	            "SELECT * " +
-	            "FROM work_logs " +
-	            "WHERE task_id = ? " +
-	            "ORDER BY work_date DESC";
+    /**
+     * 工数ログを登録する。
+     *
+     * @param workLogDto 登録する工数ログDTO
+     * @return 登録件数
+     * @throws SQLException SQLエラー
+     */
+    public int workLogInsert(WorkLogDTO workLogDto) throws SQLException {
 
-	    try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
+        String sql =
+                "INSERT INTO WorkLogs ("
+                + "task_id, "
+                + "user_id, "
+                + "work_date, "
+                + "man_hours, "
+                + "job_contents"
+                + ") VALUES (?, ?, ?, ?, ?)";
 
-	        pStmt.setInt(1, taskId);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	        try (ResultSet rs = pStmt.executeQuery()) {
+            ps.setInt(1, workLogDto.getTaskId());
+            ps.setInt(2, workLogDto.getUserId());
+            ps.setDate(3, toSqlDate(workLogDto.getWorkDate()));
+            ps.setFloat(4, workLogDto.getManHours());
+            ps.setString(5, workLogDto.getJobContents());
 
-	            while (rs.next()) {
+            return ps.executeUpdate();
+        }
+    }
 
-	                WorkLogDTO dto = new WorkLogDTO();
+    /**
+     * 工数ログを削除する。
+     *
+     * @param workLogsId 工数ログID
+     * @return 削除件数
+     * @throws SQLException SQLエラー
+     */
+    public int workLogDelete(int workLogsId) throws SQLException {
 
-	                dto.setWorkLogsId(rs.getInt("work_logs_id"));
-	                dto.setTaskId(rs.getInt("task_id"));
-	                dto.setUserId(rs.getInt("user_id"));
-	                dto.setWorkDate(rs.getString("work_date"));
-	                dto.setManHours(rs.getFloat("man_hours"));
-	                dto.setJobContents(rs.getString("job_contents"));
-	                dto.setcAt(rs.getDate("c_at"));
-	                dto.setuAt(rs.getDate("u_at"));
+        String sql =
+                "DELETE FROM WorkLogs "
+                + "WHERE " + WORK_LOG_ID_COLUMN + " = ?";
 
-	                workLogList.add(dto);
-	            }
-	        }
-	    }
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	    return workLogList;
-	}
-	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示
-	public ArrayList<WorkLogDTO.projectWorkLogDTO> selectRateByProject() throws SQLException {
-		ArrayList<WorkLogDTO.projectWorkLogDTO> workLogList = new ArrayList<WorkLogDTO.projectWorkLogDTO>();
+            ps.setInt(1, workLogsId);
 
-		String sql = "SELECT work_date,task_name,user_name,SUM(man_hours),description "
-				+ "FROM tasks innner join users on tasks.user_id = users.user_id"
-				+ "innner join work_logs on tasks.task_id = work_logs.task_id"
-				+ "where project_id = ?"
-				+ "group by tasks.task_id,tasks.task_name";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+            return ps.executeUpdate();
+        }
+    }
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+    /**
+     * タスクIDに紐づく工数ログをまとめて削除する。
+     *
+     * @param taskId タスクID
+     * @return 削除件数
+     * @throws SQLException SQLエラー
+     */
+    public int deleteByTaskId(int taskId) throws SQLException {
 
-		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+        String sql =
+                "DELETE FROM WorkLogs "
+                + "WHERE task_id = ?";
 
-		//移し替え
-		while (rs.next()) {
-			projectWorkLogDTO dto = new projectWorkLogDTO();
-			dto.setWorkDateString(rs.getString(""));
-			dto.setTaskNameString(rs.getString(""));
-			dto.setPersonInCharge(rs.getString(""));
-			dto.setWorkLogSum(rs.getString(""));
-			dto.setDescription(rs.getString(""));
-			workLogList.add(dto);
-		}
-		//serviceに返却する
-		return workLogList;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	//指定月の工数ログを取得　月次集計CVS出力
-	public ArrayList<WorkLogDTO> selectByMonth() throws SQLException {
-		ArrayList<WorkLogDTO> workLogList = new ArrayList<WorkLogDTO>();
+            ps.setInt(1, taskId);
 
-		String sql = "SELECT * from work_log where date = ?";
-		//デバッグ（SQL文の確認用）
-		System.out.println(sql);
+            return ps.executeUpdate();
+        }
+    }
 
-		// まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+    /**
+     * タスクIDに紐づく工数合計を取得する。
+     *
+     * @param taskId タスクID
+     * @return 工数合計
+     * @throws SQLException SQLエラー
+     */
+    public Float sumByTaskId(int taskId) throws SQLException {
 
-		// SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+        String sql =
+                "SELECT COALESCE(SUM(man_hours), 0) AS total_man_hours "
+                + "FROM WorkLogs "
+                + "WHERE task_id = ?";
 
-		//移し替え
-		while (rs.next()) {
-			WorkLogDTO dto = new WorkLogDTO();
-			dto.setWorkLogsId(rs.getInt("work_logs_id"));
-			dto.setTaskId(rs.getInt("task_id"));
-			dto.setUserId(rs.getInt("user_id"));
-			dto.setWorkDate(rs.getString("work_date"));
-			dto.setManHours(rs.getFloat("man_hours"));
-			dto.setJobContents(rs.getString("job_contents"));
-			dto.setcAt(rs.getDate("c_at"));
-			dto.setuAt(rs.getDate("u_at"));
-			workLogList.add(dto);
-		}
-		//serviceに返却する
-		return workLogList;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, taskId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getFloat("total_man_hours");
+                }
+            }
+        }
+
+        return 0f;
+    }
+
+    /**
+     * 案件IDに紐づく工数合計を取得する。
+     *
+     * @param projectId 案件ID
+     * @return 工数合計
+     * @throws SQLException SQLエラー
+     */
+    public Float sumByProjectId(int projectId) throws SQLException {
+
+        String sql =
+                "SELECT COALESCE(SUM(wl.man_hours), 0) AS total_man_hours "
+                + "FROM WorkLogs wl "
+                + "INNER JOIN Tasks t ON wl.task_id = t.task_id "
+                + "WHERE t.project_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, projectId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getFloat("total_man_hours");
+                }
+            }
+        }
+
+        return 0f;
+    }
+
+    /**
+     * 工数ログ取得用の共通SQLを作る。
+     *
+     * @return 共通SELECT文
+     */
+    private String baseSelectSql() {
+
+        return "SELECT "
+                + "wl." + WORK_LOG_ID_COLUMN + " AS work_logs_id, "
+                + "wl.task_id, "
+                + "t.task_name, "
+                + "t.project_id, "
+                + "p.project_name, "
+                + "wl.user_id, "
+                + "u.name AS user_name, "
+                + "DATE_FORMAT(wl.work_date, '%Y-%m-%d') AS work_date, "
+                + "wl.man_hours, "
+                + "wl.job_contents, "
+                + "DATE_FORMAT(wl.c_at, '%Y-%m-%d %H:%i:%s') AS c_at, "
+                + "DATE_FORMAT(wl.u_at, '%Y-%m-%d %H:%i:%s') AS u_at "
+                + "FROM WorkLogs wl "
+                + "INNER JOIN Tasks t ON wl.task_id = t.task_id "
+                + "INNER JOIN Projects p ON t.project_id = p.project_id "
+                + "INNER JOIN Users u ON wl.user_id = u.user_id";
+    }
+
+    /**
+     * ResultSetの1行をWorkLogDTOへ変換する。
+     *
+     * @param rs SQL取得結果
+     * @return 工数ログDTO
+     * @throws SQLException SQLエラー
+     */
+    private WorkLogDTO setToWorkLogDTO(ResultSet rs) throws SQLException {
+
+        WorkLogDTO workLogDto = new WorkLogDTO();
+
+        workLogDto.setWorkLogsId(rs.getInt("work_logs_id"));
+        workLogDto.setTaskId(rs.getInt("task_id"));
+        workLogDto.setTaskName(rs.getString("task_name"));
+        workLogDto.setProjectId(rs.getInt("project_id"));
+        workLogDto.setProjectName(rs.getString("project_name"));
+        workLogDto.setUserId(rs.getInt("user_id"));
+        workLogDto.setUserName(rs.getString("user_name"));
+        workLogDto.setWorkDate(rs.getString("work_date"));
+        workLogDto.setManHours(rs.getFloat("man_hours"));
+        workLogDto.setJobContents(rs.getString("job_contents"));
+        workLogDto.setCreatedAt(rs.getString("c_at"));
+        workLogDto.setUpdatedAt(rs.getString("u_at"));
+
+        return workLogDto;
+    }
+
+    /**
+     * Stringの日付をSQL用Dateへ変換する。
+     *
+     * @param value 日付文字列
+     * @return SQL用Date
+     */
+    private Date toSqlDate(String value) {
+
+        if (value == null || value.trim().isEmpty()) {
+            return null;
+        }
+
+        return Date.valueOf(value);
+    }
 }

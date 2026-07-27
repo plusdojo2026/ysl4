@@ -190,7 +190,8 @@ public class DashboardService extends DBAccess {
     }
 
     /**
-     * ログインユーザーの担当タスク一覧を取得
+     * ログインユーザーの担当タスク一覧を取得する。
+     *
      * @param userId ログインユーザーID
      * @return 担当タスク一覧
      */
@@ -207,15 +208,15 @@ public class DashboardService extends DBAccess {
             // DB接続を開始する
             access();
 
-            // DAOから担当タスク一覧を取得
+            // TaskDAOに定義済みの担当者別タスク取得メソッドを呼び出す
             TaskDAO taskDao = new TaskDAO(conn);
-            taskList = taskDao.selectAssignedTasks(userId);
+            taskList = taskDao.selectByManagerId(userId);
 
-            // 参照処理の完了としてcommit
+            // 参照処理の完了としてcommitする
             commit();
 
         } catch (SQLException e) {
-            // SQLエラー時はrollback
+            // SQLエラー時はrollbackする
             rollback();
             e.printStackTrace();
 
@@ -225,5 +226,4 @@ public class DashboardService extends DBAccess {
         }
 
         return taskList;
-    }
-}
+    }}

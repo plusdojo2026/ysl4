@@ -1,169 +1,325 @@
 package service;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
+import dao.TaskDAO;
 import dao.WorkLogDAO;
+import model.TaskDTO;
 import model.WorkLogDTO;
 
+/**
+ * 工数ログ関連の業務処理を担当するService。
+ * 工数チェック、DAO呼び出し、トランザクション制御を行う。
+ */
 public class WorkLogService extends DBAccess {
-	//親クラスのDBAccessが実行される
-	//ここでデータベースに接続するメゾットを呼び出している（親メゾットがデータベースに接続する）
-	public WorkLogService() {
-		try {
-			super.access();
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-	}
 
-	//全てのユーザー情報を取得するメソッド---------------------------------------
-	public ArrayList<WorkLogDTO> selectAll() {
-		ArrayList<WorkLogDTO> userList = null;
+    /** 最小工数 */
+    private static final float MIN_MAN_HOURS = 0.5f;
 
-		WorkLogDAO dao = new WorkLogDAO(super.conn);
-		try {
-			userList = dao.selectAll();
-		} catch (SQLException e) {
-			System.out.println("SQL文おかしいよ");
-			e.printStackTrace();
-		}
-		super.close();
+    /** 最大工数 */
+    private static final float MAX_MAN_HOURS = 24.0f;
 
-		return userList;
+    /** 0.5刻み判定用 */
+    private static final float HALF_HOUR_UNIT = 2.0f;
 
-	}
+    /**
+     * 工数入力画面に必要なタスク情報を取得する。
+     *
+     * @param taskId タスクID
+     * @return タスクDTO
+     */
+    public TaskDTO getWorkLogFormData(int taskId) {
 
-	//工数を登録するメソッド---------------------------------------
-	public int WorkLogInsert(
-			int workLogsId,
-			int taskId,
-			int userId,
-			String workDate,
-			float manHours,
-			String jobContents,
-			Timestamp cAt,
-			Timestamp uAt) {
-		//DAOに処理を任せる
-		WorkLogDAO dao = new WorkLogDAO(conn);
-		int ans = 0;
-		try {
-			ans = dao.WorkLogInsert(
-					workLogsId,
-					taskId,
-					userId,
-					workDate,
-					manHours,
-					jobContents,
-					cAt,
-					uAt);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		return ans;
-	}
+        TaskDTO taskDto = null;
 
-	//工数を削除するメソッド---------------------------------------
-	public int WorkLogDelete(String workLogsId) {
-		//DAOに処理を任せる
-		WorkLogDAO dao = new WorkLogDAO(conn);
-		int ans = 0;
-		try {
-			ans = dao.WorkLogDelete(workLogsId);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		return ans;
-	}
+        if (taskId <= 0) {
+            return null;
+        }
 
-	//指定タスクの工数ログをまとめて削除
-	public int DeleteByTaskId(int taskId) {
-		WorkLogDAO dao = new WorkLogDAO(conn);
-		int ans = 0;
-		try {
-			ans = dao.DeleteBytaskId(taskId);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		return ans;
-	}
+        try {
+            access();
 
-	//指定タスクの実績工数合計を取得
-	public float sumBytaskId(int taskId) {
-		WorkLogDAO dao = new WorkLogDAO(conn);
-		float ans = 0;
-		try {
-			ans = dao.sumBytaskId(taskId);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		return ans;
-	}
+            TaskDAO taskDao = new TaskDAO(conn);
+            taskDto = taskDao.findById(taskId);
 
-	//指定案件の合計工数を取得
-	public float sumByProjectId(int projectId) {
-		WorkLogDAO dao = new WorkLogDAO(conn);
-		float ans = 0;
-		try {
-			ans = dao.sumBytaskId(projectId);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
-		return ans;
-	}
+            commit();
 
-	//指定タスクの工数ログを確認
-	public ArrayList<WorkLogDTO> selectByTaskId(int taskId) {
-		ArrayList<WorkLogDTO> taskWorkLogList = null;
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
 
-		WorkLogDAO dao = new WorkLogDAO(super.conn);
-		try {
-			taskWorkLogList = dao.selectAll();
-		} catch (SQLException e) {
-			System.out.println("SQL文おかしいよ");
-			e.printStackTrace();
-		}
-		super.close();
+        } finally {
+            close();
+        }
 
-		return taskWorkLogList;
-	}
+        return taskDto;
+    }
 
-	//指定案件の最新工数ログを取得 案件詳細の最新ログを表示
-	public ArrayList<WorkLogDTO.projectWorkLogDTO> selectRateByProject(int projectId) {
-		ArrayList<WorkLogDTO.projectWorkLogDTO> newtaskWorkLogList = null;
+    /**
+     * 指定タスクの工数ログを取得する。
+     *
+     * @param taskId タスクID
+     * @return 工数ログ一覧
+     */
+    public List<WorkLogDTO> selectByTaskId(int taskId) {
 
-		WorkLogDAO dao = new WorkLogDAO(super.conn);
-		try {
-			newtaskWorkLogList = dao.selectRateByProject();
-		} catch (SQLException e) {
-			System.out.println("SQL文おかしいよ");
-			e.printStackTrace();
-		}
-		super.close();
+        List<WorkLogDTO> workLogList = new ArrayList<>();
 
-		return newtaskWorkLogList;
-	}
+        if (taskId <= 0) {
+            return workLogList;
+        }
 
-	//指定月の工数ログを取得　月次集計CVS出力
-	public ArrayList<WorkLogDTO> selectByMonth(int workLogsId,String date) {
-		ArrayList<WorkLogDTO> monthWorkLogList = null;
+        try {
+            access();
 
-		WorkLogDAO dao = new WorkLogDAO(super.conn);
-		try {
-			monthWorkLogList = dao.selectAll();
-		} catch (SQLException e) {
-			System.out.println("SQL文おかしいよ");
-			e.printStackTrace();
-		}
-		super.close();
+            WorkLogDAO workLogDao = new WorkLogDAO(conn);
+            workLogList = workLogDao.selectByTaskId(taskId);
 
-		return monthWorkLogList;
-	}
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return workLogList;
+    }
+
+    /**
+     * 指定案件の最新工数ログを取得する。
+     *
+     * @param projectId 案件ID
+     * @return 最新工数ログ一覧
+     */
+    public List<WorkLogDTO> selectLatestByProjectId(int projectId) {
+
+        List<WorkLogDTO> workLogList = new ArrayList<>();
+
+        if (projectId <= 0) {
+            return workLogList;
+        }
+
+        try {
+            access();
+
+            WorkLogDAO workLogDao = new WorkLogDAO(conn);
+            workLogList = workLogDao.selectLatestByProjectId(projectId);
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return workLogList;
+    }
+
+    /**
+     * 工数ログを登録する。
+     *
+     * @param workLogDto 工数ログDTO
+     * @return 登録件数
+     */
+    public int regist(WorkLogDTO workLogDto) {
+
+        int result = 0;
+
+        if (workLogDto == null) {
+            return 0;
+        }
+
+        if (workLogDto.getTaskId() <= 0) {
+            return 0;
+        }
+
+        if (workLogDto.getUserId() <= 0) {
+            return 0;
+        }
+
+        if (!hasText(workLogDto.getWorkDate())) {
+            return 0;
+        }
+
+        if (!isValidDate(workLogDto.getWorkDate())) {
+            return 0;
+        }
+
+        if (!validateManHours(workLogDto.getManHours())) {
+            return 0;
+        }
+
+        try {
+            access();
+
+            WorkLogDAO workLogDao = new WorkLogDAO(conn);
+            result = workLogDao.workLogInsert(workLogDto);
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return result;
+    }
+
+    /**
+     * 工数ログを削除する。
+     *
+     * @param workLogId 工数ログID
+     * @return 削除件数
+     */
+    public int delete(int workLogId) {
+
+        int result = 0;
+
+        if (workLogId <= 0) {
+            return 0;
+        }
+
+        try {
+            access();
+
+            WorkLogDAO workLogDao = new WorkLogDAO(conn);
+            result = workLogDao.workLogDelete(workLogId);
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return result;
+    }
+
+    /**
+     * 指定タスクの工数合計を取得する。
+     *
+     * @param taskId タスクID
+     * @return 工数合計
+     */
+    public Float sumByTaskId(int taskId) {
+
+        Float totalManHours = 0f;
+
+        if (taskId <= 0) {
+            return totalManHours;
+        }
+
+        try {
+            access();
+
+            WorkLogDAO workLogDao = new WorkLogDAO(conn);
+            totalManHours = workLogDao.sumByTaskId(taskId);
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return totalManHours;
+    }
+
+    /**
+     * 指定案件の工数合計を取得する。
+     *
+     * @param projectId 案件ID
+     * @return 工数合計
+     */
+    public Float sumByProjectId(int projectId) {
+
+        Float totalManHours = 0f;
+
+        if (projectId <= 0) {
+            return totalManHours;
+        }
+
+        try {
+            access();
+
+            WorkLogDAO workLogDao = new WorkLogDAO(conn);
+            totalManHours = workLogDao.sumByProjectId(projectId);
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return totalManHours;
+    }
+
+    /**
+     * 工数が0.5から24かつ0.5刻みか確認する。
+     *
+     * @param manHours 工数
+     * @return 正常ならtrue
+     */
+    private boolean validateManHours(Float manHours) {
+
+        if (manHours == null) {
+            return false;
+        }
+
+        if (manHours < MIN_MAN_HOURS || manHours > MAX_MAN_HOURS) {
+            return false;
+        }
+
+        return manHours * HALF_HOUR_UNIT
+                == Math.floor(manHours * HALF_HOUR_UNIT);
+    }
+
+    /**
+     * yyyy-MM-dd形式の日付か確認する。
+     *
+     * @param value 日付文字列
+     * @return 正常ならtrue
+     */
+    private boolean isValidDate(String value) {
+
+        try {
+            LocalDate.parse(value);
+            return true;
+
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 文字列が入力されているか確認する。
+     *
+     * @param value 確認する文字列
+     * @return 入力ありならtrue
+     */
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
 }
