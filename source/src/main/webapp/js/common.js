@@ -1,15 +1,27 @@
 //登録用アラート
 function registMessage(){
-	return confirm('この内容で登録しますか？');
+	if(confirm('この内容で登録しますか？')){
+		return true;
+	}else{
+		return false;
+	}
 }
 //削除用アラート
 function deleteMessage() {
-	return confirm('削除しますか？');
+	if(confirm('削除しますか？')){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 //完了用アラート
 function completeMessage(){
-	return confirm('この内容で登録しますか？');
+	if(confirm('この内容で登録しますか？')){
+		return true;
+	}else{
+		return false;
+	}
 }
 //中止用アラート
 function stopMessage() {

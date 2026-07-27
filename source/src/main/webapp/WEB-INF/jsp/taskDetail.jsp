@@ -51,7 +51,16 @@
 	<a href="/ysl4/jsp/taskEdit">編集</a>
 	</div>
 	<div>
-	<input type= bottun name="" value="ステータス変更">
+	<form action="/ysl4/jsp/your-endpoint" method="post" id="status">
+	<select name="status">
+	
+	<option value="未着手">未着手</option>
+	<option value="進行中">進行中</option>
+	<option value="完了">完了</option>
+	<option value="保留">保留</option>
+	</select>
+	<input type="botton" name="botton_id">
+	</form>
 	</div>
 	
 	<div>
@@ -88,9 +97,9 @@
 	<c:out value="${taskList.progress}" />
 	</div>
 	<div>見積もり工数</div>
-	<div>実績工数
-	<div>進捗率
-	<div>残工数
+	<div>実績工数</div>
+	<div>進捗率</div>
+	<div>残工数</div>
 	</div>
 	<c:forEach var="uib" items="${workLogList}" >
 	<input type="hidden" name="page_id" value="M001">
@@ -99,7 +108,7 @@
 	工数
 	作業内容
 	操作
-	<input type="submit" name="botton_id" value="工数削除">
+	<input type="submit" name="botton_id" value="工数削除" onclick="deleteMessage()">
 	</c:forEach>
 <!--ここまで案件詳細jsp-->
 	
@@ -114,7 +123,7 @@
       作業者
       <input type="text" name="text" value="作業者">
       作業日
-      <input type="text" name="text" value="作業日">
+      <input type="date" name="text" value="作業日">
       工数
       <input type="text" name="text" value="工数"><br>
       作業内容
@@ -124,7 +133,7 @@
       </form>
       <button class="close-btn" onclick="closeModal()">閉じる</button>
    
-
+  <script src="${pageContext.request.contextPath}/js/common.js"></script>
   <script>
     // モーダル表示
     function openModal(projectName,taskName) {
