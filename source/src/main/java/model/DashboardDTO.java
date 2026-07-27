@@ -5,13 +5,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ダッシュボード画面に表示する情報をまとめるDTO
+ * ダッシュボード画面に表示する情報をまとめるD
  * 件数カードと一覧表示用のListを保持する
  */
 public class DashboardDTO implements Serializable {
 
     /** シリアライズ用ID */
     private static final long serialVersionUID = 1L;
+    
+    /** 今月工数*/
+    private int thisMonthWorkHours;
 
     /** 進行中案件数 */
     private int inProgressProjectCount;
@@ -27,9 +30,26 @@ public class DashboardDTO implements Serializable {
 
     /** 担当タスク一覧 */
     private List<TaskDTO> assignedTaskList = new ArrayList<>();
+    
 
     /**
-     * 進行中案件数を取得する
+     * 今月工数を取得
+     * @return 今月工数を取得
+     */
+    public int getThisMonthWorkHours() {
+        return thisMonthWorkHours;
+    }
+
+    /**
+     * 今月工数を取得
+     * @param thisMonthWorkHours 今月工数
+     */
+    public void setThisMonthWorkHours(int thisMonthWorkHours) {
+        this.thisMonthWorkHours = thisMonthWorkHours;
+    }
+
+    /**
+     * 進行中案件数を取得
      * @return 進行中案件数
      */
     public int getInProgressProjectCount() {
@@ -37,7 +57,7 @@ public class DashboardDTO implements Serializable {
     }
 
     /**
-     * 進行中案件数を設定する
+     * 進行中案件数を設定
      * @param inProgressProjectCount 進行中案件数
      */
     public void setInProgressProjectCount(int inProgressProjectCount) {

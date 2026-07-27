@@ -13,17 +13,17 @@ import service.DashboardService;
  */
 public class DashboardAction {
 
-    /** ダッシュボード画面 */
-    private static final String JSP_DASHBOARD = "/WEB-INF/jsp/dashboard.jsp";
+    // ダッシュボード画面
+    private static final String JSP_DASHBOARD = "/WEB-INF/jsp/home.jsp";
 
-    /** ログイン画面 */
+    // ログイン画面
     private static final String JSP_LOGIN = "/WEB-INF/jsp/login.jsp";
 
-    /** 画面から送られた値を扱うrequest */
+    // 画面から送られた値を扱うrequest
     private final HttpServletRequest request;
 
     /**
-     * requestを受け取る
+     * request受け取り
      * @param request 画面から送られた情報
      */
     public DashboardAction(HttpServletRequest request) {
@@ -31,13 +31,13 @@ public class DashboardAction {
     }
 
     /**
-     * ダッシュボード画面を表示する
+     * ダッシュボード画面を表示
      * ログインユーザーIDを使って表示情報を取得する
      * @return 遷移先JSP
      */
     public String show() {
 
-        // セッションからログインユーザーを取得する
+        // セッションからログインユーザーを取得
         UserDTO loginUser = getLoginUser();
 
         // 未ログインの場合はログイン画面へ戻す
@@ -69,7 +69,7 @@ public class DashboardAction {
     }
 
     /**
-     * セッションからログインユーザーを取得する
+     * セッションからログインユーザーを取得
      * セッションがない場合や型が違う場合はnullを返す
      * @return ログインユーザー
      */
@@ -83,7 +83,7 @@ public class DashboardAction {
             return null;
         }
 
-        // セッションからログインユーザーを取得する
+        // セッションからログインユーザーを取得
         Object loginUser = session.getAttribute("loginUser");
 
         // UserDTO以外の場合は不正なセッションとして扱う

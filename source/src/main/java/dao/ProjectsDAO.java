@@ -68,7 +68,7 @@ public class ProjectsDAO {
 		List<ProjectsDTO> projectList = new ArrayList<ProjectsDTO>();
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM projects "
+		String sql = "SELECT * FROM Projects "
 				+ "WHERE project_name LIKE ? "
 				+ "OR project_code LIKE ? "
 				+ "OR customer_name LIKE ?";
@@ -117,7 +117,7 @@ public class ProjectsDAO {
 		ProjectsDTO dto = null;
 
 		// SELECT文を準備する
-		String sql = "SELECT * FROM projects WHERE project_id=?";
+		String sql = "SELECT * FROM Projects WHERE project_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -156,7 +156,7 @@ public class ProjectsDAO {
 	//新規登録
 	public int projectInsert(ProjectsDTO dto) throws SQLException {
 
-		String sql = "INSERT INTO projects "
+		String sql = "INSERT INTO Projects "
 				+ "(project_code, project_name, customer_name, "
 				+ "create_member_id, project_manager_id, "
 				+ "start_date, due_date, description, "
@@ -183,7 +183,7 @@ public class ProjectsDAO {
 	// 案件更新
 	public int update(ProjectsDTO dto) throws SQLException {
 
-		String sql = "UPDATE projects "
+		String sql = "UPDATE Projects "
 				+ "SET project_code = ?, "
 				+ "project_name = ?, "
 				+ "customer_name = ?, "
@@ -226,7 +226,7 @@ public class ProjectsDAO {
 	public int updateStatus(int projectId, String status) throws SQLException {
 
 		// UPDATE文を準備する
-		String sql = "UPDATE projects "
+		String sql = "UPDATE Projects "
 				+ "SET status = ? "
 				+ "WHERE project_id = ?";
 
@@ -250,7 +250,7 @@ public class ProjectsDAO {
 		boolean exists = false;
 
 		String sql = "SELECT COUNT(*) "
-				+ "FROM projects "
+				+ "FROM Projects "
 				+ "WHERE project_code = ?";
 
 		System.out.println(sql);
@@ -275,7 +275,7 @@ public class ProjectsDAO {
 	public int countInProgressProjects() throws SQLException {
 
 		String sql = "SELECT COUNT(*) AS in_progress_project_count "
-				+ "FROM projects "
+				+ "FROM Projects "
 				+ "WHERE status = '進行中'";;
 
 		PreparedStatement pStmt = conn.prepareStatement(sql);
@@ -296,7 +296,7 @@ public class ProjectsDAO {
 		List<ProjectsDTO> projectList = new ArrayList<>();
 
 		String sql = "SELECT * "
-				+ "FROM projects "
+				+ "FROM Projects p "
 				+ "WHERE status = '進行中'"
 				+ " ORDER BY p.due_date ASC, p.c_at DESC";;
 

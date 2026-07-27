@@ -33,26 +33,26 @@ public class TaskDTO {
 		this.overdue = overdue;
 	}
 
-	private int taskId;
-	private String taskName;
-	private int projectId;
-	private String projectName;
-	private int managerId;
-	private String managerName;
-	private String startDate;
-	private String dueDate;
-	private float estimatedManhours;
-	private float actualManhours;
-	private int progress;
-	private String status;
-	private String priority;
-	private String description;
-	private List<WorkLogDTO> workLogs;
-	private List<ProjectsDTO> projectList;
-	private List<UserDTO> userList;
-	private Date createdAt;
-	private Date updatedAt;
-	private boolean overdue;
+	private int taskId; //タスクID
+	private String taskName; //タスク名
+	private int projectId; // 案件ID
+	private String projectName; // 案件名
+	private int managerId; //担当者ID
+	private String managerName; // 担当者名
+	private String startDate; // 開始日
+	private String dueDate; //期限
+	private float estimatedManhours; //見積工数
+	private float actualManhours; //実績工数
+	private int progress; //進捗率
+	private String status; //ステータス
+	private String priority; // 優先度
+	private String description; //説明
+	private List<WorkLogDTO> workLogs; //工数リスト
+	private List<ProjectsDTO> projectList; //案件リスト
+	private List<UserDTO> userList; //ユーザーリスト
+	private Date createdAt; //作成日
+	private Date updatedAt; //編集日
+	private boolean overdue; //期限超過
 
 	public int getTaskId() {
 		return taskId;

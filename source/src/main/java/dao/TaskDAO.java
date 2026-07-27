@@ -149,7 +149,7 @@ public class TaskDAO {
 	public int countAllByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) AS task_count FROM tasks WHERE project_id=?";
+		String sql = "SELECT COUNT(*) AS task_count FROM Tasks WHERE project_id=?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -174,7 +174,7 @@ public class TaskDAO {
 	public int countCompletedByProjectId(int projectId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "SELECT COUNT(*) AS completed_task_count FROM tasks WHERE project_id=? AND status = '完了'";
+		String sql = "SELECT COUNT(*) AS completed_task_count FROM Tasks WHERE project_id=? AND status = '完了'";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -230,7 +230,7 @@ public class TaskDAO {
 
         String sql =
                 "SELECT COUNT(*) AS incomplete_assigned_task_count "
-                + "FROM tasks "
+                + "FROM Tasks "
                 + "WHERE manager_id = ? "
                 + "AND status <> ?";
 
@@ -259,7 +259,7 @@ public class TaskDAO {
 
 		// SELECT文を準備する
 		String sql = "SELECT COUNT(*) AS overdue_task_count "
-				+ "FROM tasks"
+				+ "FROM Tasks"
 				+ " WHERE manager_id=? "
 				+ "AND status <> '完了' "
 				+ "AND due_date < CURRENT_DATE";
@@ -383,7 +383,7 @@ public class TaskDAO {
 	public int taskInsert(TaskDTO taskDto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "INSERT INTO tasks(" +
+		String sql = "INSERT INTO Tasks(" +
 				"task_name, project_id, manager_id, " +
 				"start_date, due_date, estimated_manhours, " +
 				"progress, status, priority, description) " +
@@ -435,7 +435,7 @@ public class TaskDAO {
 	public int taskUpdate(TaskDTO taskDto) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "UPDATE tasks SET "
+		String sql = "UPDATE Tasks SET "
 				+ "task_name=?, "
 				+ "project_id=?, "
 				+ "manager_id=?, "
@@ -527,7 +527,7 @@ public class TaskDAO {
 	public int taskDelete(int taskId) throws SQLException {
 
 		// SELECT文を準備する
-		String sql = "DELETE FROM tasks WHERE task_id = ?";
+		String sql = "DELETE FROM Tasks WHERE task_id = ?";
 
 		// デバッグ（SQL文の確認用）
 		System.out.println(sql);
@@ -571,7 +571,7 @@ public class TaskDAO {
                 + "t.description, "
                 + "DATE_FORMAT(t.c_at, '%Y-%m-%d %H:%i:%s') AS c_at, "
                 + "DATE_FORMAT(t.u_at, '%Y-%m-%d %H:%i:%s') AS u_at "
-                + "FROM tasks t "
+                + "FROM Tasks t "
                 + "INNER JOIN Projects p ON t.project_id = p.project_id "
                 + "LEFT JOIN Users u ON t.manager_id = u.user_id ";
 	}
@@ -581,8 +581,8 @@ public class TaskDAO {
 
 	
 	 /**
-     * ResultSetの1行をTaskDTOへ変換する
-     * SELECT系メソッドの詰め替え処理を共通化する
+     * ResultSetの1行をTaskDTOへ変換
+     * SELECT系メソッドの詰め替え処理を共通化
      * @param rs SQL取得結果
      * @return タスクDTO
      * @throws SQLException SQLエラー
