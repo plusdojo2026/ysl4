@@ -13,18 +13,21 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/summary.css">
 </head>
+ <footer>
+				<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+</footer>
 <body>
 
     <div class="app-layout">
         <aside class="header-menu">
             <div class="side-title">TaskManager</div>
             <nav class="side-nav">
-                <a href="${pageContext.request.contextPath}/Controller?page_id=H001" class="nav-link" data-page="H001">ホーム</a>
-                <a href="${pageContext.request.contextPath}/Controller?page_id=P001" class="nav-link" data-page="P001">案件一覧</a>
-                <a href="${pageContext.request.contextPath}/Controller?page_id=T001" class="nav-link" data-page="T001">タスク一覧</a>
-                <a href="${pageContext.request.contextPath}/Controller?page_id=S001" class="nav-link" data-page="S001">月次集計</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=H001" class="nav-link" data-page="H001" bottun_id="ホーム">ホーム</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=P001" class="nav-link" data-page="P001" bottun_id="案件一覧">案件一覧</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=T001" class="nav-link" data-page="T001" bottun_id="タスク一覧">タスク一覧</a>
+                <a href="${pageContext.request.contextPath}/Controller?page_id=S001" class="nav-link" data-page="S001" bottun_id="月次集計">月次集計</a>
                 <c:if test="${loginUser.isAdmin}">
-                    <a href="${pageContext.request.contextPath}/Controller?page_id=M001" class="nav-link" data-page="M001">メンバー管理</a>
+                    <a href="${pageContext.request.contextPath}/Controller?page_id=M001" class="nav-link" data-page="M001" button_id="メンバー管理">メンバー管理</a>
                 </c:if>
             </nav>
         </aside>
@@ -176,9 +179,7 @@
                     </div>
                 </section>
             </main>
-            <footer>
-				<%@ include file="/WEB-INF/jsp/footer.jsp" %>
-			</footer>
+          
         </div>
     </div>
 
