@@ -26,16 +26,22 @@
 			<h3>メンバー一覧</h3>
         	<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
 			<p>管理者専用</p>
-			<input type="submit" name="regist-btn" value="＋　メンバー登録">
+			<input type="submit" class="regist-btn" name="regist-btn" value="メンバー登録">
 			</div>
 		</div>
 		<div class="member-dashboard">
-			<div class="member-count"><img src="/webapp/img/people.png" width="90" height="100">
+			<div class="member-count"><img src="/webapp/img/people.png" width="90" height="90">
 				<span class="block-box">総メンバー数</span>
 				<span class="actual-member-count">9</span>人</div>
-			<div class="member-count">有効メンバー数<span>7</span>人</div>
-			<div class="member-count">管理者数<span>2</span>人</div>
-			<div class="member-count">無効メンバー数<span>1</span>人</div>
+			<div class="member-count"><img src="/webapp/img/validmember.png" width="100" height="90">
+				<span>有効メンバー数</span>
+				<span class="actual-member-count">7</span>人</div>
+			<div class="member-count"><img src="/webapp/img/adminuser.png" width="80" height="90">
+				<span>管理者数</span>
+				<span class="actual-member-count">2</span>人</div>
+			<div class="member-count"><img src="/webapp/img/invalidmember.png" width="100" height="90">
+				<span>無効メンバー数</span>
+				<span class="actual-member-count">1</span>人</div>
 		</div>   
             <!-- <span class="msg">${msg}</span> -->
 			<form> 

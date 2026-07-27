@@ -169,3 +169,7 @@ form {
     border-right: none;
     padding: 10px 15px;
 }
+
+.regist-btn {
+    padding: 5px;
+}

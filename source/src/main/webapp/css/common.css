@@ -88,7 +88,7 @@ img, canvas{
 	background-color: #F6ADC6;
 }
 
-.submit-btn {
+.submit-btn, .regist-btn {
 	padding-left: 9px;
 	padding-right: 9px;
 	height: 1.7em;
@@ -231,11 +231,26 @@ main {
     font-size: 10px;
 }
 
+.pagination {
+	display: inline-block;
+}
+
 .pagination li {
 	display: inline;
-	padding: 10px 15px;
-	border: 1px #ccc solid;
+	padding: 8px 16px;
+	float: left;
+	text-decoration: none;
 	color: #000053;
+}
+
+.pagination li.active {
+	border-radius: 5px;
+	background-color: #F6ADC6;
+	color: #fff;
+}
+
+.pagination a:hover {
+	background-color: #F067A6;
 	border-radius: 5px;
 }
 
