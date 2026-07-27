@@ -3,6 +3,7 @@ package action;
 import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,23 +37,35 @@ public class TaskAction {
 	}
 
 	//キーワード検索
-	public String search() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskList.jsp";
+	
+	/**
+     * タスクを検索する
+     * クラス図のsearchに対応する
+     * @return 遷移先JSP
+     */
+    public String search() {
 
-		//ユーザーが操作した情報を受け取る
-		String keyword = request.getParameter("keyword");
+        // 検索条件を作成する
+        TaskDTO condition = createSearchCondition();
 
-		//Serviceに接続する 一覧所得
-		//TaskService service = new TaskService();
+        // Serviceで検索する
+        TaskService service = new TaskService();
+        List<TaskDTO> taskList = service.search(condition);
 
-		//検索語の一覧表示
-		TaskService searchservice = new TaskService();
-		ArrayList<TaskDTO> taskList = searchservice.search(keyword);
-		//				ArrayList<TaskDTO> taskList = searchservice.search(0);
-		//				request.setAttribute("taskList", taskList);
-		request.setAttribute("taskList", taskList);
-		return page;
-	}
+        // 画面表示用の選択肢を取得する
+        List<Object> formData = service.getTaskFormData(condition.getProjectId());
+
+        // requestへ検索結果と検索条件を設定する
+        request.setAttribute("taskList", taskList);
+        request.setAttribute("condition", condition);
+        request.setAttribute("keyword", condition.getTaskName());
+        setFormData(formData);
+        setMessageFromParameter();
+
+        return "WEB-INF/jsp/taskList.jsp";
+    }
+    
+	
 
 	//　！！キーワード検索メモ！！
 	//	public String search() throws UnsupportedEncodingException {
@@ -247,5 +260,29 @@ public class TaskAction {
 
 		return page;
 	}
+	
+	/**
+     * 検索条件用TaskDTOを作成する
+     * 新しい検索条件クラスは作らない
+     * @return 検索条件を入れたTaskDTO
+     */
+    private TaskDTO createSearchCondition() {
+
+        TaskDTO condition = new TaskDTO();
+
+        // キーワードはtaskNameへ入れる
+        condition.setTaskName(request.getParameter("keyword"));
+
+        // 案件IDを条件に入れる
+        condition.setProjectId(parseInt(request.getParameter("project_id")));
+
+        // ステータスを条件に入れる
+        condition.setStatus(request.getParameter("status"));
+
+        // 担当者IDを条件に入れる
+        condition.setManagerId(parseInt(request.getParameter("manager_id")));
+
+        return condition;
+    }
 
 }
