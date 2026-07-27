@@ -48,7 +48,7 @@
 	案件詳細へ
 	</div>
 	<div>
-	<>編集
+	<link rel href= >編集
 	</div>
 	<div>
 	<input type= bottun name="" value="ステータス変更">
@@ -67,7 +67,7 @@
 	実績工数
 	進捗率
 	残工数
-</div>
+	</div>
 	<c:forEach var="uib" items="${workLogList}" >
 	作業日
 	担当者
