@@ -56,12 +56,12 @@ public class DashboardAction {
         // JSPで使うメインDTOを設定する
         request.setAttribute("dashboard", dashboardDto);
 
-        // JSPで直接参照しやすいように件数も設定する
+        // 件数設定
         request.setAttribute("inProgressProjectCount", dashboardDto.getInProgressProjectCount());
         request.setAttribute("assignedTaskCount", dashboardDto.getAssignedTaskCount());
         request.setAttribute("overdueTaskCount", dashboardDto.getOverdueTaskCount());
 
-        // JSPで直接参照しやすいように一覧も設定する
+        // 一覧設定
         request.setAttribute("inProgressProjectList", dashboardDto.getInProgressProjectList());
         request.setAttribute("assignedTaskList", dashboardDto.getAssignedTaskList());
 

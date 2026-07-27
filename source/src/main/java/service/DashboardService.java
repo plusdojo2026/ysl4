@@ -17,13 +17,13 @@ import model.TaskDTO;
 public class DashboardService extends DBAccess {
 
     /**
-     * ダッシュボード表示用の件数と一覧をまとめて取得する
+     * ダッシュボード表示用の件数と一覧をまとめて取得
      * @param userId ログインユーザーID
      * @return ダッシュボード表示用DTO
      */
     public DashboardDTO getDashboard(int userId) {
 
-        // 戻り値用DTOを作成する
+        // 戻り値用DTOを作成
         DashboardDTO dashboardDto = new DashboardDTO();
 
         // ユーザーIDが不正な場合は空DTOを返す
@@ -58,18 +58,18 @@ public class DashboardService extends DBAccess {
         int count = 0;
 
         try {
-            // DB接続を開始する
+            // DB接続を開始
             access();
 
             // DAOから進行中案件数を取得する
             ProjectsDAO projectDao = new ProjectsDAO(conn);
             count = projectDao.countInProgressProjects();
 
-            // 参照処理の完了としてcommitする
+            // 参照処理の完了としてcommit
             commit();
 
         } catch (SQLException e) {
-            // SQLエラー時はrollbackする
+            // SQLエラー時はrollback
             rollback();
             e.printStackTrace();
 
@@ -120,7 +120,7 @@ public class DashboardService extends DBAccess {
     }
 
     /**
-     * ログインユーザーの期限超過タスク数を取得する
+     * ログインユーザーの期限超過タスク数を取得
      * @param userId ログインユーザーID
      * @return 期限超過タスク数
      */
@@ -134,18 +134,18 @@ public class DashboardService extends DBAccess {
         int count = 0;
 
         try {
-            // DB接続を開始する
+            // DB接続を開始
             access();
 
-            // DAOから期限超過タスク数を取得する
+            // DAOから期限超過タスク数を取得
             TaskDAO taskDao = new TaskDAO(conn);
             count = taskDao.countOverdueTasks(userId);
 
-            // 参照処理の完了としてcommitする
+            // 参照処理の完了としてcommit
             commit();
 
         } catch (SQLException e) {
-            // SQLエラー時はrollbackする
+            // SQLエラー時はrollback
             rollback();
             e.printStackTrace();
 
@@ -158,7 +158,7 @@ public class DashboardService extends DBAccess {
     }
 
     /**
-     * 進行中案件一覧を取得する
+     * 進行中案件一覧を取得
      * @return 進行中案件一覧
      */
     public List<ProjectsDTO> selectInProgressProjects() {
@@ -166,18 +166,18 @@ public class DashboardService extends DBAccess {
         List<ProjectsDTO> projectList = new ArrayList<>();
 
         try {
-            // DB接続を開始する
+            // DB接続を開始
             access();
 
-            // DAOから進行中案件一覧を取得する
+            // DAOから進行中案件一覧を取得
             ProjectsDAO projectDao = new ProjectsDAO(conn);
             projectList = projectDao.selectInProgressProjects();
 
-            // 参照処理の完了としてcommitする
+            // 参照処理の完了としてcommit
             commit();
 
         } catch (SQLException e) {
-            // SQLエラー時はrollbackする
+            // SQLエラー時はrollback
             rollback();
             e.printStackTrace();
 
@@ -190,7 +190,7 @@ public class DashboardService extends DBAccess {
     }
 
     /**
-     * ログインユーザーの担当タスク一覧を取得する
+     * ログインユーザーの担当タスク一覧を取得
      * @param userId ログインユーザーID
      * @return 担当タスク一覧
      */
@@ -207,15 +207,15 @@ public class DashboardService extends DBAccess {
             // DB接続を開始する
             access();
 
-            // DAOから担当タスク一覧を取得する
+            // DAOから担当タスク一覧を取得
             TaskDAO taskDao = new TaskDAO(conn);
             taskList = taskDao.selectAssignedTasks(userId);
 
-            // 参照処理の完了としてcommitする
+            // 参照処理の完了としてcommit
             commit();
 
         } catch (SQLException e) {
-            // SQLエラー時はrollbackする
+            // SQLエラー時はrollback
             rollback();
             e.printStackTrace();
 
