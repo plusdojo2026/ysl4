@@ -6,49 +6,8 @@
 	<meta charset="UTF-8">
 </head>
 <body>
-	<div class="header">
-		Taskmanager
-		<form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
-		<%-- HH = header home--%>>
-			<input type="hidden" name="page_id" value="HH">
-			<input type="submit" name="button_id" value="ホーム" >	
-		  </form>	
-		  
-		  <form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
-		  <%-- HP = header project --%>>
-			<input type="hidden" name="page_id" value="HP">
-			<input type="submit" name="button_id" value="案件一覧" >	
-		  </form>	
-		  
-		  <form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
-		  <%-- HT = header task --%>>
-			<input type="hidden" name="page_id" value="HT">
-			<input type="submit" name="button_id" value="タスク管理" >	
-		  </form>	
-		  
-		  <form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
-		  <%-- HM = header month --%>>
-			<input type="hidden" name="page_id" value="HM">
-			<input type="submit" name="button_id" value="月次集計" >	
-		  </form>	
-		  
-		  <form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
-			<input type="hidden" name="page_id" value="HMM">
-			<%-- HMM = header member management --%>>
-			<input type="submit" name="button_id" value="メンバー管理" >	
-		  </form>	
-		  
-		  マイページ
-		  
-		  <form method="POST" action="<c:url value='/Controller'/>"  id="logout" onclick="return logout()">
-			<input type="hidden" name="page_id" value="HL">
-			<%-- HP = header logout --%>>
-			<input type="submit" name="button_id" value="ログアウト" >	
-		  </form>	
-		</c:if>
-		
-	</div>
-	<%-- ><nav class="nav">
+	
+	<nav class="nav">
         <div class="navbar">
         	<div class="logo">
             	<a href="/ysl4/jsp/home"></a>
@@ -70,19 +29,19 @@
                 <li>
                 	<a href="/ysl4/jsp/menberList">メンバー管理</a>
                 </li>
+                
             </ul>
             <ul class="right">
                 <li>
-                    <a href="/ysl4/jsp/logout" id="login">ログアウト</a>
+                    <a href="/ysl4/jsp/logout" id="logout" onclick="return logout()">ログアウト</a>
                 </li>
             </ul>
         </div>
-</nav>--%>
+</nav>
 	<script>
 	//ログアウトボタンが押されたときの処理
 		function logout(){
 			if (confirm("本当にログアウトしますか？")) {
-			  // OK（はい）を押したときの処理
 			  return true;
 			} else {
 			  return false;
