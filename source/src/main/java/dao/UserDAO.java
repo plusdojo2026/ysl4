@@ -1,307 +1,358 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import model.UserDTO;
 
+/**
+ * Usersテーブルを操作するDAO
+ * ログイン、メンバー一覧、登録、更新、パスワード更新を担当
+ */
 public class UserDAO {
 
-	public Connection conn = null;
+    /** DB接続 */
+    private final Connection conn;
 
-	//コネクションを保持するコンストラクタ
-	public UserDAO(Connection conn) {
-		this.conn = conn;
-	}
+    /**
+     * DB接続を受け取る
+     *
+     * @param conn DB接続
+     */
+    public UserDAO(Connection conn) {
+        this.conn = conn;
+    }
 
-	//ログイン認証(ログインIDでユーザーを取得)
-	public UserDTO findByLoginId(String loginId) throws SQLException {
+    /**
+     * ログインIDで有効ユーザーを1件取得
+     * ログイン認証で使う
+     *
+     * @param loginId ログインID
+     * @return ユーザーDTO
+     * @throws SQLException SQLエラー
+     */
+    public UserDTO findByLoginId(String loginId) throws SQLException {
 
-	    UserDTO dto = null;
+        UserDTO userDto = null;
 
-	    String sql =
-	        "SELECT * FROM Users WHERE login_id = ? AND is_valid = true";
+        String sql = baseSelectSql()
+                + " WHERE login_id = ?"
+                + " AND is_valid = true";
 
-	    PreparedStatement pStmt = conn.prepareStatement(sql);
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	    pStmt.setString(1, loginId);
+            ps.setString(1, loginId);
 
-	    ResultSet rs = pStmt.executeQuery();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    userDto = setToUserDTO(rs);
+                }
+            }
+        }
 
-	    if (rs.next()) {
+        return userDto;
+    }
 
-	        dto = new UserDTO();
+    /**
+     * ユーザーIDで1件取得
+     * メンバー編集やパスワード変更で使う
+     *
+     * @param userId ユーザーID
+     * @return ユーザーDTO
+     * @throws SQLException SQLエラー
+     */
+    public UserDTO findById(int userId) throws SQLException {
 
-	        dto.setUserId(rs.getInt("user_id"));
-	        dto.setLoginId(rs.getString("login_id"));
-	        dto.setPasswordHash(rs.getString("password_hash"));
-	        dto.setName(rs.getString("name"));
-	        dto.setEmail(rs.getString("email"));
-	        dto.setIsAdmin(rs.getBoolean("is_admin"));
-	        dto.setIsValid(rs.getBoolean("is_valid"));
-	        dto.setCreatedAt(rs.getDate("c_at"));
-	        dto.setUpdateAt(rs.getDate("u_at"));
-	    }
+        UserDTO userDto = null;
 
-	    rs.close();
-	    pStmt.close();
+        String sql = baseSelectSql()
+                + " WHERE user_id = ?";
 
-	    return dto;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	//ユーザーIDで１件取得する
-	public UserDTO findById(int userId) throws SQLException {
-		UserDTO dto = null;
+            ps.setInt(1, userId);
 
-		//SELECT文を用意する
-		String sql = "SELECT * FROM Users WHERE user_id = ?";
-		//デバック(SQL文の確認用)
-		System.out.println(sql);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    userDto = setToUserDTO(rs);
+                }
+            }
+        }
 
-		//まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+        return userDto;
+    }
 
-		//?に値をセットする
-		pStmt.setInt(1, userId);
+    /**
+     * 全ユーザーを取得
+     * メンバー一覧で使う
+     *
+     * @return ユーザー一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<UserDTO> selectAll() throws SQLException {
 
-		//SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+        List<UserDTO> userList = new ArrayList<>();
 
-		//結果が１件あれば、DTOに値をセットする
-		if (rs.next()) {
-		    dto = new UserDTO();
+        String sql = baseSelectSql()
+                + " ORDER BY user_id ASC";
 
-		    dto.setUserId(rs.getInt("user_id"));
-		    dto.setLoginId(rs.getString("login_id"));
-		    dto.setPasswordHash(rs.getString("password_hash"));
-		    dto.setName(rs.getString("name"));
-		    dto.setEmail(rs.getString("email"));
-		    dto.setIsAdmin(rs.getBoolean("is_admin"));
-		    dto.setIsValid(rs.getBoolean("is_valid"));
-		    dto.setCreatedAt(rs.getDate("c_at"));
-		    dto.setUpdateAt(rs.getDate("u_at"));
-		}
-		rs.close();
-		pStmt.close();
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-		return dto;
-	}
+            while (rs.next()) {
+                userList.add(setToUserDTO(rs));
+            }
+        }
 
-	//ユーザーの一覧を取得するメソッド
-	public ArrayList<UserDTO> selectAll() throws SQLException {
-		ArrayList<UserDTO> userList = new ArrayList<UserDTO>();
+        return userList;
+    }
 
-		//SELECT文を準備する
-		String sql = "SELECT * FROM Users";
-		//デバック(SQL文の確認用)
-		System.out.println(sql);
+    /**
+     * 有効ユーザーだけ取得
+     * PM候補や担当者候補で使う
+     *
+     * @return 有効ユーザー一覧
+     * @throws SQLException SQLエラー
+     */
+    public List<UserDTO> selectValidUsers() throws SQLException {
 
-		//まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+        List<UserDTO> userList = new ArrayList<>();
 
-		//SELECT文を実行し、結果表を取得する
-		ResultSet rs = pStmt.executeQuery();
+        String sql = baseSelectSql()
+                + " WHERE is_valid = true"
+                + " ORDER BY name ASC";
 
-		//移し替え
-		while (rs.next()) {
-			UserDTO dto = new UserDTO();
-			dto.setUserId(rs.getInt("user_id"));
-			dto.setLoginId(rs.getString("login_id"));
-			dto.setName(rs.getString("name"));
-			dto.setEmail(rs.getString("email"));
-			dto.setIsAdmin(rs.getBoolean("is_admin"));
-			dto.setIsValid(rs.getBoolean("is_valid"));
-			dto.setCreatedAt(rs.getDate("c_at"));
-			dto.setUpdateAt(rs.getDate("u_at"));
-			userList.add(dto);
-		}
-		//serviceに返却する
-		return userList;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-	//ユーザーの新規登録
-	public int userInsert(int userId, String loginId, String passwordHash, String name, String email, boolean isAdmin,
-			boolean isValid, Date createdAt, Date updateAt) throws SQLException {
+            while (rs.next()) {
+                userList.add(setToUserDTO(rs));
+            }
+        }
 
-		int ans = 0;
-		//SELECT文を準備する
-		String sql = "INSERT INTO Users VALUES(?,?,?,?,?,?,?,?,?)";
-		//デバック(SQL文の確認用)
-		System.out.println(sql);
+        return userList;
+    }
 
-		//まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
+    /**
+     * ユーザーを登録する
+     * user_id、c_at、u_atはDB側に任せる
+     *
+     * @param userDto 登録するユーザーDTO
+     * @return 登録件数
+     * @throws SQLException SQLエラー
+     */
+    public int insert(UserDTO userDto) throws SQLException {
 
-		pStmt.setInt(1, userId);
-		pStmt.setString(2, loginId);
-		pStmt.setString(3, passwordHash);
-		pStmt.setString(4, name);
-		pStmt.setString(5, email);
-		pStmt.setBoolean(6, isAdmin);
-		pStmt.setBoolean(7, isValid);
-		pStmt.setDate(8, createdAt);
-		pStmt.setDate(9, updateAt);
+        String sql =
+                "INSERT INTO Users ("
+                        + "login_id, "
+                        + "password_hash, "
+                        + "name, "
+                        + "email, "
+                        + "is_admin, "
+                        + "is_valid"
+                        + ") VALUES (?, ?, ?, ?, ?, ?)";
 
-		//SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-		//serviceに返却する
-		return ans;
-	}
-	
-	public int userInsert(UserDTO dto) throws SQLException {
+            ps.setString(1, userDto.getLoginId());
+            ps.setString(2, userDto.getPasswordHash());
+            ps.setString(3, userDto.getName());
+            ps.setString(4, userDto.getEmail());
+            ps.setBoolean(5, userDto.getIsAdmin());
+            ps.setBoolean(6, userDto.getIsValid());
 
-	    return userInsert(
-	        dto.getUserId(),
-	        dto.getLoginId(),
-	        dto.getPasswordHash(),
-	        dto.getName(),
-	        dto.getEmail(),
-	        dto.getIsAdmin(),
-	        dto.getIsValid(),
-	        dto.getCreatedAt(),
-	        dto.getUpdateAt()
-	    );
-	}
+            return ps.executeUpdate();
+        }
+    }
 
-	//ユーザー情報を更新する
-	public int update(int userId, String passwordHash, String name, String email, boolean isAdmin,
-				boolean isValid, Date createdAt, Date updateAt) throws SQLException {
-		
-			int ans = 0;
-			//SELECT文を用意する
-			String sql = "UPDATE Users SET password_hash = ?, name = ?, email = ?, is_admin = ?, is_valid = ?, c_at = ?, u_at = ? WHERE user_id = ?";
-			//デバック(SQL文の確認用)
-			System.out.println(sql);
-			
-			//まとめる
-			PreparedStatement pStmt = conn.prepareStatement(sql);
-			
-			pStmt.setString(1, passwordHash);
-			pStmt.setString(2, name);
-			pStmt.setString(3, email);
-			pStmt.setBoolean(4, isAdmin);
-			pStmt.setBoolean(5, isValid);
-			pStmt.setDate(6, createdAt);
-			pStmt.setDate(7, updateAt);
-			pStmt.setInt(8, userId);
-			
-			//SELECT文を実行し、結果表を取得する
-			ans = pStmt.executeUpdate();
-			
-			//serviceに返却する
-			return ans;				
-	}
-	
-	public int userUpdate(UserDTO dto) throws SQLException {
+    /**
+     * 互換用メソッド
+     *
+     * @param userDto 登録するユーザーDTO
+     * @return 登録件数
+     * @throws SQLException SQLエラー
+     */
+    public int userInsert(UserDTO userDto) throws SQLException {
+        return insert(userDto);
+    }
 
-	    return update(
-	        dto.getUserId(),
-	        dto.getPasswordHash(),
-	        dto.getName(),
-	        dto.getEmail(),
-	        dto.getIsAdmin(),
-	        dto.getIsValid(),
-	        dto.getCreatedAt(),
-	        dto.getUpdateAt()
-	    );
-	}
-	
-	//パスワードの更新
-	public int updatePassword(int userId, String passwordHash) throws SQLException {
-		
-		int ans = 0;
-		//SELECT文を用意する
-		String sql = "UPDATE Users SET password_hash = ? WHERE user_id = ?";
-		//デバック(SQL文の確認用)
-		System.out.println(sql);
-		
-		//まとめる
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		
-		pStmt.setString(1, passwordHash);
-		pStmt.setInt(2, userId);
-		
-		//SELECT文を実行し、結果表を取得する
-		ans = pStmt.executeUpdate();
-		
-		//serviceに返却する
-		return ans;
-		
-	}
-	
-	//ログインIDの重複チェック
-	public boolean existLoginId(String loginId) throws SQLException {
-		
-		String sql = "SELECT COUNT(*) AS cnt FROM Users WHERE login_id = ?";
-		
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		
-		pStmt.setString(1, loginId);
-		
-		//重複していたらtrueで返す
-		try(ResultSet rs = pStmt.executeQuery()) {
-			if(rs.next()) {
-				return rs.getInt("cnt") > 0;
-			}
-		}
-		return false;
-		
-	}
-	
-	public boolean existsLoginId(String loginId) throws SQLException {
-		return existLoginId(loginId);
-		}
-	
-	//有効なメンバーだけ取得する
-	public ArrayList<UserDTO>selectValidUsers() throws SQLException{
-		ArrayList<UserDTO> validUserList = new ArrayList<UserDTO>();
+    /**
+     * ユーザー情報を更新する
+     * ログインIDとパスワードは更新しない
+     *
+     * @param userDto 更新するユーザーDTO
+     * @return 更新件数
+     * @throws SQLException SQLエラー
+     */
+    public int update(UserDTO userDto) throws SQLException {
 
-		String sql = "SELECT * FROM Users WHERE is_valid = true";
-		PreparedStatement pStmt = conn.prepareStatement(sql);
-		try(ResultSet rs = pStmt.executeQuery()) {
+        String sql =
+                "UPDATE Users SET "
+                        + "name = ?, "
+                        + "email = ?, "
+                        + "is_admin = ?, "
+                        + "is_valid = ?, "
+                        + "u_at = CURRENT_TIMESTAMP "
+                        + "WHERE user_id = ?";
 
-		//移し替え
-		while (rs.next()) {
-		UserDTO dto = new UserDTO();
-				dto.setUserId(rs.getInt("user_id"));
-				dto.setLoginId(rs.getString("login_id"));
-				dto.setPasswordHash(rs.getString("password_hash"));
-				dto.setName(rs.getString("name"));
-				dto.setEmail(rs.getString("email"));
-				dto.setIsAdmin(rs.getBoolean("is_admin"));
-				dto.setIsValid(rs.getBoolean("is_valid"));
-				dto.setCreatedAt(rs.getDate("c_at"));
-				dto.setUpdateAt(rs.getDate("u_at"));
-				validUserList.add(dto);
-			}
-		}
-			//serviceに返却する
-			return validUserList;
-	}
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
 
-	//ユーザーの有効・無効状態の更新
-	public int updateValidity(int userId, boolean isValid, Date updateAt) throws SQLException{
-		int ans = 0;
-		
-		String sql = "Update Users SET is_valid = ?, u_At = ? WHERE user_id = ?";
-		// まとめる
-			PreparedStatement pStmt = conn.prepareStatement(sql);
+            ps.setString(1, userDto.getName());
+            ps.setString(2, userDto.getEmail());
+            ps.setBoolean(3, userDto.getIsAdmin());
+            ps.setBoolean(4, userDto.getIsValid());
+            ps.setInt(5, userDto.getUserId());
 
-			pStmt.setBoolean(1, isValid);
-			pStmt.setDate(2, updateAt);
-			pStmt.setInt(3, userId);
+            return ps.executeUpdate();
+        }
+    }
 
-			
-			// SELECT文を実行し、結果表を取得する
-			ans = pStmt.executeUpdate();
+    /**
+     * 互換用メソッド
+     *
+     * @param userDto 更新するユーザーDTO
+     * @return 更新件数
+     * @throws SQLException SQLエラー
+     */
+    public int userUpdate(UserDTO userDto) throws SQLException {
+        return update(userDto);
+    }
 
-			//serviceに返却する
-			return ans;
-	}
+    /**
+     * 有効状態を更新する
+     *
+     * @param userId ユーザーID
+     * @param isValid 有効ならtrue
+     * @return 更新件数
+     * @throws SQLException SQLエラー
+     */
+    public int updateValidity(int userId, boolean isValid) throws SQLException {
 
+        String sql =
+                "UPDATE Users SET "
+                        + "is_valid = ?, "
+                        + "u_at = CURRENT_TIMESTAMP "
+                        + "WHERE user_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setBoolean(1, isValid);
+            ps.setInt(2, userId);
+
+            return ps.executeUpdate();
+        }
+    }
+
+    /**
+     * パスワードを更新する
+     *
+     * @param userId ユーザーID
+     * @param passwordHash ハッシュ化済みパスワード
+     * @return 更新件数
+     * @throws SQLException SQLエラー
+     */
+    public int updatePassword(int userId, String passwordHash) throws SQLException {
+
+        String sql =
+                "UPDATE Users SET "
+                        + "password_hash = ?, "
+                        + "u_at = CURRENT_TIMESTAMP "
+                        + "WHERE user_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, passwordHash);
+            ps.setInt(2, userId);
+
+            return ps.executeUpdate();
+        }
+    }
+
+    /**
+     * ログインIDが存在するか確認する
+     *
+     * @param loginId ログインID
+     * @return 存在する場合true
+     * @throws SQLException SQLエラー
+     */
+    public boolean existsLoginId(String loginId) throws SQLException {
+
+        String sql =
+                "SELECT COUNT(*) AS user_count "
+                        + "FROM Users "
+                        + "WHERE login_id = ?";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, loginId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("user_count") > 0;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 互換用メソッド
+     *
+     * @param loginId ログインID
+     * @return 存在する場合true
+     * @throws SQLException SQLエラー
+     */
+    public boolean existLoginId(String loginId) throws SQLException {
+        return existsLoginId(loginId);
+    }
+
+    /**
+     * ユーザー取得用の共通SQLを作る
+     *
+     * @return 共通SELECT文
+     */
+    private String baseSelectSql() {
+
+        return "SELECT "
+                + "user_id, "
+                + "login_id, "
+                + "password_hash, "
+                + "name, "
+                + "email, "
+                + "is_admin, "
+                + "is_valid, "
+                + "DATE_FORMAT(c_at, '%Y-%m-%d %H:%i:%s') AS c_at, "
+                + "DATE_FORMAT(u_at, '%Y-%m-%d %H:%i:%s') AS u_at "
+                + "FROM Users";
+    }
+
+    /**
+     * ResultSetの1行をUserDTOへ変換する
+     *
+     * @param rs SQL取得結果
+     * @return ユーザーDTO
+     * @throws SQLException SQLエラー
+     */
+    private UserDTO setToUserDTO(ResultSet rs) throws SQLException {
+
+        UserDTO userDto = new UserDTO();
+
+        userDto.setUserId(rs.getInt("user_id"));
+        userDto.setLoginId(rs.getString("login_id"));
+        userDto.setPasswordHash(rs.getString("password_hash"));
+        userDto.setName(rs.getString("name"));
+        userDto.setEmail(rs.getString("email"));
+        userDto.setIsAdmin(rs.getBoolean("is_admin"));
+        userDto.setIsValid(rs.getBoolean("is_valid"));
+        userDto.setCreatedAt(rs.getString("c_at"));
+        userDto.setUpdatedAt(rs.getString("u_at"));
+
+        return userDto;
+    }
 }

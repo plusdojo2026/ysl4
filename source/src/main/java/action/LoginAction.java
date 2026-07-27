@@ -1,120 +1,228 @@
 package action;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-
-import org.mindrot.jbcrypt.BCrypt;
 
 import model.UserDTO;
 import service.UserService;
 
+/**
+ * ログイン関連の画面処理を担当するAction
+ * ログインとパスワード変更を行う
+ */
 public class LoginAction {
 
-    // Controllerから受け取ったrequestを保持する
+    /** ログイン画面 */
+    private static final String JSP_LOGIN = "/WEB-INF/jsp/login.jsp";
+
+    /** ホーム画面へのredirect */
+    private static final String REDIRECT_HOME = "redirect:Controller?page_id=H001";
+
+    /** request */
     private final HttpServletRequest request;
 
+    /**
+     * requestを受け取る
+     *
+     * @param request 画面から送られた情報
+     */
     public LoginAction(HttpServletRequest request) {
         this.request = request;
     }
 
+    /**
+     * ログイン処理を行う
+     *
+     * @return 遷移先
+     */
     public String login() {
 
-        // ログイン画面の入力値で認証する
-        String loginId = request.getParameter("login_id");
-        String password = request.getParameter("password");
+        String loginId = getParam("login_id", "loginId");
+        String password = getParam("password");
 
         UserService service = new UserService();
         UserDTO loginUser = service.login(loginId, password);
 
-        // ログイン失敗時はログイン画面へ戻す
         if (loginUser == null) {
             request.setAttribute("errMsg", "ログインIDまたはパスワードが正しくありません");
             request.setAttribute("loginId", loginId);
-            return "/WEB-INF/jsp/login.jsp";
+            return JSP_LOGIN;
         }
 
         HttpSession session = request.getSession(true);
 
-
-        // セッション固定化対策→ログイン成功時にIDを変更する
         request.changeSessionId();
 
-        // ログインユーザー情報をセッションに保存する
         session.setAttribute("loginUser", loginUser);
 
-        System.out.println("ログイン成功");
-        System.out.println("loginUser=" + loginUser);
-
-        return "redirect:Controller?page_id=H001";
+        return REDIRECT_HOME;
     }
 
+    /**
+     * パスワード変更画面を表示
+     *
+     * @return 遷移先JSP
+     */
     public String showPasswordChange() {
 
-        // パスワード変更モーダルを開いた状態でホームへ戻す
-        HttpSession session = request.getSession(false);
-
-        if (session != null) {
-            session.setAttribute("passwordModalOpen", true);
+        if (getLoginUser() == null) {
+            return "redirect:Controller?page_id=L001&msg="
+                    + encode("ログインしてください");
         }
 
-        return "redirect:Controller?page_id=H001";
+        return "/WEB-INF/jsp/passwordChange.jsp";
     }
 
+    /**
+     * 自分のパスワードを変更
+     *
+     * @return 遷移先
+     */
     public String changePassword() {
 
-        // 現在パスワード確認後に新パスワードを保存する
-        HttpSession session = request.getSession(false);
+        UserDTO loginUser = getLoginUser();
 
-        if (session == null || session.getAttribute("loginUser") == null) {
-            return "redirect:Controller?page_id=L001";
+        if (loginUser == null) {
+            return "redirect:Controller?page_id=L001&msg="
+                    + encode("ログインしてください");
         }
 
-        UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
-        System.out.println("◎◎◎ loginUser=" + loginUser);
-        String currentPassword = request.getParameter("current_password");
-        String newPassword = request.getParameter("new_password");
-        String confirmPassword = request.getParameter("confirm_password");
+        String currentPassword = getParam(
+                "current_password",
+                "currentPassword");
 
-        boolean success = changePasswordInternal(loginUser.getUserId(), currentPassword, newPassword, confirmPassword);
+        String newPassword = getParam(
+                "new_password",
+                "newPassword");
 
-        // リダイレクト後にモーダルを開いてメッセージを表示する
-        session.setAttribute("passwordModalOpen", true);
-        session.setAttribute("passwordMessageType", success ? "success" : "error");
-        session.setAttribute("passwordMessage", success ? "パスワードを変更しました" : "パスワードを変更できませんでした");
+        String confirmPassword = getParam(
+                "confirm_password",
+                "confirmPassword");
 
-        return "redirect:Controller?page_id=H001";
-    }
+        String errorMessage = validatePassword(
+                currentPassword,
+                newPassword,
+                confirmPassword);
 
-    private boolean changePasswordInternal(int userId, String currentPassword, String newPassword, String confirmPassword) {
-
-        // LoginAction内部だけで使う変更処理
-        // publicメソッドをクラス図準拠に保つため内部処理へ分ける
-        if (userId <= 0 || isBlank(currentPassword) || isBlank(newPassword) || isBlank(confirmPassword)) {
-            return false;
-        }
-
-        if (!newPassword.equals(confirmPassword)) {
-            return false;
+        if (hasText(errorMessage)) {
+            request.setAttribute("errMsg", errorMessage);
+            return "/WEB-INF/jsp/passwordChange.jsp";
         }
 
         UserService service = new UserService();
-        UserDTO dbUser = service.findById(userId);
 
-        if (dbUser == null || isBlank(dbUser.getPasswordHash())) {
-            return false;
+        boolean success = service.changePassword(
+                loginUser.getUserId(),
+                currentPassword,
+                newPassword,
+                confirmPassword);
+
+        if (success) {
+            return REDIRECT_HOME
+                    + "&msg="
+                    + encode("パスワードを変更しました");
         }
 
-        if (!BCrypt.checkpw(currentPassword, dbUser.getPasswordHash())) {
-            return false;
-        }
+        request.setAttribute(
+                "errMsg",
+                "現在のパスワードが正しくありません");
 
-        return service.resetPassword(userId, newPassword) == 1;
+        return "/WEB-INF/jsp/passwordChange.jsp";
     }
 
-    private static boolean isBlank(String value) {
+    /**
+     * パスワード変更の入力チェックを行う
+     *
+     * @param currentPassword 現在パスワード
+     * @param newPassword 新パスワード
+     * @param confirmPassword 確認用パスワード
+     * @return エラーメッセージ
+     */
+    private String validatePassword(
+            String currentPassword,
+            String newPassword,
+            String confirmPassword) {
 
-        // LoginAction内部だけで使う空文字判定
-        // nullと空文字を同じ扱いにする
-        return value == null || value.trim().isEmpty();
+        if (!hasText(currentPassword)) {
+            return "現在のパスワードを入力してください";
+        }
+
+        if (!hasText(newPassword)) {
+            return "新しいパスワードを入力してください";
+        }
+
+        if (newPassword.length() < 6) {
+            return "新しいパスワードは6文字以上で入力してください";
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            return "確認用パスワードが一致しません";
+        }
+
+        return "";
+    }
+
+    /**
+     * ログインユーザーを取得
+     *
+     * @return ログインユーザー
+     */
+    private UserDTO getLoginUser() {
+
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            return null;
+        }
+
+        Object loginUser = session.getAttribute("loginUser");
+
+        if (!(loginUser instanceof UserDTO)) {
+            return null;
+        }
+
+        return (UserDTO) loginUser;
+    }
+
+    /**
+     * requestから値を取得
+     *
+     * @param names name候補
+     * @return 取得値
+     */
+    private String getParam(String... names) {
+
+        for (String name : names) {
+            String value = request.getParameter(name);
+
+            if (value != null) {
+                return value.trim();
+            }
+        }
+
+        return "";
+    }
+
+    /**
+     * 文字列が入力されているか確認
+     *
+     * @param value 確認する文字列
+     * @return 入力ありならtrue
+     */
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    /**
+     * URL用文字列へ変換
+     *
+     * @param value 変換前文字列
+     * @return 変換後文字列
+     */
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }
