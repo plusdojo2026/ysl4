@@ -62,8 +62,8 @@ form {
 
 .block-box {
     display: block;
-    width: 130px;
-    height: 100px;
+    width: 100px;
+    height: 10px;
     margin-bottom: 2px;
 }
 

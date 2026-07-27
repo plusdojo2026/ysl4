@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ログイン</title>
+<title>メンバー管理</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/member.css">
 </head>
 
 <body>
@@ -18,50 +19,69 @@
 </footer>	
 		
 		<div class ="main">
-			<h2></h2>
-			<h4>メンバー登録</h4><span class="msg">${msg}</span>
-			<form method="POST" action="<c:url value='/Controller'/>">
+		 <div class="under-header">
+			<img class="regist-elephant" src="/webapp/img/heartelephant.png">
+			<div class="text-wrap">
+			<h3>メンバー登録</h3>
+            <h4>新しいメンバーを登録してください。</h4>
+			<p>管理者専用</p>
+			</div>
+		 </div>
+            
+            <!-- <span class="msg">${msg}</span> -->
+			<form> 
+                method="POST" action="<c:url value='/Controller'/>"
 				<input type="hidden" name="page_id" value="M001">
+				<div class="member-regist">
 				<table>
 					<tr>
-						<td>ログインID<span>必須</span></td>
-						<td><input type="text" name="id" value="${param.id }" required></td>					
-						<td>氏名<span>必須</span></td>
-						<td><input type="text" name="name" value="${param.name }"></td>
+						<td>ログインID<span class="required-item">必須</span></td>
+						<td><input type="text" class="input-text" name="id" value="" required></td>
+                        <!-- value="${param.id }"				 -->
+						<td>氏名<span class="required-item">必須</span></td>
+						<td><input type="text" class="input-text" name="name" value=""></td>
+                        <!-- value="${param.name }" -->
 					</tr>
 					<tr>
-                        <td>新規パスワード<span>必須</span></td>
-						<td><input type="password" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
-                        <td>新規パスワード確認<span>必須</span></td>
-						<td><input type="password" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
+                        <td>新規パスワード<span class="required-item">必須</span></td>
+						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
+                        <td>新規パスワード確認<span class="required-item">必須</span></td>
+						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
 					</tr>
 					<tr>
-                        <td>メールアドレス<span>任意</span></td>
-						<td><input type="text" name="address" value="${param.address }"></td>
-						<td>権限<span>必須</span></td>
+                        <td>メールアドレス<span class="option-item">任意</span></td>
+						<td><input type="text" class="input-text" name="address" value=""></td>
+                        <!-- value="${param.email}" -->
+						<td>権限<span class="required-item">必須</span></td>
 						<td >
 							<label>
-							    <input type="radio" name="kan" value="0" <c:if test="${param.kan == '0'}">checked</c:if>>
+							    <input type="radio" name="kan" value="1" checked>
+                                 <!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
 							    一般ユーザー
-                                <input type="radio" name="kan" value="0" <c:if test="${param.kan == '0'}">checked</c:if>>
+                                <input type="radio" name="kan" value="2">
+                                <!-- <c:if test="${param.kan == '1'}" -->
                                 管理者
 						    </label>
                     </tr>
                     <tr>
-                        <td>状態<span>必須</span></td>
+                        <td>状態<span class="required-item">必須</span></td>
                         <td>
 						    <label>
-							    <input type="radio" name="kan" value="1" <c:if test="${param.kan == '1'}">checked</c:if>>
-							    管理者
+							    <input type="radio" name="kan" value="1" checked>
+							    有効
+                                 <input type="radio" name="kan" value="2">
+							    無効
 						    </label>
                         </td>						  
-						    <td colspan="2">
-						    	<input type="submit" name="button_id" value="メンバー一覧へ" onclick="return delete()">
-						  		<input type="submit" name="button_id" value="登録" onclick="return regist()">
+						    <td colspan="3">
+						    	<input type="submit" class="cancel-btn" name="button_id" value="メンバー一覧へ" onclick="return list()">
+						  		<input type="submit" class="cancel-btn" name="button_id" value="保存して終了" onclick="return regist()">
+                                <input type="submit" class="submit-btn" name="button_id" value="保存して続けて登録" onclick="return regist()">
 						  	</td>						  
 						</td>
 					</tr>
 				</table>
+				</div>
 			</form>				
 		</div>
 		<script>		

@@ -29,16 +29,27 @@
 			<input type="submit" class="regist-btn" name="regist-btn" value="メンバー登録">
 			</div>
 		</div>
-		<div class="member-dashboard">
-			<div class="member-count"><img src="/webapp/img/people.png" width="90" height="90">
-				<span class="block-box">総メンバー数</span>
-				<span class="actual-member-count">9</span>人</div>
-			<div class="member-count"><img src="/webapp/img/validmember.png" width="100" height="90">
-				<span>有効メンバー数</span>
-				<span class="actual-member-count">7</span>人</div>
-			<div class="member-count"><img src="/webapp/img/adminuser.png" width="80" height="90">
+		<div class="member-dashboard">			
+			<div class="member-count">
+				<img src="/webapp/img/people.png" width="100px" height="100px">
+				<span>
+				  <span class="block-box">総メンバー数</span>
+				  <span class="actual-member-count">9</span>人
+				</span>
+			</div>
+			<div class="member-count">
+				<img src="/webapp/img/validmember.png" width="100" height="90">
+				<span>
+				  <span>有効メンバー数</span>
+				  <span class="actual-member-count">7</span>人</div>
+				</span>
+			</div>
+			<div class="member-count">
+				<img src="/webapp/img/adminuser.png" width="80" height="90">
+				<span>
 				<span>管理者数</span>
 				<span class="actual-member-count">2</span>人</div>
+
 			<div class="member-count"><img src="/webapp/img/invalidmember.png" width="100" height="90">
 				<span>無効メンバー数</span>
 				<span class="actual-member-count">1</span>人</div>
@@ -76,7 +87,8 @@
 				</div>
 			</form>	
 		  <div class="member-list">
-			<table>
+			<table border="1" id="foo-table" class="table table-bordered">
+			 <thead>
 			  <tr>
 				<th>ログインID</th>
 				<th>氏名</th>
@@ -86,23 +98,44 @@
 				<th>登録日</th>
 				<th>操作</th>
 			  </tr>
-			  <tr>
-				<td>aaaa</td>
+			 </thead>
+			 <tbody>
+				<c:forEach var="e" items="${list}" varStatus="status">
+			   <tr>
+				<td>aaaa</td><--! <td>${e.empId}</td> -->
 				<td>山田</td>
 				<td>valuekfj</td>
 				<td><span>一般</span></td>
 				<td><span>有効</span></td>
 				<td>7/27</td>
 				<td><input type="submit" class="edit-btn" name="button_id" value="編集" onclick="return edit()"></td>
-			  </tr>
+			   </tr>
+			    </c:forEach>
+			  </tbody>
 			</table>
 		  </div>
-		<ul class="pagination" th:each="user:${userList}">
-		  <li>1</li>
-		  <!-- th:text="${user.loginId}" -->
-		  <li>2</li>
-		  <li>次へ</li>
-		</ul>
+
 	</div>
+
+	<script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
+ <script>
+    jQuery(function($){
+    	//   デフォルトの設定を変更（日本語化）--------------------
+        $.extend( $.fn.dataTable.defaults, {
+            language: {
+                url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+            }
+        });
+    	 //------------------------------------------------
+		//データテーブルを使用
+		$("#foo-table").DataTable({
+		paging: true,        // ページング
+		searching: true,    // 検索ボックス
+		ordering: true,     // ソート（列ヘッダクリック）
+		info: true,         // "〜件中 〜件を表示"の表示
+		lengthChange: true  // 表示件数変更プルダウン
+		})
+	});
+ </script>
 </body>
 </html>
