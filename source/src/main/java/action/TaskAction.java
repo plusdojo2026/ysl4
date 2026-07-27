@@ -18,13 +18,13 @@ import service.TaskService;
 public class TaskAction {
 
     /** タスク一覧画面 */
-    private static final String JSP_TASK_LIST = "/WEB-INF/jsp/task_list.jsp";
+    private static final String JSP_TASK_LIST = "/WEB-INF/jsp/taskList.jsp";
 
     /** タスク詳細画面 */
-    private static final String JSP_TASK_DETAIL = "/WEB-INF/jsp/task_detail.jsp";
+    private static final String JSP_TASK_DETAIL = "/WEB-INF/jsp/taskDetail.jsp";
 
     /** タスク登録編集画面 */
-    private static final String JSP_TASK_FORM = "/WEB-INF/jsp/task_form.jsp";
+    private static final String JSP_TASK_FORM = "/WEB-INF/jsp/taskForm.jsp";
 
     /** タスク一覧へのリダイレクト */
     private static final String REDIRECT_TASK_LIST = "redirect:Controller?page_id=T001";
