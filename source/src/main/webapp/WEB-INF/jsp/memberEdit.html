@@ -33,7 +33,7 @@
 			<form> 
                 <!-- method="POST" action="<c:url value='/Controller'/>" -->
 				<input type="hidden" name="page_id" value="M001">
-				<div class="member-regist">
+				<div class="member-edit">
 				<table>
 					<tr>
 						<td>ログインID<span class="required-item">必須</span></td>
@@ -44,9 +44,9 @@
                         <!-- value="${param.name }" -->
 					</tr>
 					<tr>
-                        <td>新規パスワード<span class="required-item">必須</span></td>
+                        <td>パスワードリセット<span class="required-item">任意</span></td>
 						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
-                        <td>新規パスワード確認<span class="required-item">必須</span></td>
+                        <td>新規パスワード確認<span class="required-item">任意</span></td>
 						<td><input type="password" class="input-text" name="pw" value=""><i class="fa-solid fa-eye"></i></td>
 					</tr>
 					<tr>
@@ -74,10 +74,9 @@
 							    無効
 						    </label>
                         </td>						  
-						    <td colspan="3">
+						    <td colspan="2">
 						    	<input type="submit" class="cancel-btn" name="button_id" value="メンバー一覧へ" onclick="return list()">
-						  		<input type="submit" class="cancel-btn" name="button_id" value="保存して終了" onclick="return regist()">
-                                <input type="submit" class="submit-btn" name="button_id" value="保存して続けて登録" onclick="return regist()">
+                                <input type="submit" class="submit-btn" name="button_id" value="保存" onclick="return regist()">
 						  	</td>						  
 						</td>
 					</tr>
@@ -87,7 +86,7 @@
 		</div>
 		<script>		
 		function regist(){
-			if (!confirm("登録します。よろしいですか？")) {
+			if (!confirm("変更します。よろしいですか？")) {
 			  // OK（はい）を押したときの処理
 				return false;
 			} 
