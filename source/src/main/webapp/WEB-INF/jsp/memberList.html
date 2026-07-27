@@ -21,13 +21,13 @@
 		
 	<div class ="main">
 		<div class="under-header">
-		<img class="regist-elephant" src="/webapp/img/elephant(1).png">
-		<div class="text-wrap">	
-		<h3>メンバー一覧</h3>
-        <h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
-		<p>管理者専用</p>
-	</div>
-	</div>
+		 <img class="regist-elephant" src="/webapp/img/elephant(1).png">
+			<div class="text-wrap">	
+			<h3>メンバー一覧</h3>
+        	<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
+			<p>管理者専用</p>
+			</div>
+		</div>
 		<div class="member-dashboard">
 			<div class="member-count">総メンバー数<span>9</span>人</div>
 			<div class="member-count">有効メンバー数<span>7</span>人</div>
@@ -65,7 +65,36 @@
 					</tr>
 				</table>
 				</div>
-			</form>				
-		</div>
+			</form>	
+		  <div class="member-list">
+			<table>
+			  <tr>
+				<td>ログインID</td>
+				<td>氏名</td>
+				<td>メールアドレス</td>
+				<td>権限</td>
+				<td>状態</td>
+				<td>登録日</td>
+				<td>操作</td>
+			  </tr>
+			  <tr>
+				<td>aaaa</td>
+				<td>山田</td>
+				<td>valuekfj</td>
+				<td><span>一般</span></td>
+				<td><span>有効</span></td>
+				<td>7/27</td>
+				<td><input type="submit" class="edit-btn" name="button_id" value="編集" onclick="return edit()"></td>
+			  </tr>
+			</table>
+		  </div>
+		<ul class="pagination">
+		  <li>前へ</li>
+		  <li>1</li>
+		  <li>2</li>
+		  <li>3</li>
+		  <li>次へ</li>
+		</ul>
+	</div>
 </body>
 </html>

@@ -240,6 +240,14 @@ footer {
     font-size: 10px;
 }
 
+.pagination li {
+	display: inline;
+	padding: 10px 15px;
+	border: 1px #ccc solid;
+	color: #000053;
+	border-radius: 5px;
+}
+
 /* ログイン画面左右にちりばめるやつ*/
 /*.login-card{
 	display:flex;
