@@ -1,288 +1,476 @@
 package action;
 
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import model.ProjectsDTO;
 import model.TaskDTO;
+import model.UserDTO;
 import service.TaskService;
 
+/**
+ * タスク関連の画面処理を担当するAction
+ * Controllerから呼ばれてServiceへ処理を依頼する
+ */
 public class TaskAction {
 
-	HttpServletRequest request;
+    /** タスク一覧画面 */
+    private static final String JSP_TASK_LIST = "/WEB-INF/jsp/task_list.jsp";
 
-	//コンストラクタ
-	public TaskAction(HttpServletRequest request) {
-		this.request = request;
-	}
+    /** タスク詳細画面 */
+    private static final String JSP_TASK_DETAIL = "/WEB-INF/jsp/task_detail.jsp";
 
-	//タスク一覧表示
-	public String list() throws UnsupportedEncodingException {
+    /** タスク登録編集画面 */
+    private static final String JSP_TASK_FORM = "/WEB-INF/jsp/task_form.jsp";
 
-		String page = "/WEB-INF/jsp/taskList.jsp";
+    /** タスク一覧へのリダイレクト */
+    private static final String REDIRECT_TASK_LIST = "redirect:Controller?page_id=T001";
 
-		TaskService service = new TaskService();
+    /** request */
+    private final HttpServletRequest request;
 
-		//タスク情報を全て取得する
-		TaskService selectservice = new TaskService();
+    /**
+     * requestを受け取る
+     * @param request 画面から送られた情報
+     */
+    public TaskAction(HttpServletRequest request) {
+        this.request = request;
+    }
 
-		ArrayList<TaskDTO> taskList = selectservice.selectAll();
+    /**
+     * タスク一覧を表示する
+     * @return 遷移先JSP
+     */
+    public String list() {
 
-		request.setAttribute("taskList", taskList);
+        TaskService service = new TaskService();
+        List<TaskDTO> taskList = service.selectAll();
 
-		return page;
-	}
+        request.setAttribute("taskList", taskList);
+        setFormData(service.getTaskFormData(0));
+        setMessageFromParameter();
 
-	//キーワード検索
-	
-	/**
-     * タスクを検索する
-     * クラス図のsearchに対応する
+        return JSP_TASK_LIST;
+    }
+
+    /**
+     * タスク検索を行う
      * @return 遷移先JSP
      */
     public String search() {
 
-        // 検索条件を作成する
         TaskDTO condition = createSearchCondition();
 
-        // Serviceで検索する
         TaskService service = new TaskService();
         List<TaskDTO> taskList = service.search(condition);
 
-        // 画面表示用の選択肢を取得する
-        List<Object> formData = service.getTaskFormData(condition.getProjectId());
-
-        // requestへ検索結果と検索条件を設定する
         request.setAttribute("taskList", taskList);
         request.setAttribute("condition", condition);
         request.setAttribute("keyword", condition.getTaskName());
-        setFormData(formData);
+
+        setFormData(service.getTaskFormData(condition.getProjectId()));
+
+        return JSP_TASK_LIST;
+    }
+
+    /**
+     * タスク詳細を表示する
+     * @return 遷移先JSP
+     */
+    public String detail() {
+
+        int taskId = parseInt(getParam("task_id", "taskId"));
+
+        if (taskId <= 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスクIDが不正です");
+        }
+
+        TaskService service = new TaskService();
+        TaskDTO taskDto = service.findById(taskId);
+
+        if (taskDto == null) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("対象タスクが見つかりません");
+        }
+
+        request.setAttribute("task", taskDto);
+        request.setAttribute("workLogList", taskDto.getWorkLogList());
         setMessageFromParameter();
 
-        return "WEB-INF/jsp/taskList.jsp";
+        return JSP_TASK_DETAIL;
     }
-    
-	
 
-	//　！！キーワード検索メモ！！
-	//	public String search() throws UnsupportedEncodingException {
-	//		String page = "/WEB-INF/jsp/taskList.jsp";
-	//
-	//		//ユーザーが操作した情報を受け取る
-	//		String keyword = request.getParameter("keyword");
-	//
-	//		//Serviceに接続する 一覧所得
-	//		//TaskService service = new TaskService();
-	//
-	//		//検索語の一覧表示
-	//		TaskService searchservice = new TaskService();
-	//		//				ArrayList<TaskDTO> taskList = searchservice.search(0);
-	//		//				request.setAttribute("taskList", taskList);
-	//		request.setAttribute("keyword", keyword);
-	//		return page;
-	//	}
+    /**
+     * タスク登録画面を表示する
+     * @return 遷移先JSP
+     */
+    public String showRegist() {
 
-	//プロジェクトID検索
-	public String selectByProjectId() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskList.jsp";
+        int projectId = parseInt(getParam("project_id", "projectId"));
 
-		//ユーザーが操作した情報を受け取る
-		String keyword = request.getParameter("keyword");
+        request.setAttribute("mode", "regist");
+        request.setAttribute("task", new TaskDTO());
 
-		TaskService searchservice = new TaskService();
+        setFormData(new TaskService().getTaskFormData(projectId));
 
-		ArrayList<TaskDTO> taskList = searchservice.selectByProjectId(0);
+        return JSP_TASK_FORM;
+    }
 
-		request.setAttribute("taskList", taskList);
+    /**
+     * タスクを登録する
+     * @return 遷移先
+     */
+    public String regist() {
 
-		request.setAttribute("keyword", keyword);
-		return page;
-	}
+        TaskDTO taskDto = createTaskDtoForSave(false);
 
-	//タスクID検索
-	public String findDetail() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/taskList.jsp";
+        String errorMessage = validateForSave(taskDto);
 
-		//ユーザーが操作した情報を受け取る
-		String keyword = request.getParameter("keyword");
+        if (hasText(errorMessage)) {
+            request.setAttribute("errMsg", errorMessage);
+            request.setAttribute("mode", "regist");
+            request.setAttribute("task", taskDto);
+            setFormData(new TaskService().getTaskFormData(taskDto.getProjectId()));
+            return JSP_TASK_FORM;
+        }
 
-		//検索語の一覧表示
-		TaskService searchservice = new TaskService();
+        TaskService service = new TaskService();
+        int result = service.regist(taskDto);
 
-		request.setAttribute("keyword", keyword);
-		return page;
-	}
+        if (result > 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスクを登録しました");
+        }
 
-	//詳細詳細
-	public String detail() {
+        request.setAttribute("errMsg", "タスク登録に失敗しました");
+        request.setAttribute("mode", "regist");
+        request.setAttribute("task", taskDto);
+        setFormData(new TaskService().getTaskFormData(taskDto.getProjectId()));
 
-		String page = "/WEB-INF/jsp/taskDetail.jsp";
+        return JSP_TASK_FORM;
+    }
 
-		int taskId = Integer.parseInt(request.getParameter("taskId"));
+    /**
+     * タスク編集画面を表示する
+     * @return 遷移先JSP
+     */
+    public String showUpdate() {
 
-		TaskService service = new TaskService();
+        int taskId = parseInt(getParam("task_id", "taskId"));
 
-		TaskDTO task = null;
-		try {
-			task = service.findDetail(taskId);
-		} catch (SQLException e) {
-			// TODO 自動生成された catch ブロック
-			e.printStackTrace();
-		}
+        if (taskId <= 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスクIDが不正です");
+        }
 
-		request.setAttribute("task", task);
+        TaskService service = new TaskService();
+        TaskDTO taskDto = service.findById(taskId);
 
-		return page;
-	}
+        if (taskDto == null) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("対象タスクが見つかりません");
+        }
 
-	// 登録画面表示
-	public String showRegist() {
+        request.setAttribute("mode", "update");
+        request.setAttribute("task", taskDto);
 
-		return "/WEB-INF/jsp/taskRegist.jsp";
+        setFormData(service.getTaskFormData(taskDto.getProjectId()));
 
-	}
+        return JSP_TASK_FORM;
+    }
 
-	//タスク登録
-	public String regist() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/projectDetail.jsp";
+    /**
+     * タスクを更新する
+     * @return 遷移先
+     */
+    public String update() {
 
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		String projectId = request.getParameter("projectId");
-		String taskName = request.getParameter("taskName");
-		String status = request.getParameter("status");
-		String priority = request.getParameter("priority");
+        TaskDTO taskDto = createTaskDtoForSave(true);
 
-		//入力値チェック
-		if (projectId == null || taskName == null || status == null || priority == null) {
-			request.setAttribute("msg", "※必須項目を入力してください");
-		}
+        String errorMessage = validateForSave(taskDto);
 
-		TaskDTO dto = new TaskDTO();
+        if (hasText(errorMessage)) {
+            request.setAttribute("errMsg", errorMessage);
+            request.setAttribute("mode", "update");
+            request.setAttribute("task", taskDto);
+            setFormData(new TaskService().getTaskFormData(taskDto.getProjectId()));
+            return JSP_TASK_FORM;
+        }
 
-		dto.setProjectId(Integer.parseInt(projectId));
-		dto.setTaskName(taskName);
-		dto.setStatus(status);
-		dto.setPriority(priority);
+        TaskService service = new TaskService();
+        int result = service.update(taskDto);
 
-		TaskService service = new TaskService();
+        if (result > 0) {
+            return "redirect:Controller?page_id=T002&task_id=" + taskDto.getTaskId()
+                    + "&msg=" + encode("タスクを更新しました");
+        }
 
-		//serviceに処理を依頼
-		int ans = service.regist(dto);
+        request.setAttribute("errMsg", "タスク更新に失敗しました");
+        request.setAttribute("mode", "update");
+        request.setAttribute("task", taskDto);
+        setFormData(new TaskService().getTaskFormData(taskDto.getProjectId()));
 
-		//ちゃんと登録できたか確認
-		if (ans == 1) {
-			request.setAttribute("msg", "※" + taskName + "の登録完了！");
-		} else {
-			request.setAttribute("msg", "※登録失敗！IDが重複しています");
-		}
+        return JSP_TASK_FORM;
+    }
 
-		return page;
-	}
+    /**
+     * タスクステータスを変更する
+     * @return 遷移先
+     */
+    public String changeStatus() {
 
-	//編集内容を表示する
-	public String showUpdate() {
+        int taskId = parseInt(getParam("task_id", "taskId"));
+        String status = getParam("status");
 
-		String page = "/WEB-INF/jsp/projectEdit.jsp";
+        if (taskId <= 0 || !hasText(status)) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスク状態を変更できませんでした");
+        }
 
-		int taskId = Integer.parseInt(
-				request.getParameter("taskName"));
+        TaskService service = new TaskService();
+        int result = service.changeStatus(taskId, status);
 
-		TaskService service = new TaskService();
+        if (result > 0) {
+            return "redirect:Controller?page_id=T002&task_id=" + taskId
+                    + "&msg=" + encode("タスク状態を変更しました");
+        }
 
-		TaskDTO dto = service.findById(taskId);
+        return "redirect:Controller?page_id=T002&task_id=" + taskId
+                + "&msg=" + encode("タスク状態の変更に失敗しました");
+    }
 
-		request.setAttribute("dto", dto);
-		return page;
+    /**
+     * タスクを削除する
+     * @return 遷移先
+     */
+    public String delete() {
 
-	}
+        int taskId = parseInt(getParam("task_id", "taskId"));
 
-	//編集
-	public String update() throws UnsupportedEncodingException {
+        if (taskId <= 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスクIDが不正です");
+        }
 
-		String page = "/WEB-INF/jsp/projectDetail.jsp";
+        TaskService service = new TaskService();
+        int result = service.delete(taskId);
 
-		request.setCharacterEncoding("UTF-8");
+        if (result > 0) {
+            return REDIRECT_TASK_LIST + "&msg=" + encode("タスクを削除しました");
+        }
 
-		TaskDTO dto = new TaskDTO();
+        return "redirect:Controller?page_id=T002&task_id=" + taskId
+                + "&msg=" + encode("タスク削除に失敗しました");
+    }
 
-		dto.setTaskId(Integer.parseInt(request.getParameter("task_id")));
-		dto.setTaskName(request.getParameter("task_name"));
-		dto.setStatus(request.getParameter("task_status"));
-		dto.setPriority(request.getParameter("task_priority"));
+    /**
+     * 保存用DTOを作る
+     * 登録と更新で共通利用する
+     * @param includeId 更新時はtrue
+     * @return タスクDTO
+     */
+    private TaskDTO createTaskDtoForSave(boolean includeId) {
 
-		TaskService service = new TaskService();
+        TaskDTO taskDto = new TaskDTO();
 
-		int ans = service.update(dto);
+        if (includeId) {
+            taskDto.setTaskId(parseInt(getParam("task_id", "taskId")));
+        }
 
-		if (ans == 1) {
-			page = "/TaskServlet?action=detail"
-					+ "&taskId="
-					+ dto.getTaskId();
-		}
+        taskDto.setTaskName(getParam("task_name", "taskName"));
+        taskDto.setProjectId(parseInt(getParam("project_id", "projectId")));
+        taskDto.setManagerId(parseInt(getParam("manager_id", "managerId")));
+        taskDto.setStartDate(getParam("start_date", "startDate"));
+        taskDto.setDueDate(getParam("due_date", "dueDate"));
+        taskDto.setEstimatedManhours(parseFloat(getParam("estimated_manhours", "estimatedManhours")));
+        taskDto.setProgress(parseIntDefault(getParam("progress"), 0));
+        taskDto.setStatus(getParam("status"));
+        taskDto.setPriority(getParam("priority"));
+        taskDto.setDescription(getParam("description"));
 
-		return page;
-	}
+        return taskDto;
+    }
 
-	//ステータス変更
-	public String changeStatus() {
-
-		String page = "/TaskServlet?action=list";
-
-		int taskId = Integer.parseInt(request.getParameter("taskId"));
-
-		String status = request.getParameter("status");
-		
-		int progres = Integer.parseInt(request.getParameter("progres"));
-
-		TaskService service = new TaskService();
-
-		service.changeStatus(taskId, status, progres);
-
-		return page;
-	}
-
-	//削除
-	public String delete() throws UnsupportedEncodingException {
-		String page = "/WEB-INF/jsp/projectDetail.jsp";
-
-		//値の取得
-		request.setCharacterEncoding("UTF-8");
-		String id = request.getParameter("delete_button");
-
-		//入力値チェック
-		if (id == null) {
-			request.setAttribute("msg", "IDが入力されていません。");
-		}
-
-		return page;
-	}
-	
-	/**
-     * 検索条件用TaskDTOを作成する
-     * 新しい検索条件クラスは作らない
-     * @return 検索条件を入れたTaskDTO
+    /**
+     * 検索条件DTOを作る
+     * TaskSearchConditionは作らずTaskDTOで代用する
+     * @return 検索条件DTO
      */
     private TaskDTO createSearchCondition() {
 
         TaskDTO condition = new TaskDTO();
 
-        // キーワードはtaskNameへ入れる
-        condition.setTaskName(request.getParameter("keyword"));
-
-        // 案件IDを条件に入れる
-        condition.setProjectId(parseInt(request.getParameter("project_id")));
-
-        // ステータスを条件に入れる
-        condition.setStatus(request.getParameter("status"));
-
-        // 担当者IDを条件に入れる
-        condition.setManagerId(parseInt(request.getParameter("manager_id")));
+        condition.setTaskName(getParam("keyword", "task_name", "taskName"));
+        condition.setProjectId(parseInt(getParam("project_id", "projectId")));
+        condition.setStatus(getParam("status"));
+        condition.setManagerId(parseInt(getParam("manager_id", "managerId")));
 
         return condition;
     }
 
+    /**
+     * 保存前の入力チェックを行う
+     * @param taskDto タスクDTO
+     * @return エラーメッセージ
+     */
+    private String validateForSave(TaskDTO taskDto) {
+
+        if (taskDto.getTaskId() < 0) {
+            return "タスクIDが不正です";
+        }
+
+        if (!hasText(taskDto.getTaskName())) {
+            return "タスク名を入力してください";
+        }
+
+        if (taskDto.getProjectId() <= 0) {
+            return "案件を選択してください";
+        }
+
+        if (taskDto.getEstimatedManhours() < 0) {
+            return "見積工数は0以上で入力してください";
+        }
+
+        if (!hasText(taskDto.getStatus())) {
+            return "ステータスを選択してください";
+        }
+
+        if (!hasText(taskDto.getPriority())) {
+            return "優先度を選択してください";
+        }
+
+        if (taskDto.getProgress() < 0 || taskDto.getProgress() > 100) {
+            return "進捗率は0から100で入力してください";
+        }
+
+        return "";
+    }
+
+    /**
+     * List形式の画面表示用データをrequestへ設定する
+     * Mapを使わず固定順で受け取る
+     * @param formDataList 画面表示用データList
+     */
+    @SuppressWarnings("unchecked")
+    private void setFormData(List<Object> formDataList) {
+
+        if (formDataList == null || formDataList.size() < 4) {
+            return;
+        }
+
+        List<ProjectsDTO> projectList = (List<ProjectsDTO>) formDataList.get(0);
+        List<UserDTO> userList = (List<UserDTO>) formDataList.get(1);
+        ProjectsDTO selectedProject = (ProjectsDTO) formDataList.get(2);
+        Integer selectedProjectId = (Integer) formDataList.get(3);
+
+        request.setAttribute("projectList", projectList);
+        request.setAttribute("userList", userList);
+        request.setAttribute("selectedProject", selectedProject);
+        request.setAttribute("selectedProjectId", selectedProjectId);
+    }
+
+    /**
+     * requestから値を取得する
+     * 複数候補を順番に確認する
+     * @param names 取得候補のname
+     * @return 取得値
+     */
+    private String getParam(String... names) {
+
+        for (String name : names) {
+            String value = request.getParameter(name);
+            if (value != null) {
+                return value.trim();
+            }
+        }
+
+        return "";
+    }
+
+    /**
+     * 文字列をintに変換する
+     * 数値以外の場合は-1を返す
+     * @param value 変換前の文字列
+     * @return 変換後の数値
+     */
+    private int parseInt(String value) {
+
+        if (!hasText(value)) {
+            return -1;
+        }
+
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    /**
+     * 文字列をintに変換する
+     * 数値以外の場合は指定した初期値を返す
+     * @param value 変換前の文字列
+     * @param defaultValue 初期値
+     * @return 変換後の数値
+     */
+    private int parseIntDefault(String value, int defaultValue) {
+
+        if (!hasText(value)) {
+            return defaultValue;
+        }
+
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * 文字列をfloatに変換する
+     * 数値以外の場合は0を返す
+     * @param value 変換前の文字列
+     * @return 変換後の数値
+     */
+    private float parseFloat(String value) {
+
+        if (!hasText(value)) {
+            return 0;
+        }
+
+        try {
+            return Float.parseFloat(value);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /**
+     * 文字列が入力されているか確認する
+     * nullと空文字を未入力として扱う
+     * @param value 確認する文字列
+     * @return 入力ありならtrue
+     */
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    /**
+     * URLに入れる文字列をエンコードする
+     * redirect時の日本語文字化けを防ぐ
+     * @param value エンコード前の文字列
+     * @return エンコード後の文字列
+     */
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * redirect後のメッセージをrequestへ入れる
+     */
+    private void setMessageFromParameter() {
+
+        String message = getParam("msg");
+
+        if (hasText(message)) {
+            request.setAttribute("successMsg", message);
+        }
+    }
 }

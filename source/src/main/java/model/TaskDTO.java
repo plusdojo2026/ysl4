@@ -1,217 +1,217 @@
 package model;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TaskDTO {
-	
-	public TaskDTO() {
-		
-	}
+/**
+ * タスク情報を入れるDTO.
+ * Tasksテーブルの値と画面表示用の値を持つ.
+ */
+public class TaskDTO implements Serializable {
 
-	public TaskDTO(int taskId, String taskName, int projectId,String projectName, int managerId, String managerName, String startDate, String dueDate,
-			float estimatedManhours, float actualManhours, int progress, String status, String priority, String description, List<WorkLogDTO> workLogs, 
-			Date createdAt, Date updatedAt, boolean overdue) {
+    /** シリアルバージョンID */
+    private static final long serialVersionUID = 1L;
 
-		super();
-		this.taskId = taskId;
-		this.taskName = taskName;
-		this.projectId = projectId;
-		this.projectName = projectName;
-		this.managerId = managerId;
-		this.managerName = managerName;
-		this.startDate = startDate;
-		this.dueDate = dueDate;
-		this.estimatedManhours = estimatedManhours;
-		this.actualManhours = actualManhours;
-		this.progress = progress;
-		this.status = status;
-		this.priority = priority;
-		this.description = description;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.overdue = overdue;
-	}
+    /** タスクID */
+    private int taskId;
 
-	private int taskId; //タスクID
-	private String taskName; //タスク名
-	private int projectId; // 案件ID
-	private String projectName; // 案件名
-	private int managerId; //担当者ID
-	private String managerName; // 担当者名
-	private String startDate; // 開始日
-	private String dueDate; //期限
-	private float estimatedManhours; //見積工数
-	private float actualManhours; //実績工数
-	private int progress; //進捗率
-	private String status; //ステータス
-	private String priority; // 優先度
-	private String description; //説明
-	private List<WorkLogDTO> workLogs; //工数リスト
-	private List<ProjectsDTO> projectList; //案件リスト
-	private List<UserDTO> userList; //ユーザーリスト
-	private Date createdAt; //作成日
-	private Date updatedAt; //編集日
-	private boolean overdue; //期限超過
+    /** タスク名 */
+    private String taskName;
 
-	public int getTaskId() {
-		return taskId;
-	}
+    /** 案件ID */
+    private int projectId;
 
-	public void setTaskId(int taskId) {
-		this.taskId = taskId;
-	}
+    /** 案件名 */
+    private String projectName;
 
-	public String getTaskName() {
-		return taskName;
-	}
+    /** 担当者ID */
+    private int managerId;
 
-	public void setTaskName(String taskName) {
-		this.taskName = taskName;
-	}
+    /** 担当者名 */
+    private String managerName;
 
-	public int getProjectId() {
-		return projectId;
-	}
+    /** 開始日 */
+    private String startDate;
 
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-	
-	public String getProjectName() {
-		return projectName;
-	}
-	
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
-	}
+    /** 期限日 */
+    private String dueDate;
 
-	public int getManagerId() {
-		return managerId;
-	}
+    /** 見積工数 */
+    private float estimatedManhours;
 
-	public void setManagerId(int managerId) {
-		this.managerId = managerId;
-	}
-	
-	public String getManagerName() {
-		return managerName;
-	}
-	
-	public void setManagerName(String managerName) {
-		this.managerName = managerName;
-	}
+    /** 実績工数 */
+    private float actualManhours;
 
-	public String getStartDate() {
-		return startDate;
-	}
+    /** 進捗率 */
+    private int progress;
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    /** ステータス */
+    private String status;
 
-	public String getDueDate() {
-		return dueDate;
-	}
+    /** 優先度 */
+    private String priority;
 
-	public void setDueDate(String dueDate) {
-		this.dueDate = dueDate;
-	}
+    /** 説明 */
+    private String description;
 
-	public float getEstimatedManhours() {
-		return estimatedManhours;
-	}
+    /** 作成日時 */
+    private String createdAt;
 
-	public void setEstimatedManhours(float estimatedManhours) {
-		this.estimatedManhours = estimatedManhours;
-	}
-	
-	public float getActualManhours() {
-		return actualManhours;
-	}
-	
-	public void setActualManhours(float actualManhours) {
-		this.actualManhours = actualManhours;
-	}
+    /** 更新日時 */
+    private String updatedAt;
 
-	public int getProgress() {
-		return progress;
-	}
+    /** 期限超過フラグ */
+    private boolean overdue;
 
-	public void setProgress(int progress) {
-		this.progress = progress;
-	}
+    /** タスク詳細で表示する工数ログ一覧 */
+    private List<WorkLogDTO> workLogList = new ArrayList<>();
 
-	public String getStatus() {
-		return status;
-	}
+    public int getTaskId() {
+        return taskId;
+    }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
+    }
 
-	public String getPriority() {
-		return priority;
-	}
+    public String getTaskName() {
+        return taskName;
+    }
 
-	public void setPriority(String priority) {
-		this.priority = priority;
-	}
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public int getProjectId() {
+        return projectId;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	public List<WorkLogDTO> getWorkLogs() {
-	    return workLogs;
-	}
+    public void setProjectId(int projectId) {
+        this.projectId = projectId;
+    }
 
-	public void setWorkLogs(List<WorkLogDTO> workLogs) {
-	    this.workLogs = workLogs;
-	}
-	
-	public List<ProjectsDTO> getProjectList() {
-	    return projectList;
-	}
+    public String getProjectName() {
+        return projectName;
+    }
 
-	public void setProjectList(List<ProjectsDTO> projectList) {
-	    this.projectList = projectList;
-	}
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
 
-	public List<UserDTO> getUserList() {
-	    return userList;
-	}
+    public int getManagerId() {
+        return managerId;
+    }
 
-	public void setUserList(List<UserDTO> userList) {
-	    this.userList = userList;
-	}
+    public void setManagerId(int managerId) {
+        this.managerId = managerId;
+    }
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
+    public String getManagerName() {
+        return managerName;
+    }
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
 
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
+    public String getStartDate() {
+        return startDate;
+    }
 
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
-	public boolean getOverdue() {
-		return overdue;
-	}
-	
-	public void setoverdue(boolean overdue) {
-		this.overdue = overdue;
-	}
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public float getEstimatedManhours() {
+        return estimatedManhours;
+    }
+
+    public void setEstimatedManhours(float estimatedManhours) {
+        this.estimatedManhours = estimatedManhours;
+    }
+
+    public float getActualManhours() {
+        return actualManhours;
+    }
+
+    public void setActualManhours(float actualManhours) {
+        this.actualManhours = actualManhours;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public boolean isOverdue() {
+        return overdue;
+    }
+
+    public boolean getOverdue() {
+        return overdue;
+    }
+
+    public void setOverdue(boolean overdue) {
+        this.overdue = overdue;
+    }
+
+    public List<WorkLogDTO> getWorkLogList() {
+        return workLogList;
+    }
+
+    public void setWorkLogList(List<WorkLogDTO> workLogList) {
+        this.workLogList = workLogList;
+    }
 }
