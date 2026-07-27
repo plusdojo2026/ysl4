@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,13 +12,14 @@
     <title>ホーム | TaskManager</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/summary.css">
+    <%@ include file="/WEB-INF/jsp/header.jsp" %>
 </head>
  <footer>
 				<%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </footer>
 <body>
 
-    <div class="app-layout">
+    <%--<div class="app-layout">
         <aside class="header-menu">
             <div class="side-title">TaskManager</div>
             <nav class="side-nav">
@@ -31,7 +32,7 @@
                 </c:if>
             </nav>
         </aside>
-        </div>
+        </div>--%>
 
         <div class="main-area">
             <header class="app-header">
