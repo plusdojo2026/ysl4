@@ -196,16 +196,14 @@ header {
 }
 
 /*main部分のCSS-----------------------------------*/
-.main{
-	position: absolute;	
-	padding-top:0;
-	left: 20%;
-	top:10%;
-	height:80%;
-	width: 80%;		
-	background-color: cornsilk; /* 背景が透けないように */
-	text-align: center;
-	font-size: 1.5rem;
+main {
+	margin: 0 auto;
+	padding: 40px 50px;
+	min-height: 600px;
+	max-width: 1000px;
+	background-color: #fff0f9;
+	/* 影をつける設定 */
+	box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
 }
 
 
