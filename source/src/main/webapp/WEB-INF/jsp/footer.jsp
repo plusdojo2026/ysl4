@@ -5,10 +5,13 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 </head>
-<body>
-	<div class="footer">
+<footer>
+<div class="footer">
 		pinkElephant@co.jp
 	</div>
+</footer>
+	
 </body>
 </html>

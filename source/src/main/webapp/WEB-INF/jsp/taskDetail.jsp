@@ -20,7 +20,7 @@
     /* モーダルの本体 */
     .modal-content {
       background-color: white;
-      width: 300px;
+      width: 750px;
       margin: 100px auto;
       padding: 20px;
       border-radius: 10px;
@@ -55,26 +55,51 @@
 	</div>
 	
 	<div>
-	案件名<c:out value="${taskList.projectName}" /><br>
-	担当者<c:out value="${taskList.userName}" /><br>
-	ステータス<c:out value="${taskList.status}" /><br>
-	優先度<c:out value="${taskList.priority}" /><br>
-	開始日<c:out value="${taskList.startDate}" /><br>
-	期限<c:out value="${taskList.dueDate}" /><br>
-	説明<c:out value="${taskList.discription}" /><br>
-	進捗<c:out value="${taskList.progress}" />
-	見積もり工数
-	実績工数
-	進捗率
-	残工数
+	<div>
+	<p>案件名</p>
+	<c:out value="${taskList.projectName}" /><br>
+	</div>
+	<div>
+	<p>担当者</p>
+	<c:out value="${taskList.userName}" /><br>
+	</div>
+	<div>
+	<p>ステータス</p>
+	<c:out value="${taskList.status}" /><br>
+	</div>
+	<div>
+	<p>優先度</p>
+	<c:out value="${taskList.priority}" /><br>
+	</div>
+	<div>
+	<p>開始日</p>
+	<c:out value="${taskList.startDate}" /><br>
+	</div>
+	<div>
+	<p>期限</p>
+	<c:out value="${taskList.dueDate}" /><br>
+	</div>
+	<div>
+	<p>説明</p>
+	<c:out value="${taskList.discription}" /><br>
+	</div>
+	<div>
+	<p>進捗</p>
+	<c:out value="${taskList.progress}" />
+	</div>
+	<div>見積もり工数</div>
+	<div>実績工数
+	<div>進捗率
+	<div>残工数
 	</div>
 	<c:forEach var="uib" items="${workLogList}" >
+	<input type="hidden" name="page_id" value="M001">
 	作業日
 	担当者
 	工数
 	作業内容
 	操作
-	<input type="submit" name="botton" value="削除">
+	<input type="submit" name="botton_id" value="工数削除">
 	</c:forEach>
 <!--ここまで案件詳細jsp-->
 	
@@ -84,7 +109,8 @@
   <div id="modal" class="modal-background">
     <div class="modal-content">
       <h2>工数入力</h2>
-      <form>
+      <form method="POST" action="<c:url value='/Controller'/>">
+      <input type="hidden" name="page_id" value="W001">
       作業者
       <input type="text" name="text" value="作業者">
       作業日
@@ -94,7 +120,7 @@
       作業内容
       <input type="text" name="text" value="作業内容"><br>
       <input type="reset" value="クリア">
-      <input type="submit" name="botton" value="保存">
+      <input type="submit" name="botton_id" value="登録">
       </form>
       <button class="close-btn" onclick="closeModal()">閉じる</button>
    
