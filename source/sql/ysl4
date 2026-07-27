@@ -1,9 +1,9 @@
-//データベース作成
+-- データベース作成
 
 	CREATE DATABASE ysl4;
 	USE ysl4;
 
-//ユーザーテーブル 
+-- ユーザーテーブル 
 
 CREATE TABLE Users (
 	user_id INT AUTO_INCREMENT PRIMARY KEY, 
@@ -16,7 +16,7 @@ CREATE TABLE Users (
     c_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     u_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
  
- //案件テーブル 
+ -- 案件テーブル 
  
   CREATE TABLE Projects(
   project_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +38,7 @@ CREATE TABLE Users (
   FOREIGN KEY(project_manager_id) REFERENCES Users(user_id)
   );
   
-  //タスクテーブル 
+ -- タスクテーブル 
   
   CREATE TABLE Tasks(
   task_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -58,7 +58,7 @@ CREATE TABLE Users (
   FOREIGN KEY(manager_id) REFERENCES Users(user_id)
   );
   
-  //工数テーブル 
+ -- 工数テーブル 
   
   CREATE TABLE WorkLogs(
   work_logs_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -73,11 +73,11 @@ CREATE TABLE Users (
   FOREIGN KEY(user_id) REFERENCES Users(user_id)
   );
 
-  //サンプルデータ 
+  -- サンプルデータ 
   
 USE ysl4;
 
-  //1. ユーザーデータの登録
+  -- 1. ユーザーデータの登録
 
 INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_valid, c_at) VALUES
 (NULL, 'tanaka.taro',       'password123', '田中 太郎',     'taro.tanaka@company.co.jp',       TRUE,  TRUE,  '2024-04-01 10:00:00'),
@@ -89,6 +89,10 @@ INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_v
 (NULL, 'ito.yuka',          'password123', '伊藤 由香',     'yuka.ito@company.co.jp',          FALSE, TRUE,  '2024-04-15 16:20:00'),
 (NULL, 'admin.system',      'password123', 'システム管理者', 'admin@company.co.jp',             TRUE,  FALSE, '2024-03-25 09:00:00');
 
+INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_valid, c_at) VALUES
+(NULL, 'nihon.taro', '$2a$10$AWKZWCtfqTgkjvP1N52IeOBfY218R09q2Ej/SDw0GE1o6lZLFQkX2', '日本 太郎', 'taro.nihon@company.co.jp', TRUE, TRUE, '2024-04-01 10:00:00');
+
+
 
 -- 2. 案件データの登録
 INSERT INTO Projects (project_id, project_code, project_name, customer_name, create_member_id, project_manager_id, start_date, due_date, estimated_manhours, actual_manhours, description, status, priority) VALUES
@@ -96,7 +100,7 @@ INSERT INTO Projects (project_id, project_code, project_name, customer_name, cre
 (NULL, 'PJ-002', '社内勤怠システム改修',     '自社開発',         8, 1, '2024/05/01', '2024/07/31', 80,  45,  'バックオフィス効率化のための改修。', '進行中', '中');
 
 
-  //3. タスクデータの登録
+  -- 3. タスクデータの登録
 
 INSERT INTO Tasks (task_name, project_id, manager_id, start_date, due_date, estimated_manhours, progress, status, priority, description) VALUES
 ('要件定義書の作成',     1, 1, '2024/04/15', '2024/04/15', 24, 100, '完了',   '高', '要件定義の作成タスク'),
@@ -107,7 +111,7 @@ INSERT INTO Tasks (task_name, project_id, manager_id, start_date, due_date, esti
 ('勤怠DB設計の見直し',   2, 6, '2024/05/10', '2024/05/20', 30, 80,  '進行中', '中', '別案件の追加タスク');
 
 
-  //4. 工数ログデータの登録
+  -- 4. 工数ログデータの登録
 
 INSERT INTO WorkLogs (task_id, user_id, work_date, man_hours, job_contents) VALUES
 (1, 1, '2024/04/15', 8.0, '要件定義骨子作成'),
