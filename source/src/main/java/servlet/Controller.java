@@ -214,6 +214,11 @@ public class Controller extends HttpServlet {
 
         String pageId = getParam(request, "page_id", "pageId");
         String buttonId = getParam(request, "button_id", "buttonId");
+        
+        //デバッグ
+        System.out.println("pageId=" + pageId);
+        System.out.println("buttonId=" + buttonId);
+        System.out.println("keyword=" + request.getParameter("keyword"));
 
         // ログアウト
         if ("none".equals(pageId) && "ログアウト".equals(buttonId)) {
