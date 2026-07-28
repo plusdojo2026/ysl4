@@ -43,12 +43,9 @@ public class SummaryService extends DBAccess {
             Float monthlyTotal = summaryDao.selectMonthlyTotal(month);
             int projectCount = summaryDao.countMonthlyProjects(month);
             int activeMemberCount = summaryDao.countMonthlyMembers(month);
-            List<ProjectSummaryDTO> projectSummaryList =
-                    summaryDao.selectProjectSummary(month);
-            List<MemberSummaryDTO> memberSummaryList =
-                    summaryDao.selectMemberSummary(month);
-            List<WorkLogDTO> monthlyWorkLogList =
-                    summaryDao.selectMonthlyWorkLogs(month);
+            List<ProjectSummaryDTO> projectSummaryList = summaryDao.selectProjectSummary(month);
+            List<MemberSummaryDTO> memberSummaryList = summaryDao.selectMemberSummary(month);
+            List<WorkLogDTO> monthlyWorkLogList =summaryDao.selectMonthlyWorkLogs(month);
 
             for (ProjectSummaryDTO dto : projectSummaryList) {
                 dto.setAchievementRate(
@@ -68,8 +65,7 @@ public class SummaryService extends DBAccess {
             summaryDto.setTotalManHours(monthlyTotal);
             summaryDto.setProjectCount(projectCount);
             summaryDto.setActiveMemberCount(activeMemberCount);
-            summaryDto.setOverrunProjectCount(
-                    countOverrunProjects(projectSummaryList));
+            summaryDto.setOverrunProjectCount(countOverrunProjects(projectSummaryList));
             summaryDto.setProjectSummaryList(projectSummaryList);
             summaryDto.setMemberSummaryList(memberSummaryList);
             summaryDto.setMonthlyWorkLogList(monthlyWorkLogList);
@@ -290,8 +286,7 @@ public class SummaryService extends DBAccess {
      */
     private String normalizeTargetMonth(String targetMonth) {
 
-        if (targetMonth == null
-                || !targetMonth.matches("\\d{4}-\\d{2}")) {
+        if (targetMonth == null || !targetMonth.matches("\\d{4}-\\d{2}")) {
             return YearMonth.now().toString();
         }
 

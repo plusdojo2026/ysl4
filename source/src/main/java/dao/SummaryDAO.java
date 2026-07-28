@@ -21,7 +21,7 @@ public class SummaryDAO {
     private final Connection conn;
 
     /** 工数ログID列名 */
-    private static final String WORK_LOG_ID_COLUMN = "work_logs__id";
+    private static final String WORK_LOG_ID_COLUMN = "work_logs_id";
 
     /**
      * DB接続を受け取る
