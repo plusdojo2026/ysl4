@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>メンバー管理</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css"/>
 <link rel="stylesheet" href="/webapp/css/common.css">
 <link rel="stylesheet" href="/webapp/css/member.css">
 <!-- ${pageContext.request.contextPath}/css/common.css -->
@@ -21,7 +22,7 @@
 		
 	<div class ="main">
 		<div class="under-header">
-		 <img class="regist-elephant" src="/webapp/img/elephant(1).png">
+		 <img class="regist-elephant" src="/webapp/img/smileelephant.png">
 			<div class="text-wrap">	
 			<h3>メンバー一覧</h3>
         	<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
@@ -129,11 +130,11 @@
     	 //------------------------------------------------
 		//データテーブルを使用
 		$("#foo-table").DataTable({
-		paging: true,        // ページング
-		searching: true,    // 検索ボックス
-		ordering: true,     // ソート（列ヘッダクリック）
-		info: true,         // "〜件中 〜件を表示"の表示
-		lengthChange: true  // 表示件数変更プルダウン
+		paging: true, // ページング
+		searching: true, // 検索ボックス
+		ordering: true,// ソート（列ヘッダクリック）
+		info: true,// "〜件中 〜件を表示"の表示
+		lengthChange: true// 表示件数変更プルダウン
 		})
 	});
  </script>
