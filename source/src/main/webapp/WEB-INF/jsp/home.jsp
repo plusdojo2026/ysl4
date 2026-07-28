@@ -36,9 +36,10 @@
 
         <div class="main-area">
             <header class="app-header">
-                <div>
-                    <h1 class="page-title">ホーム</h1>
-                    <p class="page-subtitle">ログイン中：<c:out value="${loginUser.name}" /></p>
+                <div home-top>
+                    <img src="${pageContext.request.contextPath}/img/defaultelephant.png">
+                    <p class="page-subtitle">おかえりなさい、<c:out value="${loginUser.name}"/><img src="${pageContext.request.contextPath}/img/heart.png"></p>
+                    <p>今日のタスクとプロジェクト状況を確認しましょう。</p>
                 </div>
 
                 <div class="header-actions">
