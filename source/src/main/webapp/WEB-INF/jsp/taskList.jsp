@@ -13,12 +13,7 @@
 </head>
 
 <body>
-	<header>
-		<%@ include file="/WEB-INF/jsp/header.jsp"%>
-	</header>
-	<footer>
-		<%@ include file="/WEB-INF/jsp/footer.jsp"%>
-	</footer>
+	<%@ include file="/WEB-INF/jsp/header.jsp"%>
 
 	<div class="main">
 		<div class="under-header">
@@ -58,7 +53,7 @@
 	<!-- <span class="msg">${msg}</span> -->
 	<form>
 		<!-- method="POST" action="<c:url value='/Controller'/>" -->
-		<input type="hidden" name="page_id" value="M001">
+		<input type="hidden" name="page_id" value="T001">
 		<div class="member-search">
 			<table>
 				<tr>
@@ -99,10 +94,14 @@
 							<option>中</option>
 							<option>低</option>
 					</select></td>
-					<td colspan="2"><input type="submit" class="submit-btn"
-						name="button_id" value="検索" onclick="return regist()"> <input
-						type="reset" class="clear-btn" name="button_id" value="クリア">
+					<td colspan="2">
+						<input type="submit" class="submit-btn" name="button_id" value="検索" onclick="return regist()">
+						<input type="reset" class="clear-btn" name="button_id" value="クリア">
 					</td>
+					<td colspan="2">
+                        <input type="submit" class="submit-btn" name="button_id" value="自分のタスク">
+                        <input type="reset" class="clear-btn" name="button_id" value="タスク登録" onclick="return regist()">
+                    </td>
 				</tr>
 			</table>
 		</div>
@@ -167,6 +166,8 @@
 			// })
 		});
 	</script>
+
+	<%@ include file="/WEB-INF/jsp/footer.jsp"%>
 </body>
 
 </html>

@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,12 +37,8 @@
   </style>
 </head>
 <body>
-<header>
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
-</header>
-<footer>
-<%@ include file="/WEB-INF/jsp/footer.jsp" %>
-</footer>
+	<%@ include file="/WEB-INF/jsp/header.jsp" %>
+
 <!--ここから案件詳細のjsp-->
 	<h1>案件詳細</h1>
 	<p>タスク詳細と工数ログを確認できます</p>
@@ -146,5 +144,6 @@
     }
   </script>
 
+	<%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </body>
 </html>
