@@ -18,7 +18,7 @@ import service.SummaryService;
 public class SummaryAction {
 
 	/** 月次集計画面 */
-	private static final String JSP_SUMMARY = "/WEB-INF/jsp/summary.jsp";
+	private static final String JSP_SUMMARY = "/WEB-INF/jsp/monthlySummary.jsp";
 
 	/** request */
 	private final HttpServletRequest request;

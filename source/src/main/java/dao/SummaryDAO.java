@@ -20,9 +20,6 @@ public class SummaryDAO {
     /** DB接続 */
     private final Connection conn;
 
-    /** 工数ログID列名 */
-    private static final String WORK_LOG_ID_COLUMN = "work_logs_id";
-
     /**
      * DB接続を受け取る
      *
@@ -193,7 +190,7 @@ public class SummaryDAO {
 
         String sql =
                 "SELECT "
-                + "wl." + WORK_LOG_ID_COLUMN + " AS work_logs_id, "
+                + "wl.work_logs_id AS work_logs_id, "
                 + "wl.task_id, "
                 + "t.task_name, "
                 + "t.project_id, "
@@ -283,7 +280,7 @@ public class SummaryDAO {
     }
 
     /**
-     * ResultSetの1行をWorkLogDTOへ変換する。
+     * ResultSetの1行をWorkLogDTOへ変換
      *
      * @param rs SQL取得結果
      * @return 工数ログDTO
