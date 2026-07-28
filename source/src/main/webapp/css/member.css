@@ -1,239 +1,654 @@
-/* メンバー登録画面 */
+/* メンバー画面の色定義 */
+.member-page {
+    --member-main-color: var(--hightlight-color, #f72575);
+    --member-sub-color: var(--secondary-color, rgba(247, 37, 117, 0.18));
+    --member-card-color: var(--tertiary-color, #ffffff);
+    --member-border-color: #e1e5e9;
+    --member-text-color: #14233a;
+    --member-muted-color: #5f6b7a;
 
-/* 象の画像 */
+    background:
+        radial-gradient(circle at 72% 16%, rgba(255, 220, 236, 0.72), transparent 26%),
+        linear-gradient(180deg, #fff7fb 0%, #fff1f7 52%, #fff9fc 100%);
+}
+
+/* メイン領域 */
+.member-main {
+    width: min(1320px, calc(100% - 96px));
+    margin: 0 auto;
+    padding: 42px 0 32px;
+    color: var(--member-text-color);
+}
+
+/* 画面上部 */
+.member-hero {
+    display: grid;
+    grid-template-columns: 260px 1fr 230px;
+    align-items: center;
+    gap: 28px;
+    min-height: 190px;
+}
+
+/* ゾウ画像領域 */
+.member-hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+/* 既存画像ファイルのゾウ */
 .regist-elephant {
-    width: 15%;
+    width: 210px;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
-/* h3,h4タグを象の画像の隣へ配置 */
-.under-header {
+/* 見出し領域 */
+.member-hero-text {
+    min-width: 0;
+}
+
+/* ページタイトル */
+.member-title {
+    margin: 0;
+    color: var(--member-text-color);
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+}
+
+/* リード文 */
+.member-lead {
+    margin: 12px 0 18px;
+    color: var(--member-text-color);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* 管理者専用の行 */
+.hero-note-row {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 16px;
 }
 
-/* 「管理者専用」の文字 */
-p {
-    border: 2px solid var(--hightlight-color);
+/* 管理者専用ラベル */
+.admin-pill {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 18px;
+    color: var(--member-main-color);
+    background: #fff4f9;
+    border: 2px solid var(--member-main-color);
     border-radius: 15px;
-    text-align: center;
-    
+    font-size: 15px;
+    font-weight: 800;
 }
 
-
-.member-regist, .member-edit {
-    background-color: var(--tertiary-color);
-    border-radius: 5px;
-	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
-    width: 90%;
-    height: 60%;
-    padding-left: 10%;
+/* 補足文 */
+.hero-note {
+    color: var(--member-muted-color);
+    font-size: 15px;
+    font-weight: 700;
 }
 
-
-.member-regist td {
-    border: none;
-}
-.member-edit td {
-    border: none;
-}
-
-form {
+/* 登録ボタン領域 */
+.member-hero-action {
     display: flex;
-    justify-content: center;/* 横方向の中央揃え */
-    align-items: center;/* 縦方向の中央揃え */
+    justify-content: flex-end;
 }
-/* 管理者一覧のダッシュボードテーブル */
+
+/* 登録ボタン */
+.regist-btn {
+    min-width: 190px;
+    min-height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 5px 18px;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff4f93, var(--member-main-color));
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px 0px var(--member-sub-color);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* プラス記号 */
+.plus-mark {
+    font-size: 28px;
+    line-height: 1;
+}
+
+/* 集計カード全体 */
 .member-dashboard {
     display: flex;
     justify-content: space-around;
     gap: 10px;
+    padding: 2%;
+    margin: 18px 0 22px;
 }
 
-/*ダッシュボード中身 */
+/* 集計カード */
 .member-count {
-    display: flex;
     width: 23%;
+    min-height: 112px;
+    display: flex;
     align-items: center;
-    background-color: var(--tertiary-color);
-    border: 1.5px solid var(--hightlight-color);
+    gap: 18px;
     padding: 10px;
+    background-color: var(--member-card-color);
+    border: 1.5px solid var(--member-main-color);
+    border-radius: 15px;
+    box-shadow: 0px 2px 10px 0px var(--member-sub-color);
     box-sizing: border-box;
 }
 
-.block-box {
-    display: block;
-    width: 100px;
-    height: 10px;
-    margin-bottom: 2px;
+/* 集計カード画像 */
+.member-count img {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
+    flex: 0 0 auto;
 }
 
-/* 管理者一覧の検索ブロック */
+/* 集計カードテキスト */
+.member-count-text {
+    min-width: 0;
+}
+
+/* 集計ラベル */
+.member-count-label {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--member-text-color);
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* 集計数値 */
+.actual-member-count {
+    color: var(--member-text-color);
+    font-size: 50px;
+    font-weight: 800;
+    line-height: 1;
+}
+
+/* 人数単位 */
+.member-count-unit {
+    margin-left: 4px;
+    color: var(--member-text-color);
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* 検索カード */
 .member-search {
+    margin-bottom: 20px;
+    padding: 26px 28px;
+    background-color: var(--member-card-color);
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
+}
+
+/* 検索条件配置 */
+.search-grid {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr 1fr 120px;
+    gap: 30px;
+    align-items: end;
+}
+
+/* 検索項目 */
+.search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 検索項目ラベル */
+.search-field label {
+    color: var(--member-text-color);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+/* キーワード入力枠 */
+.keyword-input-wrap {
+    position: relative;
+}
+
+/* 検索アイコン */
+.search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    color: #94a3b8;
+    font-size: 24px;
+    transform: translateY(-50%);
+}
+
+/* 検索入力とセレクト */
+.search-field input,
+.search-field select {
+    width: 100%;
+    min-height: 38px;
+    padding: 0 12px;
+    color: var(--member-text-color);
+    background-color: #ffffff;
+    border: 1.5px solid var(--member-border-color);
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    box-sizing: border-box;
+}
+
+/* キーワード入力 */
+.keyword-input-wrap input {
+    height: 38px;
+    padding-left: 50px;
+    border-radius: 8px;
+}
+
+/* キーワード入力フォーカス */
+.keyword-input-wrap input:focus {
+    outline: none;
+    border-color: #eeeeee;
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* セレクト */
+.search-field select {
+    cursor: pointer;
+}
+
+/* プレースホルダー */
+.search-field input::placeholder {
+    color: #a8b2c3;
+}
+
+/* クリアボタン領域 */
+.clear-button-area {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* クリアボタン */
+.clear-btn {
+    width: 116px;
+    min-height: 38px;
+    color: var(--member-main-color);
+    background: #ffffff;
+    border: 1.5px solid var(--member-main-color);
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* 検索補足 */
+.search-help {
+    margin: 18px 0 0;
+    color: var(--member-muted-color);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* 情報アイコン */
+.info-icon {
+    width: 20px;
+    height: 20px;
     display: inline-flex;
     align-items: center;
-    position: relative;
-    background-color: var(--tertiary-color);
-    border-radius: 5px;
-	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
-    width: 90%;
-    height: 60%;
-    padding-left: 10%;
+    justify-content: center;
+    margin-right: 8px;
+    color: #ffffff;
+    background: var(--member-main-color);
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 900;
 }
 
-.member-search::after {
-    position: absolute;
-    right: 15px;
-    width: 10px;
-    background-color: #535353;
-    content: '';
-    pointer-events: none;
+/* 補足文の間隔 */
+.help-space {
+    display: inline-block;
+    width: 20px;
 }
 
-.member-search select {
-    width: 130px;
-    height: 38px;
-    margin: 0;
-    border: 1.5px solid #e1e5e9;
-    border-radius: 10px;
-    cursor: pointer;
-    padding: 0 8px;
-    font-size: 15px;
-    background-color: #fff;
-    box-sizing: border-box;
-    vertical-align: middle;
-}
-
-/* 検索バー */
-.keyword {
-	width: 100%;
-	margin: 0 !important;
-	padding: 8px 12px;
-	border: 1.5px solid #e1e5e9;
-    height: 38px;
-	border-radius: 8px;
-	font-size: 15px;
-	background-color: #fff;
-	box-sizing: border-box;
-}
-.keyword:focus {
-	outline: none;
-	border-color: #eeeeee;
-	box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);	
-}
-.member-search td {
-    padding: 10px 8px;
-    vertical-align: middle;
-    border: none;
-}
-
-.member-search .submit-btn, 
-.member-search .clear-btn {
-    height: 38px;
-    padding: 0 15px;
-    margin: 0 4px 0 0;
-    font-size: 15px;
-    line-height: 38px;
-    vertical-align: middle;
-}
-.member-search .cancel-btn {
-    margin-right: 0;
-}
-
-
-
-/* メンバー一覧画面 */
-/* 登録メンバー情報ダッシュボード */
-.member-dashboard {
-    padding: 2%;
-}
-
-.member-count {
-    border-radius: 15px;
-    box-shadow: 0px 2px 10px 0px var(--secondary-color);
-    padding: 0px;
-}
-.actual-member-count {
-    font-size: 50px;
-
-}
-
-/* 一覧リスト */
+/* 一覧カード */
 .member-list {
-    padding: 4%;
     width: 100%;
+    padding: 4%;
     text-align: center;
+    background-color: transparent;
 }
 
-.member-list table {
-    margin: 0 auto;
+/* テーブル横スクロール */
+.member-table-wrap {
+    overflow-x: auto;
+}
+
+/* メンバーテーブル */
+.member-table {
     width: 80%;
-    border-collapse: collapse; /* セルの隙間をなくして線を1本にする */
+    margin: 0 auto;
+    border-collapse: collapse;
     background-color: #ffffff;
     box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.146);
 }
-.member-list th, td {
-    border-top: 1px solid #e1e5e9;
-    border-bottom: 1px solid #e1e5e9;
-    border-left: none;
-    border-right: none;
-    padding: 10px 15px;
-}
 
-/* 登録ボタン全体のフォーム */
-.main>form {
-    display: block;
-    width: 100%;
-}
-
-/* ボタン付近のCSS */
-.regist-btn {
-    padding: 5px;
-}
-
-.member-regist table,
-.member-edit table {
-    width: 100%;
+/* DataTables対策 */
+.member-table.dataTable {
     border-collapse: collapse;
 }
 
-.member-regist, .member-edit {
-    background-color: var(--tertiary-color);
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
-    width: 100%;
-    height: auto;
-    padding: 30px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
+/* テーブル見出し */
+.member-table th {
+    padding: 10px 15px;
+    color: var(--member-text-color);
+    background: #fbfcff;
+    border-top: 1px solid var(--member-border-color);
+    border-bottom: 1px solid var(--member-border-color);
+    border-left: none;
+    border-right: none;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 800;
 }
 
-.member-regist td,
-.member-edit td {
-    border: none;
-    padding: 12px 8px;
+/* テーブルセル */
+.member-table td {
+    padding: 10px 15px;
+    color: #24364f;
+    border-top: 1px solid var(--member-border-color);
+    border-bottom: 1px solid var(--member-border-color);
+    border-left: none;
+    border-right: none;
     vertical-align: middle;
+    font-size: 15px;
+    font-weight: 700;
 }
 
-
-/* 入力欄の幅を調整 */
-.member-regist .input-text,
-.member-edit .input-text {
-    width: 100%;/* セルいっぱいに広げる */
-    max-width: 300px;/* 横いっぱいにならないようにする */
+/* ログインID列 */
+.login-id-cell {
+    font-family: Consolas, Monaco, monospace;
 }
 
-/* ボタンが配置されている最下部の調整 */
-.member-regist td[colspan="3"],
-.member-edit td[colspan="3"] {
-    padding-top: 25px;/* ボタンエリアの上に余白を作る */
-    text-align: right;/* ボタンを右寄せ */
+/* 権限バッジ */
+.role-badge {
+    min-width: 86px;
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
 }
 
-/* 各種ボタンの隙間を調整 */
-.member-regist .submit-btn,
-.member-regist .cancel-btn {
-    height: auto;
-    padding: 10px 18px;
-    margin-left: 8px;/* ボタン同士の間隔 */
+/* 管理者権限 */
+.admin-role {
+    color: var(--member-main-color);
+    background: #ffe5f0;
+    border: 1px solid #ffc2d9;
+}
+
+/* 一般権限 */
+.normal-role {
+    color: #475569;
+    background: #f8fafc;
+    border: 1px solid #dfe5ee;
+}
+
+/* 状態バッジ */
+.status-badge {
+    min-width: 66px;
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+/* 有効状態 */
+.valid-status {
+    color: #16a34a;
+    background: #ecfdf3;
+    border: 1px solid #bbf7d0;
+}
+
+/* 無効状態 */
+.invalid-status {
+    color: #475569;
+    background: #e5e7eb;
+    border: 1px solid #d1d5db;
+}
+
+/* 操作列 */
+.action-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+}
+
+/* 操作列フォーム */
+.action-cell form {
+    margin: 0;
+}
+
+/* 編集ボタン */
+.edit-btn {
+    min-width: 90px;
+    min-height: 34px;
+    color: var(--member-main-color);
+    background: #ffffff;
+    border: 1.5px solid var(--member-main-color);
+    border-radius: 7px;
     font-size: 14px;
+    font-weight: 800;
+}
+
+/* 三点メニュー枠 */
+.more-menu-wrap {
+    position: relative;
+}
+
+/* 三点ボタン */
+.more-btn {
+    width: 40px;
+    height: 34px;
+    color: #24364f;
+    background: #ffffff;
+    border: 1.5px solid var(--member-border-color);
+    border-radius: 7px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+/* 三点メニュー */
+.more-menu {
+    position: absolute;
+    right: 0;
+    top: 42px;
+    z-index: 30;
+    display: none;
+    min-width: 190px;
+    padding: 10px 0;
+    background: #ffffff;
+    border: 1px solid var(--member-border-color);
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
+}
+
+/* 三点メニュー表示 */
+.more-menu.show {
+    display: block;
+}
+
+/* 三点メニュー項目 */
+.more-menu-item {
+    width: 100%;
+    display: block;
+    padding: 10px 16px;
+    color: #24364f;
+    background: #ffffff;
+    border: none;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* 三点メニュー項目ホバー */
+.more-menu-item:hover {
+    background: #fff3f8;
+    color: var(--member-main-color);
+}
+
+/* DataTables標準検索欄は非表示 */
+.dataTables_filter {
+    display: none;
+}
+
+/* DataTables表示件数 */
+.dataTables_length {
+    margin: 16px 0 10px 14px;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* DataTables情報 */
+.dataTables_info {
+    margin: 12px 0 16px 14px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* DataTablesページャー */
+.dataTables_paginate {
+    margin: 22px 0 0;
+    text-align: center;
+}
+
+/* DataTablesページボタン */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    min-width: 52px;
+    min-height: 44px;
+    margin: 0 5px;
+    padding: 10px 14px;
+    color: var(--member-text-color) !important;
+    background: #ffffff !important;
+    border: 1px solid #f3d5df !important;
+    border-radius: 8px;
+    font-weight: 800;
+}
+
+/* 選択中ページボタン */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #ff4f93, var(--member-main-color)) !important;
+    border-color: var(--member-main-color) !important;
+}
+
+/* 空データ */
+.empty-cell,
+.dataTables_empty {
+    padding: 34px !important;
+    color: #94a3b8 !important;
+    text-align: center !important;
+}
+
+/* タブレット幅 */
+@media (max-width: 1100px) {
+    .member-main {
+        width: min(100% - 32px, 1320px);
+    }
+
+    .member-hero {
+        grid-template-columns: 190px 1fr;
+    }
+
+    .member-hero-action {
+        grid-column: 1 / -1;
+        justify-content: flex-start;
+    }
+
+    .regist-elephant {
+        width: 170px;
+    }
+
+    .member-dashboard {
+        flex-wrap: wrap;
+    }
+
+    .member-count {
+        width: calc(50% - 10px);
+    }
+
+    .search-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .clear-button-area {
+        grid-column: 1 / -1;
+    }
+
+    .member-table {
+        width: 100%;
+    }
+}
+
+/* スマホ幅 */
+@media (max-width: 640px) {
+    .member-hero {
+        display: block;
+    }
+
+    .member-hero-image {
+        justify-content: flex-start;
+        margin-bottom: 12px;
+    }
+
+    .regist-elephant {
+        width: 145px;
+    }
+
+    .member-title {
+        font-size: 32px;
+    }
+
+    .hero-note-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .member-hero-action {
+        margin-top: 18px;
+    }
+
+    .member-dashboard {
+        display: block;
+    }
+
+    .member-count {
+        width: 100%;
+        margin-bottom: 12px;
+    }
+
+    .search-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .clear-btn {
+        width: 100%;
+    }
 }

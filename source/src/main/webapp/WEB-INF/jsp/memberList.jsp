@@ -1,233 +1,281 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>メンバー管理|TaskManager</title>
-<link rel="stylesheet"
-	href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/member.css">
 
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>メンバー一覧 | TaskManager</title>
+
+    <%-- DataTables用CSS --%>
+    <link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css">
+
+    <%-- 共通CSS --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+
+    <%-- メンバー画面用CSS --%>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member.css">
 </head>
 
-<body>
-	<!-- ヘッダータグ -->
-		<%@ include file="/WEB-INF/jsp/header.jsp"%>
-	<div class="main">
-		<div class="under-header">
-			<img class="regist-elephant"
-				src="${pageContext.request.contextPath}/img/smileelephant.png">
-			<div class="text-wrap">
-				<h3>メンバー一覧</h3>
-				<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
-				<p>管理者専用</p>
+<body class="member-page">
 
-				<form>
-					<input type="hidden" name="page_id" value="M002"> <input
-						type="submit" class="regist-btn" name="page_id" value="メンバー登録">
-				</form>
+    <%-- 共通ヘッダー --%>
+    <jsp:include page="/WEB-INF/jsp/header.jsp" />
 
-			</div>
-		</div>
-		<div class="member-dashboard">
-			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/people.png"
-					width="100px" height="100px"> <span> <span
-					class="block-box">総メンバー数</span> <span class="actual-member-count">9</span>人
-				</span>
-			</div>
-			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/validmember.png"
-					width="100" height="90"> <span> <span>有効メンバー数</span> <span
-					class="actual-member-count">7</span>人
-				</span>
-			</div>
-			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/adminuser.png"
-					width="80" height="90"> <span> <span>管理者数</span> <span
-					class="actual-member-count">2</span>人 
-			</div>
+    <main class="member-main">
 
-			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/invalidmember.png"
-					width="100" height="90"> <span>無効メンバー数</span> <span
-					class="actual-member-count">1</span>人
-			</div>
-		</div>
+        <section class="member-hero">
+            <div class="member-hero-image">
+                <img class="regist-elephant"
+                     src="${pageContext.request.contextPath}/img/smileelephant.png"
+                     alt="メンバー一覧">
+            </div>
 
-		<form method="POST" action="<c:url value='/Controller'/>">
-			<input type="hidden" name="page_id" value="M001">
-			<div class="member-search">
-				<table>
-					<tr>
-						<td>キーワード</td>
-						<td><input type="text" id="keyword-filter" class="keyword"
-							name="keyword" value="" placeholder="氏名などで検索"></td>
-						<!-- value="${param.id }"				 -->
+            <div class="member-hero-text">
+                <h1 class="member-title">メンバー一覧</h1>
+                <p class="member-lead">登録済みメンバーを確認・編集できます</p>
 
-						<td>権限</td>
+                <div class="hero-note-row">
+                    <span class="admin-pill">管理者専用</span>
+                    <span class="hero-note">メンバー情報を確認・編集できます</span>
+                </div>
+            </div>
 
-						<td><select id="role-filter">
-								<option value = "">すべて</option>
-								<option value = "一般ユーザー">一般ユーザー</option>
-								<option value = "管理者">管理者</option>
-						</select></td>
+            <div class="member-hero-action">
+                <form action="${pageContext.request.contextPath}/Controller" method="get">
+                    <input type="hidden" name="page_id" value="M002">
+                    <button type="submit" class="regist-btn">
+                        <span class="plus-mark">＋</span>
+                        メンバー登録
+                    </button>
+                </form>
+            </div>
+        </section>
 
-						<td>状態</td>
+        <section class="member-dashboard">
+            <div class="member-count">
+                <img src="${pageContext.request.contextPath}/img/people.png"
+                     alt="総メンバー数">
 
-						<td><select id="status-filter">
-								<option value = "">すべて</option>
-								<option value = "有効">有効</option>
-								<option value = "無効">無効</option>
-						</select></td>
+                <div class="member-count-text">
+                    <span class="member-count-label">総メンバー数</span>
+                    <span class="actual-member-count" id="totalMemberCount">0</span>
+                    <span class="member-count-unit">人</span>
+                </div>
+            </div>
 
-						<td colspan="2">
-							<!--   <input type="submit" class="submit-btn" name="button_id" value="検索" onclick="return regist()"> -->
-							<input type="reset" class="clear-btn" name="button_id"
-							value="クリア">
-						</td>
+            <div class="member-count">
+                <img src="${pageContext.request.contextPath}/img/validmember.png"
+                     alt="有効メンバー数">
 
-					</tr>
-				</table>
-			</div>
-		</form>
+                <div class="member-count-text">
+                    <span class="member-count-label">有効メンバー数</span>
+                    <span class="actual-member-count" id="validMemberCount">0</span>
+                    <span class="member-count-unit">人</span>
+                </div>
+            </div>
 
-		<div class="member-list">
-			<table border="1" id="foo-table" class="table table-bordered">
-				<thead>
-					<tr>
-						<th>ログインID</th>
-						<th>氏名</th>
-						<th>メールアドレス</th>
-						<th>権限</th>
-						<th>状態</th>
-						<th>登録日</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="e" items="${list}" varStatus="status">
-						<tr>
-							<td>${e.loginId}</td>
-							<td>${e.name}</td>
-							<td>${e.email}</td>
-							<td><c:choose>
-									<c:when test="${e.isAdmin}">
-            							管理者
-        							</c:when>
-									<c:otherwise>
-            							一般ユーザー
-        							</c:otherwise>
-								</c:choose></td>
-							<td>
-								<c:choose>
-									<c:when test="${e.isValid}">
-            							有効
-        							</c:when>
-									<c:otherwise>
-            							無効
-        							</c:otherwise>
-								</c:choose>
-							</td>
-							<td>${e.createdAt}</td>
-							<form>
-							<td>
-								<input type="submit" class="edit-btn" name="button_id"
-								value="編集" onclick="return edit()">
-							</td>
-							</form>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
+            <div class="member-count">
+                <img src="${pageContext.request.contextPath}/img/adminuser.png"
+                     alt="管理者数">
 
-	</div>
+                <div class="member-count-text">
+                    <span class="member-count-label">管理者数</span>
+                    <span class="actual-member-count" id="adminMemberCount">0</span>
+                    <span class="member-count-unit">人</span>
+                </div>
+            </div>
 
+            <div class="member-count">
+                <img src="${pageContext.request.contextPath}/img/invalidmember.png"
+                     alt="無効メンバー数">
 
-	<script
-		src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
-	<script>
-    jQuery(function($){
-    	//   デフォルトの設定を変更（日本語化）--------------------
-        $.extend( $.fn.dataTable.defaults, {
-            language: {
-                url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
-            }
-        });
-    	 //------------------------------------------------
-		//データテーブルを使用
-		var table = $("#foo-table").DataTable({
-		paging: true, // ページング
-		searching: true, // 検索ボックス
-		ordering: true,// ソート（列ヘッダクリック）
-		info: true,// "〜件中 〜件を表示"の表示
-		lengthChange: true, // 表示件数変更プルダウン
-		dom: 'lrtip'
-		});
+                <div class="member-count-text">
+                    <span class="member-count-label">無効メンバー数</span>
+                    <span class="actual-member-count" id="invalidMemberCount">0</span>
+                    <span class="member-count-unit">人</span>
+                </div>
+            </div>
+        </section>
 
-		//キーワード検索を連携
-		$('#keyword-filter').on('keyup', function () {
-		    table.search(this.value).draw();
-		});
+        <section class="member-search">
+            <div class="search-grid">
+                <div class="search-field keyword-field">
+                    <label for="keyword-filter">キーワード</label>
 
-		//DataTablesカスタムフィルターを追加
-		$.fn.dataTable.ext.search.push(
-			    function(settings, data, dataIndex) {
+                    <div class="keyword-input-wrap">
+                        <span class="search-icon">⌕</span>
+                        <input type="text"
+                               id="keyword-filter"
+                               class="keyword"
+                               name="keyword"
+                               placeholder="氏名で検索">
+                    </div>
+                </div>
 
-			        var role = $('#role-filter').val();
-			        var status = $('#status-filter').val();
+                <div class="search-field">
+                    <label for="role-filter">権限</label>
 
-			        var rowRole = data[3]; //権限列
-			        var rowStatus = data[4]; //状態列
+                    <select id="role-filter">
+                        <option value="">すべて</option>
+                        <option value="一般ユーザー">一般ユーザー</option>
+                        <option value="管理者">管理者</option>
+                    </select>
+                </div>
 
-			        if (role && rowRole !== role) {
-			            return false;
-			        }
+                <div class="search-field">
+                    <label for="status-filter">状態</label>
 
-			        if (status && rowStatus !== status) {
-			            return false;
-			        }
+                    <select id="status-filter">
+                        <option value="">すべて</option>
+                        <option value="有効">有効</option>
+                        <option value="無効">無効</option>
+                    </select>
+                </div>
 
-			        return true;
-			    }
-			);
+                <div class="clear-button-area">
+                    <button type="button" class="clear-btn" id="clear-search-button">
+                        クリア
+                    </button>
+                </div>
+            </div>
 
+            <p class="search-help">
+                <span class="info-icon">i</span>
+                編集からメンバー情報を変更できます
+                <span class="help-space"></span>
+                パスワードリセットや有効・無効の切り替えは三点メニューから行えます
+            </p>
+        </section>
 
-		//セレクト検索時に再検索
-		$('#role-filter, #status-filter').on('change', function () {
-		    table.draw();
-		});
+        <section class="member-list">
+            <div class="member-table-wrap">
+                <table id="foo-table" class="member-table table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ログインID</th>
+                            <th>氏名</th>
+                            <th>メールアドレス</th>
+                            <th>権限</th>
+                            <th>状態</th>
+                            <th>登録日</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
 
-		//クリアボタン
-		$('.clear-btn').on('click', function () {
+                    <tbody>
+                        <c:forEach var="e" items="${list}" varStatus="status">
+                            <tr>
+                                <td class="login-id-cell">
+                                    <c:out value="${e.loginId}" />
+                                </td>
 
-    		$('#keyword-filter').val('');
-    		$('#role-filter').val('');
-    		$('#status-filter').val('');
+                                <td>
+                                    <c:out value="${e.name}" />
+                                </td>
 
-    		table.search('');
-    		table.draw();
-		});
+                                <td>
+                                    <c:out value="${e.email}" />
+                                </td>
 
-		//Enterでのフォーム送信を禁止
-		$('#keyword-filter').on('keydown', function(e) {
-		    if (e.key === 'Enter') {
-		        e.preventDefault();
-		    }
-		});
-				
-		
-	});
- </script>
- <%@ include file="/WEB-INF/jsp/footer.jsp"%>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${e.isAdmin}">
+                                            <span class="role-badge admin-role">管理者</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="role-badge normal-role">一般ユーザー</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${e.isValid}">
+                                            <span class="status-badge valid-status">有効</span>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <span class="status-badge invalid-status">無効</span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+
+                                <td>
+                                    <c:out value="${e.createdAt}" />
+                                </td>
+
+                                <td>
+                                    <div class="action-cell">
+                                        <form action="${pageContext.request.contextPath}/Controller" method="get">
+                                            <input type="hidden" name="page_id" value="M003">
+                                            <input type="hidden" name="user_id" value="${e.userId}">
+                                            <button type="submit" class="edit-btn">
+                                                編集
+                                            </button>
+                                        </form>
+
+                                        <div class="more-menu-wrap">
+                                            <button type="button" class="more-btn">…</button>
+
+                                            <div class="more-menu">
+                                                <form action="${pageContext.request.contextPath}/Controller" method="get">
+                                                    <input type="hidden" name="page_id" value="M004">
+                                                    <input type="hidden" name="user_id" value="${e.userId}">
+                                                    <button type="submit" class="more-menu-item">
+                                                        🔑 パスワードリセット
+                                                    </button>
+                                                </form>
+
+                                                <form action="${pageContext.request.contextPath}/Controller" method="post" data-confirm="このメンバーを有効化しますか">
+                                                    <input type="hidden" name="page_id" value="M003">
+                                                    <input type="hidden" name="user_id" value="${e.userId}">
+                                                    <input type="hidden" name="is_valid" value="true">
+                                                    <button type="submit" name="button_id" value="有効化" class="more-menu-item">
+                                                        ✅ 有効化
+                                                    </button>
+                                                </form>
+
+                                                <form action="${pageContext.request.contextPath}/Controller" method="post" data-confirm="このメンバーを無効化しますか">
+                                                    <input type="hidden" name="page_id" value="M003">
+                                                    <input type="hidden" name="user_id" value="${e.userId}">
+                                                    <input type="hidden" name="is_valid" value="false">
+                                                    <button type="submit" name="button_id" value="無効化" class="more-menu-item">
+                                                        ✕ 無効化
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+
+                        <c:if test="${empty list}">
+                            <tr>
+                                <td colspan="7" class="empty-cell">
+                                    表示できるメンバーがありません
+                                </td>
+                            </tr>
+                        </c:if>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <%-- 共通フッター --%>
+    <jsp:include page="/WEB-INF/jsp/footer.jsp" />
+
+    <%-- DataTables用JS --%>
+    <script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
+
+    <%-- 共通JS --%>
+    <script src="${pageContext.request.contextPath}/js/common.js"></script>
+
+    <%-- メンバー画面用JS --%>
+    <script src="${pageContext.request.contextPath}/js/member.js"></script>
 </body>
-
-
-
 </html>
