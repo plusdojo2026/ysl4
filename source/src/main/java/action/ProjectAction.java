@@ -18,13 +18,13 @@ import service.ProjectService;
 public class ProjectAction {
 
     /** 案件一覧画面 */
-    private static final String JSP_PROJECT_LIST = "/WEB-INF/jsp/project_list.jsp";
+    private static final String JSP_PROJECT_LIST = "/WEB-INF/jsp/projectList.jsp";
 
     /** 案件詳細画面 */
-    private static final String JSP_PROJECT_DETAIL = "/WEB-INF/jsp/project_detail.jsp";
+    private static final String JSP_PROJECT_DETAIL = "/WEB-INF/jsp/projectDetail.jsp";
 
     /** 案件登録編集画面 */
-    private static final String JSP_PROJECT_FORM = "/WEB-INF/jsp/project_form.jsp";
+    private static final String JSP_PROJECT_FORM = "/WEB-INF/jsp/projectForm.jsp";
 
     /** 案件一覧へのリダイレクト */
     private static final String REDIRECT_PROJECT_LIST = "redirect:Controller?page_id=P001";
