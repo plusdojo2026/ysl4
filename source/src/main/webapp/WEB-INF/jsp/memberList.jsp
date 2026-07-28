@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>メンバー管理</title>
+<title>メンバー管理|TaskManager</title>
 <link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/member.css">
@@ -15,11 +15,7 @@
 <body>
 <header>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
-</header>
-<footer>
-<%@ include file="/WEB-INF/jsp/footer.jsp" %>
-</footer>	
-		
+</header>		
 	<div class ="main">
 		<div class="under-header">
 		 <img class="regist-elephant" src="${pageContext.request.contextPath}/img/smileelephant.png">
@@ -27,7 +23,13 @@
 			<h3>メンバー一覧</h3>
         	<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
 			<p>管理者専用</p>
-			<input type="submit" class="regist-btn" name="regist-btn" value="メンバー登録">
+			
+			
+			<input type="submit" class="regist-btn" name="page_id" value="メンバー登録">
+			
+			
+            <!-- <a href="${pageContext.request.contextPath}/Controller?page_id=M001" class="nav-link" data-page="M001" button_id="メンバー管理">メンバー管理</a> -->
+                
 			</div>
 		</div>
 		<div class="member-dashboard">			
@@ -119,6 +121,7 @@
 
 	</div>
 
+
 	<script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
  <script>
     jQuery(function($){
@@ -140,4 +143,7 @@
 	});
  </script>
 </body>
+
+<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+
 </html>

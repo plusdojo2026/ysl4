@@ -14,13 +14,10 @@
 <header>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 </header>
-<footer>
-<%@ include file="/WEB-INF/jsp/footer.jsp" %>
-</footer>	
 		
 		<div class ="main">
 		 <div class="under-header">
-			<img class="regist-elephant" src="/webapp/img/heartelephant.png">
+			<img class="regist-elephant" src="${pageContext.request.contextPath}/img/heartelephant.png">
 			<div class="text-wrap">
 			<h3>メンバー登録</h3>
             <h4>新しいメンバーを登録してください。</h4>
@@ -28,7 +25,7 @@
 			</div>
 		 </div>
             
-            <!-- <span class="msg">${msg}</span> -->
+            <span class="msg">${msg}</span>
 			<form> 
                 method="POST" action="<c:url value='/Controller'/>"
 				<input type="hidden" name="page_id" value="M001">
@@ -37,10 +34,8 @@
 					<tr>
 						<td>ログインID<span class="required-item">必須</span></td>
 						<td><input type="text" class="input-text" name="id" value="" required></td>
-                        <!-- value="${param.id }"				 -->
 						<td>氏名<span class="required-item">必須</span></td>
 						<td><input type="text" class="input-text" name="name" value=""></td>
-                        <!-- value="${param.name }" -->
 					</tr>
 					<tr>
                         <td>新規パスワード<span class="required-item">必須</span></td>
@@ -51,15 +46,12 @@
 					<tr>
                         <td>メールアドレス<span class="option-item">任意</span></td>
 						<td><input type="text" class="input-text" name="address" value=""></td>
-                        <!-- value="${param.email}" -->
 						<td>権限<span class="required-item">必須</span></td>
 						<td >
 							<label>
 							    <input type="radio" name="kan" value="1" checked>
-                                 <!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
 							    一般ユーザー
                                 <input type="radio" name="kan" value="2">
-                                <!-- <c:if test="${param.kan == '1'}" -->
                                 管理者
 						    </label>
                     </tr>
@@ -84,13 +76,7 @@
 				</div>
 			</form>				
 		</div>
-		<script>		
-		function regist(){
-			if (!confirm("登録します。よろしいですか？")) {
-			  // OK（はい）を押したときの処理
-				return false;
-			} 
-		}
-		</script>
+	  <!-- フッター -->
+	<%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </body>
 </html>

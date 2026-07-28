@@ -139,6 +139,10 @@ form {
     margin-right: 0;
 }
 
+.foo-table filter {
+    
+}
+
 /* メンバー一覧画面 */
 /* 登録メンバー情報ダッシュボード */
 .member-dashboard {
