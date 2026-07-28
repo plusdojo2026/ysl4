@@ -6,15 +6,15 @@
 <head>
 <meta charset="UTF-8">
 <title>案件詳細</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet" href="<c:url value='/css/project.css' />">
+<link rel="stylesheet" href="/webapp/css/common.css">
+	<link rel="stylesheet" href="/webapp/css/project.css">
+
 
 </head>
 
 <body>
-<header>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
-</header>
+
 	<form method="POST" action="<c:url value='/Controller'/>">
 	</form>
 
@@ -48,29 +48,29 @@ onclick="location.href='ProjectServlet?action=list'">
 </button>
   
 <div class = "syousai1">
-	<label>案件コード</label> ${dto.project_code}
+	<label>案件コード</label> ${project.projectCode}
 
-     <label>案件名</label> ${dto.project_name}
+     <label>案件名</label> ${project.projectName}
 
-	<label>顧客名</label> ${dto.customer_name}
+	<label>顧客名</label> ${project.customerName}
 
-	<label>PM</label> ${dto.project_manager_id}
+	<label>PM</label> ${project.projectManagerId}
 
-	<label>ステータス</label> ${dto.status}
+	<label>ステータス</label> ${project.status}
 
-	<label>優先度</label> ${dto.priority}
+	<label>優先度</label> ${project.priority}
 
 	<label>期間</label> 
-	${dto.start_date} ～ ${dto.due_date}
+	${project.startDate} ～ ${project.dueDate}
 
-	<label>見積工数</label> ${dto.estimated_manhours}
+	<label>見積工数</label> ${project.estimatedManhours}
 
 
-	<label>実績工数</label> ${dto.actual_manhours}
+	<label>実績工数</label> ${project.actualManhours}
 
-	<label>進捗</label> ${dto.ptiority}
+	<label>進捗</label> ${project.ptiority}
 
-	<label>説明</label> ${dto.description}
+	<label>説明</label> ${project.description}
 
 </div>
 
@@ -115,12 +115,45 @@ onclick="location.href='ProjectServlet?action=list'">
 </table>
 </div>
 </div>
-<script>？？？？？？
+<script>
 function deleteTask(taskId) {
     if (confirm("このタスクを削除しますか？")) {
-        location.href = "Controller?page_id=T003&task_id=" + taskId;
+        location.href = "Controller?page_id=T003&task_id=" + taskId;　？？？
     }
 }
 </script>
+
+<div class="syousai3-1">
+	<p class="title3">工数ログ（${fn:length(latestWorkLogList)}件</p>
+
+	ここに工数登録ボタン
+<div class="syousai3-2">
+<table>
+    <tr>
+        <th>作業日</th>
+        <th>タスク名</th>
+        <th>担当者</th>
+        <th>工数</th>
+        <th>作業内容</th>
+		
+    </tr>
+<c:forEach var="log" items="${latestWorkLogList}">
+    <tr>
+        <td>${log.workDate}</td>
+        <td>${log.taskName}</td>
+        <td>${log.managerId}</td>
+        <td>${log.manHours}</td>
+        <td>${log.jobContents}</td>
+        
+    </tr>
+</c:forEach>
+</table>
+</div>
+</div>
+
+
+
+<%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </body>
+</html>
 
