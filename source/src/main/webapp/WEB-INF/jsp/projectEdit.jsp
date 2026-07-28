@@ -22,7 +22,8 @@
 
 		<!-- 上の左側の象さんの画像 -->
 		<div class="sub -header-left">
-			<img src=象さんの画像>
+			<img class="regist-elephant"
+				src="${pageContext.request.contextPath}/img/smileelephant.png">
 
 			<!-- タイトル部分 -->
 			<div>
@@ -100,14 +101,21 @@
 
 		<!-- 見積工数 -->
 		<div class="field">
-			<label> 見積工数 <span class="must">必須</span>
-			</label> <input type="text" id="estimated_manhours" name="estimated_manhours" 
+			<label> 
+			
+				見積工数 <span class="must">必須</span>
+			</label> 
+			<input type="text" id="estimated_manhours" name="estimated_manhours" 
 			value="${projectList.estimatedManhours}">
 		</div>
 
 		<!-- 実績工数 -->
 		<div class="field">
-			<label>実績工数</label> <input type="text" id="actual_manhours"
+			<label>
+			
+			実績工数
+			</label> 
+			<input type="text" id="actual_manhours"
 				name="actual_manhours" value="${projectList.actualManhours}">
 		</div>
 
@@ -119,22 +127,87 @@
         
 		<!--  予算工数　　ここから分からん-->
 		<div class="kousuu">
-		<c:out value="${projectList.estimatedManhours}" />
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
+		予算工数<c:out value="${projectList.estimatedManhours}" />h
 		</div>
 
 		<!--  実績工数-->
 		<div class="kousuu">
-		<c:out value="${projectList.actualManhours}" />
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
+		実績工数<c:out value="${projectList.actualManhours}" />h
 		</div>
 
 		<!--  予算消化率-->
 		<div class="kousuu">
-		<c:out value="${(projectList.actualManhours/projectList.estimatedManhours)*100}" /></div>
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/advance.png">
+		<a href=r/dke/sj><c:out value="${(projectList.actualManhours/projectList.estimatedManhours)*100}" /></a></div>
 
 
 		<!--  タスク進捗-->
 		<div class="kousuu">
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
 		<c:out value="${projectList.progressRate}" />
+		<style>
+  body {
+    font-family: sans-serif;
+    max-width: 400px;
+    margin: 60px auto;
+  }
+
+  /* 現在値の表示ラベル（例: 30 / 50 (60%)） */
+  .label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .track {
+    background: #eee;
+    border-radius: 8px;
+    height: 16px;
+    overflow: hidden;
+  }
+
+  .bar {
+    width: 0%;
+    height: 100%;
+    background: #3378dd;
+    transition: width 0.3s ease;
+  }
+</style>
+</head>
+<body>
+
+<!-- 現在値の表示 -->
+<div class="label">
+  <span id="label-fraction"></span>
+  <span id="label-pct"></span>
+</div>
+
+<!-- プログレスバーの本体だよ -->
+<div class="track">
+  <div class="bar" id="js-bar"></div>
+</div>
+
+<!-- ここに${xxxxx}みたいな感じで値を入れるよ（下のJSで取得する）-->
+<input type="text" name="current" id="current" value="${projectDto.completedTaskCount}">
+<input type="text" name="total" id="total" value="${projectDto.taskCount}"> 
+
+<script>
+// ☆ここで上記のテキストボックスから取得したデータを入れるよ
+const current = document.getElementById("current").value;   // 現在の値（例: 完了数、達成数など）
+const total = document.getElementById("total").value;     // 合計の値（例: 全体数、目標値など）
+// ここまで！！
+
+// 分数→パーセントの変換
+const pct = Math.round((current / total) * 100);
+
+// バーの幅とラベルを反映（ページを開いた瞬間に実行されるようになってる）
+document.getElementById('js-bar').style.width = pct + '%';
+document.getElementById('label-fraction').textContent = current + ' / ' + total;
+document.getElementById('label-pct').textContent = pct + '%';
+</script>
 		</div>
 
 		<!-- 戻るボタン -->
