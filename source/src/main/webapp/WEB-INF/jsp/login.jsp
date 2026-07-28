@@ -13,11 +13,22 @@
 <body class="login-page">
 
     <main class="login-wrapper">
+        <!-- 画面の左半分：ロゴとイラスト -->
+        <section class="login-intro">
+          <div class="brand-logo">
+            <h1 class="login-title">TaskManager</h1>
+            <p class="login-subtitle">プロジェクト進捗管理システム</p>
+          </div>
+          <div class="logo-area">
+             <img src="${pageContext.request.contextPath}/img/defaultelephant.png">
+          </div>
+        </section>
+
+        <!-- 画面の右半分：ログインフォーム -->
         <section class="login-card">
-            <div class="login-title-area">
-                <h1 class="login-title">TaskManager</h1>
-                <p class="login-subtitle">プロジェクト進捗管理システム</p>
-            </div>
+          <div class="login-icon">
+            <img src="${pageContext.request.contextPath}/img/login.png">
+          </div>
 
             <%-- 共通JSがこの内容をalertで表示する --%>
             <c:if test="${not empty errMsg}">
@@ -44,7 +55,7 @@
                     <input type="password" id="password" name="password" autocomplete="current-password" required>
                 </div>
 				<div id="error_message" class="e-msg"></div>
-                <button type="submit" class="btn btn-primary btn-full">ログイン</button>
+                <button type="submit" class="login-btn">ログイン</button>
             </form>
         </section>
     </main>
