@@ -91,6 +91,8 @@ a:active {
 img, canvas{
 	max-width: 100%;
 }
+
+/* ボタンに関するCSS--------------------------------------- */
 .login-btn{
 	width: 100%;
 	padding: 12px;
@@ -143,6 +145,8 @@ img, canvas{
 .cancel-btn:active {
 	background-color: #F6ADC6;
 }
+
+
 /* headerの設定 */
 header {
 	background-color: var(--main-color);

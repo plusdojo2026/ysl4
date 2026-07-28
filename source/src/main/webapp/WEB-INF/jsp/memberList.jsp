@@ -16,9 +16,8 @@
 </head>
 
 <body>
-	<header>
+	<!-- ヘッダータグ -->
 		<%@ include file="/WEB-INF/jsp/header.jsp"%>
-	</header>
 	<div class="main">
 		<div class="under-header">
 			<img class="regist-elephant"
@@ -226,8 +225,9 @@
 		
 	});
  </script>
+ <%@ include file="/WEB-INF/jsp/footer.jsp"%>
 </body>
 
-<%@ include file="/WEB-INF/jsp/footer.jsp"%>
+
 
 </html>

@@ -17,41 +17,14 @@
   
 </head>
 
-<body>
+<body class="home-page">
  <%@ include file="/WEB-INF/jsp/header.jsp" %>
-    <%--<div class="app-layout">
-        <aside class="header-menu">
-            <div class="side-title">TaskManager</div>
-            <nav class="side-nav">
-                <a href="${pageContext.request.contextPath}/Controller?page_id=H001" class="nav-link" data-page="H001" bottun_id="ホーム">ホーム</a>
-                <a href="${pageContext.request.contextPath}/Controller?page_id=P001" class="nav-link" data-page="P001" bottun_id="案件一覧">案件一覧</a>
-                <a href="${pageContext.request.contextPath}/Controller?page_id=T001" class="nav-link" data-page="T001" bottun_id="タスク一覧">タスク一覧</a>
-                <a href="${pageContext.request.contextPath}/Controller?page_id=S001" class="nav-link" data-page="S001" bottun_id="月次集計">月次集計</a>
-                <c:if test="${loginUser.isAdmin}">
-                    <a href="${pageContext.request.contextPath}/Controller?page_id=M001" class="nav-link" data-page="M001" button_id="メンバー管理">メンバー管理</a>
-                </c:if>
-            </nav>
-        </aside>
-        </div>--%>
-
-        <div class="main-area">
-            <header class="app-header">
-                <div home-top>
+    <div class="main-area">
+            <div home-top>
                     <img src="${pageContext.request.contextPath}/img/defaultelephant.png">
                     <p class="page-subtitle">おかえりなさい、<c:out value="${loginUser.name}"/><img src="${pageContext.request.contextPath}/img/heart.png"></p>
                     <p>今日のタスクとプロジェクト状況を確認しましょう。</p>
                 </div>
-
-                <div class="header-actions">
-                    <%-- common.jsがクリック時にモーダルを生成して開く --%>
-                    <button type="button" class="btn btn-secondary" data-open-password-modal>パスワード変更</button>
-
-                    <form action="${pageContext.request.contextPath}/Controller" method="post" data-confirm="ログアウトしますか">
-                        <input type="hidden" name="page_id" value="none">
-                        <button type="submit" name="button_id" value="ログアウト" class="btn btn-outline">ログアウト</button>
-                    </form>
-                </div>
-            </header>
 
             <%-- 共通JSがこの内容をalertで表示する --%>
             <c:if test="${not empty errMsg}">
