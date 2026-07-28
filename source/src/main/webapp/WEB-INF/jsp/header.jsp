@@ -1,14 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-</head>
-<body>
-	
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
  <div class="app-layout">
         <aside class="header-menu">
             <div class="side-title">TaskManager</div>
@@ -33,5 +25,3 @@
 			}
 		}
 	</script>
-</body>
-</html>
