@@ -231,6 +231,7 @@ document.getElementById('label-pct').textContent = pct + '%';
     </script>
     
     <button type="button" onclick="goToPage()">案件詳細へ</button>
+    <%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </body>
 
       

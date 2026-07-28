@@ -1,5 +1,28 @@
-.title-area {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.title-area { 
+width: 15%;
+}
+
+.projectimg {
+    position: relative;
+    left: 200px;   /* 右へ20px */
+    top: -120px;   /* 上へ10px */
+}
+
+
+.subtitle {
+ position: relative;
+    left: 200px;   /* 右へ20px */
+    top: -120px;   /* 上へ10px */
+}
+
+input[type="text"]select{
+    width: 300px;
+    height: 40px;
+    border-radius: 10px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+}
+
+.mnust {
+   font-weight: 700;  
 }

@@ -7,8 +7,7 @@
 <meta charset="UTF-8">
 <title>案件一覧</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet" href="<c:url value='/css/project.css' />">
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}<c:url value='/css/project.css' />">
 </head>
 
 <body>
@@ -38,33 +37,87 @@
     
     <button type="button" onclick="goToPage()">＋新規登録</button>
     
-    
+    <form id="serchForm">
     <!-- キーワード検索 -->
-	
-	
+    <label>キーワード</label>
+	<input type="text" id="keyword" name="keyword" required placeholder="案件名・顧客名・案件コード">
+
 	<!-- ステータス -->
+	<label>ステータス</label>
+    <select name="status">
+    <option value="">すべて</option>
+    <option value="中止">中止</option>
+    <option value="進行中">進行中</option>
+    <option value="完了">完了</option>
+</select>
 	
 	
 	<!-- 優先度-->
+    <label>優先度</label>
+	<select name="priority">
+    <option value="">すべて</option>
+    <option value="高">高</option>
+    <option value="中">中</option>
+    <option value="低">低</option>
+</select>
+	
+
+     <!--検索ボタン-->
+     <button type="submit">検索</button>
+     
+     <!-- クリアボタン -->
+     <input type="reset" value="クリア">
+     <button>クリア</button>
+	</form>
 	
 	
 	
 	<!-- 案件一覧 -->
-	<c:forEach var="c" items="${projectList}" >
-						<tr>
-							<td>${c.project_code }</td>
-							<td>${c.project_name }</td>
-							<td>${c.customer_name }</td>
-							<td>${c.status }</td>
-							<td>${c.priority }</td>
-							<td>${c.project_manager_id }</td>
-							<td>${c.start_date }</td>
-							<td>${c.due_date }</td>
-						    <td>${c. }
-						    <td>${c.actual_manhours }
-							</td>
-						</tr>
-					</c:forEach>
+	div class="annkennitirann1-1">
+	<p class="title2">案件一覧</p>
+
+	ここに件数
+<div class="syousai1-2">
+<table>
+    <tr>
+        <th>案件コード</th>
+        <th>案件名</th>
+        <th>顧客名</th>
+        <th>ステータス</th>
+        <th>優先度</th>
+        <th>PM名</th>
+        <th>開始日</th>
+        <th>終了予定日</th>
+        <th>タスク進捗</th>
+        <th>実績工数</th>
+        <th>操作</th>
+		
+    </tr>
+<c:forEach var="project" items="${projectList}">
+    <tr>
+        <td>${project.projectCode}</td>
+        <td>${project.projectName}</td>
+        <td>${project.customerName}</td>
+        <td>${project.status}</td>
+        <td>${project.projectManagerId}</t
+        <td>${project.startDate}</td>
+        <td>${project.dueDate}</td>
+        <td>${project.progress}</td>?
+        <td>${project.actualManhours}</td>
+        <td>
+        <button type="button"
+                onclick="editProject(${project.projectId})">
+                編集
+            </button>
+        </td>
+    </tr>
+</c:forEach>
+</table>
+</div>
+</div>
+	
+	
+	
 
 <!-- タスク進捗現在値の表示 -->
 <div class="label">
@@ -96,5 +149,7 @@ document.getElementById('label-fraction').textContent = current + ' / ' + total;
 document.getElementById('label-pct').textContent = pct + '%';
 </script>
 
+
+<%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </body>
 </html>
