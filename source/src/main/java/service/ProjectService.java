@@ -155,11 +155,25 @@ public class ProjectService extends DBAccess {
             projectDto = projectsDao.findById(projectId);
 
             if (projectDto != null) {
+
                 List<TaskDTO> taskList = taskDao.selectByProjectId(projectId);
                 List<WorkLogDTO> latestWorkLogList = workLogDao.selectLatestByProjectId(projectId);
 
+                int taskCount =taskDao.countAllByProjectId(projectId);
+                int completedTaskCount = taskDao.countCompletedByProjectId(projectId);
+
+                float progressRate = 0;
+
+                if (taskCount > 0) {
+                    progressRate = ((float) completedTaskCount / taskCount) * 100;
+                }
+
                 projectDto.setTaskList(taskList);
                 projectDto.setLatestWorkLogList(latestWorkLogList);
+
+                projectDto.setTaskCount(taskCount);
+                projectDto.setCompletedTaskCount(completedTaskCount);
+                projectDto.setProgressRate(progressRate);
             }
 
             commit();

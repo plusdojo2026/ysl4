@@ -297,6 +297,118 @@ public class TaskService extends DBAccess {
 
         return result;
     }
+    
+    /**
+     * 案件内の全タスク数を取得する
+     * @param projectId 案件ID
+     * @return 全タスク数
+     */
+    public int countAllByProjectId(int projectId) {
+
+        if (projectId <= 0) {
+            return 0;
+        }
+
+        try {
+            access();
+
+            TaskDAO taskDao = new TaskDAO(conn);
+            int count = taskDao.countAllByProjectId(projectId);
+
+            commit();
+
+            return count;
+
+        } catch (SQLException e) {
+
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+
+            close();
+        }
+
+        return 0;
+    }
+    
+    /**
+     * 案件内の完了タスク数を取得する
+     * @param projectId 案件ID
+     * @return 完了タスク数
+     */
+    public int countCompletedByProjectId(int projectId) {
+
+        if (projectId <= 0) {
+            return 0;
+        }
+
+        try {
+            access();
+
+            TaskDAO taskDao = new TaskDAO(conn);
+            int count = taskDao.countCompletedByProjectId(projectId);
+
+            commit();
+
+            return count;
+
+        } catch (SQLException e) {
+
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+
+            close();
+        }
+
+        return 0;
+    }
+    
+    /**
+     * 案件進捗率を取得する
+     * @param projectId 案件ID
+     * @return 進捗率
+     */
+    public int getProgressRate(int projectId) {
+
+        if (projectId <= 0) {
+            return 0;
+        }
+
+        try {
+
+            access();
+
+            TaskDAO taskDao = new TaskDAO(conn);
+
+            int totalCount =
+                    taskDao.countAllByProjectId(projectId);
+
+            int completedCount =
+                    taskDao.countCompletedByProjectId(projectId);
+
+            commit();
+
+            if (totalCount == 0) {
+                return 0;
+            }
+
+            return (completedCount * 100) / totalCount;
+
+        } catch (SQLException e) {
+
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+
+            close();
+        }
+
+        return 0;
+    }
 
     /**
      * タスク登録と編集画面に必要な情報を取得する
