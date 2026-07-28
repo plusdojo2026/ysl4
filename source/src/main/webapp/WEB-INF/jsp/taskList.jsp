@@ -1,216 +1,174 @@
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> -->
 
 <!DOCTYPE html>
-<html lang="ja">
+<html>
+
 <head>
     <meta charset="UTF-8">
     <title>タスク一覧</title>
+    <link rel="stylesheet" href="/webapp/css/common.css">
+    <link rel="stylesheet" href="/webapp/css/tsak.css">
+    <!-- ${pageContext.request.contextPath}/css/common.css -->
+</head>
 
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-    <%@ include file="/WEB-INF/jsp/header.jsp" %>
-</header>
+<body>
+    <header>
+        <!-- <%@ include file="/WEB-INF/jsp/header.jsp" %> -->
+    </header>
+    <footer>
+        <!-- <%@ include file="/WEB-INF/jsp/footer.jsp" %> -->
+    </footer>
 
-<main class="task-container">
-
-    <section class="page-header">
-
-        <div class="header-image">
-            <img src="${pageContextontextPath}/images/elephant.png
-        </div>
-
-        <div class="header-title">
-            <h1>タスク一覧</h1>
-            <p>登録済みタスクを検索・確認できます</p>
-        </div>
-
-    </section>
-
-    <section class="summary-area">
-
-        <!-- 全タスク -->
-        <div class="summary-card">
-
-            <div class="summary-icon">
-                ${pageContext.request.contextPath}/images/all-task.png
+    <div class="main">
+        <div class="under-header">
+            <img class="regist-elephant" src="/webapp/img/elephant(1).png">
+            <div class="text-wrap">
+                <h3>タスク一覧</h3>
+                <h4>登録済みタスクの検索・確認ができます。</h4>
+                <!-- <input type="submit" class="regist-btn" name="regist-btn" value="メンバー登録"> -->
             </div>
-
-            <div>
-                <div class="summary-title">全タスク</div>
-                <div class="summary-count">
-                    ${totalTaskCount}件
-                </div>
-            </div>
-
         </div>
-
-        <!-- 進行中案件 -->
-        <div class="summary-card">
-
-            <div class="summary-icon">
-                ${pageContext.request.contextPath}/images/status.png
+        <div class="member-dashboard">
+            <div class="member-count">
+                <img src="/webapp/img/owntask.png" width="100px" height="100px">
+                <span>
+                    <span class="block-box">全タスク</span>
+                    <span class="actual-member-count">〇</span>件
+                </span>
             </div>
-
-            <div>
-                <div class="summary-title">進行中案件</div>
-                <div class="summary-count">
-                    ${progressTaskCount}件
-                </div>
+            <div class="member-count">
+                <img src="/webapp/img/clockmark.png" width="100" height="90">
+                <span>
+                    <span>進行中</span>
+                    <span class="actual-member-count">〇</span>件
+                </span>
             </div>
 
         </div>
-
-        <!-- 期限超過 -->
-        <div class="summary-card">
-
-            <div class="summary-icon">
-                pageContext.request.contextPath}/images/warning.png"
-                     alt="期限超過">
-            </div>
-
-            <div>
-                <div class="summary-title">期限超過</div>
-                <div class="summary-count danger">
-                    ${overDueTaskCount}件
-                </div>
-            </div>
-
+        <div class="member-count">
+            <img src="/webapp/img/warning.png" width="80" height="90">
+            <span>
+                <span>期限超過</span>
+                <span class="actual-member-count">〇</span>件
+            </span>
         </div>
 
-        <!-- 完了 -->
-        <div class="summary-card">
-
-            <div class="summary-icon">
-                ${pageContext.request.contextPath}/images/complete.png
-            </div>
-
-            <div>
-                <div class="summary-title">完了</div>
-                <div class="summary-count">
-                    ${completedTaskCount}件
-                </div>
-            </div>
-
+        <div class="member-count"><img src="/webapp/img/done.png" width="100" height="90">
+            <span>完了タスク</span>
+            <span class="actual-member-count">〇</span>件
         </div>
-
-    </section>
-
-    <!-- 検索フォーム -->
-    ${pageContext.request.contextPath}/task/list
-
-        <section class="search-area">
-
-            <div class="search-item">
-                <label>キーワード</label>
-                <input type="text"
-                       name="keyword"
-                       class="input-text"
-                       value="${keyword}">
-            </div>
-
-            <div class="search-item">
-                <label>案件</label>
-                <select name="projectId">
-
-                    <option value="">すべて</option>
-
-                    <c:forEach items="${projectList}" var="project">
-                        <option value="${project.projectId}">
-                            ${project.projectName}
-                        </option>
-                    </c:forEach>
-
-                </select>
-            </div>
-
-            <div class="search-item">
-                <label>ステータス</label>
-                <select name="status">
-                    <option value="">すべて</option>
-                    <option value="未着手">未着手</option>
-                    <option value="進行中">進行中</option>
-                    <option value="完了">完了</option>
-                    <option value="中止">中止</option>
-                </select>
-            </div>
-
-            <div class="search-item">
-                <label>担当者</label>
-                <select name="managerId">
-
-                    <option value="">すべて</option>
-
-                    <c:forEach items="${userList}" var="user">
-                        <option value="${user.userId}">
-                            ${user.name}
-                        </option>
-                    </c:forEach>
-
-                </select>
-            </div>
-
-            <div class="search-item">
-                <label>優先度</label>
-                <select name="priority">
-                    <option value="">すべて</option>
-                    <option value="高">高</option>
-                    <option value="中">中</option>
-                    <option value="低">低</option>
-                </select>
-            </div>
-
-        </section>
-
-        <section class="button-area">
-
-            <label>
-                <input type="checkbox"
-                       name="overdueOnly"
-                       value="true">
-                期限超過のみ
-            </label>
-
-            <button type="submit" class="submit-btn">
-                検索
-            </button>
-
-            <button type="reset" class="clear-btn">
-                クリア
-            </button>
-
-            <button type="submit"
-                    name="myTask"
-                    value="true"
-                    class="submit-btn">
-                自分のタスク
-            </button>
-
-            pageContext.request.contextPath/task/add"
-               class="submit-btn">
-                ＋ タスク登録
-            </a>
-
-        </section>
-
+    </div>
+    <!-- <span class="msg">${msg}</span> -->
+    <form>
+        <!-- method="POST" action="<c:url value='/Controller'/>" -->
+        <input type="hidden" name="page_id" value="M001">
+        <div class="member-search">
+            <table>
+                <tr>
+                    <td>キーワード</td>
+                    <td><input type="text" class="keyword" name="keyword" value="" placeholder="タスク名で検索"></td>
+                    <!-- value="${param.id }"				 -->
+                    <td>案件</td>
+                    <td>
+                        <select>
+                            <option></option>
+                            <option>案件１</option><!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
+                            <option>案件２</option> <!-- <c:if test="${param.kan == '1'}" -->
+                        </select>
+                    </td>
+                    <td>ステータス</td>
+                    <td>
+                        <select>
+                            <option></option>
+                            <option>未着手に戻す</option>
+                            <option>進行中にする</option>
+                            <option>完了にする</option>
+                            <option>保留にする</option>
+                        </select>
+                    </td>
+                    <td>担当者</td>
+                    <td>
+                        <select>
+                            <option></option>
+                            <option>田中</option>
+                            <option>佐藤</option>
+                            <option>鈴木</option>
+                            <option>高橋</option>
+                            <option>山本</option>
+                        </select>
+                    </td>
+                    <td>優先度</td>
+                    <td>
+                        <select>
+                            <option></option>
+                            <option>高</option>
+                            <option>中</option>
+                            <option>低</option>
+                        </select>
+                    </td>
+                    <td colspan="2">
+                        <input type="submit" class="submit-btn" name="button_id" value="検索" onclick="return regist()">
+                        <input type="reset" class="clear-btn" name="button_id" value="クリア">
+                    </td>
+                </tr>
+            </table>
+        </div>
     </form>
-
-    <!-- 件数 -->
-    <div class="result-header">
-        <span class="result-count">
-            ${pageInfo.totalCount}件
-        </span>
+    <div class="member-list">
+        <table border="1" id="foo-table" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>案件名</th>
+                    <th>タスク名</th>
+                    <th>担当者</th>
+                    <th>ステータス</th>
+                    <th>優先度</th>
+                    <th>期限</th>
+                    <th>見積工数</th>
+                    <th>実績工数</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="e" items="${list}" varStatus="status">
+                    <tr>
+                        <td>aaaa</td>
+                        <td>${e.empId}</td>
+                            <td>山田</td>
+                            <td>valuekfj</td>
+                            <td><span>一般</span></td>
+                            <td><span>有効</span></td>
+                            <td>200h</td>
+                            <td>120h</td>
+                            <td><input type="submit" class="edit-btn" name="button_id" value="編集"
+                                    onclick="return edit()"></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
     </div>
 
-    <!-- タスク一覧 -->
-    <div class="table-wrapper">
+    <script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
+    <script>
+        jQuery(function ($) {
+            //   デフォルトの設定を変更（日本語化）--------------------
+            $.extend($.fn.dataTable.defaults, {
+                language: {
+                    url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+                }
+            });
+            //------------------------------------------------
+            //データテーブルを使用
+            $("#foo-table").DataTable({
+                paging: true,        // ページング
+                searching: true,    // 検索ボックス
+                ordering: true,     // ソート（列ヘッダクリック）
+                info: true,         // "〜件中 〜件を表示"の表示
+                lengthChange: true  // 表示件数変更プルダウン
+            })
+        });
+    </script>
+</body>
 
-        <table class="task-table">
-
-            <thead>
-            <tr>
-                <th>案件名</th>
-                <th>タスク名</th>
-                <th>担当者</th>
-                <th>ステータス</th>
-                <th>優先度</th>
-                <th...
+</html>
