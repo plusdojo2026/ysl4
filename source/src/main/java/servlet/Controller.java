@@ -108,6 +108,8 @@ public class Controller extends HttpServlet {
     private String handleGet(HttpServletRequest request, HttpServletResponse response)throws Exception {
 
         String pageId = getParam(request, "page_id", "pageId");
+        
+        System.out.print(pageId);
 
         // page_idなし、またはログイン画面
         if (isBlank(pageId) || "L001".equals(pageId)) {
