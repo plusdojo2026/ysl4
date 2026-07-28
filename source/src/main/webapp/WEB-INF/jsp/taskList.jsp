@@ -7,8 +7,8 @@
 <head>
 <meta charset="UTF-8">
 <title>タスク一覧</title>
-<link rel="stylesheet" href="/webapp/css/common.css">
-<link rel="stylesheet" href="/webapp/css/tsak.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/task.css">
 <!-- ${pageContext.request.contextPath}/css/common.css -->
 </head>
 
@@ -37,21 +37,21 @@
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="/webapp/img/clockmark.png" width="100" height="90">
+				<img src="/webapp/img/clockmark.png" width="100" height="100">
 				<span> <span>進行中</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
-
-		</div>
-		<div class="member-count">
-			<img src="/webapp/img/warning.png" width="80" height="90"> <span>
-				<span>期限超過</span> <span class="actual-member-count">〇</span>件
-			</span>
-		</div>
-
-		<div class="member-count">
-			<img src="/webapp/img/done.png" width="100" height="90"> <span>完了タスク</span>
-			<span class="actual-member-count">〇</span>件
+			<div class="member-count">
+				<img src="/webapp/img/warning.png" width="100px" height="100px">
+				<span> <span class="block-box">期限超過</span> <span
+					class="actual-member-count">〇</span>件
+				</span>
+			</div>
+			<div class="member-count">
+				<img src="/webapp/img/done.png" width="100" height="100">
+				<span> <span>完了タスク</span> <span class="actual-member-count">〇</span>件
+				</span>
+			</div>
 		</div>
 	</div>
 	<!-- <span class="msg">${msg}</span> -->
@@ -71,7 +71,7 @@
 							<option>案件１</option>
 							<!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
 							<option>案件２</option>
-							<!-- <c:if test="${param.kan == '1'}" -->
+							<!-- <c:if test="${param.kan == '1'}"></c:if> -->
 					</select></td>
 					<td>ステータス</td>
 					<td><select>
@@ -81,6 +81,7 @@
 							<option>完了にする</option>
 							<option>保留にする</option>
 					</select></td>
+					<br>
 					<td>担当者</td>
 					<td><select>
 							<option></option>
@@ -105,6 +106,8 @@
 			</table>
 		</div>
 	</form>
+	<br>
+	<br>
 	<div class="member-list">
 		<table border="1" id="foo-table" class="table table-bordered">
 			<thead>
@@ -124,7 +127,7 @@
 				<c:forEach var="e" items="${list}" varStatus="status">
 					<tr>
 						<td>aaaa</td>
-						<td>${e.empId}</td>
+						<td><a href= "/ysl4/jsp/taskDetail">c:out value=${e.empId}</a></td>
 						<td>山田</td>
 						<td>valuekfj</td>
 						<td><span>一般</span></td>
@@ -154,14 +157,13 @@
 							});
 			//------------------------------------------------
 			//データテーブルを使用
-			$("#foo-table").DataTable({
-				paging : true, // ページング
-				searching : true, // 検索ボックス
-				ordering : true, // ソート（列ヘッダクリック）
-				info : true, // "〜件中 〜件を表示"の表示
-				lengthChange : true
-			// 表示件数変更プルダウン
-			})
+			// $("#foo-table").DataTable({
+			//     paging: true,        // ページング
+			//     searching: true,    // 検索ボックス
+			//     ordering: true,     // ソート（列ヘッダクリック）
+			//     info: true,         // "〜件中 〜件を表示"の表示
+			//     lengthChange: true  // 表示件数変更プルダウン
+			// })
 		});
 	</script>
 </body>
