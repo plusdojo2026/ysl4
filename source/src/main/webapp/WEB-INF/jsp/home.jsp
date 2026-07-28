@@ -14,13 +14,11 @@
     <title>ホーム | TaskManager</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/summary.css">
-    <%@ include file="/WEB-INF/jsp/header.jsp" %>
+  
 </head>
- <footer>
-				<%@ include file="/WEB-INF/jsp/footer.jsp" %>
-</footer>
-<body>
 
+<body>
+ <%@ include file="/WEB-INF/jsp/header.jsp" %>
     <%--<div class="app-layout">
         <aside class="header-menu">
             <div class="side-title">TaskManager</div>
@@ -185,6 +183,9 @@
           
         </div>
     </div>
+     <footer>
+				<%@ include file="/WEB-INF/jsp/footer.jsp" %>
+</footer>
 
     <script src="${pageContext.request.contextPath}/js/validation.js"></script>
     <script src="${pageContext.request.contextPath}/js/confirm.js"></script>

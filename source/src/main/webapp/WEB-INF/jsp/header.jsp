@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<head class="header">
+<header class="header">
         <aside class="header-menu">
             <div class="side-title">TaskManager</div>
             <nav class="side-nav">
@@ -14,8 +14,7 @@
                 </c:if>
             </nav>
         </aside>
-        </div>
-<head>
+<header>
 	<script>
 	//ログアウトボタンが押されたときの処理
 		function logout(){
