@@ -128,7 +128,7 @@
 				<c:forEach var="e" items="${list}" varStatus="status">
 					<tr>
 						<td>aaaa</td>
-						<td><a href= "/ysl4/jsp/taskDetail"><c:out value="${list.taskName}"></a></td>
+						<td><a href= "/ysl4/jsp/taskDetail"><c:out value="${e.taskName}"/></a></td>
 						<td>山田</td>
 						<td>valuekfj</td>
 						<td><span>一般</span></td>
