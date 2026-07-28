@@ -7,10 +7,7 @@
     <meta charset="UTF-8">
     <title>タスク一覧</title>
 
-    pageContext.request.contextPath/css/common.css">
-
-    <link rel="stylesheet"
-          href="${pageContext.request.contextPath}/css>
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <%@ include file="/WEB-INF/jsp/header.jsp" %>
 </header>
 
