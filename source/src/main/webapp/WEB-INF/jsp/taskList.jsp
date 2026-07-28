@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
-<html>
+
 
 <head>
 <meta charset="UTF-8">
@@ -22,7 +22,8 @@
 
 	<div class="main">
 		<div class="under-header">
-			<img class="regist-elephant" src="/webapp/img/elephant(1).png">
+			<img class="regist-elephant"
+				src="${pageContext.request.contextPath}/img/elephant(1).png">
 			<div class="text-wrap">
 				<h3>タスク一覧</h3>
 				<h4>登録済みタスクの検索・確認ができます。</h4>
@@ -31,25 +32,25 @@
 		</div>
 		<div class="member-dashboard">
 			<div class="member-count">
-				<img src="/webapp/img/owntask.png" width="100px" height="100px">
+				<img src="${pageContext.request.contextPath}/img/owntask.png" width="100px" height="100px">
 				<span> <span class="block-box">全タスク</span> <span
 					class="actual-member-count">〇</span>件
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="/webapp/img/clockmark.png" width="100" height="100">
-				<span> <span>進行中</span> <span class="actual-member-count">〇</span>件
+				<img src="${pageContext.request.contextPath}/img/clockmark.png" width="100" height="100">
+				<span> <span class="block-box">進行中</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="/webapp/img/warning.png" width="100px" height="100px">
+				<img src="${pageContext.request.contextPath}/img/warning.png" width="100px" height="100px">
 				<span> <span class="block-box">期限超過</span> <span
 					class="actual-member-count">〇</span>件
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="/webapp/img/done.png" width="100" height="100">
-				<span> <span>完了タスク</span> <span class="actual-member-count">〇</span>件
+				<img src="${pageContext.request.contextPath}/img/done.png" width="100" height="100">
+				<span> <span class="block-box">完了タスク</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
 		</div>
@@ -127,7 +128,7 @@
 				<c:forEach var="e" items="${list}" varStatus="status">
 					<tr>
 						<td>aaaa</td>
-						<td><a href= "/ysl4/jsp/taskDetail">c:out value=${e.empId}</a></td>
+						<td><a href= "/ysl4/jsp/taskDetail"><c:out value="${list.taskName}"></a></td>
 						<td>山田</td>
 						<td>valuekfj</td>
 						<td><span>一般</span></td>
@@ -144,7 +145,7 @@
 
 	<script
 		src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
-	<script>
+	<script>a
 		jQuery(function($) {
 			//   デフォルトの設定を変更（日本語化）--------------------
 			$
