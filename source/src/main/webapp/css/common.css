@@ -30,9 +30,16 @@ html {
 	color: var(--paragraph-color);
 }
 
+html, body {
+	height: 100%; /* 画面全体の高さを確保 */
+	margin: 0;/* 画面の一番外側の余白を削除 */
+}
+
 body {
-	/* 画面の一番外側の余白を削除 */
-	margin: 0 0 0 0;
+	display: flex;
+	flex-direction: column;/* 子要素のheader,main,footerを縦に並べる */
+	color: var(--paragraph-color);
+	background-color: #fef9fb;
 }
 
 /* 見出しのh1タグの設定 */
@@ -204,6 +211,7 @@ main {
 	background-color: #fff0f9;
 	/* 影をつける設定 */
 	box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;/* 画面の余白を埋めて、フッターを一番下へ押し出す */
 }
 
 
@@ -283,15 +291,11 @@ main {
 	font-size: 2rem;
 }
 /*footerのCSS-----------------------------------*/
-.footer{	
-	position: absolute;	
-	left:0;
-	right:0;
-	bottom:0;	
+.footer{		
 	width: 100%;
-	height:10%;		
-	z-index: 1000; /* 上に出したい場合 */
+	padding: 15px 20px;/* 余白で高さ調整 */	
 	background-color: #ffc0cb; /* 背景が透けないように */
 	text-align: right;
 	font-size: 1rem;
+	box-sizing: border-box;
 }
