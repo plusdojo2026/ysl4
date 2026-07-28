@@ -18,57 +18,52 @@
 </head>
 
 <body class="home-page">
- <%@ include file="/WEB-INF/jsp/header.jsp" %>
-    <div class="main-area">
-            <div home-top>
-                    <img src="${pageContext.request.contextPath}/img/defaultelephant.png">
-                    <p class="page-subtitle">おかえりなさい、<c:out value="${loginUser.name}"/><img src="${pageContext.request.contextPath}/img/heart.png"></p>
-                    <p>今日のタスクとプロジェクト状況を確認しましょう。</p>
-                </div>
+<%@ include file="/WEB-INF/jsp/header.jsp" %>
+  <div class="main-area">
+    <div home-top>
+        <img src="${pageContext.request.contextPath}/img/defaultelephant.png">
+        <p class="page-subtitle">おかえりなさい、
+            <c:out value="${loginUser.name}"/>
+            <!-- 語尾のハート -->
+            <img src="${pageContext.request.contextPath}/img/heart.png"></p>
+        <p>今日のタスクとプロジェクト状況を確認しましょう。</p>
+    </div>
 
-            <%-- 共通JSがこの内容をalertで表示する --%>
-            <c:if test="${not empty errMsg}">
-                <div class="js-message" data-type="error" data-open-password-modal="${openPasswordModal}"><c:out value="${errMsg}" /></div>
-            </c:if>
+    <%-- 共通JSがこの内容をalertで表示する --%>
+      <c:if test="${not empty errMsg}">
+        <div class="js-message" data-type="error" data-open-password-modal="${openPasswordModal}">
+            <c:out value="${errMsg}" />
+        </div>
+      </c:if>
 
-            <%-- 共通JSがこの内容をalertで表示する --%>
-            <c:if test="${not empty successMsg}">
-                <div class="js-message" data-type="success"><c:out value="${successMsg}" /></div>
-            </c:if>
+    <%-- 共通JSがこの内容をalertで表示する --%>
+      <c:if test="${not empty successMsg}">
+        <div class="js-message" data-type="success">
+            <c:out value="${successMsg}" />
+        </div>
+      </c:if>
 
-            <main class="content-area">
-                <section class="summary-card-grid home-card-grid">
-                    <article class="summary-card">
-                        <p class="summary-label">進行中案件</p>
-                        <p class="summary-value"><c:out value="${dashboard.inProgressProjectCount}" /></p>
-                    </article>
-                    <article class="summary-card">
-                        <p class="summary-label">担当タスク</p>
-                        <p class="summary-value"><c:out value="${dashboard.assignedTaskCount}" /></p>
-                    </article>
-                    <article class="summary-card">
-                        <p class="summary-label">期限超過</p>
-                        <p class="summary-value warning-text"><c:out value="${dashboard.overdueTaskCount}" /></p>
-                    </article>
-                    <article class="summary-card">
-                        <p class="summary-label">今月の工数</p>
-                        <p class="summary-value"><c:out value="${dashboard.thisMonthWorkHours}" />h</p>
-                    </article>
-                </section>
+    <main class="content-area">
+      <section class="summary-card-grid home-card-grid">
+        <article class="summary-card">
+            <p class="summary-label">進行中案件</p>
+            <p class="summary-value"><c:out value="${dashboard.inProgressProjectCount}" /></p>
+        </article>
+        <article class="summary-card">
+            <p class="summary-label">担当タスク</p>
+            <p class="summary-value"><c:out value="${dashboard.assignedTaskCount}" /></p>
+        </article>
+        <article class="summary-card">
+            <p class="summary-label">期限超過</p>
+            <p class="summary-value warning-text"><c:out value="${dashboard.overdueTaskCount}" /></p>
+        </article>
+        <article class="summary-card">
+            <p class="summary-label">今月の工数</p>
+            <p class="summary-value"><c:out value="${dashboard.thisMonthWorkHours}" />h</p>
+        </article>
+      </section>
 
-                <%-- 自分の予定は追加機能のためコメントアウト --%>
-                <%--
-                <section class="section-card">
-                    <div class="section-header">
-                        <h2>自分の予定</h2>
-                    </div>
-                    <div class="schedule-list">
-                        <p>予定表示は追加機能で実装</p>
-                    </div>
-                </section>
-                --%>
-
-                <section class="dashboard-grid">
+    <section class="dashboard-grid">
                     <div class="section-card">
                         <div class="section-header">
                             <h2>進行中案件</h2>
