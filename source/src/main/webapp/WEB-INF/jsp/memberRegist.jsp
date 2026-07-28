@@ -26,8 +26,7 @@
 		 </div>
             
             <span class="msg">${msg}</span>
-			<form> 
-                method="POST" action="<c:url value='/Controller'/>"
+			<form method="POST" action="<c:url value='/Controller'/>">
 				<input type="hidden" name="page_id" value="M001">
 				<div class="member-regist">
 				<table>

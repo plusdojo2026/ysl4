@@ -24,11 +24,10 @@
         	<h4>登録済みのメンバーの登録・確認・編集ができます。</h4>
 			<p>管理者専用</p>
 			
-			
+			<form>
+			<input type="hidden" name="page_id" value="M002">
 			<input type="submit" class="regist-btn" name="page_id" value="メンバー登録">
-			
-			
-            <!-- <a href="${pageContext.request.contextPath}/Controller?page_id=M001" class="nav-link" data-page="M001" button_id="メンバー管理">メンバー管理</a> -->
+			</form>
                 
 			</div>
 		</div>
