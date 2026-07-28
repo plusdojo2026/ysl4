@@ -74,17 +74,17 @@
 						<td>権限</td>
 
 						<td><select id="role-filter">
-								<option>すべて</option>
-								<option>一般ユーザー</option>
-								<option>管理者</option>
+								<option value = "">すべて</option>
+								<option value = "一般ユーザー">一般ユーザー</option>
+								<option value = "管理者">管理者</option>
 						</select></td>
 
 						<td>状態</td>
 
 						<td><select id="status-filter">
-								<option>すべて</option>
-								<option>有効</option>
-								<option>無効</option>
+								<option value = "">すべて</option>
+								<option value = "有効">有効</option>
+								<option value = "無効">無効</option>
 						</select></td>
 
 						<td colspan="2">
@@ -163,17 +163,17 @@
         });
     	 //------------------------------------------------
 		//データテーブルを使用
-		$("#foo-table").DataTable({
+		var table = $("#foo-table").DataTable({
 		paging: true, // ページング
 		searching: true, // 検索ボックス
 		ordering: true,// ソート（列ヘッダクリック）
 		info: true,// "〜件中 〜件を表示"の表示
-		lengthChange: true// 表示件数変更プルダウン
+		lengthChange: true, // 表示件数変更プルダウン
 		dom: 'lrtip'
-		})
+		});
 
 		//キーワード検索を連携
-		$('#keywordFilter').on('keyup', function () {
+		$('#keyword-filter').on('keyup', function () {
 		    table.search(this.value).draw();
 		});
 
@@ -181,8 +181,8 @@
 		$.fn.dataTable.ext.search.push(
 			    function(settings, data, dataIndex) {
 
-			        var role = $('#roleFilter').val();
-			        var status = $('#statusFilter').val();
+			        var role = $('#role-filter').val();
+			        var status = $('#status-filter').val();
 
 			        var rowRole = data[3]; //権限列
 			        var rowStatus = data[4]; //状態列
@@ -201,21 +201,28 @@
 
 
 		//セレクト検索時に再検索
-		$('#roleFilter, #statusFilter').on('change', function () {
+		$('#role-filter, #status-filter').on('change', function () {
 		    table.draw();
 		});
 
 		//クリアボタン
 		$('.clear-btn').on('click', function () {
 
-    		$('#keywordFilter').val('');
-    		$('#roleFilter').val('');
-    		$('#statusFilter').val('');
+    		$('#keyword-filter').val('');
+    		$('#role-filter').val('');
+    		$('#status-filter').val('');
 
     		table.search('');
     		table.draw();
-});
-`
+		});
+
+		//Enterでのフォーム送信を禁止
+		$('#keyword-filter').on('keydown', function(e) {
+		    if (e.key === 'Enter') {
+		        e.preventDefault();
+		    }
+		});
+				
 		
 	});
  </script>
