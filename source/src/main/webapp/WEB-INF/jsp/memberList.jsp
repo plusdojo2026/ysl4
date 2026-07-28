@@ -117,11 +117,31 @@
 							<td>${e.loginId}</td>
 							<td>${e.name}</td>
 							<td>${e.email}</td>
-							<td><span>${e.isAdmin}</span></td>
-							<td><span>${e.isValid}</span></td>
+							<td><c:choose>
+									<c:when test="${e.isAdmin}">
+            							管理者
+        							</c:when>
+									<c:otherwise>
+            							一般ユーザー
+        							</c:otherwise>
+								</c:choose></td>
+							<td>
+								<c:choose>
+									<c:when test="${e.isValid}">
+            							有効
+        							</c:when>
+									<c:otherwise>
+            							無効
+        							</c:otherwise>
+								</c:choose>
+							</td>
 							<td>${e.createdAt}</td>
-							<td><input type="submit" class="edit-btn" name="button_id"
-								value="編集" onclick="return edit()"></td>
+							<form>
+							<td>
+								<input type="submit" class="edit-btn" name="button_id"
+								value="編集" onclick="return edit()">
+							</td>
+							</form>
 						</tr>
 					</c:forEach>
 				</tbody>
