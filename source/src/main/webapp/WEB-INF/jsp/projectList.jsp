@@ -35,21 +35,21 @@
 	</div>	
 	</div>
             <div class="member-hero-action">
-                <form action="${pageContext.request.contextPath}/Controller" method="get">
+                <%-- <form action="${pageContext.request.contextPath}/Controller" method="get">
                     <input type="hidden" name="page_id" value="P003">
                     <button type="submit" class="regist-btn">
                         <span class="plus-mark">＋</span>
                         案件登録
                     </button>
                 </form>
-            </div>
-
+                --%>
     <form action="${pageContext.request.contextPath}/Controller" method="get">
-		<input type="hidden" name="page_id" value="P002">
+		<input type="hidden" name="page_id" value="P003">
 					<button type="submit" class="regist-btn">
 						<span class="plus-mark">＋</span> 新規登録
 					</button>
 				</form>
+				</div>
     
     <form id="serchForm">
     <input type="hidden" name="page_id" value="P001">
