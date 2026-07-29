@@ -142,17 +142,11 @@
                 </div>
             </div>
 
-            <p class="search-help">
-                <span class="info-icon">i</span>
-                編集からメンバー情報を変更できます
-                <span class="help-space"></span>
-                パスワードリセットや有効・無効の切り替えは三点メニューから行えます
-            </p>
         </section>
 
         <section class="member-list">
             <div class="member-table-wrap">
-                <table id="foo-table" class="member-table table table-bordered">
+                <table id="member-table" class="member-table table table-bordered">
                     <thead>
                         <tr>
                             <th>ログインID</th>
@@ -166,7 +160,7 @@
                     </thead>
 
                     <tbody>
-                        <c:forEach var="e" items="${list}" varStatus="status">
+                        <c:forEach var="e" items="${list}">
                             <tr>
                                 <td class="login-id-cell">
                                     <c:out value="${e.loginId}" />
@@ -224,7 +218,7 @@
                                                     <input type="hidden" name="page_id" value="M004">
                                                     <input type="hidden" name="user_id" value="${e.userId}">
                                                     <button type="submit" class="more-menu-item">
-                                                        🔑 パスワードリセット
+                                                        パスワードリセット
                                                     </button>
                                                 </form>
 
@@ -233,7 +227,7 @@
                                                     <input type="hidden" name="user_id" value="${e.userId}">
                                                     <input type="hidden" name="is_valid" value="true">
                                                     <button type="submit" name="button_id" value="有効化" class="more-menu-item">
-                                                        ✅ 有効化
+                                                        有効化
                                                     </button>
                                                 </form>
 
@@ -242,7 +236,7 @@
                                                     <input type="hidden" name="user_id" value="${e.userId}">
                                                     <input type="hidden" name="is_valid" value="false">
                                                     <button type="submit" name="button_id" value="無効化" class="more-menu-item">
-                                                        ✕ 無効化
+                                                        無効化
                                                     </button>
                                                 </form>
                                             </div>
@@ -251,14 +245,6 @@
                                 </td>
                             </tr>
                         </c:forEach>
-
-                        <c:if test="${empty list}">
-                            <tr>
-                                <td colspan="7" class="empty-cell">
-                                    表示できるメンバーがありません
-                                </td>
-                            </tr>
-                        </c:if>
                     </tbody>
                 </table>
             </div>
