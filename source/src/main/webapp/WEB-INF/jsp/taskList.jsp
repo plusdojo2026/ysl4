@@ -7,8 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>タスク一覧</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/task.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/common.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/css/task.css">
 <!-- ${pageContext.request.contextPath}/css/common.css -->
 </head>
 
@@ -27,25 +29,27 @@
 		</div>
 		<div class="member-dashboard">
 			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/owntask.png" width="100px" height="100px">
-				<span> <span class="block-box">全タスク</span> <span
-					class="actual-member-count">〇</span>件
+				<img src="${pageContext.request.contextPath}/img/owntask.png"
+					width="100px" height="100px"> <span> <span
+					class="block-box">全タスク</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/clockmark.png" width="100" height="100">
-				<span> <span class="block-box">進行中</span> <span class="actual-member-count">〇</span>件
+				<img src="${pageContext.request.contextPath}/img/clockmark.png"
+					width="100" height="100"> <span> <span
+					class="block-box">進行中</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/warning.png" width="100px" height="100px">
-				<span> <span class="block-box">期限超過</span> <span
-					class="actual-member-count">〇</span>件
+				<img src="${pageContext.request.contextPath}/img/warning.png"
+					width="100px" height="100px"> <span> <span
+					class="block-box">期限超過</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
 			<div class="member-count">
-				<img src="${pageContext.request.contextPath}/img/done.png" width="100" height="100">
-				<span> <span class="block-box">完了タスク</span> <span class="actual-member-count">〇</span>件
+				<img src="${pageContext.request.contextPath}/img/done.png"
+					width="100" height="100"> <span> <span
+					class="block-box">完了タスク</span> <span class="actual-member-count">〇</span>件
 				</span>
 			</div>
 		</div>
@@ -53,7 +57,7 @@
 	<!-- <span class="msg">${msg}</span> -->
 	<form>
 		<!-- method="POST" action="<c:url value='/Controller'/>" -->
-		<input type="hidden" name="page_id" value="T001">
+		<input type="hidden" name="page_id" value="M001">
 		<div class="member-search">
 			<table>
 				<tr>
@@ -77,32 +81,36 @@
 							<option>完了にする</option>
 							<option>保留にする</option>
 					</select></td>
-					<br>
-					<td>担当者</td>
-					<td><select>
-							<option></option>
-							<option>田中</option>
-							<option>佐藤</option>
-							<option>鈴木</option>
-							<option>高橋</option>
-							<option>山本</option>
-					</select></td>
-					<td>優先度</td>
-					<td><select>
-							<option></option>
-							<option>高</option>
-							<option>中</option>
-							<option>低</option>
-					</select></td>
-					<td colspan="2">
-						<input type="submit" class="submit-btn" name="button_id" value="検索" onclick="return regist()">
-						<input type="reset" class="clear-btn" name="button_id" value="クリア">
-					</td>
-					<td colspan="2">
-                        <input type="submit" class="submit-btn" name="button_id" value="自分のタスク">
-                        <input type="reset" class="clear-btn" name="button_id" value="タスク登録" onclick="return regist()">
-                    </td>
-				</tr>
+			</table>
+			<table>
+				<td>担当者</td>
+				<td><select>
+						<option></option>
+						<option>田中</option>
+						<option>佐藤</option>
+						<option>鈴木</option>
+						<option>高橋</option>
+						<option>山本</option>
+				</select></td>
+				<td>優先度</td>
+				<td><select>
+						<option></option>
+						<option>高</option>
+						<option>中</option>
+						<option>低</option>
+				</select></td>
+			</table>
+			<table>
+				<div class="button_edit">
+				<td colspan="3"><input type="submit" class="submit-btn"
+					name="button_id" value="検索" onclick="return regist()"> <input
+					type="reset" class="clear-btn" name="button_id" value="クリア">
+					<input type="submit" class="submit-btn" name="button_id"
+					value="自分のタスク"></td>
+				</div>
+				<a href="${pageContext.request.contextPath}/Controller?page_id=T003"
+					class="nav-link">タスク登録</a>
+
 			</table>
 		</div>
 	</form>
@@ -127,7 +135,8 @@
 				<c:forEach var="e" items="${list}" varStatus="status">
 					<tr>
 						<td>aaaa</td>
-						<td><a href= "/ysl4/jsp/taskDetail"><c:out value="${e.taskName}"/></a></td>
+						<td><a href="/ysl4/jsp/taskDetail"><c:out
+									value="${e.taskName}" /></a></td>
 						<td>山田</td>
 						<td>valuekfj</td>
 						<td><span>一般</span></td>
@@ -144,7 +153,8 @@
 
 	<script
 		src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
-	<script>a
+	<script>
+		a
 		jQuery(function($) {
 			//   デフォルトの設定を変更（日本語化）--------------------
 			$
