@@ -18,7 +18,8 @@
 	
 	<!-- 上の左側の象さんの画像 -->
 	<div class ="sub -header-left">
-	 <img src = "/webapp/img/elephant(1).png">
+	 <img class="regist-elephant"
+				src="${pageContext.request.contextPath}/img/smileelephant.png">
 	
 	<!-- タイトル部分 -->
 	<div>
@@ -72,7 +73,7 @@
      
      <!-- クリアボタン -->
      <input type="reset" value="クリア">
-     <button>クリア</button>
+
 	</form>
 	
 	
