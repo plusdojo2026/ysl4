@@ -110,7 +110,7 @@
 				</div>
 				
 				<div class="button_regist">
-				<td colspan="3">
+				<td colspan="3" class="submit-btn2">
 				<a href="${pageContext.request.contextPath}/Controller?page_id=T003" class="nav-link">タスク登録</a>
 				</td>
 				</div>

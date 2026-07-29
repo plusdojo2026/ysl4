@@ -41,7 +41,7 @@
     <div class="field">
         <label>
             案件コード
-            <c:out value="${(projectList.projectCode}" />
+            <c:out value="${(task.projectCode}" />
 		
         </label>
     </div>

@@ -124,7 +124,16 @@
 	height: 40px;
 	border-radius: 8px;
 	font-weight: bold;
+	background-color: #F6ADC6;
 }
+.submit-btn2 {
+	width: 50px;
+	height: 40px;
+	border-radius: 8px;
+	font-weight: bold;
+		background-color: #F6ADC6;
+}
+
 .button_edit{
     display: flex;
 }

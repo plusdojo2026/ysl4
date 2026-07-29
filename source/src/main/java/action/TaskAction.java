@@ -23,8 +23,11 @@ public class TaskAction {
     /** タスク詳細画面 */
     private static final String JSP_TASK_DETAIL = "/WEB-INF/jsp/taskDetail.jsp";
 
-    /** タスク登録編集画面 */
-    private static final String JSP_TASK_FORM = "/WEB-INF/jsp/taskForm.jsp";
+    /** タスク登録画面 */
+    private static final String JSP_TASK_FORM = "/WEB-INF/jsp/taskRegist.jsp";
+    
+    /** タスク編集画面 */
+    private static final String JSP_TASK_EDIT = "/WEB-INF/jsp/taskEdit.jsp";
 
     /** タスク一覧へのリダイレクト */
     private static final String REDIRECT_TASK_LIST = "redirect:Controller?page_id=T001";
@@ -175,7 +178,7 @@ public class TaskAction {
 
         setFormData(service.getTaskFormData(taskDto.getProjectId()));
 
-        return JSP_TASK_FORM;
+        return JSP_TASK_EDIT;
     }
 
     /**
@@ -274,6 +277,7 @@ public class TaskAction {
             taskDto.setTaskId(parseInt(getParam("task_id", "taskId")));
         }
 
+        taskDto.setProjectCode(parseInt(getParam("projectCode", "projectCode")));
         taskDto.setTaskName(getParam("task_name", "taskName"));
         taskDto.setProjectId(parseInt(getParam("project_id", "projectId")));
         taskDto.setManagerId(parseInt(getParam("manager_id", "managerId")));

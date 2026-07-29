@@ -21,6 +21,9 @@ public class TaskDTO implements Serializable {
 
     /** 案件ID */
     private int projectId;
+    
+    /** 案件コード */
+    private int projectCode;
 
     /** 案件名 */
     private String projectName;
@@ -89,6 +92,14 @@ public class TaskDTO implements Serializable {
 
     public void setProjectId(int projectId) {
         this.projectId = projectId;
+    }
+    
+    public int getProjectCode() {
+    	return projectCode;
+    }
+    
+    public void setProjectCode(int projectCode) {
+    	this.projectCode = projectCode;
     }
 
     public String getProjectName() {
