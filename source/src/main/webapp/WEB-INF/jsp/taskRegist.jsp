@@ -54,11 +54,11 @@
         <label>
          案件名
          <span class="must">必須</span>
-          <c:forEach var="pib" items="${projectList}" >
 	          	<select name="status">
+	          	<c:forEach var="pib" items="${projectList}" >
 	           		<option><c:out value="${pib.projectName}" /></option>
+	           		</c:forEach>
 				</select>
-			</c:forEach>
         </label>
 
         
@@ -95,9 +95,9 @@
         </label>
 
         <select id="priority"name="priority">
-            <option value="in_progress">進行中</option>
-            <option value="done">完了</option>
-            <option value="canceled">中止</option>
+            <option value="in_progress">中</option>
+            <option value="done">高</option>
+            <option value="canceled">低</option>
         </select>
     </div>
 
@@ -107,11 +107,13 @@
             担当者
             <span class="must">必須</span>
         </label>
-		<c:forEach var="uib" items="${userList}" >
+		
 	        <select id="assigne" name="assigne">
+	        <c:forEach var="uib" items="${userList}" >
 		    	<option><c:out value="${uib.name}" /></option>
+		    	</c:forEach>
 	        </select>
-        </c:forEach>
+        
     </div>
 
     <!-- 開始日 -->
