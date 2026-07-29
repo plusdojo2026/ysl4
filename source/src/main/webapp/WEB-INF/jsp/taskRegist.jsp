@@ -36,10 +36,7 @@
         <p>新しいタスクを入力してください</p>
        
     </div>
-<form id="projectForm"
-      method="POST"
-      action="ProjectServlet?action=regist">
-      <input type="hidden" name="page_id" value="T003">
+
     <!-- 案件コード -->
     <div class="field">
         <label>
@@ -69,10 +66,12 @@
     </div>
 
     <!-- タスク名 -->
+    <form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
+    <input type="hidden" name="page_id" value="T003">
     <div class="field">
         <label>タスク名</label>
 
-        <input type="text" id="customer_name" name="customer_name">
+        <input type="text" id="task_name" name="task_name">
     </div>
 
     <!-- ステータス -->
@@ -81,11 +80,11 @@
             ステータス<span class="must">必須</span>
         </label>
 
-        <select id="project_manager_id" name="project_manager_id">
-	        <option value="in_progress">未着手</option>
+        <select id="status" name="status">
+	        <option value="not_started">未着手</option>
 	        <option value="in_progress">進行中</option>
-	        <option value="in_progress">完了</option>
-	        <option value="in_progress">保留</option>
+	        <option value="done">完了</option>
+	        <option value="on_hold">保留</option>
         </select>
     </div>
 
@@ -96,7 +95,7 @@
             <span class="must">必須</span>
         </label>
 
-        <select id="status"name="status">
+        <select id="priority"name="priority">
             <option value="in_progress">進行中</option>
             <option value="done">完了</option>
             <option value="canceled">中止</option>
@@ -110,7 +109,7 @@
             <span class="must">必須</span>
         </label>
 		<c:forEach var="uib" items="${userList}" >
-	        <select id="priority" name="priority">
+	        <select id="assigne" name="assigne">
 		    	<option><c:out value="${uib.name}" /></option>
 	        </select>
         </c:forEach>
@@ -123,14 +122,14 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="date" id="" name="" placeholder="YYYY/MM/DD">
+        <input type="date" id="start_date" name="start_date" placeholder="YYYY/MM/DD">
     </div>
 
     <!-- 期限 -->
     <div class="field">
         <label>期限</label>
 
-        <input type="date" id="" name="" placeholder="YYYY/MM/DD">
+        <input type="date" id="due_date" name="due_date" placeholder="YYYY/MM/DD">
     </div>
 
     <!-- 見積もり工数 -->
@@ -140,7 +139,7 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="text" id="estimated-manhours" name="estimatedManhours">
+        <input type="text" id="estimated-manhours" name="estimated-manhours">
     </div>
 
     <!-- 進捗率 -->
@@ -150,7 +149,7 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="range" name="speed" min="0" max="100" step="5" value="0">
+        <input type="range" name="progress" min="0" max="100" step="5" value="0">
     </div>
 
     <!-- 説明 -->

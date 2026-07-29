@@ -52,12 +52,12 @@
         <label>
          案件名
          <span class="must">必須</span>
-	           		<option><c:out value="${pib.pojectName}" /></option>
+	           		<option><c:out value="${projectList.pojectName}" /></option>
         </label>
 
         
     </div>
-<form id="projectForm" method="POST" action="ProjectServlet?action=regist">
+<form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
 <input type="hidden" name="page_id" value="T004">
     <!-- タスク名 -->
     <div class="field">
@@ -73,10 +73,10 @@
         </label>
 
         <select id="status" name="status" value="${taskList.status}">
-	        <option value="in_progress">未着手</option>
-	        <option value="in_progress">進行中</option>
-	        <option value="in_progress">完了</option>
-	        <option value="in_progress">保留</option>
+	        <option value="not-started">未着手</option>
+	        <option value="in-progress">進行中</option>
+	        <option value="done">完了</option>
+	        <option value="on-hold">保留</option>
         </select>
     </div>
 
@@ -101,7 +101,7 @@
             <span class="must">必須</span>
         </label>
 		<c:forEach var="uib" items="${userList}" >
-	        <select id="priority" name="priority" value="${taskList.name}">
+	        <select id="assigne" name="assigne" value="${taskList.name}">
 		    	<option><c:out value="${uib.name}" /></option>
 	        </select>
         </c:forEach>
@@ -141,7 +141,7 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="range" name="speed" min="0" max="100" step="5" value="${taskList.progress}">
+        <input type="range" name="progress" min="0" max="100" step="5" value="${taskList.progress}">
     </div>
 
     <!-- 説明 -->
@@ -185,7 +185,7 @@
 		<!--  タスク進捗-->
 		<div class="kousuu">
 		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
-		<c:out value="${taskList.progressRate}" />
+		<c:out value="${taskList.progressRate}" />%
 		<style>
 
 <script>
