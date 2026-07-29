@@ -62,55 +62,81 @@
 	</div>
 	
 	<div>
-	<div>
-	<p>案件名</p>
-	<c:out value="${taskList.projectName}" /><br>
-	</div>
-	<div>
-	<p>担当者</p>
-	<c:out value="${taskList.userName}" /><br>
-	</div>
-	<div>
-	<p>ステータス</p>
-	<c:out value="${taskList.status}" /><br>
-	</div>
-	<div>
-	<p>優先度</p>
-	<c:out value="${taskList.priority}" /><br>
-	</div>
-	<div>
-	<p>開始日</p>
-	<c:out value="${taskList.startDate}" /><br>
-	</div>
-	<div>
-	<p>期限</p>
-	<c:out value="${taskList.dueDate}" /><br>
-	</div>
-	<div>
-	<p>説明</p>
-	<c:out value="${taskList.discription}" /><br>
-	</div>
-	<div>
-	<p>進捗</p>
-	<c:out value="${taskList.progress}" />
-	</div>
-	<div>見積もり工数</div>
-	<div>実績工数</div>
-	<div>進捗率</div>
-	<div>残工数</div>
+		<div>
+			<p>案件名</p>
+			<c:out value="${taskList.projectName}" /><br>
+		</div>
+		<div>
+			<p>担当者</p>
+			<c:out value="${taskList.userName}" /><br>
+		</div>
+		<div>
+			<p>ステータス</p>
+			<c:out value="${taskList.status}" /><br>
+		</div>
+		<div>
+			<p>優先度</p>
+			<c:out value="${taskList.priority}" /><br>
+		</div>
+		<div>
+			<p>開始日</p>
+			<c:out value="${taskList.startDate}" /><br>
+		</div>
+		<div>
+			<p>期限</p>
+			<c:out value="${taskList.dueDate}" /><br>
+		</div>
+		<div>
+			<p>説明</p>
+			<c:out value="${taskList.discription}" /><br>
+		</div>
+		<div>
+			<p>進捗</p>
+			<c:out value="${taskList.progress}" />
+		</div>
+		<div>
+			見積工数
+			<c:out value="${taskList.estimatedManhours}" />h
+		</div>
+		<div>
+			実績工数
+			<c:out value="${task.actualManhours}" />h
+		</div>
+		<div>
+			進捗率
+			<c:out value="${taskList.progress}" />%
+		</div>
+		<div>
+			残工数
+			<c:out value="${taskList.estimatedManhours-task.actualManhours}" />h
+		</div>
 	</div>
 	<c:forEach var="uib" items="${workLogList}" >
 	<input type="hidden" name="page_id" value="M001">
-	作業日
-	担当者
-	工数
-	作業内容
-	操作
-	<input type="submit" name="botton_id" value="工数削除" onclick="deleteMessage()">
+	<div>
+		作業日
+		<c:out value="${uib.workDate}" />
+	</div>>
+	<div>
+		担当者
+		<c:out value="${uib.userName}" />
+	</div>
+	<div>
+		工数
+		<c:out value="${uib.manHours}" />
+	</div>
+	<div>
+		作業内容
+		<c:out value="${uib.jobContents}" />
+	</div>
+	<div>
+		操作
+		<input type="submit" name="botton_id" value="工数削除" onclick="deleteMessage()">
 	</c:forEach>
+	</div>
 <!--ここまで案件詳細jsp-->
 	
-  <button onclick="openModal('${taskList.projectName}','${taskList.taskName}')">工数登録</button>
+  <button onclick="openModal('${taskDto.projectName}','${taskDto.taskName}')">工数登録</button>
 
   <!-- モーダル本体 -->
   <div id="modal" class="modal-background">

@@ -21,7 +21,7 @@ public class MemberAction {
     private static final String JSP_MEMBER_LIST = "/WEB-INF/jsp/memberList.jsp";
 
     /** メンバー登録編集画面 */
-    private static final String JSP_MEMBER_FORM = "/WEB-INF/jsp/memberRegist.jsp";
+    private static final String JSP_MEMBER_FORM = "/WEB-INF/jsp/memberEdit.jsp";
 
     /** パスワードリセット画面 */
     private static final String JSP_PASSWORD_RESET = "/WEB-INF/jsp/passwordReset.jsp";

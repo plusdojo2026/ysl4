@@ -1,13 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="displayProjectList" value="${projectList}" />
+<c:if test="${empty displayProjectList}">
+    <c:set var="displayProjectList" value="${list}" />
+</c:if>
+ 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>案件一覧</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}<c:url value='/css/project.css' />">
+    <link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
 <body>
