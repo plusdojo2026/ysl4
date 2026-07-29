@@ -17,9 +17,7 @@
 
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-<form id="projectForm"
-      method="POST"
-      action="ProjectServlet?action=regist">
+
 
     <!-- 上の画像-->
         <div>
@@ -38,12 +36,16 @@
         <p>新しいタスクを入力してください</p>
        
     </div>
-
+<form id="projectForm"
+      method="POST"
+      action="ProjectServlet?action=regist">
+      <input type="hidden" name="page_id" value="T003">
     <!-- 案件コード -->
     <div class="field">
         <label>
             案件コード
-		<c:out value="${(projectList.actualManhours/projectList.estimatedManhours)*100}" />
+            <c:out value="${(projectList.projectCode}" />
+		
         </label>
     </div>
 
@@ -121,14 +123,14 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="date" id="estimated_manhours" name="estimated_manhours" placeholder="YYYY/MM/DD">
+        <input type="date" id="" name="" placeholder="YYYY/MM/DD">
     </div>
 
     <!-- 期限 -->
     <div class="field">
         <label>期限</label>
 
-        <input type="date" id="actual_manhours" name="actual_manhours" placeholder="YYYY/MM/DD">
+        <input type="date" id="" name="" placeholder="YYYY/MM/DD">
     </div>
 
     <!-- 見積もり工数 -->
@@ -138,7 +140,7 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="text" id="start_date" name="start_date">
+        <input type="text" id="estimated-manhours" name="estimatedManhours">
     </div>
 
     <!-- 進捗率 -->
@@ -148,31 +150,30 @@
             <span class="must">必須</span>
         </label>
 
-        <input type="text" id="due_date" name="due_date">
+        <input type="range" name="speed" min="0" max="100" step="5" value="0">
     </div>
 
     <!-- 説明 -->
     <div class="field">
         <label>説明</label>
 
-        <input type="text" id="description" name="description">
+        <input type="text" id="description" name="description" style="width: 500px;">
     </div>
 
     <!-- 保存 -->
-    <button type="submit">
+    <button type="submit" name="botton_id" value="登録">
         保存
     </button>
 
 </form>
 
 <!-- 戻る -->
-<button type ="button" id=back>
+<button type ="button" id="back" onclick="history.back()">
     戻る
 </button>
 
 <!-- キャンセル（入力クリア）-->
-<button type="button"
-        id="clearBtn">
+<button type="button" id="clearBtn">
     キャンセル
 </button>
 

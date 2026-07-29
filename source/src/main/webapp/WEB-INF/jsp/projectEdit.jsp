@@ -187,8 +187,6 @@
     transition: width 0.3s ease;
   }
 </style>
-</head>
-<body>
 
 <!-- 現在値の表示 -->
 <div class="label">
