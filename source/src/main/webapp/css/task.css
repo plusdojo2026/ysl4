@@ -6,7 +6,7 @@
 	margin: 30px auto;
 	padding: 0 20px 40px; */
 	width: min(1000px, calc(100% - 40px));
-    min-height: 600px;
+    /* min-height: 600px; */
     color: var(--member-text-color);
     margin: 0 100px 0 100px;
 	padding-left: 0px;
@@ -14,7 +14,7 @@
 	max-width: 1000px;
 	background-color: #fff0f9;
 	/* 影をつける設定 */
-	/* box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20); */
+	box-shadow: var(--member-shadow);
 	flex: 1 0 auto;
 }
 
@@ -98,11 +98,19 @@
  */
 
 .member-search {
-	width: 100%;
+	width: min(1000px, calc(100% - 40px));
+    color: var(--member-text-color);
+    margin: 0 100px 0 100px;
+	padding-left: 0px;
+	padding-right: 0px;
+	max-width: 1000px;
+	background-color: white;
+	box-shadow: var(--member-shadow);
+	/* width: 100%;
 	margin: 0 auto 22px;
 	padding: 20px;
 	background-color: white;
-	border-radius: 20px;
+	border-radius: 20px; */
 	/* background: white;
 	padding: 20px;
 	border-radius: 20px;
@@ -156,11 +164,11 @@
 	background-color: #F6ADC6;
 }
 .submit-btn2 {
-	width: 50px;
+	width: 42px;
 	height: 40px;
 	border-radius: 8px;
 	font-weight: bold;
-		background-color: #F6ADC6;
+	background-color: #F6ADC6;
 }
 
 .button_edit{
