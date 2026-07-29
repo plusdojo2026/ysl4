@@ -2,9 +2,20 @@
 /*全体*/
 
 .main {
-	max-width: 1400px;
+	/* max-width: 1400px;
 	margin: 30px auto;
-	padding: 0 20px 40px;
+	padding: 0 20px 40px; */
+	width: min(1000px, calc(100% - 40px));
+    min-height: 600px;
+    color: var(--member-text-color);
+    margin: 0 100px 0 100px;
+	padding-left: 0px;
+	padding-right: 0px;
+	max-width: 1000px;
+	background-color: #fff0f9;
+	/* 影をつける設定 */
+	/* box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20); */
+	flex: 1 0 auto;
 }
 
 /* タイトルエリア */
@@ -87,10 +98,28 @@
  */
 
 .member-search {
-	background: white;
+	width: 100%;
+	margin: 0 auto 22px;
+	padding: 20px;
+	background-color: white;
+	border-radius: 20px;
+	/* background: white;
 	padding: 20px;
 	border-radius: 20px;
-	margin-bottom: 25px;
+	margin-bottom: 25px; */
+	/* width: min(1000px, calc(100% - 40px)); */
+    /* min-height: 50px; */
+    /* color: var(--member-text-color);
+    margin: 0 100px 0 100px;
+	padding-left: 0px;
+	padding-right: 0px;
+	max-width: 1000px;
+	/* background-color: #fff0f9; */
+	/* margin-bottom: 22px;
+    padding: 20px;
+    background-color: var(--member-card-color);
+    border-radius: 5px;
+    box-shadow: var(--member-shadow); */
 }
 
 .member-search table {
@@ -182,5 +211,3 @@
 .member-list tr:hover {
 	background: #fff7fa;
 }
-
-/* 
