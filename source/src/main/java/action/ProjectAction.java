@@ -147,6 +147,8 @@ public class ProjectAction {
 
 		int projectId = parseInt(getParam("project_id", "projectId"));
 
+		System.out.println("案件ID : " + projectId);
+
 		if (projectId <= 0) {
 			return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件IDが不正です");
 		}
@@ -174,6 +176,8 @@ public class ProjectAction {
 	public String showUpdate() {
 
 		int projectId = parseInt(getParam("project_id", "projectId"));
+
+		System.out.println("案件ID" + projectId);
 
 		if (projectId <= 0) {
 			return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件IDが不正です");
