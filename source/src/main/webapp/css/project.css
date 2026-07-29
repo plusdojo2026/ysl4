@@ -8,6 +8,11 @@ width: 15%;
     top: -120px;   /* 上へ10px */
 }
 
+.project-regist-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
 .subtitle {
  position: relative;
@@ -15,14 +20,69 @@ width: 15%;
     top: -120px;   /* 上へ10px */
 }
 
-input[type="text"]select{
-    width: 300px;
-    height: 40px;
-    border-radius: 10px;
-    padding: 0 10px;
-    border: 1px solid #ccc;
+.sub-header-right {
+     /*margin-left: 700px; 右に*/
+      width: 15%;
+      border:  2px solid black;;
+      border-radius: 0.5rem;            /* 角丸の半径 */
+      padding: 10px; /* 枠線の内側の余白 */
+      display: flex;
 }
 
-.mnust {
-   font-weight: 700;  
+.field {
+    position: relative;
+    margin-top: -140px;
+    display: flex;
+    width:100% ;
+}
+
+input[type="text"] {
+    width: 100px;
+height: 40px;
+border-radius: 0.5rem;            /* 角丸の半径 */
+}
+
+select {
+     width: 100px;
+height: 40px;
+border-radius: 0.5rem;            /* 角丸の半径 */
+}
+
+#comp {
+height: 40px;
+width: 50px; /* 横幅を500pxに固定 */
+  background-color: white;
+  border-radius: 0.5rem;            /* 角丸の半径 */
+  background-color: #f11294; 
+    color: white;              /* 文字色 */
+    border: none;              /* 枠線なし */
+}
+
+#back {
+    height: 40px;
+width: 50px; /* 横幅を500pxに固定 */
+  background-color: white;
+  border-radius: 0.5rem;  
+}
+
+#clearBtn {
+    height: 40px;
+    width: 100px; /* 横幅を500pxに固定 */
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+#description {
+    height: 40px;
+    width: 400%;
+}
+
+#clearBtn{
+    background-color: white;
+  border-radius: 0.5rem;  
+}
+
+#back{
+    background-color: white;
+  border-radius: 0.5rem; 
 }
