@@ -41,8 +41,7 @@
     <div class="field">
         <label>
             案件コード
-            <c:out value="${(task.projectCode}" />
-		
+				<c:out value="${task.projectCode}" />            
         </label>
     </div>
 
@@ -57,7 +56,7 @@
          <span class="must">必須</span>
           <c:forEach var="pib" items="${projectList}" >
 	          	<select name="status">
-	           		<option><c:out value="${pib.pojectName}" /></option>
+	           		<option><c:out value="${pib.projectName}" /></option>
 				</select>
 			</c:forEach>
         </label>
