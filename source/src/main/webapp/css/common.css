@@ -128,7 +128,7 @@ img, canvas{
 	background-color: #F6ADC6;
 }
 
-.cancel-btn, .clear-btn {
+.cancel-btn, .clear-btn, .logout-btn, .pw-reset-btn {
 	padding-left: 9px;
 	padding-right: 9px;
 	height: 1.7em;
@@ -145,6 +145,18 @@ img, canvas{
 }
 .cancel-btn:active {
 	background-color: #F6ADC6;
+}
+
+.logout-btn, .pw-reset-btn {
+	padding-left: 9px;
+	padding-right: 9px;
+	height: 4.5em;
+	cursor: pointer;
+	background-color: var(--background-color);
+	color: var(--button-color);
+	border: 1.5px solid var(--hightlight-color);
+	border-radius: 4px;
+	font-size: 10px;
 }
 
 
@@ -438,21 +450,18 @@ header {
 	display: flex;
 }
 
-
-
 /* ユーザーアイコン */
-.user-status img {
-	width: 15%;
-	padding: 50px 0 0 0;
+.user-status {
+	width: 60%;
 }
 
-/* ユーザーアイコンの隣の名前 */
+.icon-area {
+	width: 20%;
+}
+
+/* ユーザーの名前 */
 .user-name {
-	padding-bottom: 20px;
-}
-
-.header-right {
-	display: flex;
+	font-size: 15px;
 }
 
 .header-actions {
