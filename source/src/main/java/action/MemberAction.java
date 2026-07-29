@@ -44,25 +44,35 @@ public class MemberAction {
     }
 
     /**
-     * メンバー一覧を表示する
+     * メンバー一覧を取得。
+     * GET表示や検索で使用する。
+     *
      * @return 遷移先JSP
      */
     public String list() {
 
+        // 一般ユーザーはアクセスできない
         if (!isAdminUser()) {
             return REDIRECT_HOME + "&msg=" + encode("管理者のみ利用できます");
         }
 
+        // 全ユーザーを取得する
         UserService service = new UserService();
-        List<UserDTO> userList = service.selectAll();
+        List<UserDTO> users = service.selectAll();
 
-        String keyword = getParam("keyword");
-        List<UserDTO> displayUserList = filterUsers(userList, keyword);
+        // 検索キーワードを取得する
+        String keyword = request.getParameter("keyword");
 
-        request.setAttribute("users", displayUserList);
-        request.setAttribute("userList", displayUserList);
+        // キーワードがある場合だけ絞り込む
+        List<UserDTO> displayUsers = filterUsers(users, keyword);
+
+        // JSP表示用に複数の属性名で渡す
+        request.setAttribute("users", displayUsers);
+        request.setAttribute("list", displayUsers);
+        request.setAttribute("userList", displayUsers);
         request.setAttribute("keyword", keyword);
 
+        // redirectで渡されたメッセージをrequestへ設定する
         setMessageFromParameter();
 
         return JSP_MEMBER_LIST;

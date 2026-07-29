@@ -168,11 +168,11 @@
 
 /* 集計ラベル */
 .member-count-label {
-    display: block;
-    margin-bottom: 2px;
-    color: var(--member-text-color);
-    font-size: 13px;
-    font-weight: 100 !important;
+display: block;
+margin-bottom: 6px;
+color: var(--member-text-color);
+font-size: 15px;
+font-weight: 400;
 }
 
 .member-count-label,
@@ -184,18 +184,18 @@
 
 /* 集計数値 */
 .actual-member-count {
-    color: var(--member-text-color);
-    font-size: 30px;
-    font-weight: 600;
-    line-height: 1.2;
+color: var(--member-text-color);
+font-size: 50px;
+font-weight: 300;
+line-height: 1;
 }
 
 /* 人数単位 */
 .member-count-unit {
-    margin-left: 2px;
-    color: var(--member-text-color);
-    font-size: 14px;
-    font-weight: 300;
+margin-left: 4px;
+color: var(--member-text-color);
+font-size: 18px;
+font-weight: 400;
 }
 
 /* 検索カード */
@@ -589,4 +589,109 @@
     font-family: sans-serif !important;
     font-weight: 100 !important;
     color: blue !important;
+}
+
+/*member修正------------------------------ */
+
+/* ダッシュボードカードの主張を弱める */
+.member-page .member-dashboard {
+    gap: 12px !important;
+    margin: 0 0 20px !important;
+}
+
+/* ダッシュボードカードを軽くする */
+.member-page .member-count {
+    min-height: 84px !important;
+    padding: 12px !important;
+    border: 1px solid var(--member-border-color, #e1e5e9) !important;
+    border-radius: 8px !important;
+    box-shadow: 0px 2px 8px 0px rgba(97, 96, 96, 0.12) !important;
+}
+
+/* ダッシュボードカード画像を控えめにする */
+.member-page .member-count img {
+    width: 46px !important;
+    height: 46px !important;
+}
+
+/* ダッシュボードラベルを細くする */
+.member-page .member-count-label {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--member-text-color, #000000) !important;
+}
+
+/* ダッシュボード数値を細くする */
+.member-page .actual-member-count {
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    color: var(--member-text-color, #000000) !important;
+}
+
+/* 人数単位を細くする */
+.member-page .member-count-unit {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+/* 検索欄ラベルを細くする */
+.member-page .search-field label {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* 検索入力欄を細くする */
+.member-page .search-field input,
+.member-page .search-field select {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+/* 補足文を細くする */
+.member-page .search-help {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+/* テーブル見出しを細くする */
+.member-page .member-table th {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+}
+
+/* テーブル本文を細くする */
+.member-page .member-table td {
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+/* バッジ文字を細くする */
+.member-page .role-badge,
+.member-page .status-badge {
+    font-size: 12px !important;
+    font-weight: 500 !important;
+}
+
+/* 編集ボタンを細くする */
+.member-page .edit-btn {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+/* 三点メニューを細くする */
+.member-page .more-btn,
+.member-page .more-menu-item {
+    font-weight: 400 !important;
+}
+
+/* DataTablesページャーを細くする */
+.member-page .dataTables_wrapper .dataTables_paginate .paginate_button {
+    font-size: 13px !important;
+    font-weight: 400 !important;
+}
+
+.member-page .actual-member-count {
+    font-size: 28px !important;
+    font-weight: 500 !important;
+    font-family: "Yu Gothic UI", "Meiryo", sans-serif !important;
 }

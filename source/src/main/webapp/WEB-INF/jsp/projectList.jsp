@@ -18,7 +18,8 @@
 	
 	<!-- 上の左側の象さんの画像 -->
 	<div class ="sub -header-left">
-	 <img src = "/webapp/img/elephant(1).png">
+	 <img class="regist-elephant"
+				src="${pageContext.request.contextPath}/img/smileelephant.png">
 	
 	<!-- タイトル部分 -->
 	<div>
@@ -34,10 +35,15 @@
             location.href = 'projectRegist.jsp';
         }
     </script>
-    
-    <button type="button" onclick="goToPage()">＋新規登録</button>
+    <form action="${pageContext.request.contextPath}/Controller" method="get">
+		<input type="hidden" name="page_id" value="P002">
+					<button type="submit" class="regist-btn">
+						<span class="plus-mark">＋</span> 新規登録
+					</button>
+				</form>
     
     <form id="serchForm">
+    <input type="hidden" name="page_id" value="P001">
     <!-- キーワード検索 -->
     <label>キーワード</label>
 	<input type="text" id="keyword" name="keyword" required placeholder="案件名・顧客名・案件コード">
@@ -45,11 +51,11 @@
 	<!-- ステータス -->
 	<label>ステータス</label>
     <select name="status">
-    <option value="">すべて</option>
-    <option value="中止">中止</option>
-    <option value="進行中">進行中</option>
-    <option value="完了">完了</option>
-</select>
+	    <option value="choice">--選択してください--</option>
+	    <option value="中止">中止</option>
+	    <option value="進行中">進行中</option>
+	    <option value="完了">完了</option>
+	</select>
 	
 	
 	<!-- 優先度-->
@@ -63,17 +69,17 @@
 	
 
      <!--検索ボタン-->
-     <button type="submit">検索</button>
+     <input type="submit" name="botton_id" value="検索">
      
      <!-- クリアボタン -->
      <input type="reset" value="クリア">
-     <button>クリア</button>
+
 	</form>
 	
 	
 	
 	<!-- 案件一覧 -->
-	div class="annkennitirann1-1">
+	<div class="annkennitirann1-1">
 	<p class="title2">案件一覧</p>
 
 	ここに件数
@@ -95,20 +101,23 @@
     </tr>
 <c:forEach var="project" items="${projectList}">
     <tr>
-        <td>${project.projectCode}</td>
-        <td>${project.projectName}</td>
-        <td>${project.customerName}</td>
-        <td>${project.status}</td>
-        <td>${project.projectManagerId}</t
-        <td>${project.startDate}</td>
-        <td>${project.dueDate}</td>
-        <td>${project.progress}</td>?
-        <td>${project.actualManhours}</td>
+        <td><c:out value="${project.projectCode}" /></td>
+        <td><c:out value="${project.projectName}" /></td>
+        <td><c:out value="${project.customerName}" /></td>
+        <td><c:out value="${project.customerName}" /></td>
+        <td><c:out value="${project.projectManagerId}" /></td>
+        <td><c:out value="${project.startDate}" /></td>
+        <td><c:out value="${project.dueDate}" /></td>
+        <td><c:out value="${project.progressRate}" /></td>
+        <td><c:out value="${project.actualManhours}" /></td>
         <td>
-        <button type="button"
-                onclick="editProject(${project.projectId})">
-                編集
-            </button>
+        <form action="${pageContext.request.contextPath}/Controller" method="get">
+        <button type="button" onclick="editProject(${project.projectId})">
+            <input type="hidden" name="page_id" value="P004">
+				<button type="submit" class="edit-btn">
+						編集
+        </button>
+        </form>
         </td>
     </tr>
 </c:forEach>
@@ -132,7 +141,7 @@
 
 <!-- ここに${xxxxx}みたいな感じで値を入れるよ（下のJSで取得する）-->
 <input type="hidden" name="current" id="current" value="${formDataList.completedTaskCount}">
-<input type="hidden" name="total" id="total" value="${.taskCount}"> 
+<input type="hidden" name="total" id="total" value="${formDataList.taskCount}"> 
 
 <script>
 // ☆ここで上記のテキストボックスから取得したデータを入れるよ
