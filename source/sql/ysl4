@@ -92,6 +92,10 @@ INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_v
 INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_valid, c_at) VALUES
 (NULL, 'nihon.taro', '$2a$10$AWKZWCtfqTgkjvP1N52IeOBfY218R09q2Ej/SDw0GE1o6lZLFQkX2', '日本 太郎', 'taro.nihon@company.co.jp', TRUE, TRUE, '2024-04-01 10:00:00');
 
+INSERT INTO Users (user_id, login_id, password_hash, name, email, is_admin, is_valid, c_at) VALUES
+(NULL, 'ootani.syo', '$2a$10$GBTg.QQBWfLv4kVXkB.Yd.vllrG4ehtPkRshUxqAFWSaMcRvcNo0O', '大谷 翔', 'syo.ootani@company.co.jp', FALSE, TRUE, '2024-04-01 10:00:00');
+
+
 
 
 -- 2. 案件データの登録
