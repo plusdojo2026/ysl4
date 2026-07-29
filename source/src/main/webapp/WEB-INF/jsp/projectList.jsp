@@ -127,15 +127,17 @@
         <td><c:out value="${project.dueDate}" /></td>
         <td><c:out value="${project.progressRate}" /></td>
         <td><progress id="file" max="100" value="<c:out value="${project.actualManhours}" />"><c:out value="${project.actualManhours}" /></td>
-        <td>
-        <form action="${pageContext.request.contextPath}/Controller" method="get">
-        <button type="button" onclick="editProject(${project.projectId})">
-            <input type="hidden" name="page_id" value="P004">
-           <!--   <input type="hidden" name="button_id" value="更新"> -->
-				<button type="submit" class="edit-btn">編集 </button>
-        </form>
-        </td>
-    </tr>
+		<td>
+    		<form action="${pageContext.request.contextPath}//Controller" method="GET">
+         	<input type="hidden" name="page_id" value="P004">
+        	<input type="hidden" name="project_id" value="${project.projectId}">
+
+        	<button type="submit" class="edit-btn">
+            	編集
+        	</button>
+    </form>
+</td>
+</tr>
 </c:forEach>
 </table>
 </div>

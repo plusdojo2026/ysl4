@@ -110,6 +110,9 @@ public class Controller extends HttpServlet {
         String pageId = getParam(request, "page_id", "pageId");
         
         System.out.print(pageId);
+        
+        System.out.println("task_id=" + request.getParameter("task_id"));
+        System.out.println("taskId=" + request.getParameter("taskId"));
 
         // page_idなし、またはログイン画面
         if (isBlank(pageId) || "L001".equals(pageId)) {
