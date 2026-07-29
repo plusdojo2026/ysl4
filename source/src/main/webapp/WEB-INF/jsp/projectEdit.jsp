@@ -43,110 +43,121 @@
 		<p class="sakuseisyousai"
 		<!-- 案件コード -->
 		<div class="field">
-			<label>案件コード</label> <input type="text" name="project_code"
-				value="${projectList.projectCode}" readonly>
+		<table>
+		<tr>
+			<td>案件コード</td> <td><input type="text" name="project_code"
+				value="${projectList.projectCode}" readonly></td>
 		</div>
 
 		<!-- 案件名 まだ-->
 		<div class="field">
-			<label>案件名<span class="must">必須</span></label> <select
-				name="project_name" value="${projectList.projectName}"></select>
+			<td>案件名<span class="repuired-item">必須</span></td> <td><select
+				name="project_name" value="${projectList.projectName}"></select></td>
 		</div>
 
 		<!-- 担当PM -->
 		<div class="field">
-			<label>担当PM<span class="must">必須</span></label> <select
-				name="project_manager_id" value="${projectList.projectManagerName}"></select>
+			<td>担当PM<span class="repuired-item">必須</span></td><td> <select
+				name="project_manager_id" value="${projectList.projectManagerName}"></select></td>
 		</div>
-
+</tr>
+<tr>
 		<!-- 顧客名 -->
 		<div class="field">
-			<label>顧客名</label> <input type="text" id="customer_name"
-				name="customer_name" value="${projectList.customerName}">
+			<td>顧客名</td><td> <input type="text" id="customer_name"
+				name="customer_name" value="${projectList.customerName}"></td>
 		</div>
 
 		<!-- 開始日 -->
 		<div class="field">
-			<label>開始日<span class="must">必須</span></label> <input type="text"
+			<td>開始日<span class="repuired-item">必須</span></td><td> <input type="text"
 				id="start_date" name="start_date" value="${projectList.startDate}"
-				placeholder="YYYY/MM/DD">
+				placeholder="YYYY/MM/DD"></td>
 		</div>
 
 		<!-- 期限 -->
 		<div class="field">
-			<label>期限<span class="must">必須</span></label> <input type="date"
+			<td>期限<span class="repuired-item">必須</span></td><td> <input type="date"
 				id="due_date" name="due_date" value="${projectList.dueDate}"
-				placeholder="YYYY/MM/DD">
+				placeholder="YYYY/MM/DD"></td>
 		</div>
-
+</tr>
+<tr>
 		<!-- ステータス　まだ -->
 		<div class="field">
-			<label> ステータス <span class="must">必須</span>
-			</label> <select id="status" name="status" value="${projectList.status}">
+			<td> ステータス <span class="repuired-item">必須</span>
+			</td><td> <select id="status" name="status" value="${projectList.status}">
 				<option value="in_progress">進行中</option>
 				<option value="done">完了</option>
 				<option value="canceled">中止</option>
-			</select>
+			</select></td>
 		</div>
 
 		<!-- 優先度 　まだ-->
 		<div class="field">
-			<label> 優先度 <span class="must">必須</span>
-			</label> <select id="priority" name="priority" value="${projectList.priority}">
+			<td> 優先度 <span class="repuired-item">必須</span>
+			</td> <td><select id="priority" name="priority" value="${projectList.priority}">
 				<option value="middle">中</option>
 				<option value="high">高</option>
 				<option value="low">低</option>
-			</select>
+			</select></td>
 		</div>
 
 		<!-- 見積工数 -->
 		<div class="field">
-			<label> 
-			
-				見積工数 <span class="must">必須</span>
-			</label> 
-			<input type="text" id="estimated_manhours" name="estimated_manhours" 
-			value="${projectList.estimatedManhours}">
+			<td> 
+				見積工数 <span class="repuired-item">必須</span>
+			</td> 
+			<td><input type="text" id="estimated_manhours" name="estimated_manhours" 
+			value="${projectList.estimatedManhours}"></td>
 		</div>
 
 		<!-- 実績工数 -->
 		<div class="field">
-			<label>
-			
+			<td>
 			実績工数
-			</label> 
-			<input type="text" id="actual_manhours"
-				name="actual_manhours" value="${projectList.actualManhours}">
+			</td> 
+			<td><input type="text" id="actual_manhours"
+				name="actual_manhours" value="${projectList.actualManhours}"></td>
 		</div>
-
+</tr>
+<tr>
 		<!-- 説明 -->
-		<input type="text" value="${projectList.description}" class="descript" >
+		<td><input type="text" value="${projectList.description}" class="descript" ></td>
+		</table>
+		
+		</div>
+		</tr>
+		
 		<!-- 保存ボタン -->
 		<input type="submit" name="botton_id" value="更新">
         </form>
         
+        
 		<!--  予算工数　　ここから分からん-->
 		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		予算工数<c:out value="${projectList.estimatedManhours}" />h
+		<table>
+		<tr>
+		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
+		予算工数<c:out value="${projectList.estimatedManhours}" />h</td>
 		</div>
 
 		<!--  実績工数-->
 		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		実績工数<c:out value="${projectList.actualManhours}" />h
+		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
+		実績工数<c:out value="${projectList.actualManhours}" />h</td>
 		</div>
 
 		<!--  予算消化率-->
 		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/advance.png">
-		<a href=r/dke/sj><c:out value="${(projectList.actualManhours/projectList.estimatedManhours)*100}" /></a></div>
+		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/advance.png">
+		<a href=r/dke/sj><c:out value="${(projectList.actualManhours/projectList.estimatedManhours)*100}" /></a></td></div>
 
 
 		<!--  タスク進捗-->
 		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
-		<c:out value="${projectList.progressRate}" />
+		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
+		<c:out value="${projectList.progressRate}" /></td></div></tr>
 		<style>
   body {
     font-family: sans-serif;
