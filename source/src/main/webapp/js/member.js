@@ -2,7 +2,7 @@
 
 /**
  * メンバー一覧画面の処理。
- * DataTablesとjQueryで検索、集計、三点メニューを制御する。
+ * jQueryとDataTablesで検索、集計、三点メニューを制御する。
  */
 jQuery(function ($) {
 
@@ -11,7 +11,9 @@ jQuery(function ($) {
      */
     $.extend($.fn.dataTable.defaults, {
         language: {
-            url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json'
+            url: 'https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json',
+            emptyTable: '表示できるメンバーがありません',
+            zeroRecords: '検索条件に一致するメンバーがありません'
         }
     });
 
@@ -63,14 +65,7 @@ jQuery(function ($) {
     });
 
     /**
-     * 検索ボタン押下で検索する。
-     */
-    $('#member-search-button').on('click', function () {
-        applySearch(table);
-    });
-
-    /**
-     * キーワード入力中も検索する。
+     * キーワード入力時に検索する。
      */
     $('#keyword-filter').on('keyup', function () {
         applySearch(table);
@@ -153,7 +148,7 @@ jQuery(function ($) {
 /**
  * 検索条件をDataTablesへ反映する。
  *
- * @param {DataTables.Api} table DataTablesオブジェクト。
+ * @param {DataTables.Api} table DataTablesオブジェクト
  */
 function applySearch(table) {
 
@@ -168,7 +163,7 @@ function applySearch(table) {
 /**
  * 表示中データを基に件数カードを更新する。
  *
- * @param {DataTables.Api} table DataTablesオブジェクト。
+ * @param {DataTables.Api} table DataTablesオブジェクト
  */
 function updateVisibleCounts(table) {
 
@@ -208,10 +203,10 @@ function updateVisibleCounts(table) {
 }
 
 /**
- * HTML文字列から検索用テキストを作る。
+ * HTML文字列から検索用テキストを作成する。
  *
- * @param {string} value 変換前文字列。
- * @returns {string} 変換後文字列。
+ * @param {string} value 変換前文字列
+ * @return {string} 変換後文字列
  */
 function normalizeText(value) {
 
