@@ -34,7 +34,7 @@
         </form>
     </div>
   </div>
-<header>
+</header>
 	<script>
 	//ログアウトボタンが押されたときの処理
 		function logout(){
