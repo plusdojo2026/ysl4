@@ -45,6 +45,7 @@
                 --%>
     <form action="${pageContext.request.contextPath}/Controller" method="get">
 		<input type="hidden" name="page_id" value="P003">
+		<input type="hidden" name="button_id" value="登録">
 					<button type="submit" class="regist-btn">
 						<span class="plus-mark">＋</span> 新規登録
 					</button>

@@ -17,472 +17,475 @@ import service.ProjectService;
  */
 public class ProjectAction {
 
-    /** 案件一覧画面 */
-    private static final String JSP_PROJECT_LIST = "/WEB-INF/jsp/projectList.jsp";
+	/** 案件一覧画面 */
+	private static final String JSP_PROJECT_LIST = "/WEB-INF/jsp/projectList.jsp";
 
-    /** 案件詳細画面 */
-    private static final String JSP_PROJECT_DETAIL = "/WEB-INF/jsp/projectDetail.jsp";
+	/** 案件詳細画面 */
+	private static final String JSP_PROJECT_DETAIL = "/WEB-INF/jsp/projectDetail.jsp";
 
-    /** 案件登録編集画面 */
-    private static final String JSP_PROJECT_FORM = "/WEB-INF/jsp/projectForm.jsp";
+	/** 案件登録画面 */
+	private static final String JSP_PROJECT_REGIST = "/WEB-INF/jsp/projectRegist.jsp";
 
-    /** 案件一覧へのリダイレクト */
-    private static final String REDIRECT_PROJECT_LIST = "redirect:Controller?page_id=P001";
+	/** 案件登録編集画面 */
+	private static final String JSP_PROJECT_EDIT = "/WEB-INF/jsp/projectEdit.jsp";
 
-    /** request */
-    private final HttpServletRequest request;
+	/** 案件一覧へのリダイレクト */
+	private static final String REDIRECT_PROJECT_LIST = "redirect:Controller?page_id=P001";
 
-    /**
-     * requestを受け取る
-     * @param request 画面から送られた情報
-     */
-    public ProjectAction(HttpServletRequest request) {
-        this.request = request;
-    }
+	/** request */
+	private final HttpServletRequest request;
 
-    /**
-     * 案件一覧を表示する
-     * @return 遷移先JSP
-     */
-    public String list() {
+	/**
+	 * requestを受け取る
+	 * @param request 画面から送られた情報
+	 */
+	public ProjectAction(HttpServletRequest request) {
+		this.request = request;
+	}
 
-        ProjectService service = new ProjectService();
-        List<ProjectsDTO> projectList = service.selectAll();
+	/**
+	 * 案件一覧を表示する
+	 * @return 遷移先JSP
+	 */
+	public String list() {
 
-        request.setAttribute("projectList", projectList);
-        request.setAttribute("condition", new ProjectsDTO());
+		ProjectService service = new ProjectService();
+		List<ProjectsDTO> projectList = service.selectAll();
 
-        setFormData(service.getProjectFormData());
-        setMessageFromParameter();
+		request.setAttribute("projectList", projectList);
+		request.setAttribute("condition", new ProjectsDTO());
 
-        return JSP_PROJECT_LIST;
-    }
+		setFormData(service.getProjectFormData());
+		setMessageFromParameter();
 
-    /**
-     * 案件検索を行う
-     * @return 遷移先JSP
-     */
-    public String search() {
+		return JSP_PROJECT_LIST;
+	}
 
-        ProjectsDTO condition = createSearchCondition();
+	/**
+	 * 案件検索を行う
+	 * @return 遷移先JSP
+	 */
+	public String search() {
 
-        ProjectService service = new ProjectService();
-        List<ProjectsDTO> projectList = service.search(condition);
+		ProjectsDTO condition = createSearchCondition();
 
-        request.setAttribute("projectList", projectList);
-        request.setAttribute("condition", condition);
-        request.setAttribute("keyword", condition.getProjectName());
+		ProjectService service = new ProjectService();
+		List<ProjectsDTO> projectList = service.search(condition);
 
-        setFormData(service.getProjectFormData());
+		request.setAttribute("projectList", projectList);
+		request.setAttribute("condition", condition);
+		request.setAttribute("keyword", condition.getProjectName());
 
-        return JSP_PROJECT_LIST;
-    }
+		setFormData(service.getProjectFormData());
 
-    /**
-     * 案件登録画面を表示する
-     * @return 遷移先JSP
-     */
-    public String showRegist() {
+		return JSP_PROJECT_LIST;
+	}
 
-        ProjectService service = new ProjectService();
+	/**
+	 * 案件登録画面を表示する
+	 * @return 遷移先JSP
+	 */
+	public String showRegist() {
 
-        request.setAttribute("mode", "regist");
-        request.setAttribute("project", new ProjectsDTO());
+		ProjectService service = new ProjectService();
 
-        setFormData(service.getProjectFormData());
+		request.setAttribute("mode", "regist");
+		request.setAttribute("project", new ProjectsDTO());
 
-        return JSP_PROJECT_FORM;
-    }
+		setFormData(service.getProjectFormData());
 
-    /**
-     * 案件を登録する
-     * @return 遷移先
-     */
-    public String regist() {
+		return JSP_PROJECT_REGIST;
+	}
 
-        ProjectsDTO projectDto = createProjectDtoForSave(false);
+	/**
+	 * 案件を登録する
+	 * @return 遷移先
+	 */
+	public String regist() {
 
-        String errorMessage = validateForRegist(projectDto);
+		ProjectsDTO projectDto = createProjectDtoForSave(false);
 
-        if (hasText(errorMessage)) {
-            request.setAttribute("errMsg", errorMessage);
-            request.setAttribute("mode", "regist");
-            request.setAttribute("project", projectDto);
-            setFormData(new ProjectService().getProjectFormData());
-            return JSP_PROJECT_FORM;
-        }
+		String errorMessage = validateForRegist(projectDto);
 
-        ProjectService service = new ProjectService();
+		if (hasText(errorMessage)) {
+			request.setAttribute("errMsg", errorMessage);
+			request.setAttribute("mode", "regist");
+			request.setAttribute("project", projectDto);
+			setFormData(new ProjectService().getProjectFormData());
+			return JSP_PROJECT_REGIST;
+		}
 
-        if (service.existsProjectCode(projectDto.getProjectCode())) {
-            request.setAttribute("errMsg", "同じ案件コードが既に登録されています");
-            request.setAttribute("mode", "regist");
-            request.setAttribute("project", projectDto);
-            setFormData(service.getProjectFormData());
-            return JSP_PROJECT_FORM;
-        }
+		ProjectService service = new ProjectService();
 
-        int result = service.regist(projectDto);
+		if (service.existsProjectCode(projectDto.getProjectCode())) {
+			request.setAttribute("errMsg", "同じ案件コードが既に登録されています");
+			request.setAttribute("mode", "regist");
+			request.setAttribute("project", projectDto);
+			setFormData(service.getProjectFormData());
+			return JSP_PROJECT_EDIT;
+		}
 
-        if (result > 0) {
-            return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件を登録しました");
-        }
+		int result = service.regist(projectDto);
 
-        request.setAttribute("errMsg", "案件登録に失敗しました");
-        request.setAttribute("mode", "regist");
-        request.setAttribute("project", projectDto);
-        setFormData(service.getProjectFormData());
+		if (result > 0) {
+			return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件を登録しました");
+		}
 
-        return JSP_PROJECT_FORM;
-    }
+		request.setAttribute("errMsg", "案件登録に失敗しました");
+		request.setAttribute("mode", "regist");
+		request.setAttribute("project", projectDto);
+		setFormData(service.getProjectFormData());
 
-    /**
-     * 案件詳細を表示する
-     * @return 遷移先JSP
-     */
-    public String detail() {
+		return JSP_PROJECT_EDIT;
+	}
 
-        int projectId = parseInt(getParam("project_id", "projectId"));
+	/**
+	 * 案件詳細を表示する
+	 * @return 遷移先JSP
+	 */
+	public String detail() {
 
-        if (projectId <= 0) {
-            return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件IDが不正です");
-        }
+		int projectId = parseInt(getParam("project_id", "projectId"));
 
-        ProjectService service = new ProjectService();
-        ProjectsDTO projectDto = service.findDetail(projectId);
+		if (projectId <= 0) {
+			return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件IDが不正です");
+		}
 
-        if (projectDto == null) {
-            return REDIRECT_PROJECT_LIST + "&msg=" + encode("対象案件が見つかりません");
-        }
+		ProjectService service = new ProjectService();
+		ProjectsDTO projectDto = service.findDetail(projectId);
 
-        request.setAttribute("project", projectDto);
-        request.setAttribute("taskList", projectDto.getTaskList());
-        request.setAttribute("latestWorkLogList", projectDto.getLatestWorkLogList());
+		if (projectDto == null) {
+			return REDIRECT_PROJECT_LIST + "&msg=" + encode("対象案件が見つかりません");
+		}
 
-        setMessageFromParameter();
+		request.setAttribute("project", projectDto);
+		request.setAttribute("taskList", projectDto.getTaskList());
+		request.setAttribute("latestWorkLogList", projectDto.getLatestWorkLogList());
 
-        return JSP_PROJECT_DETAIL;
-    }
+		setMessageFromParameter();
 
-    /**
-     * 案件編集画面を表示する
-     * @return 遷移先JSP
-     */
-    public String showUpdate() {
-
-        int projectId = parseInt(getParam("project_id", "projectId"));
-
-        if (projectId <= 0) {
-            return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件IDが不正です");
-        }
-
-        ProjectService service = new ProjectService();
-        ProjectsDTO projectDto = service.findById(projectId);
-
-        if (projectDto == null) {
-            return REDIRECT_PROJECT_LIST + "&msg=" + encode("対象案件が見つかりません");
-        }
-
-        request.setAttribute("mode", "update");
-        request.setAttribute("project", projectDto);
-
-        setFormData(service.getProjectFormData());
-
-        return JSP_PROJECT_FORM;
-    }
-
-    /**
-     * 案件を更新する
-     * @return 遷移先
-     */
-    public String update() {
-
-        ProjectsDTO projectDto = createProjectDtoForSave(true);
-
-        String errorMessage = validateForUpdate(projectDto);
-
-        if (hasText(errorMessage)) {
-            request.setAttribute("errMsg", errorMessage);
-            request.setAttribute("mode", "update");
-            request.setAttribute("project", projectDto);
-            setFormData(new ProjectService().getProjectFormData());
-            return JSP_PROJECT_FORM;
-        }
-
-        ProjectService service = new ProjectService();
-        int result = service.update(projectDto);
-
-        if (result > 0) {
-            return "redirect:Controller?page_id=P002&project_id=" + projectDto.getProjectId()
-                    + "&msg=" + encode("案件を更新しました");
-        }
-
-        request.setAttribute("errMsg", "案件更新に失敗しました");
-        request.setAttribute("mode", "update");
-        request.setAttribute("project", projectDto);
-        setFormData(service.getProjectFormData());
-
-        return JSP_PROJECT_FORM;
-    }
-
-    /**
-     * 案件ステータスを変更する
-     * @return 遷移先
-     */
-    public String changeStatus() {
-
-        int projectId = parseInt(getParam("project_id", "projectId"));
-        String status = getParam("status");
-
-        if (projectId <= 0 || !hasText(status)) {
-            return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件ステータスを変更できませんでした");
-        }
-
-        ProjectService service = new ProjectService();
-        int result = service.changeStatus(projectId, status);
-
-        if (result > 0) {
-            return "redirect:Controller?page_id=P002&project_id=" + projectId
-                    + "&msg=" + encode("案件ステータスを変更しました");
-        }
-
-        return "redirect:Controller?page_id=P002&project_id=" + projectId
-                + "&msg=" + encode("案件ステータスの変更に失敗しました");
-    }
-
-    /**
-     * 保存用DTOを作る
-     * 登録と更新で共通利用する
-     * @param includeId 更新時はtrue
-     * @return 案件DTO
-     */
-    private ProjectsDTO createProjectDtoForSave(boolean includeId) {
-
-        ProjectsDTO projectDto = new ProjectsDTO();
-
-        if (includeId) {
-            projectDto.setProjectId(parseInt(getParam("project_id", "projectId")));
-        }
-
-        projectDto.setProjectCode(getParam("project_code", "projectCode"));
-        projectDto.setProjectName(getParam("project_name", "projectName"));
-        projectDto.setCustomerName(getParam("customer_name", "customerName"));
-        projectDto.setCreateMemberId(getLoginUserId());
-        projectDto.setProjectManagerId(parseInt(getParam("project_manager_id", "projectManagerId")));
-        projectDto.setStartDate(getParam("start_date", "startDate"));
-        projectDto.setDueDate(getParam("due_date", "dueDate"));
-        projectDto.setEstimatedManhours(parseFloat(getParam("estimated_manhours", "estimatedManhours")));
-        projectDto.setDescription(getParam("description"));
-        projectDto.setStatus(getParam("status"));
-        projectDto.setPriority(getParam("priority"));
-
-        return projectDto;
-    }
-
-    /**
-     * 検索条件DTOを作る
-     * ProjectSearchConditionは作らずProjectDTOで代用する
-     * @return 検索条件DTO
-     */
-    private ProjectsDTO createSearchCondition() {
-
-        ProjectsDTO condition = new ProjectsDTO();
-
-        condition.setProjectName(getParam("keyword", "project_name", "projectName"));
-        condition.setStatus(getParam("status"));
-        condition.setPriority(getParam("priority"));
-        condition.setProjectManagerId(parseInt(getParam("project_manager_id", "projectManagerId")));
-
-        return condition;
-    }
-
-    /**
-     * 登録前の入力チェックを行う
-     * @param projectDto 案件DTO
-     * @return エラーメッセージ
-     */
-    private String validateForRegist(ProjectsDTO projectDto) {
-
-        if (!hasText(projectDto.getProjectCode())) {
-            return "案件コードを入力してください";
-        }
-
-        if (!hasText(projectDto.getProjectName())) {
-            return "案件名を入力してください";
-        }
-
-        if (projectDto.getEstimatedManhours() < 0) {
-            return "予算工数は0以上で入力してください";
-        }
-
-        if (!hasText(projectDto.getStatus())) {
-            return "ステータスを選択してください";
-        }
-
-        if (!hasText(projectDto.getPriority())) {
-            return "優先度を選択してください";
-        }
-
-        return "";
-    }
-
-    /**
-     * 更新前の入力チェックを行う
-     * @param projectDto 案件DTO
-     * @return エラーメッセージ
-     */
-    private String validateForUpdate(ProjectsDTO projectDto) {
-
-        if (projectDto.getProjectId() <= 0) {
-            return "案件IDが不正です";
-        }
-
-        if (!hasText(projectDto.getProjectName())) {
-            return "案件名を入力してください";
-        }
-
-        if (projectDto.getEstimatedManhours() < 0) {
-            return "予算工数は0以上で入力してください";
-        }
-
-        if (!hasText(projectDto.getStatus())) {
-            return "ステータスを選択してください";
-        }
-
-        if (!hasText(projectDto.getPriority())) {
-            return "優先度を選択してください";
-        }
-
-        return "";
-    }
-
-    /**
-     * List形式の画面表示用データをrequestへ設定する
-     * Mapを使わず固定順で受け取る
-     * @param formDataList 画面表示用データList
-     */
-    @SuppressWarnings("unchecked")
-    private void setFormData(List<Object> formDataList) {
-
-        if (formDataList == null || formDataList.size() < 3) {
-            return;
-        }
-
-        List<UserDTO> managerList = (List<UserDTO>) formDataList.get(0);
-        List<String> statusList = (List<String>) formDataList.get(1);
-        List<String> priorityList = (List<String>) formDataList.get(2);
-
-        request.setAttribute("managerList", managerList);
-        request.setAttribute("statusList", statusList);
-        request.setAttribute("priorityList", priorityList);
-    }
-
-    /**
-     * ログインユーザーIDを取得する
-     * 未ログインまたは不正な場合は0を返す
-     * @return ログインユーザーID
-     */
-    private int getLoginUserId() {
-
-        HttpSession session = request.getSession(false);
-
-        if (session == null) {
-            return 0;
-        }
-
-        Object loginUser = session.getAttribute("loginUser");
-
-        if (!(loginUser instanceof UserDTO)) {
-            return 0;
-        }
-
-        return ((UserDTO) loginUser).getUserId();
-    }
-
-    /**
-     * requestから値を取得する
-     * 複数候補を順番に確認する
-     * @param names 取得候補のname
-     * @return 取得値
-     */
-    private String getParam(String... names) {
-
-        for (String name : names) {
-            String value = request.getParameter(name);
-            if (value != null) {
-                return value.trim();
-            }
-        }
-
-        return "";
-    }
-
-    /**
-     * 文字列をintに変換する
-     * 数値以外の場合は-1を返す
-     * @param value 変換前の文字列
-     * @return 変換後の数値
-     */
-    private int parseInt(String value) {
-
-        if (!hasText(value)) {
-            return -1;
-        }
-
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-    }
-
-    /**
-     * 文字列をfloatに変換する
-     * 数値以外の場合は0を返す
-     * @param value 変換前の文字列
-     * @return 変換後の数値
-     */
-    private float parseFloat(String value) {
-
-        if (!hasText(value)) {
-            return 0;
-        }
-
-        try {
-            return Float.parseFloat(value);
-        } catch (NumberFormatException e) {
-            return 0;
-        }
-    }
-
-    /**
-     * 文字列が入力されているか確認する
-     * @param value 確認する文字列
-     * @return 入力ありならtrue
-     */
-    private boolean hasText(String value) {
-        return value != null && !value.trim().isEmpty();
-    }
-
-    /**
-     * URLに入れる文字列をエンコードする
-     * redirect時の日本語文字化けを防ぐ
-     * @param value エンコード前の文字列
-     * @return エンコード後の文字列
-     */
-    private String encode(String value) {
-        return URLEncoder.encode(value, StandardCharsets.UTF_8);
-    }
-
-    /**
-     * redirect後のメッセージをrequestへ入れる
-     */
-    private void setMessageFromParameter() {
-
-        String message = getParam("msg");
-
-        if (hasText(message)) {
-            request.setAttribute("successMsg", message);
-        }
-    }
+		return JSP_PROJECT_DETAIL;
+	}
+
+	/**
+	 * 案件編集画面を表示する
+	 * @return 遷移先JSP
+	 */
+	public String showUpdate() {
+
+		int projectId = parseInt(getParam("project_id", "projectId"));
+
+		if (projectId <= 0) {
+			return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件IDが不正です");
+		}
+
+		ProjectService service = new ProjectService();
+		ProjectsDTO projectDto = service.findById(projectId);
+
+		if (projectDto == null) {
+			return REDIRECT_PROJECT_LIST + "&msg=" + encode("対象案件が見つかりません");
+		}
+
+		request.setAttribute("mode", "update");
+		request.setAttribute("project", projectDto);
+
+		setFormData(service.getProjectFormData());
+
+		return JSP_PROJECT_EDIT;
+	}
+
+	/**
+	 * 案件を更新する
+	 * @return 遷移先
+	 */
+	public String update() {
+
+		ProjectsDTO projectDto = createProjectDtoForSave(true);
+
+		String errorMessage = validateForUpdate(projectDto);
+
+		if (hasText(errorMessage)) {
+			request.setAttribute("errMsg", errorMessage);
+			request.setAttribute("mode", "update");
+			request.setAttribute("project", projectDto);
+			setFormData(new ProjectService().getProjectFormData());
+			return JSP_PROJECT_EDIT;
+		}
+
+		ProjectService service = new ProjectService();
+		int result = service.update(projectDto);
+
+		if (result > 0) {
+			return "redirect:Controller?page_id=P002&project_id=" + projectDto.getProjectId()
+					+ "&msg=" + encode("案件を更新しました");
+		}
+
+		request.setAttribute("errMsg", "案件更新に失敗しました");
+		request.setAttribute("mode", "update");
+		request.setAttribute("project", projectDto);
+		setFormData(service.getProjectFormData());
+
+		return JSP_PROJECT_EDIT;
+	}
+
+	/**
+	 * 案件ステータスを変更する
+	 * @return 遷移先
+	 */
+	public String changeStatus() {
+
+		int projectId = parseInt(getParam("project_id", "projectId"));
+		String status = getParam("status");
+
+		if (projectId <= 0 || !hasText(status)) {
+			return REDIRECT_PROJECT_LIST + "&msg=" + encode("案件ステータスを変更できませんでした");
+		}
+
+		ProjectService service = new ProjectService();
+		int result = service.changeStatus(projectId, status);
+
+		if (result > 0) {
+			return "redirect:Controller?page_id=P002&project_id=" + projectId
+					+ "&msg=" + encode("案件ステータスを変更しました");
+		}
+
+		return "redirect:Controller?page_id=P002&project_id=" + projectId
+				+ "&msg=" + encode("案件ステータスの変更に失敗しました");
+	}
+
+	/**
+	 * 保存用DTOを作る
+	 * 登録と更新で共通利用する
+	 * @param includeId 更新時はtrue
+	 * @return 案件DTO
+	 */
+	private ProjectsDTO createProjectDtoForSave(boolean includeId) {
+
+		ProjectsDTO projectDto = new ProjectsDTO();
+
+		if (includeId) {
+			projectDto.setProjectId(parseInt(getParam("project_id", "projectId")));
+		}
+
+		projectDto.setProjectCode(getParam("project_code", "projectCode"));
+		projectDto.setProjectName(getParam("project_name", "projectName"));
+		projectDto.setCustomerName(getParam("customer_name", "customerName"));
+		projectDto.setCreateMemberId(getLoginUserId());
+		projectDto.setProjectManagerId(parseInt(getParam("project_manager_id", "projectManagerId")));
+		projectDto.setStartDate(getParam("start_date", "startDate"));
+		projectDto.setDueDate(getParam("due_date", "dueDate"));
+		projectDto.setEstimatedManhours(parseFloat(getParam("estimated_manhours", "estimatedManhours")));
+		projectDto.setDescription(getParam("description"));
+		projectDto.setStatus(getParam("status"));
+		projectDto.setPriority(getParam("priority"));
+
+		return projectDto;
+	}
+
+	/**
+	 * 検索条件DTOを作る
+	 * ProjectSearchConditionは作らずProjectDTOで代用する
+	 * @return 検索条件DTO
+	 */
+	private ProjectsDTO createSearchCondition() {
+
+		ProjectsDTO condition = new ProjectsDTO();
+
+		condition.setProjectName(getParam("keyword", "project_name", "projectName"));
+		condition.setStatus(getParam("status"));
+		condition.setPriority(getParam("priority"));
+		condition.setProjectManagerId(parseInt(getParam("project_manager_id", "projectManagerId")));
+
+		return condition;
+	}
+
+	/**
+	 * 登録前の入力チェックを行う
+	 * @param projectDto 案件DTO
+	 * @return エラーメッセージ
+	 */
+	private String validateForRegist(ProjectsDTO projectDto) {
+
+		if (!hasText(projectDto.getProjectCode())) {
+			return "案件コードを入力してください";
+		}
+
+		if (!hasText(projectDto.getProjectName())) {
+			return "案件名を入力してください";
+		}
+
+		if (projectDto.getEstimatedManhours() < 0) {
+			return "予算工数は0以上で入力してください";
+		}
+
+		if (!hasText(projectDto.getStatus())) {
+			return "ステータスを選択してください";
+		}
+
+		if (!hasText(projectDto.getPriority())) {
+			return "優先度を選択してください";
+		}
+
+		return "";
+	}
+
+	/**
+	 * 更新前の入力チェックを行う
+	 * @param projectDto 案件DTO
+	 * @return エラーメッセージ
+	 */
+	private String validateForUpdate(ProjectsDTO projectDto) {
+
+		if (projectDto.getProjectId() <= 0) {
+			return "案件IDが不正です";
+		}
+
+		if (!hasText(projectDto.getProjectName())) {
+			return "案件名を入力してください";
+		}
+
+		if (projectDto.getEstimatedManhours() < 0) {
+			return "予算工数は0以上で入力してください";
+		}
+
+		if (!hasText(projectDto.getStatus())) {
+			return "ステータスを選択してください";
+		}
+
+		if (!hasText(projectDto.getPriority())) {
+			return "優先度を選択してください";
+		}
+
+		return "";
+	}
+
+	/**
+	 * List形式の画面表示用データをrequestへ設定する
+	 * Mapを使わず固定順で受け取る
+	 * @param formDataList 画面表示用データList
+	 */
+	@SuppressWarnings("unchecked")
+	private void setFormData(List<Object> formDataList) {
+
+		if (formDataList == null || formDataList.size() < 3) {
+			return;
+		}
+
+		List<UserDTO> managerList = (List<UserDTO>) formDataList.get(0);
+		List<String> statusList = (List<String>) formDataList.get(1);
+		List<String> priorityList = (List<String>) formDataList.get(2);
+
+		request.setAttribute("managerList", managerList);
+		request.setAttribute("statusList", statusList);
+		request.setAttribute("priorityList", priorityList);
+	}
+
+	/**
+	 * ログインユーザーIDを取得する
+	 * 未ログインまたは不正な場合は0を返す
+	 * @return ログインユーザーID
+	 */
+	private int getLoginUserId() {
+
+		HttpSession session = request.getSession(false);
+
+		if (session == null) {
+			return 0;
+		}
+
+		Object loginUser = session.getAttribute("loginUser");
+
+		if (!(loginUser instanceof UserDTO)) {
+			return 0;
+		}
+
+		return ((UserDTO) loginUser).getUserId();
+	}
+
+	/**
+	 * requestから値を取得する
+	 * 複数候補を順番に確認する
+	 * @param names 取得候補のname
+	 * @return 取得値
+	 */
+	private String getParam(String... names) {
+
+		for (String name : names) {
+			String value = request.getParameter(name);
+			if (value != null) {
+				return value.trim();
+			}
+		}
+
+		return "";
+	}
+
+	/**
+	 * 文字列をintに変換する
+	 * 数値以外の場合は-1を返す
+	 * @param value 変換前の文字列
+	 * @return 変換後の数値
+	 */
+	private int parseInt(String value) {
+
+		if (!hasText(value)) {
+			return -1;
+		}
+
+		try {
+			return Integer.parseInt(value);
+		} catch (NumberFormatException e) {
+			return -1;
+		}
+	}
+
+	/**
+	 * 文字列をfloatに変換する
+	 * 数値以外の場合は0を返す
+	 * @param value 変換前の文字列
+	 * @return 変換後の数値
+	 */
+	private float parseFloat(String value) {
+
+		if (!hasText(value)) {
+			return 0;
+		}
+
+		try {
+			return Float.parseFloat(value);
+		} catch (NumberFormatException e) {
+			return 0;
+		}
+	}
+
+	/**
+	 * 文字列が入力されているか確認する
+	 * @param value 確認する文字列
+	 * @return 入力ありならtrue
+	 */
+	private boolean hasText(String value) {
+		return value != null && !value.trim().isEmpty();
+	}
+
+	/**
+	 * URLに入れる文字列をエンコードする
+	 * redirect時の日本語文字化けを防ぐ
+	 * @param value エンコード前の文字列
+	 * @return エンコード後の文字列
+	 */
+	private String encode(String value) {
+		return URLEncoder.encode(value, StandardCharsets.UTF_8);
+	}
+
+	/**
+	 * redirect後のメッセージをrequestへ入れる
+	 */
+	private void setMessageFromParameter() {
+
+		String message = getParam("msg");
+
+		if (hasText(message)) {
+			request.setAttribute("successMsg", message);
+		}
+	}
 }
