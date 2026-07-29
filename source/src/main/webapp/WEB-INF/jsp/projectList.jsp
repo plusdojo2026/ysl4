@@ -15,6 +15,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
+    
+    <%-- DataTables用CSS --%>
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css">
 </head>
 
 <body>
@@ -94,7 +98,7 @@
 
 	ここに件数
 <div class="syousai1-2">
-<table>
+<table id="member-table" class="member-table table table-bordered">
     <tr>
         <th>案件コード</th>
         <th>案件名</th>
@@ -112,21 +116,23 @@
 <c:forEach var="project" items="${projectList}">
     <tr>
         <td><c:out value="${project.projectCode}" /></td>
-        <td><c:out value="${project.projectName}" /></td>
+        <td>
+        <a href="${pageContext.request.contextPath}/Controller?page_id=P002" crass="html" data-page="P002">
+        <c:out value="${project.projectName}" /></a>
+        </td>
         <td><c:out value="${project.customerName}" /></td>
         <td><c:out value="${project.customerName}" /></td>
         <td><c:out value="${project.projectManagerId}" /></td>
         <td><c:out value="${project.startDate}" /></td>
         <td><c:out value="${project.dueDate}" /></td>
         <td><c:out value="${project.progressRate}" /></td>
-        <td><c:out value="${project.actualManhours}" /></td>
+        <td><progress id="file" max="100" value="<c:out value="${project.actualManhours}" />"><c:out value="${project.actualManhours}" /></td>
         <td>
         <form action="${pageContext.request.contextPath}/Controller" method="get">
         <button type="button" onclick="editProject(${project.projectId})">
             <input type="hidden" name="page_id" value="P004">
-				<button type="submit" class="edit-btn">
-						編集
-        </button>
+           <!--   <input type="hidden" name="button_id" value="更新"> -->
+				<button type="submit" class="edit-btn">編集 </button>
         </form>
         </td>
     </tr>
@@ -166,6 +172,25 @@ const pct = Math.round((current / total) * 100);
 document.getElementById('js-bar').style.width = pct + '%';
 document.getElementById('label-fraction').textContent = current + ' / ' + total;
 document.getElementById('label-pct').textContent = pct + '%';
+
+    jQuery(function($){
+         // デフォルトの設定を変更（日本語化）--------------------
+        $.extend( $.fn.dataTable.defaults, {
+            language: {
+                url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+            }
+        });
+         //------------------------------------------------
+        //データテーブルを使用
+        $("#foo-table").DataTable({
+            paging: true,        // ページング
+            searching: true,    // 検索ボックス
+            ordering: true,     // ソート（列ヘッダクリック）
+            info: true,         // "〜件中 〜件を表示"の表示
+            lengthChange: true  // 表示件数変更プルダウン
+        })
+    });
+
 </script>
 
 
