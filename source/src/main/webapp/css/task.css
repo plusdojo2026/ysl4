@@ -219,3 +219,148 @@
 .member-list tr:hover {
 	background: #fff7fa;
 }
+
+
+
+/* タスク登録のCSS */
+
+.task-container{
+	max-width:500px;
+	margin:20px auto;
+	background:#fff;
+	border-radius:15px;
+	padding:20px;
+	box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+/* ヘッダー */
+
+.title-area{
+	display:flex;
+	align-items:center;
+	gap:20px;
+	margin-bottom:20px;
+}
+
+.title-area img{
+	width:120px;
+}
+
+.title-main{
+	color:var(--headline-color);
+	margin:0;
+	font-size:2rem;
+}
+
+.title-sub{
+	margin:0;
+	font-size:0.9rem;
+	color:#666;
+}
+
+/* セクション */
+
+.section-box{
+	background:#f8f8f8;
+	border-radius:12px;
+	padding:20px;
+	margin-bottom:20px;
+}
+
+.section-title{
+	font-weight:bold;
+	margin-bottom:15px;
+	color:#666;
+}
+
+/* 2列レイアウト */
+
+.form-grid{
+	display:grid;
+	grid-template-columns:1fr 1fr;
+	gap:20px;
+}
+
+/* 入力項目 */
+
+.field{
+	display:flex;
+	flex-direction:column;
+}
+
+.field label{
+	font-weight:bold;
+	margin-bottom:5px;
+}
+
+.field input,
+.field select{
+	width:100%;
+	height:40px;
+	border:1px solid #ccc;
+	border-radius:5px;
+	padding:0 10px;
+}
+
+#description{
+	width:100% !important;
+	height:80px;
+}
+
+/* 必須 */
+
+.must{
+	background:#ff82a6;
+	color:#fff;
+	font-size:11px;
+	padding:2px 6px;
+	border-radius:4px;
+	margin-left:5px;
+}
+
+/* 案件情報 */
+
+.project-info{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+}
+
+.project-code{
+	font-size:2rem;
+	color:var(--headline-color);
+	font-weight:bold;
+}
+
+.project-name{
+	font-size:1.8rem;
+	font-weight:bold;
+}
+
+/* ボタン */
+
+.button-area{
+	display:flex;
+	justify-content:center;
+	gap:15px;
+	margin-top:25px;
+}
+
+.button-area button{
+	min-width:120px;
+	height:45px;
+	border-radius:8px;
+	cursor:pointer;
+}
+
+.save-btn{
+	background:var(--button-color);
+	color:white;
+	border:none;
+}
+
+.back-btn,
+.cancel-btn{
+	background:white;
+	border:1px solid #999;
+}

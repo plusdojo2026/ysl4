@@ -10,7 +10,8 @@
 
 <link rel="stylesheet"
       href="${pageContext.request.contextPath}/css/common.css">
-
+<link rel="stylesheet"
+      href="${pageContext.request.contextPath}/css/task.css">
 </head>
 
 <body>
