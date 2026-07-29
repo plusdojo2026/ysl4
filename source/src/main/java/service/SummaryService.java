@@ -13,8 +13,7 @@ import model.ProjectSummaryDTO;
 import model.WorkLogDTO;
 
 /**
- * 月次集計の業務処理を担当するService。
- * 集計DTO作成、割合計算、CSV作成を行う。
+ * 月次集計の業務処理を担当するService.
  */
 public class SummaryService extends DBAccess {
 
@@ -23,10 +22,10 @@ public class SummaryService extends DBAccess {
             "日付,案件名,タスク名,担当者,工数(h),作業内容";
 
     /**
-     * 月次集計画面用データを取得する。
+     * 月次集計画面用データを取得する.
      *
-     * @param targetMonth 対象月 yyyy-MM
-     * @return 月次集計DTO
+     * @param targetMonth 対象月 yyyy-MM.
+     * @return 月次集計DTO.
      */
     public MonthlySummaryDTO getMonthlySummary(String targetMonth) {
 
@@ -43,9 +42,12 @@ public class SummaryService extends DBAccess {
             Float monthlyTotal = summaryDao.selectMonthlyTotal(month);
             int projectCount = summaryDao.countMonthlyProjects(month);
             int activeMemberCount = summaryDao.countMonthlyMembers(month);
-            List<ProjectSummaryDTO> projectSummaryList = summaryDao.selectProjectSummary(month);
+
+            List<ProjectSummaryDTO> projectSummaryList =summaryDao.selectProjectSummary(month);
+
             List<MemberSummaryDTO> memberSummaryList = summaryDao.selectMemberSummary(month);
-            List<WorkLogDTO> monthlyWorkLogList =summaryDao.selectMonthlyWorkLogs(month);
+
+            List<WorkLogDTO> monthlyWorkLogList = summaryDao.selectMonthlyWorkLogs(month);
 
             for (ProjectSummaryDTO dto : projectSummaryList) {
                 dto.setAchievementRate(
@@ -55,8 +57,7 @@ public class SummaryService extends DBAccess {
             }
 
             for (MemberSummaryDTO dto : memberSummaryList) {
-                dto.setAchievementRate(
-                        calcAchievementRate(
+                dto.setAchievementRate(calcAchievementRate(
                                 dto.getActualManHours(),
                                 dto.getEstimatedManhours()));
             }
@@ -65,7 +66,8 @@ public class SummaryService extends DBAccess {
             summaryDto.setTotalManHours(monthlyTotal);
             summaryDto.setProjectCount(projectCount);
             summaryDto.setActiveMemberCount(activeMemberCount);
-            summaryDto.setOverrunProjectCount(countOverrunProjects(projectSummaryList));
+            summaryDto.setOverrunProjectCount(
+                    countOverrunProjects(projectSummaryList));
             summaryDto.setProjectSummaryList(projectSummaryList);
             summaryDto.setMemberSummaryList(memberSummaryList);
             summaryDto.setMonthlyWorkLogList(monthlyWorkLogList);
@@ -84,10 +86,10 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 指定月の案件別集計を取得する。
+     * 指定月の案件別集計を取得する.
      *
-     * @param targetMonth 対象月 yyyy-MM
-     * @return 案件別集計一覧
+     * @param targetMonth 対象月 yyyy-MM.
+     * @return 案件別集計一覧.
      */
     public List<ProjectSummaryDTO> getProjectSummary(String targetMonth) {
 
@@ -121,10 +123,10 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 指定月のメンバー別集計を取得する。
+     * 指定月のメンバー別集計を取得する.
      *
-     * @param targetMonth 対象月 yyyy-MM
-     * @return メンバー別集計一覧
+     * @param targetMonth 対象月 yyyy-MM.
+     * @return メンバー別集計一覧.
      */
     public List<MemberSummaryDTO> getMemberSummary(String targetMonth) {
 
@@ -137,18 +139,11 @@ public class SummaryService extends DBAccess {
             SummaryDAO summaryDao = new SummaryDAO(conn);
             memberSummaryList = summaryDao.selectMemberSummary(month);
 
-            Float monthlyTotal = summaryDao.selectMonthlyTotal(month);
-
             for (MemberSummaryDTO dto : memberSummaryList) {
                 dto.setAchievementRate(
                         calcAchievementRate(
                                 dto.getActualManHours(),
                                 dto.getEstimatedManhours()));
-
-                dto.setAchivementRate(
-                        calcPercentage(
-                                dto.getManHours(),
-                                monthlyTotal));
             }
 
             commit();
@@ -165,10 +160,10 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 指定月の工数明細を取得する。
+     * 指定月の工数明細を取得する.
      *
-     * @param targetMonth 対象月 yyyy-MM
-     * @return 工数明細一覧
+     * @param targetMonth 対象月 yyyy-MM.
+     * @return 工数明細一覧.
      */
     public List<WorkLogDTO> getMonthlyWorkLogs(String targetMonth) {
 
@@ -195,10 +190,10 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 指定月の工数明細CSVを作成する。
+     * 指定月の工数明細CSVを作成する.
      *
-     * @param targetMonth 対象月 yyyy-MM
-     * @return CSVデータ
+     * @param targetMonth 対象月 yyyy-MM.
+     * @return CSVデータ.
      */
     public byte[] createCsv(String targetMonth) {
 
@@ -221,11 +216,11 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 予定工数に対する実績割合を計算する。
+     * 見積工数に対する実績工数の割合を計算する.
      *
-     * @param actual 実績工数
-     * @param estimated 予定工数
-     * @return 達成率
+     * @param actual 実績工数.
+     * @param estimated 見積工数.
+     * @return 達成率.
      */
     private double calcAchievementRate(Float actual, Float estimated) {
 
@@ -237,26 +232,10 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 全体に対する割合を計算する。
+     * 超過案件数を数える.
      *
-     * @param value 値
-     * @param total 全体
-     * @return 割合
-     */
-    private double calcPercentage(Float value, Float total) {
-
-        if (value == null || total == null || total <= 0f) {
-            return 0;
-        }
-
-        return Math.round((value / total) * 1000.0) / 10.0;
-    }
-
-    /**
-     * 超過案件数を数える。
-     *
-     * @param projectSummaryList 案件別集計一覧
-     * @return 超過案件数
+     * @param projectSummaryList 案件別集計一覧.
+     * @return 超過案件数.
      */
     private int countOverrunProjects(
             List<ProjectSummaryDTO> projectSummaryList) {
@@ -279,14 +258,15 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * 対象月をyyyy-MM形式へ補正する。
+     * 対象月をyyyy-MM形式へ補正する.
      *
-     * @param targetMonth 対象月
-     * @return 補正後対象月
+     * @param targetMonth 対象月.
+     * @return 補正後対象月.
      */
     private String normalizeTargetMonth(String targetMonth) {
 
-        if (targetMonth == null || !targetMonth.matches("\\d{4}-\\d{2}")) {
+        if (targetMonth == null
+                || !targetMonth.matches("\\d{4}-\\d{2}")) {
             return YearMonth.now().toString();
         }
 
@@ -294,10 +274,10 @@ public class SummaryService extends DBAccess {
     }
 
     /**
-     * CSV用文字列へ変換する。
+     * CSV用文字列へ変換する.
      *
-     * @param value 変換前文字列
-     * @return CSV用文字列
+     * @param value 変換前文字列.
+     * @return CSV用文字列.
      */
     private String escapeCsv(String value) {
 

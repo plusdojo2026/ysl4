@@ -1,0 +1,418 @@
+/* 月次集計画面 */
+.summary-page {
+    background-color: #fef9fb;
+}
+
+/* メイン領域 */
+.summary-main {
+    width: min(1000px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 40px 50px;
+    min-height: 600px;
+    background-color: #fff0f9;
+    box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
+}
+
+/* 画面上部 */
+.summary-hero {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 22px;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+/* 画面上部画像領域 */
+.summary-hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 画面上部画像 */
+.summary-elephant {
+    width: 95px;
+    height: auto;
+    display: block;
+}
+
+/* タイトル */
+.summary-title {
+    margin: 0;
+    color: var(--headline-color, #EF5B9C);
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+/* リード文 */
+.summary-lead {
+    margin: 8px 0 0;
+    color: var(--paragraph-color, #000000);
+    font-size: 15px;
+    font-weight: 400;
+}
+
+/* 検索カード */
+.summary-search {
+    margin-bottom: 22px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+}
+
+/* 検索フォーム */
+.summary-form {
+    margin: 0;
+}
+
+/* 検索条件配置 */
+.summary-search-grid {
+    display: grid;
+    grid-template-columns: 220px auto;
+    gap: 18px;
+    align-items: end;
+}
+
+/* 入力項目 */
+.summary-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* ラベル */
+.summary-field label,
+.summary-detail-search label {
+    color: var(--paragraph-color, #000000);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 月入力 */
+.summary-field input {
+    height: 38px;
+    padding: 0 12px;
+    background-color: #ffffff;
+    border: 1.5px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* 月入力フォーカス */
+.summary-field input:focus {
+    outline: none;
+    border-color: #eeeeee;
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* ボタン領域 */
+.summary-button-area {
+    display: flex;
+    gap: 10px;
+}
+
+/* CSVボタン */
+.csv-btn {
+    height: 1.7em;
+    padding-left: 9px;
+    padding-right: 9px;
+    cursor: pointer;
+    color: var(--button-color, #F067A6);
+    background-color: var(--background-color, #F8F8F8);
+    border: 1.5px solid var(--hightlight-color, #F6ADC6);
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* CSVボタンホバー */
+.csv-btn:hover {
+    color: #ffffff;
+    background-color: #F6ADC6;
+}
+
+/* 集計カード配置 */
+.summary-dashboard {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+/* 集計カード */
+.summary-count-card {
+    width: 24%;
+    min-height: 88px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: #ffffff;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+}
+
+/* 集計カード画像 */
+.summary-count-card img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+/* 集計ラベル */
+.summary-count-label {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--paragraph-color, #000000);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* 集計値 */
+.summary-count-value {
+    color: var(--paragraph-color, #000000);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+/* 単位 */
+.summary-count-unit {
+    margin-left: 2px;
+    color: var(--paragraph-color, #000000);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* 2列配置 */
+.summary-two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+/* カード */
+.summary-card {
+    padding: 18px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+}
+
+/* カード見出し */
+.summary-card-header {
+    margin-bottom: 14px;
+}
+
+/* カード見出し文字 */
+.summary-card-header h2 {
+    margin: 0;
+    color: var(--paragraph-color, #000000);
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* テーブル横スクロール */
+.summary-table-wrap {
+    overflow-x: auto;
+}
+
+/* テーブル */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+/* DataTables対策 */
+.summary-table.dataTable {
+    border-collapse: collapse;
+}
+
+/* テーブル見出し */
+.summary-table th {
+    padding: 10px 12px;
+    color: var(--paragraph-color, #000000);
+    background-color: #ffffff;
+    border-top: 1px solid #e1e5e9;
+    border-bottom: 1px solid #e1e5e9;
+    border-left: none;
+    border-right: none;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* テーブル本文 */
+.summary-table td {
+    padding: 9px 12px;
+    color: var(--paragraph-color, #000000);
+    border-top: 1px solid #e1e5e9;
+    border-bottom: 1px solid #e1e5e9;
+    border-left: none;
+    border-right: none;
+    vertical-align: middle;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* 明細検索 */
+.summary-detail-search {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 14px;
+}
+
+/* 明細検索ラベル */
+.summary-detail-search label {
+    grid-column: 1 / -1;
+}
+
+/* キーワード入力枠 */
+.keyword-input-wrap {
+    position: relative;
+}
+
+/* 検索アイコン */
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    color: #9ca3af;
+    font-size: 18px;
+    transform: translateY(-50%);
+}
+
+/* 明細検索入力 */
+.keyword-input-wrap input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px 0 38px;
+    color: var(--paragraph-color, #000000);
+    background-color: #ffffff;
+    border: 1.5px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+/* 明細検索入力フォーカス */
+.keyword-input-wrap input:focus {
+    outline: none;
+    border-color: #eeeeee;
+    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+/* DataTables検索欄非表示 */
+.dataTables_filter {
+    display: none;
+}
+
+/* DataTables情報 */
+.dataTables_info {
+    margin: 12px 0 8px;
+    color: #5f6b7a;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* DataTablesページャー */
+.dataTables_paginate {
+    margin: 18px 0 0;
+    text-align: center;
+}
+
+/* DataTablesページボタン */
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    min-width: 38px;
+    min-height: 34px;
+    margin: 0 3px;
+    padding: 6px 10px;
+    color: var(--paragraph-color, #000000) !important;
+    background: #ffffff !important;
+    border: 1px solid #e1e5e9 !important;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* 選択中ページボタン */
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    color: #ffffff !important;
+    background: var(--button-color, #F067A6) !important;
+    border-color: var(--button-color, #F067A6) !important;
+}
+
+/* 空データ */
+.dataTables_empty {
+    padding: 28px !important;
+    color: #9ca3af !important;
+    text-align: center !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+}
+
+/* タブレット幅 */
+@media (max-width: 900px) {
+    .summary-main {
+        width: min(100% - 24px, 1000px);
+        padding: 28px 24px;
+    }
+
+    .summary-dashboard {
+        flex-wrap: wrap;
+    }
+
+    .summary-count-card {
+        width: calc(50% - 6px);
+    }
+
+    .summary-two-column {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-search-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* スマホ幅 */
+@media (max-width: 640px) {
+    .summary-main {
+        width: min(100% - 16px, 1000px);
+        padding: 24px 16px;
+    }
+
+    .summary-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-elephant {
+        width: 80px;
+    }
+
+    .summary-title {
+        font-size: 26px;
+    }
+
+    .summary-dashboard {
+        display: block;
+    }
+
+    .summary-count-card {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .summary-detail-search {
+        grid-template-columns: 1fr;
+    }
+}

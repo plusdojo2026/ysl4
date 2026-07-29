@@ -522,17 +522,17 @@ public class UserService extends DBAccess {
      * @param passwordHash DBハッシュ
      * @return 一致する場合true
      */
+    
     private boolean checkPassword(String plainPassword, String passwordHash) {
 
-        if (isBlank(plainPassword) || isBlank(passwordHash)) {
-            return false;
-        }
+        System.out.println("入力PW=" + plainPassword);
+        System.out.println("DBハッシュ=" + passwordHash);
 
-        if (passwordHash.startsWith("$2b$")) {
-            passwordHash = "$2a$" + passwordHash.substring(4);
-        }
+        boolean result = BCrypt.checkpw(plainPassword, passwordHash);
 
-        return BCrypt.checkpw(plainPassword, passwordHash);
+        System.out.println("認証結果=" + result);
+
+        return result;
     }
 
     /**

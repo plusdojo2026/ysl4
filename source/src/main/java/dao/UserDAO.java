@@ -38,6 +38,8 @@ public class UserDAO {
     public UserDTO findByLoginId(String loginId) throws SQLException {
 
         UserDTO userDto = null;
+        
+        System.out.println("入力ログインID" + loginId);
 
         String sql = baseSelectSql()
                 + " WHERE login_id = ?"
