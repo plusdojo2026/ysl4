@@ -1,45 +1,47 @@
 /* メンバー画面の色定義 */
 .member-page {
-    --member-main-color: var(--hightlight-color, #f72575);
-    --member-sub-color: var(--secondary-color, rgba(247, 37, 117, 0.18));
+    --member-main-color: var(--hightlight-color, #F6ADC6);
+    --member-button-color: var(--button-color, #F067A6);
     --member-card-color: var(--tertiary-color, #ffffff);
+    --member-bg-color: #fff0f9;
     --member-border-color: #e1e5e9;
-    --member-text-color: #14233a;
+    --member-text-color: var(--paragraph-color, #000000);
     --member-muted-color: #5f6b7a;
+    --member-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
 
-    background:
-        radial-gradient(circle at 72% 16%, rgba(255, 220, 236, 0.72), transparent 26%),
-        linear-gradient(180deg, #fff7fb 0%, #fff1f7 52%, #fff9fc 100%);
+    background-color: #fef9fb;
 }
 
 /* メイン領域 */
 .member-main {
-    width: min(1320px, calc(100% - 96px));
+    width: min(1000px, calc(100% - 40px));
     margin: 0 auto;
-    padding: 42px 0 32px;
+    padding: 40px 50px;
+    min-height: 600px;
+    background-color: var(--member-bg-color);
+    box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
     color: var(--member-text-color);
 }
 
 /* 画面上部 */
 .member-hero {
     display: grid;
-    grid-template-columns: 260px 1fr 230px;
+    grid-template-columns: 150px 1fr 180px;
     align-items: center;
-    gap: 28px;
-    min-height: 190px;
+    gap: 24px;
+    margin-bottom: 24px;
 }
 
 /* ゾウ画像領域 */
 .member-hero-image {
     display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: flex-end;
 }
 
 /* 既存画像ファイルのゾウ */
 .regist-elephant {
-    width: 210px;
-    max-width: 100%;
+    width: 130px;
     height: auto;
     display: block;
 }
@@ -52,46 +54,46 @@
 /* ページタイトル */
 .member-title {
     margin: 0;
-    color: var(--member-text-color);
-    font-size: 42px;
-    font-weight: 900;
-    letter-spacing: 0.08em;
+    color: var(--headline-color, #EF5B9C);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
 }
 
 /* リード文 */
 .member-lead {
-    margin: 12px 0 18px;
+    margin: 8px 0 12px;
     color: var(--member-text-color);
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 15px;
+    font-weight: 500;
 }
 
 /* 管理者専用の行 */
 .hero-note-row {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* 管理者専用ラベル */
 .admin-pill {
-    min-height: 36px;
     display: inline-flex;
     align-items: center;
-    padding: 0 18px;
-    color: var(--member-main-color);
-    background: #fff4f9;
-    border: 2px solid var(--member-main-color);
-    border-radius: 15px;
-    font-size: 15px;
-    font-weight: 800;
+    padding: 3px 10px;
+    color: var(--member-button-color);
+    background-color: #ffffff;
+    border: 1.5px solid var(--member-main-color);
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 /* 補足文 */
 .hero-note {
     color: var(--member-muted-color);
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 400;
 }
 
 /* 登録ボタン領域 */
@@ -102,56 +104,59 @@
 
 /* 登録ボタン */
 .regist-btn {
-    min-width: 190px;
-    min-height: 56px;
+    min-width: 150px;
+    min-height: 34px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 5px 18px;
-    color: #ffffff;
-    background: linear-gradient(135deg, #ff4f93, var(--member-main-color));
+    gap: 6px;
+    padding: 0 12px;
+    color: var(--button-text-color, #ffffff);
+    background-color: var(--member-button-color);
     border: none;
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px 0px var(--member-sub-color);
+    border-radius: 4px;
     font-size: 15px;
-    font-weight: 800;
+    font-weight: 600;
+}
+
+/* 登録ボタンホバー */
+.regist-btn:hover {
+    background-color: var(--member-main-color);
 }
 
 /* プラス記号 */
 .plus-mark {
-    font-size: 28px;
+    font-size: 20px;
     line-height: 1;
+    color: var(--button-text-color, #ffffff);
 }
 
 /* 集計カード全体 */
 .member-dashboard {
     display: flex;
-    justify-content: space-around;
-    gap: 10px;
-    padding: 2%;
-    margin: 18px 0 22px;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 22px;
 }
 
 /* 集計カード */
 .member-count {
-    width: 23%;
-    min-height: 112px;
+    width: 24%;
+    min-height: 88px;
     display: flex;
     align-items: center;
-    gap: 18px;
-    padding: 10px;
+    gap: 12px;
+    padding: 12px;
     background-color: var(--member-card-color);
-    border: 1.5px solid var(--member-main-color);
-    border-radius: 15px;
-    box-shadow: 0px 2px 10px 0px var(--member-sub-color);
-    box-sizing: border-box;
+    border: 1px solid var(--member-border-color);
+    border-radius: 8px;
+    box-shadow: var(--member-shadow);
 }
 
 /* 集計カード画像 */
 .member-count img {
-    width: 72px;
-    height: 72px;
+    width: 48px;
+    height: 48px;
     object-fit: contain;
     flex: 0 0 auto;
 }
@@ -164,42 +169,49 @@
 /* 集計ラベル */
 .member-count-label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 2px;
     color: var(--member-text-color);
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 13px;
+    font-weight: 100 !important;
 }
+
+.member-count-label,
+.member-table th {
+    font-family: "Yu Gothic", sans-serif;
+    font-weight: 400 !important;
+}
+
 
 /* 集計数値 */
 .actual-member-count {
     color: var(--member-text-color);
-    font-size: 50px;
-    font-weight: 800;
-    line-height: 1;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.2;
 }
 
 /* 人数単位 */
 .member-count-unit {
-    margin-left: 4px;
+    margin-left: 2px;
     color: var(--member-text-color);
-    font-size: 18px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 300;
 }
 
 /* 検索カード */
 .member-search {
-    margin-bottom: 20px;
-    padding: 26px 28px;
+    margin-bottom: 22px;
+    padding: 20px;
     background-color: var(--member-card-color);
     border-radius: 5px;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
+    box-shadow: var(--member-shadow);
 }
 
 /* 検索条件配置 */
 .search-grid {
     display: grid;
-    grid-template-columns: 1.45fr 1fr 1fr 120px;
-    gap: 30px;
+    grid-template-columns: 1.4fr 1fr 1fr 90px;
+    gap: 18px;
     align-items: end;
 }
 
@@ -207,14 +219,14 @@
 .search-field {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
 }
 
 /* 検索項目ラベル */
 .search-field label {
     color: var(--member-text-color);
-    font-size: 16px;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /* キーワード入力枠 */
@@ -225,10 +237,10 @@
 /* 検索アイコン */
 .search-icon {
     position: absolute;
-    left: 16px;
+    left: 12px;
     top: 50%;
-    color: #94a3b8;
-    font-size: 24px;
+    color: #9ca3af;
+    font-size: 18px;
     transform: translateY(-50%);
 }
 
@@ -236,39 +248,32 @@
 .search-field input,
 .search-field select {
     width: 100%;
-    min-height: 38px;
+    height: 38px;
     padding: 0 12px;
     color: var(--member-text-color);
     background-color: #ffffff;
     border: 1.5px solid var(--member-border-color);
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    box-sizing: border-box;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* キーワード入力 */
 .keyword-input-wrap input {
-    height: 38px;
-    padding-left: 50px;
-    border-radius: 8px;
+    padding-left: 38px;
 }
 
-/* キーワード入力フォーカス */
-.keyword-input-wrap input:focus {
+/* 入力フォーカス */
+.search-field input:focus,
+.search-field select:focus {
     outline: none;
     border-color: #eeeeee;
     box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-/* セレクト */
-.search-field select {
-    cursor: pointer;
-}
-
 /* プレースホルダー */
 .search-field input::placeholder {
-    color: #a8b2c3;
+    color: #9ca3af;
 }
 
 /* クリアボタン領域 */
@@ -279,50 +284,56 @@
 
 /* クリアボタン */
 .clear-btn {
-    width: 116px;
-    min-height: 38px;
-    color: var(--member-main-color);
-    background: #ffffff;
+    width: 100%;
+    height: 38px;
+    color: var(--member-button-color);
+    background-color: var(--background-color, #F8F8F8);
     border: 1.5px solid var(--member-main-color);
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 800;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* クリアボタンホバー */
+.clear-btn:hover {
+    background-color: #F6ADC6;
+    color: #ffffff;
 }
 
 /* 検索補足 */
 .search-help {
-    margin: 18px 0 0;
+    margin: 14px 0 0;
     color: var(--member-muted-color);
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.7;
 }
 
 /* 情報アイコン */
 .info-icon {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-right: 8px;
+    margin-right: 6px;
     color: #ffffff;
-    background: var(--member-main-color);
+    background-color: var(--member-button-color);
     border-radius: 50%;
-    font-size: 13px;
-    font-weight: 900;
+    font-size: 12px;
+    font-weight: 600;
 }
 
 /* 補足文の間隔 */
 .help-space {
     display: inline-block;
-    width: 20px;
+    width: 12px;
 }
 
 /* 一覧カード */
 .member-list {
     width: 100%;
-    padding: 4%;
-    text-align: center;
+    padding: 0;
     background-color: transparent;
 }
 
@@ -333,11 +344,11 @@
 
 /* メンバーテーブル */
 .member-table {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     border-collapse: collapse;
     background-color: #ffffff;
-    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.146);
+    box-shadow: var(--member-shadow);
 }
 
 /* DataTables対策 */
@@ -347,30 +358,30 @@
 
 /* テーブル見出し */
 .member-table th {
-    padding: 10px 15px;
+    padding: 10px 12px;
     color: var(--member-text-color);
-    background: #fbfcff;
+    background-color: #ffffff;
     border-top: 1px solid var(--member-border-color);
     border-bottom: 1px solid var(--member-border-color);
     border-left: none;
     border-right: none;
     text-align: left;
     white-space: nowrap;
-    font-size: 15px;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 200;
 }
 
 /* テーブルセル */
 .member-table td {
-    padding: 10px 15px;
-    color: #24364f;
+    padding: 9px 12px;
+    color: var(--member-text-color);
     border-top: 1px solid var(--member-border-color);
     border-bottom: 1px solid var(--member-border-color);
     border-left: none;
     border-right: none;
     vertical-align: middle;
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 /* ログインID列 */
@@ -380,54 +391,54 @@
 
 /* 権限バッジ */
 .role-badge {
-    min-width: 86px;
-    min-height: 30px;
+    min-width: 78px;
+    min-height: 26px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 800;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 /* 管理者権限 */
 .admin-role {
-    color: var(--member-main-color);
-    background: #ffe5f0;
-    border: 1px solid #ffc2d9;
+    color: var(--member-button-color);
+    background-color: #fff0f9;
+    border: 1px solid var(--member-main-color);
 }
 
 /* 一般権限 */
 .normal-role {
-    color: #475569;
-    background: #f8fafc;
-    border: 1px solid #dfe5ee;
+    color: #5f6b7a;
+    background-color: #f8f8f8;
+    border: 1px solid var(--member-border-color);
 }
 
 /* 状態バッジ */
 .status-badge {
-    min-width: 66px;
-    min-height: 30px;
+    min-width: 58px;
+    min-height: 26px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 999px;
-    font-size: 13px;
-    font-weight: 800;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 /* 有効状態 */
 .valid-status {
-    color: #16a34a;
-    background: #ecfdf3;
-    border: 1px solid #bbf7d0;
+    color: #2f8f55;
+    background-color: #effaf3;
+    border: 1px solid #bfe8cd;
 }
 
 /* 無効状態 */
 .invalid-status {
-    color: #475569;
-    background: #e5e7eb;
-    border: 1px solid #d1d5db;
+    color: #5f6b7a;
+    background-color: #f0f2f5;
+    border: 1px solid #d7dce2;
 }
 
 /* 操作列 */
@@ -435,8 +446,7 @@
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 14px;
+    gap: 8px;
 }
 
 /* 操作列フォーム */
@@ -446,14 +456,19 @@
 
 /* 編集ボタン */
 .edit-btn {
-    min-width: 90px;
-    min-height: 34px;
-    color: var(--member-main-color);
-    background: #ffffff;
+    min-width: 58px;
+    height: 30px;
+    color: var(--member-button-color);
+    background-color: #ffffff;
     border: 1.5px solid var(--member-main-color);
-    border-radius: 7px;
-    font-size: 14px;
-    font-weight: 800;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* 編集ボタンホバー */
+.edit-btn:hover {
+    background-color: #fff0f9;
 }
 
 /* 三点メニュー枠 */
@@ -463,29 +478,29 @@
 
 /* 三点ボタン */
 .more-btn {
-    width: 40px;
-    height: 34px;
-    color: #24364f;
-    background: #ffffff;
+    width: 34px;
+    height: 30px;
+    color: var(--member-text-color);
+    background-color: #ffffff;
     border: 1.5px solid var(--member-border-color);
-    border-radius: 7px;
-    font-size: 20px;
-    font-weight: 800;
+    border-radius: 4px;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 /* 三点メニュー */
 .more-menu {
     position: absolute;
     right: 0;
-    top: 42px;
+    top: 36px;
     z-index: 30;
     display: none;
-    min-width: 190px;
-    padding: 10px 0;
-    background: #ffffff;
+    min-width: 170px;
+    padding: 6px 0;
+    background-color: #ffffff;
     border: 1px solid var(--member-border-color);
-    border-radius: 10px;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
+    border-radius: 6px;
+    box-shadow: var(--member-shadow);
 }
 
 /* 三点メニュー表示 */
@@ -497,19 +512,19 @@
 .more-menu-item {
     width: 100%;
     display: block;
-    padding: 10px 16px;
-    color: #24364f;
-    background: #ffffff;
+    padding: 8px 12px;
+    color: var(--member-text-color);
+    background-color: #ffffff;
     border: none;
     text-align: left;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 13px;
+    font-weight: 400;
 }
 
 /* 三点メニュー項目ホバー */
 .more-menu-item:hover {
-    background: #fff3f8;
-    color: var(--member-main-color);
+    background-color: #fff0f9;
+    color: var(--member-button-color);
 }
 
 /* DataTables標準検索欄は非表示 */
@@ -519,136 +534,59 @@
 
 /* DataTables表示件数 */
 .dataTables_length {
-    margin: 16px 0 10px 14px;
-    color: #475569;
-    font-size: 14px;
-    font-weight: 700;
+    margin: 12px 0 8px;
+    color: var(--member-muted-color);
+    font-size: 13px;
+    font-weight: 400;
 }
 
 /* DataTables情報 */
 .dataTables_info {
-    margin: 12px 0 16px 14px;
-    color: #64748b;
-    font-size: 14px;
+    margin: 12px 0 8px;
+    color: var(--member-muted-color);
+    font-size: 13px;
+    font-weight: 400;
 }
 
 /* DataTablesページャー */
 .dataTables_paginate {
-    margin: 22px 0 0;
+    margin: 18px 0 0;
     text-align: center;
 }
 
 /* DataTablesページボタン */
 .dataTables_wrapper .dataTables_paginate .paginate_button {
-    min-width: 52px;
-    min-height: 44px;
-    margin: 0 5px;
-    padding: 10px 14px;
+    min-width: 38px;
+    min-height: 34px;
+    margin: 0 3px;
+    padding: 6px 10px;
     color: var(--member-text-color) !important;
     background: #ffffff !important;
-    border: 1px solid #f3d5df !important;
-    border-radius: 8px;
-    font-weight: 800;
+    border: 1px solid var(--member-border-color) !important;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 /* 選択中ページボタン */
 .dataTables_wrapper .dataTables_paginate .paginate_button.current {
     color: #ffffff !important;
-    background: linear-gradient(135deg, #ff4f93, var(--member-main-color)) !important;
-    border-color: var(--member-main-color) !important;
+    background: var(--member-button-color) !important;
+    border-color: var(--member-button-color) !important;
 }
 
 /* 空データ */
-.empty-cell,
 .dataTables_empty {
-    padding: 34px !important;
-    color: #94a3b8 !important;
+    padding: 28px !important;
+    color: #9ca3af !important;
     text-align: center !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
 }
 
-/* タブレット幅 */
-@media (max-width: 1100px) {
-    .member-main {
-        width: min(100% - 32px, 1320px);
-    }
-
-    .member-hero {
-        grid-template-columns: 190px 1fr;
-    }
-
-    .member-hero-action {
-        grid-column: 1 / -1;
-        justify-content: flex-start;
-    }
-
-    .regist-elephant {
-        width: 170px;
-    }
-
-    .member-dashboard {
-        flex-wrap: wrap;
-    }
-
-    .member-count {
-        width: calc(50% - 10px);
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .clear-button-area {
-        grid-column: 1 / -1;
-    }
-
-    .member-table {
-        width: 100%;
-    }
-}
-
-/* スマホ幅 */
-@media (max-width: 640px) {
-    .member-hero {
-        display: block;
-    }
-
-    .member-hero-image {
-        justify-content: flex-start;
-        margin-bottom: 12px;
-    }
-
-    .regist-elephant {
-        width: 145px;
-    }
-
-    .member-title {
-        font-size: 32px;
-    }
-
-    .hero-note-row {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .member-hero-action {
-        margin-top: 18px;
-    }
-
-    .member-dashboard {
-        display: block;
-    }
-
-    .member-count {
-        width: 100%;
-        margin-bottom: 12px;
-    }
-
-    .search-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .clear-btn {
-        width: 100%;
-    }
+.member-count-label,
+.member-table th {
+    font-family: sans-serif !important;
+    font-weight: 100 !important;
+    color: blue !important;
 }
