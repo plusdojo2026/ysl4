@@ -1,9 +1,8 @@
 'use strict';
 
 /**
-
-* 案件一覧のjQuery検索.
-* DataTablesでキーワード、ステータス、優先度を絞り込む.
+ * 案件一覧のjQuery検索.
+ * DataTablesでキーワード、ステータス、優先度を絞り込む.
  */
 jQuery(function($) {
 
@@ -100,10 +99,9 @@ jQuery(function($) {
 });
 
 /**
-
 * 案件検索条件を反映する.
 * @param {DataTables.Api} table DataTables.
- */
+*/
 function applyProjectSearch(table) {
 
 	const keyword = $('#project-keyword-filter').val();
@@ -115,10 +113,9 @@ function applyProjectSearch(table) {
 }
 
 /**
-
 * 表示中案件の件数を更新する.
 * @param {DataTables.Api} table DataTables.
- */
+*/
 function updateProjectCounts(table) {
 
 	const rows = table.rows({

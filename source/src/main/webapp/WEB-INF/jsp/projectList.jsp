@@ -34,20 +34,22 @@
 	<p class = "title-sub">登録済み案件を検索・確認出来ます</p>
 	</div>	
 	</div>
-	
-	<script>
-
-		<!-- 新規登録ボタン -->
-        function goToPage() {
-            location.href = 'projectRegist.jsp';
-        }
-    </script>
+            <div class="member-hero-action">
+                <%-- <form action="${pageContext.request.contextPath}/Controller" method="get">
+                    <input type="hidden" name="page_id" value="P003">
+                    <button type="submit" class="regist-btn">
+                        <span class="plus-mark">＋</span>
+                        案件登録
+                    </button>
+                </form>
+                --%>
     <form action="${pageContext.request.contextPath}/Controller" method="get">
-		<input type="hidden" name="page_id" value="P002">
+		<input type="hidden" name="page_id" value="P003">
 					<button type="submit" class="regist-btn">
 						<span class="plus-mark">＋</span> 新規登録
 					</button>
 				</form>
+				</div>
     
     <form id="serchForm">
     <input type="hidden" name="page_id" value="P001">
