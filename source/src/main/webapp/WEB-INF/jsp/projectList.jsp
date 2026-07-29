@@ -34,8 +34,12 @@
             location.href = 'projectRegist.jsp';
         }
     </script>
-    
-    <button type="button" onclick="goToPage()">＋新規登録</button>
+    <form action="${pageContext.request.contextPath}/Controller" method="get">
+		<input type="hidden" name="page_id" value="P002">
+					<button type="submit" class="regist-btn">
+						<span class="plus-mark">＋</span> 新規登録
+					</button>
+				</form>
     
     <form id="serchForm">
     <input type="hidden" name="page_id" value="P001">
@@ -106,9 +110,13 @@
         <td><c:out value="${project.progressRate}" /></td>
         <td><c:out value="${project.actualManhours}" /></td>
         <td>
+        <form action="${pageContext.request.contextPath}/Controller" method="get">
         <button type="button" onclick="editProject(${project.projectId})">
-         編集
+            <input type="hidden" name="page_id" value="P004">
+				<button type="submit" class="edit-btn">
+						編集
         </button>
+        </form>
         </td>
     </tr>
 </c:forEach>
