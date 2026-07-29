@@ -11,9 +11,8 @@
 </head>
 
 <body>
-<header>
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
-</header>
+
 		
 		<div class ="main">
 		 <div class="under-header">
