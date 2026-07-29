@@ -17,23 +17,23 @@
       </nav>
   </div>
 
-  <div class="header-right">
-    <div class="user-status">
-      <!-- ユーザーのアイコン -->
-       <img src="${pageContext.request.contextPath}/img/people.png">
-       <span class="user-name">
-        <c:out value="${loginUser.name}"/>さん
-       </span>
-    </div>
+ <div class="header-right">
+  <table>
+    <!-- ユーザーのアイコン -->
+    <td class="icon-area"><img class="user-status" src="${pageContext.request.contextPath}/img/people.png"></td>
+    <td><span class="user-name"><c:out value="${loginUser.name}"/>さん</span></td>
+    <td>
     <div class="header-actions">
     <%-- common.jsがクリック時にモーダルを生成して開く --%>
-      <button type="button" class="btn btn-secondary" data-open-password-modal>パスワード変更</button>
+      <button type="button" class="pw-reset-btn" data-open-password-modal>パスワード変更</button>
+    </td>
         <form action="${pageContext.request.contextPath}/Controller" method="post" data-confirm="ログアウトしますか">
           <input type="hidden" name="page_id" value="none">
-          <button type="submit" name="button_id" value="ログアウト" class="btn btn-outline">ログアウト</button>
+          <td><button type="submit" name="button_id" value="ログアウト" class="logout-btn">ログアウト</button></td>
         </form>
     </div>
   </div>
+</table>
 </header>
 	<script>
 	//ログアウトボタンが押されたときの処理
