@@ -64,8 +64,11 @@
 						    </label>
                         </td>						  
 						    <td colspan="2">
-						    	<input type="submit" class="cancel-btn" name="button_id" value="メンバー一覧へ" onclick="return list()">
-                                <input type="submit" class="submit-btn" name="button_id" value="保存" onclick="return regist()">
+                                <form>
+                                <input type="hidden" name="button_id" value="検索">
+						    	<input type="submit" class="cancel-btn" name="button_id" value="メンバー一覧へ">
+                                </form>
+                                <input type="submit" class="submit-btn" name="button_id" value="保存">
 						  	</td>						  
 						</td>
 					</tr>
