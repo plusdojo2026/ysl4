@@ -120,12 +120,15 @@
 }
 
 .submit-btn {
-	width: 90px;
+	width: 110px;
 	height: 40px;
 	border-radius: 8px;
 	font-weight: bold;
 }
 .button_edit{
+    display: flex;
+}
+.button_regist{
     display: flex;
 }
 

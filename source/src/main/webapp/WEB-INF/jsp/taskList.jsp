@@ -57,7 +57,7 @@
 	<!-- <span class="msg">${msg}</span> -->
 	<form>
 		<!-- method="POST" action="<c:url value='/Controller'/>" -->
-		<input type="hidden" name="page_id" value="M001">
+		<input type="hidden" name="page_id" value="T001">
 		<div class="member-search">
 			<table>
 				<tr>
@@ -108,9 +108,12 @@
 					<input type="submit" class="submit-btn" name="button_id"
 					value="自分のタスク"></td>
 				</div>
-				<a href="${pageContext.request.contextPath}/Controller?page_id=T003"
-					class="nav-link">タスク登録</a>
-
+				
+				<div class="button_regist">
+				<td colspan="3">
+				<a href="${pageContext.request.contextPath}/Controller?page_id=T003" class="nav-link">タスク登録</a>
+				</td>
+				</div>
 			</table>
 		</div>
 	</form>
