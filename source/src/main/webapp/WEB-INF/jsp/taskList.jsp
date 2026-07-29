@@ -67,7 +67,7 @@
 					<!-- value="${param.id }"				 -->
 					<td>案件</td>
 					<td><select>
-							<option></option>
+							<option>すべて</option>
 							<option>案件１</option>
 							<!-- <c:if test="${param.kan == '0'}">checked</c:if> -->
 							<option>案件２</option>
@@ -75,7 +75,7 @@
 					</select></td>
 					<td>ステータス</td>
 					<td><select>
-							<option></option>
+							<option>--選択してください--</option>
 							<option>未着手に戻す</option>
 							<option>進行中にする</option>
 							<option>完了にする</option>
@@ -85,7 +85,7 @@
 			<table>
 				<td>担当者</td>
 				<td><select>
-						<option></option>
+						<option>すべて</option>
 						<option>田中</option>
 						<option>佐藤</option>
 						<option>鈴木</option>
@@ -94,11 +94,13 @@
 				</select></td>
 				<td>優先度</td>
 				<td><select>
-						<option></option>
+						<option>すべて</option>
 						<option>高</option>
 						<option>中</option>
 						<option>低</option>
 				</select></td>
+				<td>   </td>
+				<td>   </td>
 			</table>
 			<table>
 				<div class="button_edit">
@@ -111,7 +113,7 @@
 				
 				<div class="button_regist">
 				<td colspan="3" class="submit-btn2">
-				<a href="${pageContext.request.contextPath}/Controller?page_id=T003" class="nav-link">タスク登録</a>
+				<a href="${pageContext.request.contextPath}/Controller?page_id=T003" class="nav-link">    ＋タスク登録</a>
 				</td>
 				</div>
 			</table>
