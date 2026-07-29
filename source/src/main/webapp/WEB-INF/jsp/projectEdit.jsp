@@ -40,7 +40,7 @@
 		
 		<form id="projectForms" method="POST" action="<c:url value='/Controller'/>">
 		<input type="hidden" name="page_id" value="P004">
-		<p class="sakuseisyousai"
+		
 		<!-- 案件コード -->
 		<div class="field">
 		<table>
