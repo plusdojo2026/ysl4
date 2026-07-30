@@ -152,14 +152,14 @@
 }
 
 .submit-btn {
-	width: 110px;
+	width: 150px;
 	height: 40px;
 	border-radius: 8px;
 	font-weight: bold;
 	background-color: #F6ADC6;
 }
 .submit-btn2 {
-	width: 42px;
+	width: 100px;
 	height: 40px;
 	border-radius: 8px;
 	font-weight: bold;
@@ -405,9 +405,7 @@ form#projectForm{
 	border:1px solid #999;
 }
 
-/* =========================================
-   タスク詳細画面
-========================================= */
+/* タスク詳細画面 */
 
 /* 文字サイズと文字太さの基準 */
 .task-detail-page {
@@ -974,4 +972,10 @@ form#projectForm{
     justify-content: flex-end;
     gap: 10px;
     margin-top: 16px;
+}
+
+
+/* タスク編集 */
+.edit-main{
+    margin-left: 50px;
 }

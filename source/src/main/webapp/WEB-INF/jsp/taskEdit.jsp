@@ -9,6 +9,7 @@
 <title>タスク編集画面</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/task.css">
 
 </head>
 
@@ -16,7 +17,7 @@
 
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-
+<main class="edit-main">
 
     <!-- 上の画像-->
         <div>
@@ -34,8 +35,11 @@
         <p>登録済みタスク情報を更新してください</p>
        
     </div>
-
-    <!-- 案件コード -->
+<div class="edit-form">
+   
+<form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
+<input type="hidden" name="page_id" value="T004">
+ <!-- 案件コード -->
     <div class="field">
         <label>
             案件コード
@@ -46,19 +50,15 @@
     <div class="error">
         ${errorMessage}
     </div>
-	<form >
+
     <!-- 案件名 -->
     <div class="field">
         <label>
          案件名
          <span class="must">必須</span>
 	           		<option><c:out value="${selectedProject.projectName}" /></option>
-        </label>
-
-        
+        </label>     
     </div>
-<form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
-<input type="hidden" name="page_id" value="T004">
     <!-- タスク名 -->
     <div class="field">
         <label>タスク名</label>
@@ -101,7 +101,7 @@
             <span class="must">必須</span>
         </label>
 		<c:forEach var="uib" items="${userList}" >
-	        <select id="assigne" name="assigne" value="${taskList.name}">
+	        <select id="assigne" name="assigne">
 		    	<option><c:out value="${uib.name}" /></option>
 	        </select>
         </c:forEach>
@@ -151,6 +151,23 @@
         <input type="text" id="description" name="description" value="${taskList.description}" style="width: 500px;">
     </div>
 
+<!--  予算工数 -->
+		<div class="kousuu">
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
+		見積工数<c:out value="${taskList.estimatedManhours}" />h
+		</div>
+
+		<!--  実績工数-->
+		<div class="kousuu">
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
+		実績工数<c:out value="${task.actualManhours}" />h
+		</div>
+
+		<!--  タスク進捗-->
+		<div class="kousuu">
+		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
+		<c:out value="${taskList.progressRate}" />%
+
     <!-- 更新 -->
     <button type="submit" name="botton_id" value="更新">
         保存
@@ -169,24 +186,9 @@
 <button type="button" id="clearBtn">
     キャンセル
 </button>
+</div>
 
-<!--  予算工数 -->
-		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		見積工数<c:out value="${taskList.estimatedManhours}" />h
-		</div>
 
-		<!--  実績工数-->
-		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		実績工数<c:out value="${task.actualManhours}" />h
-		</div>
-
-		<!--  タスク進捗-->
-		<div class="kousuu">
-		<img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
-		<c:out value="${taskList.progressRate}" />%
-		<style>
 
 <script>
 document.getElementById("clearBtn")
@@ -194,6 +196,6 @@ document.getElementById("clearBtn")
         document.getElementById("projectForm").reset();
     });
 </script>
-
+</main>
 </body>
 </html>
