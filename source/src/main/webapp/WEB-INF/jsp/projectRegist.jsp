@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>案件登録画面</title>
 
- <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+ 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
@@ -19,13 +19,15 @@
 
 
     <!-- 上の画像-->
-        <div class="title-area">
-			 <img src= "${pageContext.request.contextPath}/img/elephant(1).png">
+        <!-- <section class="title-area"> -->
+			 <div class="zou"><img src= "${pageContext.request.contextPath}/img/elephant(1).png"></div>
 
-            <h1 class ="projectimg">案件登録</h1>
-            <p class ="subtitle">
+            <div class="text-area">
+				<h1 class ="projectimg">案件登録</h1>
+            	<p class ="subtitle">
                 新しい案件詳細を入力してください。</p>
-		</div>
+			</div>
+			<!-- </section> -->
 			
         
 
@@ -37,20 +39,23 @@
 
 
     <!-- 案件コード -->
-    <div class="field">
+    <!-- <div class="field"> -->
 		 <!-- 右側説明 -->
-    <div class="sub-header-right">
-       <img src = "${pageContext.request.contextPath}/img/elephant(1).png">
+    <div class="sub-header-right"> 
+       <!-- <img class="zousann" src = "${pageContext.request.contextPath}/img/elephant(1).png"> -->
 
-	   <div class ="setumeidesu">
-        <p>入力内容を確認して保存しましょう</p>
-        <p>担当PMは有効なメンバーから選択してください</p>
-        <p>保存後は案件一覧に戻ります</p>
+	   <div class ="setumeidesu" style="border: 2px  solid#F6ADC6;">
+        入力内容を確認して保存しましょう<br>
+        担当PMは有効なメンバーから選択してください<br>
+        保存後は案件一覧に戻ります
+
+	
     </div>
-	</div>
+	</div> 
 
-
-		<table>
+	
+<div class="field"></div>
+		<table id="main-table">
 		  <tr>
           <td>
             案件コード
@@ -60,7 +65,7 @@
                id="project_code"
                name="project_code"></td>
     <!-- 案件名 -->
-			<td>
+	 		<td>
             案件名
             <span class="required-item">必須</span><br>
 		
@@ -175,7 +180,7 @@
     
 
 
-
+<div class ="projectbtn">
 <!-- 戻る -->
 <button type ="button" id=back onclick="history.go(-1);">
     戻る
@@ -191,8 +196,9 @@
     <button type="submit" id="comp">
         保存
     </button>
-
+</div>
 </form>
+
 <script>
 document.getElementById("clearBtn")
     .addEventListener("click", function () {
