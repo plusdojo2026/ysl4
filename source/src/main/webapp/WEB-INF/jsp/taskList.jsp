@@ -152,8 +152,7 @@
 						<td><span><c:out value="${e.estimatedManhours}" /></span></td> <!-- 見積工数 -->
 						<td><c:out value="${e.actualManhours}" /></td> <!-- 実績工数 -->
 						
-						<td><input type="submit" class="edit-btn" name="button_id"
-							value="編集"></td>
+						<td><input type="submit" class="edit-btn" name="button_id" value="編集"></td>
 					</tr>
 				</c:forEach>
 			</tbody>
