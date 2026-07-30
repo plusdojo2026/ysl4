@@ -6,9 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>案件編集</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet" href="<c:url value='/css/project.css' />">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
 <body>
@@ -46,122 +45,143 @@
 		<table>
 		<tr>
 			<td>案件コード</td> <td><input type="text" name="project_code"
-				value="${projectList.projectCode}" readonly></td>
-		</div>
+				value="${project.projectCode}" readonly></td>
+		
 
 		<!-- 案件名 まだ-->
-		<div class="field">
-			<td>案件名<span class="repuired-item">必須</span></td> <td><select
-				name="project_name" value="${projectList.projectName}"></select></td>
-		</div>
+		
+			<td>案件名<span class="repuired-item">必須</span></td> <td>
+			<select name="project_name">
+           <option value="${project.projectName}">
+          <c:out value="${project.projectName}" />
+            </option></select>
+				</td>
+		
 
 		<!-- 担当PM -->
-		<div class="field">
-			<td>担当PM<span class="repuired-item">必須</span></td><td> <select
-				name="project_manager_id" value="${projectList.projectManagerName}"></select></td>
-		</div>
+		
+			<td>担当PM<span class="repuired-item">必須</span></td><td>
+			 <select name="project_manager_id" >
+				<option value="${project.projectManagerName}">
+				<c:out value="${project.projectManagerName}"/>
+				</option></select>
+				</td>
+			
+		
 </tr>
 <tr>
 		<!-- 顧客名 -->
-		<div class="field">
+		
 			<td>顧客名</td><td> <input type="text" id="customer_name"
-				name="customer_name" value="${projectList.customerName}"></td>
-		</div>
+				name="customer_name" value="${project.customerName}"></td>
+		
 
 		<!-- 開始日 -->
-		<div class="field">
+		
 			<td>開始日<span class="repuired-item">必須</span></td><td> <input type="text"
-				id="start_date" name="start_date" value="${projectList.startDate}"
+				id="start_date" name="start_date" value="${project.startDate}"
 				placeholder="YYYY/MM/DD"></td>
-		</div>
+	
 
 		<!-- 期限 -->
-		<div class="field">
+		
 			<td>期限<span class="repuired-item">必須</span></td><td> <input type="date"
-				id="due_date" name="due_date" value="${projectList.dueDate}"
+				id="due_date" name="due_date" value="${project.dueDate}"
 				placeholder="YYYY/MM/DD"></td>
-		</div>
+		
 </tr>
 <tr>
 		<!-- ステータス　まだ -->
-		<div class="field">
-			<td> ステータス <span class="repuired-item">必須</span>
-			</td><td> <select id="status" name="status" value="${projectList.status}">
+		
+		    <td> ステータス <span class="repuired-item">必須</span>
+			</td><td> <select id="status" name="status" value="${project.status}">
 				<option value="in_progress">進行中</option>
 				<option value="done">完了</option>
 				<option value="canceled">中止</option>
 			</select></td>
-		</div>
+			
+		
 
 		<!-- 優先度 　まだ-->
-		<div class="field">
+		
 			<td> 優先度 <span class="repuired-item">必須</span>
-			</td> <td><select id="priority" name="priority" value="${projectList.priority}">
+			</td> <td><select id="priority" name="priority" value="${project.priority}">
 				<option value="middle">中</option>
 				<option value="high">高</option>
 				<option value="low">低</option>
 			</select></td>
-		</div>
+		
+		
 
 		<!-- 見積工数 -->
-		<div class="field">
+		
 			<td> 
 				見積工数 <span class="repuired-item">必須</span>
 			</td> 
 			<td><input type="text" id="estimated_manhours" name="estimated_manhours" 
-			value="${projectList.estimatedManhours}"></td>
-		</div>
+			value="${project.estimatedManhours}"></td>
+		
 
 		<!-- 実績工数 -->
-		<div class="field">
+		
 			<td>
 			実績工数
 			</td> 
 			<td><input type="text" id="actual_manhours"
-				name="actual_manhours" value="${projectList.actualManhours}"></td>
-		</div>
+				name="actual_manhours" value="${project.actualManhours}"></td>
+		
 </tr>
 <tr>
 		<!-- 説明 -->
-		<td><input type="text" value="${projectList.description}" class="descript" ></td>
+		<td>説明<input type="text" value="${project.description}" id="description" ></td>
 		</table>
 		
 		</div>
 		</tr>
 		
-		<!-- 保存ボタン -->
-		<input type="submit" name="botton_id" value="更新">
-        </form>
-        
+
         
 		<!--  予算工数　　ここから分からん-->
 		<div class="kousuu">
-		<table>
+		<table >
 		<tr>
 		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		予算工数<c:out value="${projectList.estimatedManhours}" />h</td>
-		</div>
+		
+		</td><td>予算工数<br><c:out value="${project.estimatedManhours}" />h</td>
+		
 
 		<!--  実績工数-->
-		<div class="kousuu">
+		
 		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		実績工数<c:out value="${projectList.actualManhours}" />h</td>
-		</div>
+		</td><td>	実績工数<c:out value="${project.actualManhours}" />h</td>
+		
 
 		<!--  予算消化率-->
-		<div class="kousuu">
-		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/advance.png">
-		<a href=r/dke/sj><c:out value="${(projectList.actualManhours/projectList.estimatedManhours)*100}" /></a></td></div>
-
+		
+		<td>
+			<img class="regist-elephant"src="${pageContext.request.contextPath}/img/advance.png">
+		</td>
+		<td>
+			予算消化率
+			<a href=r/dke/sj>
+				<c:out value="${(project.actualManhours/project.estimatedManhours)*100}" />
+			</a>
+		</td>
 
 		<!--  タスク進捗-->
-		<div class="kousuu">
+		
 		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
-		<c:out value="${projectList.progressRate}" /></td></div></tr>
-		<style>
+		</td>
+		<td>
+		タスク進捗
+		<c:out value="${project.progressRate}" /></td></div></tr>
+		</td>
+	</tr>
+  </table>
+</div>
+		<!--<style>
   body {
     font-family: sans-serif;
-    max-width: 400px;
     margin: 60px auto;
   }
 
@@ -185,8 +205,10 @@
     height: 100%;
     background: #3378dd;
     transition: width 0.3s ease;
-  }
+  } 
 </style>
+-->
+
 
 <!-- 現在値の表示 -->
 <div class="label">
@@ -200,8 +222,8 @@
 </div>
 
 <!-- ここに${xxxxx}みたいな感じで値を入れるよ（下のJSで取得する）-->
-<input type="text" name="current" id="current" value="${projectDto.completedTaskCount}">
-<input type="text" name="total" id="total" value="${projectDto.taskCount}"> 
+<%-- <input type="text" name="current" id="current" value="${projectDto.completedTaskCount}">
+<input type="text" name="total" id="total" value="${projectDto.taskCount}">  --%>
 
 <script>
 // ☆ここで上記のテキストボックスから取得したデータを入れるよ
@@ -219,8 +241,10 @@ document.getElementById('label-pct').textContent = pct + '%';
 </script>
 		</div>
 
+
+<div class ="btnirir">
 		<!-- 戻るボタン -->
-		<button type="button" onclick="history.back();">戻る</button>
+		<button type="button" id="back" onclick="history.back();">戻る</button>
 
 		<!-- キャンセルボタン -->
 		<button type="button" id="clearBtn">キャンセル</button>
@@ -239,9 +263,13 @@ document.getElementById('label-pct').textContent = pct + '%';
         }
     </script>
     
-    <button type="button" onclick="goToPage()">案件詳細へ</button>
-    <%@ include file="/WEB-INF/jsp/footer.jsp" %>
+    <button type="button"  id="move" onclick="goToPage()">案件詳細へ</button>
+    
+  		<!-- 保存ボタン -->
+	<input type="submit"  id="save" wname="botton_id" value="保存">
+	</div>
+	
+      </form><%@ include file="/WEB-INF/jsp/footer.jsp" %>
 </body>
-
+</html>
       
-     
