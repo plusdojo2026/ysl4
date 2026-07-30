@@ -137,19 +137,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach var="e" items="${list}" varStatus="status">
+				<c:forEach var="e" items="${taskList}" varStatus="status">
 					<tr>
-						<td>aaaa</td>
-						<td><a href="/ysl4/jsp/taskDetail"><c:out
-									value="${e.taskName}" /></a></td>
-						<td>山田</td>
-						<td>valuekfj</td>
-						<td><span>一般</span></td>
-						<td><span>有効</span></td>
-						<td>200h</td>
-						<td>120h</td>
+						<td><c:out value="${e.projectName}" /></td>
+						<td> 
+						<a href="${pageContext.request.contextPath}/Controller?page_id=T002" data-page="T002">
+						<c:out value="${e.taskName}" />
+						</a></td>
+						<td><c:out value="${e.name}" /></td>
+						<td><c:out value="${e.status}" /></td>
+						<td><span><c:out value="${e.priority}" /></span></td>
+						<td><span><c:out value="${e.estimatedManhours}" /></span></td>
+						<td><c:out value="${e.actualManhours}" /></td>
+						
 						<td><input type="submit" class="edit-btn" name="button_id"
-							value="編集" onclick="return edit()"></td>
+							value="編集"></td>
 					</tr>
 				</c:forEach>
 			</tbody>
