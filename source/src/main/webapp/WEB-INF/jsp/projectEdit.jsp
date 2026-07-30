@@ -1,275 +1,274 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<c:set var="displayProject" value="${project}" />
+<c:if test="${empty displayProject}">
+	<c:set var="displayProject" value="${projectDto}" />
+</c:if>
+<c:if test="${empty displayProject}">
+	<c:set var="displayProject" value="${projectList}" />
+</c:if>
+
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <title>案件編集</title>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
 <body>
 
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
+	<%@ include file="/WEB-INF/jsp/header.jsp"%>
 
+	<form id="projectEditForm"
+		method="post"
+		action="${pageContext.request.contextPath}/Controller">
 
-<form id="projectForm"
-      method="POST"
-      action="ProjectServlet?action=regist">
+		<input type="hidden" name="page_id" value="P004">
+		<input type="hidden" name="project_id" id="project_id" value="${displayProject.projectId}">
 
-		<!-- 上の左側の象さんの画像 -->
-		<div class="sub -header-left">
+		<div class="sub-header-left">
 			<img class="regist-elephant"
-				src="${pageContext.request.contextPath}/img/smileelephant.png">
+				src="${pageContext.request.contextPath}/img/smileelephant.png"
+				alt="案件編集">
 
-			<!-- タイトル部分 -->
 			<div>
 				<h1 class="title-main">案件編集</h1>
-				<p class="title-sub">登録済み案件情報を更新してください。</p>
+				<p class="title-sub">登録済み案件情報を更新してください</p>
 			</div>
 		</div>
 
-		<!-- 必要であればここにカレンダー画像 -->
+		<c:if test="${not empty errMsg}">
+			<div class="error">
+				<c:out value="${errMsg}" />
+			</div>
+		</c:if>
 
-
-        
-		<!-- 右側の詳細 -->
-		
-		<form id="projectForms" method="POST" action="<c:url value='/Controller'/>">
-		<input type="hidden" name="page_id" value="P004">
-		
-		<!-- 案件コード -->
 		<div class="field">
-		<table>
-		<tr>
-			<td>案件コード</td> <td><input type="text" name="project_code"
-				value="${project.projectCode}" readonly></td>
-		
+			<table>
+				<tr>
+					<td>案件コード</td>
+					<td>
+						<input type="text"
+							id="project_code"
+							name="project_code"
+							value="${displayProject.projectCode}"
+							readonly>
+					</td>
 
-		<!-- 案件名 まだ-->
-		
-			<td>案件名<span class="repuired-item">必須</span></td> <td>
-			<select name="project_name">
-           <option value="${project.projectName}">
-          <c:out value="${project.projectName}" />
-            </option></select>
-				</td>
-		
+					<td>案件名<span class="repuired-item">必須</span></td>
+					<td>
+						<input type="text"
+							id="project_name"
+							name="project_name"
+							value="${displayProject.projectName}">
+					</td>
 
-		<!-- 担当PM -->
-		
-			<td>担当PM<span class="repuired-item">必須</span></td><td>
-			 <select name="project_manager_id" >
-				<option value="${project.projectManagerName}">
-				<c:out value="${project.projectManagerName}"/>
-				</option></select>
-				</td>
-			
-		
-</tr>
-<tr>
-		<!-- 顧客名 -->
-		
-			<td>顧客名</td><td> <input type="text" id="customer_name"
-				name="customer_name" value="${project.customerName}"></td>
-		
+					<td>担当PM<span class="repuired-item">必須</span></td>
+					<td>
+						<select id="project_manager_id" name="project_manager_id">
+							<option value="">選択してください</option>
 
-		<!-- 開始日 -->
-		
-			<td>開始日<span class="repuired-item">必須</span></td><td> <input type="text"
-				id="start_date" name="start_date" value="${project.startDate}"
-				placeholder="YYYY/MM/DD"></td>
-	
+							<c:forEach var="manager" items="${managerList}">
+								<option value="${manager.userId}"
+									${manager.userId == displayProject.projectManagerId ? 'selected' : ''}>
+									<c:out value="${manager.name}" />
+								</option>
+							</c:forEach>
 
-		<!-- 期限 -->
-		
-			<td>期限<span class="repuired-item">必須</span></td><td> <input type="date"
-				id="due_date" name="due_date" value="${project.dueDate}"
-				placeholder="YYYY/MM/DD"></td>
-		
-</tr>
-<tr>
-		<!-- ステータス　まだ -->
-		
-		    <td> ステータス <span class="repuired-item">必須</span>
-			</td><td> <select id="status" name="status" value="${project.status}">
-				<option value="in_progress">進行中</option>
-				<option value="done">完了</option>
-				<option value="canceled">中止</option>
-			</select></td>
-			
-		
+							<c:if test="${empty managerList and displayProject.projectManagerId > 0}">
+								<option value="${displayProject.projectManagerId}" selected>
+									<c:out value="${displayProject.projectManagerName}" />
+								</option>
+							</c:if>
+						</select>
+					</td>
+				</tr>
 
-		<!-- 優先度 　まだ-->
-		
-			<td> 優先度 <span class="repuired-item">必須</span>
-			</td> <td><select id="priority" name="priority" value="${project.priority}">
-				<option value="middle">中</option>
-				<option value="high">高</option>
-				<option value="low">低</option>
-			</select></td>
-		
-		
+				<tr>
+					<td>顧客名</td>
+					<td>
+						<input type="text"
+							id="customer_name"
+							name="customer_name"
+							value="${displayProject.customerName}">
+					</td>
 
-		<!-- 見積工数 -->
-		
-			<td> 
-				見積工数 <span class="repuired-item">必須</span>
-			</td> 
-			<td><input type="text" id="estimated_manhours" name="estimated_manhours" 
-			value="${project.estimatedManhours}"></td>
-		
+					<td>開始日<span class="repuired-item">必須</span></td>
+					<td>
+						<input type="date"
+							id="start_date"
+							name="start_date"
+							value="${displayProject.startDate}">
+					</td>
 
-		<!-- 実績工数 -->
-		
-			<td>
-			実績工数
-			</td> 
-			<td><input type="text" id="actual_manhours"
-				name="actual_manhours" value="${project.actualManhours}"></td>
-		
-</tr>
-<tr>
-		<!-- 説明 -->
-		<td>説明<input type="text" value="${project.description}" id="description" ></td>
-		</table>
-		
+					<td>期限<span class="repuired-item">必須</span></td>
+					<td>
+						<input type="date"
+							id="due_date"
+							name="due_date"
+							value="${displayProject.dueDate}">
+					</td>
+				</tr>
+
+				<tr>
+					<td>ステータス<span class="repuired-item">必須</span></td>
+					<td>
+						<select id="status" name="status">
+							<option value="">選択してください</option>
+
+							<c:forEach var="status" items="${statusList}">
+								<option value="${status}"
+									${status == displayProject.status ? 'selected' : ''}>
+									<c:out value="${status}" />
+								</option>
+							</c:forEach>
+
+							<c:if test="${empty statusList}">
+								<option value="進行中" ${displayProject.status == '進行中' ? 'selected' : ''}>進行中</option>
+								<option value="完了" ${displayProject.status == '完了' ? 'selected' : ''}>完了</option>
+								<option value="中止" ${displayProject.status == '中止' ? 'selected' : ''}>中止</option>
+							</c:if>
+						</select>
+					</td>
+
+					<td>優先度<span class="repuired-item">必須</span></td>
+					<td>
+						<select id="priority" name="priority">
+							<option value="">選択してください</option>
+
+							<c:forEach var="priority" items="${priorityList}">
+								<option value="${priority}"
+									${priority == displayProject.priority ? 'selected' : ''}>
+									<c:out value="${priority}" />
+								</option>
+							</c:forEach>
+
+							<c:if test="${empty priorityList}">
+								<option value="高" ${displayProject.priority == '高' ? 'selected' : ''}>高</option>
+								<option value="中" ${displayProject.priority == '中' ? 'selected' : ''}>中</option>
+								<option value="低" ${displayProject.priority == '低' ? 'selected' : ''}>低</option>
+							</c:if>
+						</select>
+					</td>
+
+					<td>見積工数<span class="repuired-item">必須</span></td>
+					<td>
+						<input type="number"
+							id="estimated_manhours"
+							name="estimated_manhours"
+							min="0"
+							step="0.5"
+							value="${displayProject.estimatedManhours}">
+					</td>
+				</tr>
+
+				<tr>
+					<td>実績工数</td>
+					<td>
+						<input type="number"
+							id="actual_manhours"
+							name="actual_manhours"
+							value="${displayProject.actualManhours}"
+							readonly>
+					</td>
+
+					<td>説明</td>
+					<td colspan="4">
+						<input type="text"
+							id="description"
+							name="description"
+							value="${displayProject.description}">
+					</td>
+				</tr>
+			</table>
 		</div>
-		</tr>
-		
 
-        
-		<!--  予算工数　　ここから分からん-->
 		<div class="kousuu">
-		<table >
-		<tr>
-		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		
-		</td><td>予算工数<br><c:out value="${project.estimatedManhours}" />h</td>
-		
+			<table>
+				<tr>
+					<td>
+						<img class="regist-elephant"
+							src="${pageContext.request.contextPath}/img/estmanhours.png"
+							alt="予算工数">
+					</td>
+					<td>
+						予算工数<br>
+						<span id="summaryEstimatedManhours">
+							<c:out value="${displayProject.estimatedManhours}" />
+						</span>h
+					</td>
 
-		<!--  実績工数-->
-		
-		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/estmanhours.png">
-		</td><td>	実績工数<c:out value="${project.actualManhours}" />h</td>
-		
+					<td>
+						<img class="regist-elephant"
+							src="${pageContext.request.contextPath}/img/actualmanhour.png"
+							alt="実績工数">
+					</td>
+					<td>
+						実績工数<br>
+						<span id="summaryActualManhours">
+							<c:out value="${displayProject.actualManhours}" />
+						</span>h
+					</td>
 
-		<!--  予算消化率-->
-		
-		<td>
-			<img class="regist-elephant"src="${pageContext.request.contextPath}/img/advance.png">
-		</td>
-		<td>
-			予算消化率
-			<a href=r/dke/sj>
-				<c:out value="${(project.actualManhours/project.estimatedManhours)*100}" />
-			</a>
-		</td>
+					<td>
+						<img class="regist-elephant"
+							src="${pageContext.request.contextPath}/img/advance.png"
+							alt="予算消化率">
+					</td>
+					<td>
+						予算消化率<br>
+						<span id="budgetRateText">0</span>%
+					</td>
 
-		<!--  タスク進捗-->
-		
-		<td><img class="regist-elephant"src="${pageContext.request.contextPath}/img/owntask.png">
-		</td>
-		<td>
-		タスク進捗
-		<c:out value="${project.progressRate}" /></td></div></tr>
-		</td>
-	</tr>
-  </table>
-</div>
-		<!--<style>
-  body {
-    font-family: sans-serif;
-    margin: 60px auto;
-  }
-
-  /* 現在値の表示ラベル（例: 30 / 50 (60%)） */
-  .label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-bottom: 6px;
-  }
-
-  .track {
-    background: #eee;
-    border-radius: 8px;
-    height: 16px;
-    overflow: hidden;
-  }
-
-  .bar {
-    width: 0%;
-    height: 100%;
-    background: #3378dd;
-    transition: width 0.3s ease;
-  } 
-</style>
--->
-
-
-<!-- 現在値の表示 -->
-<div class="label">
-  <span id="label-fraction"></span>
-  <span id="label-pct"></span>
-</div>
-
-<!-- プログレスバーの本体だよ -->
-<div class="track">
-  <div class="bar" id="js-bar"></div>
-</div>
-
-<!-- ここに${xxxxx}みたいな感じで値を入れるよ（下のJSで取得する）-->
-<%-- <input type="text" name="current" id="current" value="${projectDto.completedTaskCount}">
-<input type="text" name="total" id="total" value="${projectDto.taskCount}">  --%>
-
-<script>
-// ☆ここで上記のテキストボックスから取得したデータを入れるよ
-const current = document.getElementById("current").value;   // 現在の値（例: 完了数、達成数など）
-const total = document.getElementById("total").value;     // 合計の値（例: 全体数、目標値など）
-// ここまで！！
-
-// 分数→パーセントの変換
-const pct = Math.round((current / total) * 100);
-
-// バーの幅とラベルを反映（ページを開いた瞬間に実行されるようになってる）
-document.getElementById('js-bar').style.width = pct + '%';
-document.getElementById('label-fraction').textContent = current + ' / ' + total;
-document.getElementById('label-pct').textContent = pct + '%';
-</script>
+					<td>
+						<img class="regist-elephant"
+							src="${pageContext.request.contextPath}/img/owntask.png"
+							alt="タスク進捗">
+					</td>
+					<td>
+						タスク進捗<br>
+						<span id="taskProgressText">
+							<c:out value="${displayProject.completedTaskCount}" />
+							/
+							<c:out value="${displayProject.taskCount}" />
+						</span>
+					</td>
+				</tr>
+			</table>
 		</div>
 
+		<input type="hidden" id="completed_task_count" value="${displayProject.completedTaskCount}">
+		<input type="hidden" id="task_count" value="${displayProject.taskCount}">
+		<input type="hidden" id="progress_rate" value="${displayProject.progressRate}">
 
-<div class ="btnirir">
-		<!-- 戻るボタン -->
-		<button type="button" id="back" onclick="history.back();">戻る</button>
+		<div class="label">
+			<span id="label-fraction"></span>
+			<span id="label-pct"></span>
+		</div>
 
-		<!-- キャンセルボタン -->
-		<button type="button" id="clearBtn">キャンセル</button>
-		<script>
-			document.getElementById("clearBtn").addEventListener("click",
-					function() {
-						document.getElementById("projectForms").reset();
-					});
-		</script>
-		
-		<script>
+		<div class="track">
+			<div class="bar" id="js-bar"></div>
+		</div>
 
-		<!-- 案件詳細ボタン -->
-        function goToPage() {
-            location.href = 'projectDetail.jsp';
-        }
-    </script>
-    
-    <button type="button"  id="move" onclick="goToPage()">案件詳細へ</button>
-    
-  		<!-- 保存ボタン -->
-	<input type="submit"  id="save" wname="botton_id" value="保存">
-	</div>
-	
-      </form><%@ include file="/WEB-INF/jsp/footer.jsp" %>
+		<div class="btnirir">
+			<button type="button" id="back">戻る</button>
+
+			<button type="button" id="move">案件詳細へ</button>
+
+			<button type="submit" id="save" name="button_id" value="更新">
+				保存
+			</button>
+		</div>
+	</form>
+
+	<%@ include file="/WEB-INF/jsp/footer.jsp"%>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/common.js"></script>
+	<script src="${pageContext.request.contextPath}/js/project.js"></script>
 </body>
 </html>
-      
