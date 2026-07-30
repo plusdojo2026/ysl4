@@ -245,7 +245,7 @@
                                             <input type="hidden" name="task_id" value="${displayTask.taskId}">
                                             <input type="hidden" name="work_logs_id" value="${log.workLogsId}">
                                             <button type="submit" name="button_id" value="削除" class="worklog-delete-btn">
-                                                …
+                                              🗑️
                                             </button>
                                         </form>
                                     </td>
@@ -268,6 +268,7 @@
         </section>
     </main>
 
+	<!-- モーダル -->
     <div class="worklog-modal-backdrop" id="workLogModal">
         <div class="worklog-modal-card">
             <div class="worklog-modal-header">
@@ -327,7 +328,7 @@
         </div>
     </div>
 
-    <%@ include file="/WEB-INF/jsp/footer.jsp" %>
+    <!--  <%@ include file="/WEB-INF/jsp/footer.jsp" %> -->
 
     <script src="${pageContext.request.contextPath}/js/common.js"></script>
     <script src="${pageContext.request.contextPath}/js/task.js"></script>

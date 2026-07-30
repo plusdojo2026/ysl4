@@ -39,7 +39,7 @@
     <div class="field">
         <label>
             案件コード
-		<c:out value="${(projectList.projectname}" />
+		<c:out value="${selectedProject.projectName}" />
         </label>
     </div>
 
@@ -52,7 +52,7 @@
         <label>
          案件名
          <span class="must">必須</span>
-	           		<option><c:out value="${projectList.pojectName}" /></option>
+	           		<option><c:out value="${selectedProject.projectName}" /></option>
         </label>
 
         

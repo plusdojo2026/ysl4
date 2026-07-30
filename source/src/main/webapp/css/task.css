@@ -1,4 +1,3 @@
- 
 /*全体*/
 
 .main {
@@ -404,4 +403,575 @@ form#projectForm{
 .cancel-btn{
 	background:white;
 	border:1px solid #999;
+}
+
+/* =========================================
+   タスク詳細画面
+========================================= */
+
+/* 文字サイズと文字太さの基準 */
+.task-detail-page {
+    background-color: #fef9fb;
+    font-size: 14px; /* 文字サイズ指定 画面全体を小さめにする */
+    font-weight: 400; /* 文字太さ指定 標準の太さにする */
+}
+
+/* タスク詳細メイン領域 */
+.task-detail-main {
+    width: min(1000px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 28px 34px;
+    min-height: 600px;
+    background-color: #fff0f9;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16);
+}
+
+/* 上部エリア */
+.task-detail-hero {
+    display: grid;
+    grid-template-columns: 180px 1fr 360px;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* ゾウ画像エリア */
+.task-detail-hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ゾウ画像 */
+.task-detail-elephant {
+    width: 145px;
+    height: auto;
+    display: block;
+}
+
+/* パンくず */
+.task-breadcrumb {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 6px;
+    color: #8b95a5;
+    font-size: 12px; /* 文字サイズ指定 パンくずは控えめ */
+    font-weight: 400; /* 文字太さ指定 パンくずは通常 */
+}
+
+/* パンくずリンク */
+.task-breadcrumb a {
+    color: var(--button-color, #F067A6);
+}
+
+/* タイトル */
+.task-detail-title {
+    margin: 0;
+    color: var(--paragraph-color, #000000);
+    font-size: 28px; /* 文字サイズ指定 タイトルだけ少し大きくする */
+    font-weight: 600; /* 文字太さ指定 タイトルは太すぎない程度 */
+    letter-spacing: 0.03em;
+}
+
+/* リード文 */
+.task-detail-lead {
+    margin: 6px 0 0;
+    color: #5f6b7a;
+    font-size: 13px; /* 文字サイズ指定 説明文は小さめ */
+    font-weight: 400; /* 文字太さ指定 説明文は通常 */
+}
+
+/* 上部ボタン領域 */
+.task-detail-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* ボタン内フォーム */
+.task-detail-actions form {
+    margin: 0;
+}
+
+/* メインボタン */
+.task-main-btn {
+    height: 34px;
+    padding: 0 14px;
+    color: var(--button-text-color, #ffffff);
+    background-color: var(--button-color, #F067A6);
+    border: none;
+    border-radius: 5px;
+    font-size: 14px; /* 文字サイズ指定 ボタンは標準 */
+    font-weight: 500; /* 文字太さ指定 ボタンはやや控えめ */
+}
+
+/* メインボタンホバー */
+.task-main-btn:hover {
+    background-color: var(--hightlight-color, #F6ADC6);
+}
+
+/* 枠線ボタン */
+.task-outline-btn {
+    height: 34px;
+    padding: 0 14px;
+    color: var(--button-color, #F067A6);
+    background-color: #ffffff;
+    border: 1.5px solid var(--button-color, #F067A6);
+    border-radius: 5px;
+    font-size: 14px; /* 文字サイズ指定 ボタンは標準 */
+    font-weight: 500; /* 文字太さ指定 ボタンはやや控えめ */
+}
+
+/* 枠線ボタンホバー */
+.task-outline-btn:hover {
+    background-color: #fff5fa;
+}
+
+/* ステータス変更フォーム */
+.task-status-form {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ステータスセレクト */
+.task-status-select {
+    height: 34px;
+    min-width: 132px;
+    padding: 0 10px;
+    background-color: #ffffff;
+    border: 1.5px solid #e1e5e9;
+    border-radius: 5px;
+    font-size: 13px; /* 文字サイズ指定 セレクトは少し小さめ */
+    font-weight: 400; /* 文字太さ指定 セレクトは通常 */
+}
+
+/* ステータス変更ボタン */
+.task-status-btn {
+    height: 34px;
+    padding: 0 10px;
+    color: #5f6b7a;
+    background-color: #ffffff;
+    border: 1.5px solid #e1e5e9;
+    border-radius: 5px;
+    font-size: 13px; /* 文字サイズ指定 小さめボタン */
+    font-weight: 400; /* 文字太さ指定 小さめボタンは通常 */
+}
+
+/* 詳細カード */
+.task-detail-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    padding: 18px 22px;
+    margin-bottom: 18px;
+    background-color: #ffffff;
+    border: 2px solid #ffd9e8;
+    border-radius: 24px;
+}
+
+/* 左側情報パネル */
+.task-info-panel {
+    padding-right: 18px;
+    border-right: 2px solid #ffe0ec;
+}
+
+/* カードタイトル */
+.task-card-title {
+    margin: 0 0 4px;
+    color: var(--paragraph-color, #000000);
+    font-size: 20px; /* 文字サイズ指定 カードタイトル */
+    font-weight: 600; /* 文字太さ指定 カードタイトルは中程度 */
+}
+
+/* 案件リンク */
+.task-project-link {
+    margin: 0 0 12px;
+    font-size: 13px; /* 文字サイズ指定 リンクは小さめ */
+    font-weight: 400; /* 文字太さ指定 リンクは通常 */
+}
+
+/* 案件リンク文字 */
+.task-project-link a {
+    color: #3b82f6;
+}
+
+/* 詳細リスト */
+.task-info-list {
+    margin: 0;
+}
+
+/* 詳細行 */
+.task-info-list div {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    align-items: start;
+    margin-bottom: 5px;
+}
+
+/* 詳細ラベル */
+.task-info-list dt {
+    color: var(--paragraph-color, #000000);
+    font-size: 13px; /* 文字サイズ指定 詳細ラベル */
+    font-weight: 600; /* 文字太さ指定 詳細ラベルだけ少し太く */
+}
+
+/* 詳細値 */
+.task-info-list dd {
+    margin: 0;
+    color: #24364f;
+    font-size: 13px; /* 文字サイズ指定 詳細値 */
+    font-weight: 400; /* 文字太さ指定 詳細値は通常 */
+    line-height: 1.6;
+}
+
+/* ステータスラベル */
+.task-status-label {
+    display: inline-block;
+    padding: 2px 8px;
+    color: #1d74d8;
+    background-color: #dceeff;
+    border-radius: 4px;
+    font-size: 12px; /* 文字サイズ指定 バッジ */
+    font-weight: 500; /* 文字太さ指定 バッジは控えめ */
+}
+
+/* 優先度ラベル */
+.task-priority-label {
+    display: inline-block;
+    padding: 2px 8px;
+    color: #f59e0b;
+    background-color: #fff4d6;
+    border-radius: 4px;
+    font-size: 12px; /* 文字サイズ指定 バッジ */
+    font-weight: 500; /* 文字太さ指定 バッジは控えめ */
+}
+
+/* 右側進捗パネル */
+.task-progress-panel {
+    padding-left: 4px;
+}
+
+/* 進捗見出し */
+.progress-header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+/* 進捗見出しラベル */
+.progress-header span {
+    font-size: 13px; /* 文字サイズ指定 進捗ラベル */
+    font-weight: 600; /* 文字太さ指定 進捗ラベルは中程度 */
+}
+
+/* 進捗パーセント */
+.progress-header strong {
+    color: var(--paragraph-color, #000000);
+    font-size: 26px; /* 文字サイズ指定 進捗数値 */
+    font-weight: 600; /* 文字太さ指定 数値は太すぎない */
+}
+
+/* 進捗バー領域 */
+.progress-bar-area {
+    margin-bottom: 14px;
+}
+
+/* 進捗バー */
+.progress-bar {
+    height: 8px;
+    overflow: hidden;
+    background-color: #ecedf3;
+    border-radius: 999px;
+}
+
+/* 進捗バー塗り */
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--button-color, #F067A6);
+    border-radius: 999px;
+}
+
+/* 進捗目盛り */
+.progress-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+/* 進捗目盛り文字 */
+.progress-scale span {
+    color: #5f6b7a;
+    font-size: 11px; /* 文字サイズ指定 目盛りは小さく */
+    font-weight: 400; /* 文字太さ指定 目盛りは通常 */
+}
+
+/* 工数カード配置 */
+.manhour-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* 工数カード */
+.manhour-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 70px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 2px solid #ffd9e8;
+    border-radius: 12px;
+}
+
+/* 工数カード画像 */
+.manhour-card img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
+/* 工数カードラベル */
+.manhour-card span {
+    display: block;
+    color: var(--paragraph-color, #000000);
+    font-size: 12px; /* 文字サイズ指定 工数ラベル */
+    font-weight: 600; /* 文字太さ指定 工数ラベルは中程度 */
+}
+
+/* 工数カード数値 */
+.manhour-card strong {
+    display: block;
+    color: var(--paragraph-color, #000000);
+    font-size: 22px; /* 文字サイズ指定 工数数値 */
+    font-weight: 600; /* 文字太さ指定 工数数値は太すぎない */
+    line-height: 1.2;
+}
+
+/* 工数ログカード */
+.worklog-card {
+    padding: 18px 22px;
+    background-color: #ffffff;
+    border: 2px solid #ffd9e8;
+    border-radius: 28px;
+}
+
+/* 工数ログヘッダー */
+.worklog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+/* 工数ログタイトル領域 */
+.worklog-title-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 工数ログアイコン */
+.worklog-title-area img {
+    width: 34px;
+    height: 34px;
+    object-fit: contain;
+}
+
+/* 工数ログタイトル */
+.worklog-title-area h2 {
+    margin: 0;
+    color: var(--paragraph-color, #000000);
+    font-size: 20px; /* 文字サイズ指定 工数ログタイトル */
+    font-weight: 600; /* 文字太さ指定 工数ログタイトル */
+}
+
+/* 最新10件ラベル */
+.worklog-title-area span {
+    padding: 2px 8px;
+    color: var(--button-color, #F067A6);
+    background-color: #fff0f8;
+    border-radius: 4px;
+    font-size: 12px; /* 文字サイズ指定 最新ラベル */
+    font-weight: 500; /* 文字太さ指定 最新ラベル */
+}
+
+/* 工数入力ボタン */
+.worklog-open-btn {
+    height: 34px;
+    padding: 0 16px;
+    color: #ffffff;
+    background-color: var(--button-color, #F067A6);
+    border: none;
+    border-radius: 5px;
+    font-size: 14px; /* 文字サイズ指定 工数入力ボタン */
+    font-weight: 500; /* 文字太さ指定 工数入力ボタン */
+}
+
+/* テーブル横スクロール */
+.worklog-table-wrap {
+    overflow-x: auto;
+}
+
+/* 工数ログテーブル */
+.worklog-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+/* 工数ログテーブル見出し */
+.worklog-table th {
+    padding: 10px 12px;
+    color: var(--paragraph-color, #000000);
+    background-color: #ffeaf3;
+    border-bottom: 1px solid #f4d8e4;
+    text-align: left;
+    font-size: 13px; /* 文字サイズ指定 テーブル見出し */
+    font-weight: 600; /* 文字太さ指定 テーブル見出し */
+}
+
+/* 工数ログテーブル本文 */
+.worklog-table td {
+    padding: 9px 12px;
+    color: var(--paragraph-color, #000000);
+    border-bottom: 1px solid #f4d8e4;
+    font-size: 13px; /* 文字サイズ指定 テーブル本文 */
+    font-weight: 400; /* 文字太さ指定 テーブル本文 */
+}
+
+/* 空表示 */
+.empty-cell {
+    text-align: center;
+    color: #8b95a5;
+}
+
+/* 工数ログ補足 */
+.worklog-note {
+    margin: 8px 0 0;
+    color: #8b95a5;
+    text-align: center;
+    font-size: 12px; /* 文字サイズ指定 補足 */
+    font-weight: 400; /* 文字太さ指定 補足 */
+}
+
+/* 削除ボタン */
+.worklog-delete-btn {
+    width: 34px;
+    height: 30px;
+    color: var(--paragraph-color, #000000);
+    background-color: #ffffff;
+    border: 1.5px solid #d9dde5;
+    border-radius: 5px;
+    font-size: 18px; /* 文字サイズ指定 三点ボタン */ /* 後で修正 */
+    font-weight: 500; /* 文字太さ指定 三点ボタン */
+}
+
+/* モーダル背景 */
+.worklog-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(20, 35, 58, 0.4);
+}
+
+/* モーダル表示 */
+.worklog-modal-backdrop.show {
+    display: flex;
+}
+
+/* モーダル本体 */
+.worklog-modal-card {
+    width: min(620px, calc(100% - 32px));
+    padding: 22px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+}
+
+/* モーダルヘッダー */
+.worklog-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+/* モーダルタイトル */
+.worklog-modal-header h2 {
+    margin: 0;
+    font-size: 20px; /* 文字サイズ指定 モーダルタイトル */
+    font-weight: 600; /* 文字太さ指定 モーダルタイトル */
+}
+
+/* モーダル閉じるボタン */
+.worklog-modal-close {
+    border: none;
+    background: transparent;
+    font-size: 24px; /* 文字サイズ指定 閉じるボタン */
+    font-weight: 400; /* 文字太さ指定 閉じるボタン */
+}
+
+/* 工数フォーム */
+.worklog-form {
+    margin: 0;
+}
+
+/* フォーム配置 */
+.worklog-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* フォーム項目 */
+.worklog-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* フォーム項目横幅 */
+.worklog-form-wide {
+    grid-column: 1 / -1;
+}
+
+/* フォームラベル */
+.worklog-form-field label {
+    font-size: 13px; /* 文字サイズ指定 フォームラベル */
+    font-weight: 500; /* 文字太さ指定 フォームラベル */
+}
+
+/* 入力欄 */
+.worklog-form-field input,
+.worklog-form-field textarea {
+    width: 100%;
+    min-height: 38px;
+    padding: 8px 10px;
+    border: 1.5px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 14px; /* 文字サイズ指定 入力欄 */
+    font-weight: 400; /* 文字太さ指定 入力欄 */
+}
+
+/* テキストエリア */
+.worklog-form-field textarea {
+    min-height: 88px;
+    resize: vertical;
+}
+
+/* フォームボタン */
+.worklog-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 16px;
 }

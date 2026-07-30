@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,7 +40,7 @@ onclick="location.href='ProjectServlet?action=list'">
 </button>
 
 <!-- 編集ボタン-->
-<button type="button"03&project_id=${project.project_id}>
+<button type="button"03&project_id=${project.projectId}>
     編集
 </button>
 
@@ -68,7 +71,7 @@ onclick="location.href='ProjectServlet?action=list'">
 
 	<label>実績工数</label> ${project.actualManhours}
 
-	<label>進捗</label> ${project.ptiority}
+	<label>進捗</label> ${project.progressRate}
 
 	<label>説明</label> ${project.description}
 
@@ -141,7 +144,7 @@ function deleteTask(taskId) {
     <tr>
         <td>${log.workDate}</td>
         <td>${log.taskName}</td>
-        <td>${log.managerId}</td>
+        <td>${log.userName}</td>
         <td>${log.manHours}</td>
         <td>${log.jobContents}</td>
         

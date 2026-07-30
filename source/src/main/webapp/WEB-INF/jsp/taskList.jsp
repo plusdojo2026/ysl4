@@ -151,8 +151,16 @@
 						<td><span><c:out value="${e.dueDate}"></c:out></span></td> <!-- 期限 -->
 						<td><span><c:out value="${e.estimatedManhours}" /></span></td> <!-- 見積工数 -->
 						<td><c:out value="${e.actualManhours}" /></td> <!-- 実績工数 -->
+<<<<<<< Updated upstream
 						
 						<td><input type="submit" class="edit-btn" name="button_id" value="編集"></td>
+=======
+						<td>
+							<a href="${pageContext.request.contextPath}/Controller?page_id=T004&task_id=${e.taskId}">
+							編集
+							</a>
+						</td>
+>>>>>>> Stashed changes
 					</tr>
 				</c:forEach>
 			</tbody>
