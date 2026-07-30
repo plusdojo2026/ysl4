@@ -198,3 +198,258 @@ function normalizeProjectText(value) {
 
 	return $('<div>').html(value).text().trim();
 }
+
+/**
+ * 案件編集画面のjQuery処理.
+ * 入力チェック、キャンセル、案件詳細遷移、工数表示を行う.
+ */
+jQuery(function ($) {
+
+	// 案件編集フォームがない画面では処理しない
+	if ($('#projectEditForm').length === 0) {
+		return;
+	}
+
+	// date入力に入るように日付形式を補正する
+	normalizeDateInput('#start_date');
+	normalizeDateInput('#due_date');
+
+	// 初期状態を保持する
+	const initialFormValues = $('#projectEditForm').serializeArray();
+
+	// 初期表示時に工数サマリーを更新する
+	updateProjectEditSummary();
+
+	// 見積工数が変わったらサマリーを更新する
+	$('#estimated_manhours').on('input', function () {
+		updateProjectEditSummary();
+	});
+
+	// 戻るボタン
+	$('#back').on('click', function () {
+		history.back();
+	});
+
+	// キャンセルボタン
+	$('#clearBtn').on('click', function () {
+		restoreProjectEditForm(initialFormValues);
+		updateProjectEditSummary();
+	});
+
+	// 案件詳細へ戻る
+	$('#move').on('click', function () {
+
+		const projectId = $('#project_id').val();
+
+		if (!projectId) {
+			alert('案件IDが取得できません');
+			return;
+		}
+
+		location.href = getContextPathForProject()
+			+ '/Controller?page_id=P002&project_id='
+			+ encodeURIComponent(projectId);
+	});
+
+	// 保存前入力チェック
+	$('#projectEditForm').on('submit', function (event) {
+
+		if (!validateProjectEditForm()) {
+			event.preventDefault();
+		}
+	});
+});
+
+/**
+ * 案件編集フォームを確認する.
+ *
+ * @return {boolean} 正常ならtrue.
+ */
+function validateProjectEditForm() {
+
+	const projectName = $('#project_name').val();
+	const projectManagerId = $('#project_manager_id').val();
+	const startDate = $('#start_date').val();
+	const dueDate = $('#due_date').val();
+	const status = $('#status').val();
+	const priority = $('#priority').val();
+	const estimatedManhours = $('#estimated_manhours').val();
+
+	if (isBlankProjectValue(projectName)) {
+		alert('案件名を入力してください');
+		return false;
+	}
+
+	if (isBlankProjectValue(projectManagerId)) {
+		alert('担当PMを選択してください');
+		return false;
+	}
+
+	if (isBlankProjectValue(startDate)) {
+		alert('開始日を入力してください');
+		return false;
+	}
+
+	if (isBlankProjectValue(dueDate)) {
+		alert('期限を入力してください');
+		return false;
+	}
+
+	if (startDate > dueDate) {
+		alert('期限は開始日以降の日付を選択してください');
+		return false;
+	}
+
+	if (isBlankProjectValue(status)) {
+		alert('ステータスを選択してください');
+		return false;
+	}
+
+	if (isBlankProjectValue(priority)) {
+		alert('優先度を選択してください');
+		return false;
+	}
+
+	if (isBlankProjectValue(estimatedManhours)) {
+		alert('見積工数を入力してください');
+		return false;
+	}
+
+	const manhoursValue = Number(estimatedManhours);
+
+	if (Number.isNaN(manhoursValue)) {
+		alert('見積工数は数値で入力してください');
+		return false;
+	}
+
+	if (manhoursValue < 0) {
+		alert('見積工数は0以上で入力してください');
+		return false;
+	}
+
+	if (manhoursValue * 2 !== Math.floor(manhoursValue * 2)) {
+		alert('見積工数は0.5単位で入力してください');
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * 案件編集サマリーを更新する.
+ */
+function updateProjectEditSummary() {
+
+	const estimated = toNumberProjectValue($('#estimated_manhours').val());
+	const actual = toNumberProjectValue($('#actual_manhours').val());
+	const completedTaskCount = toNumberProjectValue($('#completed_task_count').val());
+	const taskCount = toNumberProjectValue($('#task_count').val());
+	const progressRate = toNumberProjectValue($('#progress_rate').val());
+
+	let budgetRate = 0;
+
+	if (estimated > 0) {
+		budgetRate = Math.round((actual / estimated) * 100);
+	}
+
+	let taskProgressRate = progressRate;
+
+	if (taskProgressRate <= 0 && taskCount > 0) {
+		taskProgressRate = Math.round((completedTaskCount / taskCount) * 100);
+	}
+
+	$('#summaryEstimatedManhours').text(estimated);
+	$('#summaryActualManhours').text(actual);
+	$('#budgetRateText').text(budgetRate);
+	$('#label-fraction').text(completedTaskCount + ' / ' + taskCount);
+	$('#label-pct').text(taskProgressRate + '%');
+	$('#js-bar').css('width', taskProgressRate + '%');
+}
+
+/**
+ * フォームを初期値へ戻す.
+ *
+ * @param {Array} initialValues 初期値.
+ */
+function restoreProjectEditForm(initialValues) {
+
+	initialValues.forEach(function (item) {
+		const input = $('[name="' + item.name + '"]');
+
+		if (input.length > 0) {
+			input.val(item.value);
+		}
+	});
+
+	normalizeDateInput('#start_date');
+	normalizeDateInput('#due_date');
+}
+
+/**
+ * date input用にyyyy-MM-ddへ補正する.
+ *
+ * @param {string} selector 対象セレクタ.
+ */
+function normalizeDateInput(selector) {
+
+	const input = $(selector);
+
+	if (input.length === 0) {
+		return;
+	}
+
+	const value = input.val();
+
+	if (!value) {
+		return;
+	}
+
+	input.val(value.replace(/\//g, '-'));
+}
+
+/**
+ * 数値へ変換する.
+ *
+ * @param {string} value 変換前文字列.
+ * @return {number} 数値.
+ */
+function toNumberProjectValue(value) {
+
+	if (isBlankProjectValue(value)) {
+		return 0;
+	}
+
+	const numberValue = Number(value);
+
+	if (Number.isNaN(numberValue)) {
+		return 0;
+	}
+
+	return numberValue;
+}
+
+/**
+ * 空文字か確認する.
+ *
+ * @param {string} value 確認値.
+ * @return {boolean} 空ならtrue.
+ */
+function isBlankProjectValue(value) {
+	return value === null || value === undefined || String(value).trim().length === 0;
+}
+
+/**
+ * contextPathを取得する.
+ *
+ * @return {string} contextPath.
+ */
+function getContextPathForProject() {
+
+	const pathParts = window.location.pathname.split('/');
+
+	if (pathParts.length <= 1) {
+		return '';
+	}
+
+	return '/' + pathParts[1];
+}
