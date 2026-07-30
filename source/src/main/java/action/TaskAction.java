@@ -53,6 +53,8 @@ public class TaskAction {
         List<TaskDTO> taskList = service.selectAll();
 
         request.setAttribute("taskList", taskList);
+        request.setAttribute("list", taskList);
+        
         setFormData(service.getTaskFormData(0));
         setMessageFromParameter();
 
