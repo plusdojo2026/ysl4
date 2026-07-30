@@ -1,104 +1,94 @@
-
-/*すべてのページに適応される*/
+/* すべてのページに適用される */
 :root {
 	--main-color: #F6ADC6;
 	--secondary-color: #F5C9C6;
-	--tertiary-color: #fff;
+	--tertiary-color: #ffffff;
 	--background-color: #F8F8F8;
 	--hightlight-color: #F6ADC6;
 	--stroke-color: #000000;
-	
-	/* 文字の色のCSS変数 */
 	--headline-color: #EF5B9C;
 	--paragraph-color: #000000;
 	--button-color: #F067A6;
-	--button-text-color: #ffffff
+	--button-text-color: #ffffff;
 }
 
+/* 画面全体 */
 html {
-	/* 文字の大きさを設定　*/
 	font-size: 16px;
-	/* フォントの種類を設定 */
 	font-family: alba;
 	background-color: #fef9fb;
 }
 
+/* 全要素の基本設定 */
 * {
-	/* ボックスモデルをボーダー領域まで拡張 */
 	box-sizing: border-box;
-	/* 文字のデフォルトの色を設定 */
 	color: var(--paragraph-color);
 }
 
-html, body {
-	height: 100%; /* 画面全体の高さを確保 */
-	margin: 0;/* 画面の一番外側の余白を削除 */
+/* 高さと余白 */
+html,
+body {
+	height: 100%;
+	margin: 0;
 }
 
-/* ログイン画面のボディの設定(ヘッダー・フッターなし) */
+/* ログイン画面 */
 body.login-page {
-	height: 100vh;/* 画面の縦幅ぴったりに固定する */
+	height: 100vh;
 	display: flex;
-	justify-content: center;/* 左右中央揃え */
-	align-items: center;/* 上下中央揃え */
-	flex-direction: row;/* 縦並びにしない。 */
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
 	background-color: #fef9fb;
 	padding: 20px;
 }
 
-/* ログイン画面以外のボディの設定 */
+/* ログイン画面以外 */
 body {
 	display: flex;
-	flex-direction: column;/* 子要素のheader,main,footerを縦に並べる */
+	flex-direction: column;
 	color: var(--paragraph-color);
 	background-color: #fef9fb;
 }
 
-/* 見出しのh1タグの設定 */
+/* 見出し */
 h1 {
 	color: var(--headline-color);
 }
 
+/* 本文系 */
 p,
 li,
 td {
-	/* テキストの行間を設定 */
 	line-height: 1.7;
 }
 
+/* リンク */
 a {
-	color: var(--background-color);
-}
-/* リンクの設定 */
-a:link {
+	color: var(--button-color);
 	text-decoration: none;
 }
 
-/* 訪問済みのリンクの設定 */
-a:visited {
-	text-decoration: none;
-}
-
-/* マウスポインタが乗っているときの設定 */
-a:hover {
-	text-decoration: none;
-}
-
-/* マウスボタンが押されているときの設定 */
+/* リンク状態 */
+a:link,
+a:visited,
+a:hover,
 a:active {
 	text-decoration: none;
 }
-/* imgタグを親要素の幅に合わせて伸縮させるための設定 */
-img, canvas{
+
+/* 画像 */
+img,
+canvas {
 	max-width: 100%;
 }
 
-/* ボタンに関するCSS--------------------------------------- */
-.login-btn{
+/* ログインボタン */
+.login-btn {
 	width: 100%;
 	padding: 12px;
 	background-color: var(--button-color);
-	color: white;
+	color: #ffffff;
 	border: none;
 	border-radius: 8px;
 	font-size: 16px;
@@ -106,11 +96,15 @@ img, canvas{
 	cursor: pointer;
 	transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* ログインボタンホバー */
 .login-btn:hover {
 	background-color: #F6ADC6;
 }
 
-.submit-btn, .regist-btn {
+/* 登録系ボタン */
+.submit-btn,
+.regist-btn {
 	padding-left: 9px;
 	padding-right: 9px;
 	height: 1.7em;
@@ -120,15 +114,18 @@ img, canvas{
 	border: none;
 	border-radius: 4px;
 	font-size: 16px;
+	font-weight: 400;
 }
-.submit-btn:hover{
-	background-color: #F6ADC6;
-}
+
+/* 登録系ボタンホバー */
+.submit-btn:hover,
 .submit-btn:active {
 	background-color: #F6ADC6;
 }
 
-.cancel-btn, .clear-btn, .logout-btn, .pw-reset-btn {
+/* キャンセル系ボタン */
+.cancel-btn,
+.clear-btn {
 	padding-left: 9px;
 	padding-right: 9px;
 	height: 1.7em;
@@ -138,30 +135,20 @@ img, canvas{
 	border: 1.5px solid var(--hightlight-color);
 	border-radius: 4px;
 	font-size: 16px;
+	font-weight: 400;
 }
 
-.cancel-btn:hover{
+/* キャンセル系ボタンホバー */
+.cancel-btn:hover,
+.cancel-btn:active,
+.clear-btn:hover,
+.clear-btn:active {
 	background-color: #F6ADC6;
-}
-.cancel-btn:active {
-	background-color: #F6ADC6;
+	color: #ffffff;
 }
 
-.logout-btn, .pw-reset-btn {
-	padding-left: 9px;
-	padding-right: 9px;
-	height: 4.5em;
-	cursor: pointer;
-	background-color: var(--background-color);
-	color: var(--button-color);
-	border: 1.5px solid var(--hightlight-color);
-	border-radius: 4px;
-	font-size: 10px;
-}
-
-
-/* inputタグ */
-.input-text{
+/* テキスト入力 */
+.input-text {
 	width: 60%;
 	margin: 0.5rem 10px 1.5rem 0;
 	padding: 10px 16px;
@@ -169,15 +156,18 @@ img, canvas{
 	border-radius: 8px;
 	font-size: 16px;
 	transition: border-color 0.3s ease, box-shadow 0.2s ease;
-	background-color: #fff;
+	background-color: #ffffff;
 	box-sizing: border-box;
 }
+
+/* テキスト入力フォーカス */
 .input-text:focus {
 	outline: none;
 	border-color: #eeeeee;
-	box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);	
+	box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 
+/* テキストエリア */
 .input-textarea {
 	width: 100%;
 	height: 150px;
@@ -188,30 +178,31 @@ img, canvas{
 	border-radius: 8px;
 	font-size: 16px;
 	transition: border-color 0.3s ease, box-shadow 0.2s ease;
-	background-color: #fff;
-	box-sizing: border-box;	
+	background-color: #ffffff;
+	box-sizing: border-box;
 }
+
+/* テキストエリアフォーカス */
 .input-textarea:focus {
 	outline: none;
 	border-color: #eeeeee;
-	box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);	
+	box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-/*main部分のCSS-----------------------------------*/
+/* main領域 */
 .content-area main {
 	margin-left: 5px;
 	margin-right: 5px;
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 0;
+	padding-right: 0;
 	min-height: 600px;
 	max-width: 1000px;
 	background-color: #fff0f9;
-	/* 影をつける設定 */
-	box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
-	flex: 1 0 auto;/* 画面の余白を埋めて、フッターを一番下へ押し出す */
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;
 }
 
-
+/* コピーライト */
 .copyright {
 	font-size: 0.8rem;
 	text-align: center;
@@ -220,73 +211,80 @@ img, canvas{
 	color: var(--secondary-color);
 }
 
-/* 必須または任意の記号 */
-/* spanタグの中にクラスを指定してください。 */
-/* 例：<td>ログインID<span class="required-item">必須</span></td> */
+/* 必須ラベル */
 .required-item {
-    padding: 2px;
-    background-color: var(--secondary-color);
-    border-radius: 5px;
-    border: 1px solid var(--hightlight-color);
-    font-size: 10px;
-}
-.option-item {
-    padding: 2px;
-    background-color: var(--tertiary-color);
-    border-radius: 5px;
-    border: 1px solid #e1e5e9;
-    font-size: 10px;
+	padding: 2px;
+	background-color: var(--secondary-color);
+	border-radius: 5px;
+	border: 1px solid var(--hightlight-color);
+	font-size: 10px;
+	font-weight: 400;
 }
 
-/* ログイン画面のCSS------------------------------ */
+/* 任意ラベル */
+.option-item {
+	padding: 2px;
+	background-color: var(--tertiary-color);
+	border-radius: 5px;
+	border: 1px solid #e1e5e9;
+	font-size: 10px;
+	font-weight: 400;
+}
+
+/* ログイン画面ラッパー */
 body.login-page main.login-wrapper {
 	display: flex;
-	flex-direction: row;/* 左右に並べる */
+	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
 	gap: 60px;
 	width: 100%;
-	max-width: 1024px;/* 薄ピンクの最大横幅 */
+	max-width: 1024px;
 	min-height: auto;
 	padding: 60px 80px;
-	background-color: #fff;/* 白い中身のところ */
+	background-color: #ffffff;
 	border-radius: 24px;
 	box-shadow: 0 10px 40px rgba(246, 173, 198, 0.15);
 }
 
-/* 左側 */
+/* ログイン左側 */
 .login-intro {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 }
+
+/* ログインブランド */
 .brand-logo {
 	margin-bottom: 20px;
 }
 
+/* ログインサブタイトル */
 .brand-logo .login-subtitle {
 	font-size: 1.1rem;
 	color: #666666;
 	margin: 0;
 }
 
+/* ロゴ領域 */
 .logo-area {
 	width: 100%;
 	max-width: 360px;
 	margin-top: 10px;
 }
 
+/* ロゴ画像 */
 .logo-area img {
 	width: 100%;
 	height: auto;
 	display: block;
 }
 
-/* 右側 */
+/* ログインカード */
 .login-card {
 	width: 400px;
-	background-color: #fff;
+	background-color: #ffffff;
 	border: 1px solid #f0f0f0;
 	border-radius: 16px;
 	padding: 40px 30px;
@@ -296,7 +294,7 @@ body.login-page main.login-wrapper {
 	align-items: center;
 }
 
-/* 鍵のアイコンの位置 */
+/* ログインアイコン */
 .login-icon {
 	width: 60px;
 	height: 60px;
@@ -308,32 +306,33 @@ body.login-page main.login-wrapper {
 	margin-bottom: 30px;
 }
 
-/* 画像の大きさ */
+/* ログインアイコン画像 */
 .login-icon img {
 	width: 24px;
 	height: 24px;
 }
 
-/* フォーム全体 */
+/* ログインフォーム */
 .login-card .form-area {
 	width: 100%;
 }
 
-/* 入力フォームのパーツ */
+/* ログイン入力グループ */
 .login-card .form-group {
 	width: 100%;
 	margin-bottom: 20px;
 }
 
+/* ログイン入力ラベル */
 .login-card .form-group label {
 	display: block;
 	font-size: 0.9rem;
-	font-weight: bold;
+	font-weight: 600;
 	margin-bottom: 8px;
 	color: #333333;
 }
 
-/* テキストボックスのサイズ変更(ここだけ) */
+/* ログイン入力欄 */
 .login-card .form-group input[type="text"],
 .login-card .form-group input[type="password"] {
 	width: 100%;
@@ -342,40 +341,32 @@ body.login-page main.login-wrapper {
 	border: 1px solid #dcdcdc;
 	border-radius: 8px;
 	font-size: 1rem;
-	background-color: #fff;
+	background-color: #ffffff;
 }
 
+/* ログイン入力フォーカス */
 .login-card .form-group input:focus {
 	border-color: var(--main-color);
 	box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.25);
 	outline: none;
 }
 
-/* ホーム画面のCSS------------------------------ */
-/* ウェルカムアイコン */
+/* ホームアイコン */
 .welcome-icon {
 	width: 20%;
 }
 
-
-
-/* おかえりなさいのところ */
-
-
-
-
-
-
-/* ダッシュボード４つ */
+/* サマリーカード配置 */
 .summary-card-grid {
 	display: flex;
 	gap: 20px;
 	margin-bottom: 40px;
 }
 
+/* サマリーカード */
 .summary-card {
 	flex: 1;
-	background-color: #fff;
+	background-color: #ffffff;
 	border-radius: 16px;
 	padding: 20px;
 	display: flex;
@@ -384,6 +375,7 @@ body.login-page main.login-wrapper {
 	border: 1px solid #ffeef2;
 }
 
+/* サマリーカードアイコン */
 .summary-card .card-icon {
 	width: 50px;
 	height: 50px;
@@ -394,29 +386,34 @@ body.login-page main.login-wrapper {
 	margin-right: 15px;
 }
 
+/* サマリー情報 */
 .summary-info {
 	display: flex;
 	flex-direction: column;
 }
 
+/* サマリーラベル */
 .summary-label {
 	font-size: 0.85rem;
 	color: #888888;
 	margin: 0 0 5px 0;
+	font-weight: 400;
 }
 
+/* サマリー値 */
 .summary-value {
 	font-size: 1rem;
 	color: #333333;
 	margin: 0;
-	font-weight: bold;
+	font-weight: 600;
 }
 
+/* サマリー強調値 */
 .summary-value span {
-	color: #ff4d4f;/* 期限超過は赤文字 */
+	color: #ff4d4f;
 }
 
-/* 一覧を見る等の右下のリンク */
+/* カードリンク */
 .card-link {
 	position: absolute;
 	bottom: 15px;
@@ -425,71 +422,350 @@ body.login-page main.login-wrapper {
 	color: #b5b5b5;
 }
 
-/*headerのCSS-----------------------------------*/
+/* =========================================
+   ヘッダー
+========================================= */
 
-header {
-	background-color: var(--main-color);
-	color: var(--headline-color);
-	height: 65px;
-	/* 影をつける設定 */
-	position: relative;
-	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
-	z-index: 5;
+/* ヘッダー本体 */
+.app-header {
+	width: 100%;
+	min-height: 65px;
+	background-color: var(--main-color, #F6ADC6);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+	flex: 0 0 auto;
+}
+
+/* ヘッダー内側 */
+.header-inner {
+	width: min(1320px, calc(100% - 24px));
+	min-height: 65px;
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
-	justify-content: center;/* 左右に配置を分ける */
-	padding: 10px 20px;
+	justify-content: space-between;
+	gap: 16px;
 }
 
-/* ナビゲーション */
-.side-nav {
-	display: flex;
-	gap: 20px;
-	padding: 30px 0 0 50px;
-}
-
+/* ヘッダー左側 */
 .header-left {
 	display: flex;
+	align-items: center;
+	gap: 22px;
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+/* アプリロゴ */
+.app-logo {
+	display: flex;
+	align-items: center;
+	flex: 0 0 auto;
+}
+
+/* アプリロゴ画像 */
+.app-logo img {
+	display: block;
+	width: 145px;
+	height: auto;
+}
+
+/* ナビ */
+.side-nav {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	flex: 1 1 auto;
+	min-width: 0;
+	white-space: nowrap;
+	overflow: visible;
+}
+
+/* ナビリンク */
+.side-nav .nav-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 36px;
+	padding: 0 6px;
+	color: #ffffff;
+	font-size: 15px; /* 文字サイズ指定 ヘッダーメニュー */
+	font-weight: 500; /* 文字太さ指定 ヘッダーメニュー */
+	text-decoration: none;
+	flex: 0 0 auto;
+}
+
+/* ナビリンクホバー */
+.side-nav .nav-link:hover {
+	color: #ffffff;
+	opacity: 0.82;
+}
+
+/* ヘッダー右側 */
+.header-right {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 0 0 auto;
+}
+
+/* ユーザー表示 */
+.user-info-area {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	justify-content: flex-end;
 }
 
 /* ユーザーアイコン */
 .user-status {
-	width: 60%;
+	width: 26px;
+	height: 26px;
+	object-fit: contain;
 }
 
-.icon-area {
-	width: 20%;
-}
-
-/* ユーザーの名前 */
+/* ユーザー名 */
 .user-name {
-	font-size: 15px;
+	color: var(--paragraph-color, #000000);
+	font-size: 14px; /* 文字サイズ指定 ユーザー名 */
+	font-weight: 500; /* 文字太さ指定 ユーザー名 */
+	white-space: nowrap;
 }
 
+/* ヘッダー操作 */
 .header-actions {
 	display: flex;
+	align-items: center;
+	gap: 6px;
 }
 
-
-
-/* ヘッダーのロゴサイズ */
-.app-logo {
-	width: 15%;
-	padding: 2px 0 0 3px;
+/* ログアウトフォーム */
+.logout-form {
+	margin: 0;
 }
 
-/* ナビゲーションを１行にする */
-.side-nav {
+/* ヘッダー内パスワード変更ボタン */
+.header-actions .pw-reset-btn {
+	width: auto;
+	min-width: 102px;
+	height: 34px;
+	padding: 0 10px;
+	color: var(--button-color, #F067A6);
+	background-color: var(--background-color, #F8F8F8);
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 5px;
+	font-size: 13px; /* 文字サイズ指定 ヘッダーボタン */
+	font-weight: 500; /* 文字太さ指定 ヘッダーボタン */
+	cursor: pointer;
+}
+
+/* ヘッダー内ログアウトボタン */
+.header-actions .logout-btn {
+	width: auto;
+	min-width: 86px;
+	height: 34px;
+	padding: 0 10px;
+	color: var(--button-color, #F067A6);
+	background-color: var(--background-color, #F8F8F8);
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 5px;
+	font-size: 13px; /* 文字サイズ指定 ヘッダーボタン */
+	font-weight: 500; /* 文字太さ指定 ヘッダーボタン */
+	cursor: pointer;
+}
+
+/* ヘッダーボタンホバー */
+.header-actions .pw-reset-btn:hover,
+.header-actions .logout-btn:hover {
+	color: #ffffff;
+	background-color: var(--hightlight-color, #F6ADC6);
+}
+
+/* =========================================
+   パスワード変更モーダル
+========================================= */
+
+/* モーダル表示中 */
+body.modal-open {
+	overflow: hidden;
+}
+
+/* モーダル背景 */
+#passwordChangeModal.password-modal-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 3000;
+	display: none !important;
+	visibility: hidden;
+	opacity: 0;
+	align-items: center;
+	justify-content: center;
+	padding: 24px;
+	background-color: rgba(20, 20, 20, 0.48);
+	pointer-events: none;
+}
+
+/* モーダル表示時 */
+#passwordChangeModal.password-modal-overlay.show {
+	display: flex !important;
+	visibility: visible;
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* モーダル本体 */
+#passwordChangeModal .password-modal-card {
+	position: relative;
+	width: min(460px, calc(100% - 32px));
+	padding: 26px 30px 24px;
+	background-color: #ffffff;
+	border: 2px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 18px;
+	box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+}
+
+/* モーダル上部 */
+#passwordChangeModal .password-modal-header {
 	display: flex;
-	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 16px;
 }
 
+/* モーダルタイトル */
+#passwordChangeModal .password-modal-title {
+	margin: 0;
+	color: var(--headline-color, #EF5B9C);
+	font-size: 22px; /* 文字サイズ指定 モーダルタイトル */
+	font-weight: 600; /* 文字太さ指定 モーダルタイトル */
+}
 
-/*footerのCSS-----------------------------------*/
-.footer{		
+/* 閉じるボタン */
+#passwordChangeModal .password-modal-close {
+	width: 32px;
+	height: 32px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 50%;
+	font-size: 22px; /* 文字サイズ指定 閉じるボタン */
+	font-weight: 300; /* 文字太さ指定 閉じるボタン */
+	line-height: 1;
+	cursor: pointer;
+}
+
+/* メッセージ */
+#passwordChangeModal .password-modal-message {
+	margin-bottom: 14px;
+	padding: 10px 12px;
+	border-radius: 6px;
+	font-size: 13px; /* 文字サイズ指定 メッセージ */
+	font-weight: 400; /* 文字太さ指定 メッセージ */
+}
+
+/* 成功メッセージ */
+#passwordChangeModal .password-modal-message.success {
+	color: #166534;
+	background-color: #dcfce7;
+	border: 1px solid #86efac;
+}
+
+/* エラーメッセージ */
+#passwordChangeModal .password-modal-message.error {
+	color: #991b1b;
+	background-color: #fee2e2;
+	border: 1px solid #fecaca;
+}
+
+/* フォーム */
+#passwordChangeModal .password-change-form {
+	margin: 0;
+}
+
+/* 入力項目 */
+#passwordChangeModal .password-form-field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	margin-bottom: 14px;
+}
+
+/* 入力ラベル */
+#passwordChangeModal .password-form-field label {
+	color: var(--paragraph-color, #000000);
+	font-size: 14px; /* 文字サイズ指定 入力ラベル */
+	font-weight: 500; /* 文字太さ指定 入力ラベル */
+}
+
+/* 入力欄 */
+#passwordChangeModal .password-form-field input {
 	width: 100%;
-	padding: 15px 20px;/* 余白で高さ調整 */	
-	background-color: #ffc0cb; /* 背景が透けないように */
+	height: 38px;
+	padding: 0 10px;
+	color: var(--paragraph-color, #000000);
+	background-color: #ffffff;
+	border: 1.5px solid #e1e5e9;
+	border-radius: 6px;
+	font-size: 14px; /* 文字サイズ指定 入力欄 */
+	font-weight: 400; /* 文字太さ指定 入力欄 */
+}
+
+/* 入力欄フォーカス */
+#passwordChangeModal .password-form-field input:focus {
+	outline: none;
+	border-color: var(--hightlight-color, #F6ADC6);
+	box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.18);
+}
+
+/* 入力補足 */
+#passwordChangeModal .password-input-note {
+	margin: 0;
+	color: #6b7280;
+	font-size: 12px; /* 文字サイズ指定 補足 */
+	font-weight: 400; /* 文字太さ指定 補足 */
+}
+
+/* ボタン行 */
+#passwordChangeModal .password-modal-actions {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-top: 18px;
+}
+
+/* キャンセルボタン */
+#passwordChangeModal .password-cancel-btn {
+	min-width: 130px;
+	height: 36px;
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 5px;
+	font-size: 14px; /* 文字サイズ指定 キャンセルボタン */
+	font-weight: 500; /* 文字太さ指定 キャンセルボタン */
+	cursor: pointer;
+}
+
+/* 変更ボタン */
+#passwordChangeModal .password-save-btn {
+	min-width: 130px;
+	height: 36px;
+	color: var(--button-text-color, #ffffff);
+	background-color: var(--button-color, #F067A6);
+	border: none;
+	border-radius: 5px;
+	font-size: 14px; /* 文字サイズ指定 変更ボタン */
+	font-weight: 500; /* 文字太さ指定 変更ボタン */
+	cursor: pointer;
+}
+
+/* フッター */
+.footer {
+	width: 100%;
+	padding: 15px 20px;
+	background-color: #ffc0cb;
 	text-align: right;
 	font-size: 1rem;
 	box-sizing: border-box;

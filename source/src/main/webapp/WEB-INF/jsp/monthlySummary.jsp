@@ -298,7 +298,7 @@
     </main>
 
     <%-- 共通フッター --%>
-    <%@ include file="/WEB-INF/jsp/footer.jsp" %>
+    <!-- <%@ include file="/WEB-INF/jsp/footer.jsp" %> -->
 
     <script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/common.js"></script>
