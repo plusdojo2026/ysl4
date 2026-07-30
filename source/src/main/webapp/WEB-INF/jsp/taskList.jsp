@@ -155,12 +155,7 @@
         <table>
             <tr>
                 <td colspan="3">
-                    <div class="button_edit">
-                        <button type="button"
-                            class="submit-btn"
-                            id="task-search-button">
-                            検索
-                        </button>
+
 
                         <button type="button"
                             class="clear-btn"
