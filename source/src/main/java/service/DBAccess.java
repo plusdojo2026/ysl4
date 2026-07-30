@@ -6,81 +6,87 @@ import java.sql.SQLException;
 
 public class DBAccess {
 
-    // ServiceとDAOで共有するDB接続
-    protected Connection conn;
+	// ServiceとDAOで共有するDB接続
+	protected Connection conn;
 
-    // MySQLドライバ
-    private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
+	// MySQLドライバ
+	private static final String DRIVER_NAME = "com.mysql.cj.jdbc.Driver";
 
-    // ローカルDB接続先
-//    private static final String DB_URL = "jdbc:mysql://localhost:3306/pinkElephant?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
-    
-    //	デプロイDB接続先
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/ysl4?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
+	// ローカルDB接続先
+	//    private static final String DB_URL = "jdbc:mysql://localhost:3306/pinkElephant?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
 
-    // DBユーザー名
-    private static final String DB_USER = "root";
+	//	デプロイDB接続先
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/ysl4?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Tokyo";
 
-    // DBパスワード
-    private static final String DB_PASSWORD = "password";
+	// DBユーザー名ローカル用
+	private static final String DB_USER = "root";
 
-    //複数SQLを扱うので、トランザクションがある方がいい????
-    protected void access() throws SQLException {
+	// DBユーザー名warファイル用
+	//private static final String DB_USER = "ysl4";
 
-        try {
-            // JDBCドライバを読み込む
-            Class.forName(DRIVER_NAME);
+	// DBパスワードローカル用
+	private static final String DB_PASSWORD = "password";
 
-            // DBへ接続
-            conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+	// DBパスワードwarファイル用ysl4
+	//private static final String DB_PASSWORD = "8pywJ9SFmppYYdGR";
 
-            // 手動commit
-            conn.setAutoCommit(false);
+	//複数SQLを扱うので、トランザクションがある方がいい????
+	protected void access() throws SQLException {
 
-        } catch (ClassNotFoundException e) {
-            throw new SQLException("JDBCドライバが見つかりません", e);
-        }
-    }
+		try {
+			// JDBCドライバを読み込む
+			Class.forName(DRIVER_NAME);
 
-    protected void commit() {
+			// DBへ接続
+			conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
 
-        if (conn == null) {
-            return;
-        }
+			// 手動commit
+			conn.setAutoCommit(false);
 
-        try {
-            // SQLの変更を確定する
-            conn.commit();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		} catch (ClassNotFoundException e) {
+			throw new SQLException("JDBCドライバが見つかりません", e);
+		}
+	}
 
-    protected void rollback() {
+	protected void commit() {
 
-        if (conn == null) {
-            return;
-        }
+		if (conn == null) {
+			return;
+		}
 
-        try {
-            // エラー時に変更を取り消す
-            conn.rollback();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+			// SQLの変更を確定する
+			conn.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
-    protected void close() {
+	protected void rollback() {
 
-        if (conn == null) {
-            return;
-        }
+		if (conn == null) {
+			return;
+		}
 
-        try {
-            // DB接続を閉じる
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		try {
+			// エラー時に変更を取り消す
+			conn.rollback();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void close() {
+
+		if (conn == null) {
+			return;
+		}
+
+		try {
+			// DB接続を閉じる
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
