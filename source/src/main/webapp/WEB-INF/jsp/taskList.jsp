@@ -122,7 +122,7 @@
 	<br>
 	<br>
 	<div class="member-list">
-		<table border="1" id="foo-table" class="table table-bordered">
+		<table border="1" id="foo-table">
 			<thead>
 				<tr>
 					<th>案件名</th>
@@ -136,7 +136,7 @@
 					<th>操作</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="member-list">
 				<c:forEach var="e" items="${taskList}" varStatus="status">
 					<tr>
 						<td><c:out value="${e.projectName}" /></td> <!-- 案件名 -->

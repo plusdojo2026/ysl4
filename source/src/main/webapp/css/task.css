@@ -188,6 +188,14 @@
 	background: white;
 	border-radius: 30px;
 	padding: 20px;
+	color: black;
+}
+
+.member-list a {
+	color: #337ab7;
+}
+.member-list a:hover {
+	text-decoration: underline;
 }
 
 .member-list table {
@@ -281,9 +289,6 @@
 
 /* セクション */
 
-a {
-	color: black;
-}
 
 .section-box{
 	background:#f8f8f8;
