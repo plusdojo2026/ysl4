@@ -453,3 +453,175 @@ function getContextPathForProject() {
 
 	return '/' + pathParts[1];
 }
+
+/**
+
+◦ 案件登録画面のjQuery処理.
+◦ 入力チェック、キャンセル、戻る処理を行う.
+ */
+jQuery(function ($) {
+
+    // 案件登録フォームがない画面では処理しない
+    if ($('#projectForm').length === 0) {
+        return;
+    }
+
+    // 初期値を保持する
+    const initialValues = $('#projectForm').serializeArray();
+
+    // 戻るボタンで案件一覧へ戻る
+    $('#back').on('click', function () {
+        location.href = getProjectContextPath() + '/Controller?page_id=P001';
+    });
+
+    // キャンセルボタンで入力値を初期状態へ戻す
+    $('#clearBtn').on('click', function () {
+        restoreProjectRegistForm(initialValues);
+    });
+
+    // 保存前に入力チェックを行う
+    $('#projectForm').on('submit', function (event) {
+
+        if (!validateProjectRegistForm()) {
+            event.preventDefault();
+        }
+    });
+});
+
+/**
+
+◦ 案件登録フォームを確認する.
+◦ @return {boolean} 正常ならtrue.
+ */
+function validateProjectRegistForm() {
+
+    const projectCode = $('#project_code').val();
+    const projectName = $('#project_name').val();
+    const projectManagerId = $('#project_manager_id').val();
+    const status = $('#status').val();
+    const priority = $('#priority').val();
+    const estimatedManhours = $('#estimated_manhours').val();
+    const startDate = $('#start_date').val();
+    const dueDate = $('#due_date').val();
+
+    // 案件コードを確認する
+    if (isBlankProjectRegist(projectCode)) {
+        alert('案件コードを入力してください');
+        return false;
+    }
+
+    // 案件名を確認する
+    if (isBlankProjectRegist(projectName)) {
+        alert('案件名を入力してください');
+        return false;
+    }
+
+    // 担当PMを確認する
+    if (isBlankProjectRegist(projectManagerId)) {
+        alert('担当PMを選択してください');
+        return false;
+    }
+
+    // ステータスを確認する
+    if (isBlankProjectRegist(status)) {
+        alert('ステータスを選択してください');
+        return false;
+    }
+
+    // 優先度を確認する
+    if (isBlankProjectRegist(priority)) {
+        alert('優先度を選択してください');
+        return false;
+    }
+
+    // 見積工数を確認する
+    if (isBlankProjectRegist(estimatedManhours)) {
+        alert('見積工数を入力してください');
+        return false;
+    }
+
+    const estimatedManhoursValue = Number(estimatedManhours);
+
+    // 見積工数が数値か確認する
+    if (Number.isNaN(estimatedManhoursValue)) {
+        alert('見積工数は数値で入力してください');
+        return false;
+    }
+
+    // 見積工数の範囲を確認する
+    if (estimatedManhoursValue < 0) {
+        alert('見積工数は0以上で入力してください');
+        return false;
+    }
+
+    // 見積工数が0.5単位か確認する
+    if (estimatedManhoursValue * 2 !== Math.floor(estimatedManhoursValue * 2)) {
+        alert('見積工数は0.5単位で入力してください');
+        return false;
+    }
+
+    // 開始日を確認する
+    if (isBlankProjectRegist(startDate)) {
+        alert('開始日を入力してください');
+        return false;
+    }
+
+    // 期限を確認する
+    if (isBlankProjectRegist(dueDate)) {
+        alert('期限を入力してください');
+        return false;
+    }
+
+    // 日付の前後関係を確認する
+    if (startDate > dueDate) {
+        alert('期限は開始日以降の日付を選択してください');
+        return false;
+    }
+
+    return true;
+}
+
+/**
+
+◦ 案件登録フォームを初期値へ戻す.
+◦ @param {Array} initialValues 初期値.
+ */
+function restoreProjectRegistForm(initialValues) {
+
+    initialValues.forEach(function (item) {
+        const target = $('[name="' + item.name + '"]');
+
+        if (target.length > 0) {
+            target.val(item.value);
+        }
+    });
+
+    // 実績工数は登録時0に戻す
+    $('#actual_manhours').val('0');
+}
+
+/**
+
+◦ 空文字か確認する.
+◦ @param {string} value 確認値.
+◦ @return {boolean} 空ならtrue.
+ */
+function isBlankProjectRegist(value) {
+    return value === null || value === undefined || String(value).trim().length === 0;
+}
+
+/**
+
+◦ contextPathを取得する.
+◦ @return {string} contextPath.
+ */
+function getProjectContextPath() {
+
+    const pathParts = window.location.pathname.split('/');
+
+    if (pathParts.length <= 1) {
+        return '';
+    }
+
+    return '/' + pathParts[1];
+}

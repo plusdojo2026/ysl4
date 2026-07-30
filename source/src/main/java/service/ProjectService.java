@@ -443,6 +443,35 @@ public class ProjectService extends DBAccess {
         return projectList;
     }
 
+
+    /**
+
+    * 有効な担当PM候補を取得する.
+    * @return 有効メンバー一覧.
+     */
+    public List<UserDTO> selectValidManagers() {
+
+        List<UserDTO> managerList = new ArrayList<>();
+
+        try {
+            access();
+
+            UserDAO userDao = new UserDAO(conn);
+            managerList = userDao.selectValidUsers();
+
+            commit();
+
+        } catch (SQLException e) {
+            rollback();
+            e.printStackTrace();
+
+        } finally {
+            close();
+        }
+
+        return managerList;
+    }
+
     /**
     * 登録時の最低限チェックを行う.
     *

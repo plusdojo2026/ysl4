@@ -82,19 +82,28 @@ public class ProjectAction {
 	}
 
 	/**
-	 * 案件登録画面を表示する
-	 * @return 遷移先JSP
+	 * 案件登録画面を表示する.
+	 *
+	 * @return 遷移先JSP.
 	 */
 	public String showRegist() {
 
-		ProjectService service = new ProjectService();
+	    // 案件登録用DTOを作成する
+	    ProjectsDTO projectDto = new ProjectsDTO();
 
-		request.setAttribute("mode", "regist");
-		request.setAttribute("project", new ProjectsDTO());
+	    // フォーム表示用データを取得する
+	    ProjectService service = new ProjectService();
+	    List<UserDTO> managerList = service.selectValidManagers();
 
-		setFormData(service.getProjectFormData());
+	    // JSPで使う値を設定する
+	    request.setAttribute("project", projectDto);
+	    request.setAttribute("projectDto", projectDto);
+	    request.setAttribute("managerList", managerList);
 
-		return JSP_PROJECT_REGIST;
+	    // メッセージを設定する
+	    setMessageFromParameter();
+
+	    return JSP_PROJECT_REGIST;
 	}
 
 	/**
@@ -102,7 +111,8 @@ public class ProjectAction {
 	 * @return 遷移先
 	 */
 	public String regist() {
-
+		
+		// 入力値からDTOを作成する
 		ProjectsDTO projectDto = createProjectDtoForSave(false);
 
 		String errorMessage = validateForRegist(projectDto);
@@ -492,4 +502,6 @@ public class ProjectAction {
 			request.setAttribute("successMsg", message);
 		}
 	}
+
+	
 }
