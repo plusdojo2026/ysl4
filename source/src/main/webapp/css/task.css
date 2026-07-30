@@ -229,7 +229,7 @@
 
 .task-container{
 	max-width:500px;
-	margin:20px auto;
+	margin:20px 50px;
 	background:#fff;
 	border-radius:15px;
 	padding:20px;
@@ -319,7 +319,7 @@ form#projectForm{
 	background: #f8f8f8;
 	border-radius: 30px;
 	display: grid;
-	grid-template-columns: repeat(3,1fr); /* 3列にする */
+	grid-template-columns: repeat(2,1fr); /* 3列にする */
 }
 .field{
 	
