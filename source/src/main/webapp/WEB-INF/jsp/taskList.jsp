@@ -139,16 +139,18 @@
 			<tbody>
 				<c:forEach var="e" items="${taskList}" varStatus="status">
 					<tr>
-						<td><c:out value="${e.projectName}" /></td>
+						<td><c:out value="${e.projectName}" /></td> <!-- 案件名 -->
 						<td> 
-						<a href="${pageContext.request.contextPath}/Controller?page_id=T002" data-page="T002">
-						<c:out value="${e.taskName}" />
-						</a></td>
-						<td><c:out value="${e.taskName}" /></td>
-						<td><c:out value="${e.status}" /></td>
-						<td><span><c:out value="${e.priority}" /></span></td>
-						<td><span><c:out value="${e.estimatedManhours}" /></span></td>
-						<td><c:out value="${e.actualManhours}" /></td>
+							<a href="${pageContext.request.contextPath}/Controller?page_id=T002">
+								<c:out value="${e.taskName}" /> <!-- タスク名 -->
+							</a>
+						</td>
+						<td><c:out value="${e.managerName}" /></td> <!-- 担当者 -->
+						<td><c:out value="${e.status}" /></td> <!-- ステータス -->
+						<td><span><c:out value="${e.priority}" /></span></td> <!-- 優先度 -->
+						<td><span><c:out value="${e.dueDate}"></c:out></span></td> <!-- 期限 -->
+						<td><span><c:out value="${e.estimatedManhours}" /></span></td> <!-- 見積工数 -->
+						<td><c:out value="${e.actualManhours}" /></td> <!-- 実績工数 -->
 						
 						<td><input type="submit" class="edit-btn" name="button_id"
 							value="編集"></td>
