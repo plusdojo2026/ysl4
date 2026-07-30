@@ -9,10 +9,9 @@
 <head>
 <meta charset="UTF-8">
 <title>案件詳細</title>
-<link rel="stylesheet" href="/webapp/css/common.css">
-	<link rel="stylesheet" href="/webapp/css/project.css">
 
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
 <body>
@@ -23,16 +22,17 @@
 
 	<!-- 上の左側の象さんの画像 -->
 	<div class ="sub-header-left">
-	 <img src = "/webapp/img/elephant(1).png">
+	  <div class="zou"><img src= "${pageContext.request.contextPath}/img/elephant(1).png"></div>
 	</div>
 	<!-- タイトル部分 -->
-	<div>
-	<h1 class = "title-main">案件詳細</h1>
-	<p class = "title-sub">案件詳細と関連タスク・工数ログを確認出来ます</p>
+	<div class="text-area">
+	<h1 class = "projectimg">案件詳細</h1>
+	<p class = "subtitle">案件詳細と関連タスク・工数ログを確認出来ます</p>
 	</div>	
 	
 
 
+<div class="syousaibtn">
 <!-- 戻るボタン -->
 <button type="button"
 onclick="location.href='ProjectServlet?action=list'">
@@ -49,6 +49,9 @@ onclick="location.href='ProjectServlet?action=list'">
         onclick="location.href='/button'">
     ＋タスク追加
 </button>
+  </div>
+  
+  
   
 <div class = "syousai1">
 	<label>案件コード</label> ${project.projectCode}
