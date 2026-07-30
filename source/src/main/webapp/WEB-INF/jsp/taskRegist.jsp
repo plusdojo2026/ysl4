@@ -1,189 +1,197 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>タスク登録画面</title>
+        <!DOCTYPE html>
+        <html>
 
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/common.css">
-<link rel="stylesheet"
-      href="${pageContext.request.contextPath}/css/task.css">
-</head>
+        <head>
+            <meta charset="UTF-8">
+            <title>タスク登録画面</title>
 
-<body>
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
+            <link rel="stylesheet" href="${pageContext.request.contextPath}/css/task.css">
+        </head>
 
-<%@ include file="/WEB-INF/jsp/header.jsp" %>
+        <body>
+
+            <%@ include file="/WEB-INF/jsp/header.jsp" %>
+
+                <main class="edit-main">
+
+                    <div class="headline">
+                        <!-- 上の画像-->
+                        <div>
+                            <h1 class="title-main">タスク登録</h1>
+                            <p class="title-sub">
+                                新しいタスク詳細を入力してください。
+                            </p>
+                        </div>
+
+                        <!-- 右側説明 -->
+                        <div class="sub-header-right">
+                            <img class="regist-elephant" src="${pageContext.request.contextPath}/img/smileelephant.png">
+
+                            <p>新しいタスクを入力してください</p>
+
+                        </div>
+                    </div>
+
+                    <div class="edit-form">
+
+                        <form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
+                            <!-- 案件コード -->
+                            <div class="field">
+                                <label>
+                                    案件コード
+                                    <c:out value="${task.projectCode}" />
+                                </label>
+                            </div>
+
+                            <div class="error">
+                                ${errorMessage}
+                            </div>
+                            <form>
+                                <!-- 案件名 -->
+                                <div class="field">
+                                    <label>
+                                        案件名
+                                        <span class="must">必須</span>
+                                        <select name="status">
+                                            <c:forEach var="pib" items="${projectList}">
+                                                <option>
+                                                    <c:out value="${pib.projectName}" />
+                                                </option>
+                                            </c:forEach>
+                                        </select>
+                                    </label>
 
 
+                                </div>
 
-    <!-- 上の画像-->
-        <div>
-            <h1 class="title-main">タスク登録</h1>
-            <p class="title-sub">
-                新しいタスク詳細を入力してください。
-            </p>
-           </div>
+                                <!-- タスク名 -->
+                                <form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
+                                    <input type="hidden" name="page_id" value="T003">
+                                    <div class="field">
+                                        <label>タスク名</label>
 
+                                        <input type="text" id="task_name" name="task_name">
+                                    </div>
 
-    <!-- 右側説明 -->
-    <div class="sub-header-right">
-        <img class="regist-elephant"
-				src="${pageContext.request.contextPath}/img/smileelephant.png">
+                                    <!-- ステータス -->
+                                    <div class="field">
+                                        <label>
+                                            ステータス<span class="must">必須</span>
+                                        </label>
 
-        <p>新しいタスクを入力してください</p>
-       
-    </div>
+                                        <select id="status" name="status">
+                                            <option value="not_started">未着手</option>
+                                            <option value="in_progress">進行中</option>
+                                            <option value="done">完了</option>
+                                            <option value="on_hold">保留</option>
+                                        </select>
+                                    </div>
 
-    <!-- 案件コード -->
-    <div class="field">
-        <label>
-            案件コード
-				<c:out value="${task.projectCode}" />            
-        </label>
-    </div>
+                                    <!-- 優先度 -->
+                                    <div class="field">
+                                        <label>
+                                            優先度
+                                            <span class="must">必須</span>
+                                        </label>
 
-    <div class="error">
-        ${errorMessage}
-    </div>
-	<form >
-    <!-- 案件名 -->
-    <div class="field">
-        <label>
-         案件名
-         <span class="must">必須</span>
-	          	<select name="status">
-	          	<c:forEach var="pib" items="${projectList}" >
-	           		<option><c:out value="${pib.projectName}" /></option>
-	           		</c:forEach>
-				</select>
-        </label>
+                                        <select id="priority" name="priority">
+                                            <option value="in_progress">中</option>
+                                            <option value="done">高</option>
+                                            <option value="canceled">低</option>
+                                        </select>
+                                    </div>
 
-        
-    </div>
+                                    <!-- 担当者 -->
+                                    <div class="field">
+                                        <label>
+                                            担当者
+                                            <span class="must">必須</span>
+                                        </label>
 
-    <!-- タスク名 -->
-    <form id="projectForm" method="POST" action="<c:url value='/Controller'/>">
-    <input type="hidden" name="page_id" value="T003">
-    <div class="field">
-        <label>タスク名</label>
+                                        <select id="assigne" name="assigne">
+                                            <c:forEach var="uib" items="${userList}">
+                                                <option>
+                                                    <c:out value="${uib.name}" />
+                                                </option>
+                                            </c:forEach>
+                                        </select>
 
-        <input type="text" id="task_name" name="task_name">
-    </div>
+                                    </div>
 
-    <!-- ステータス -->
-    <div class="field">
-        <label>
-            ステータス<span class="must">必須</span>
-        </label>
+                                    <!-- 開始日 -->
+                                    <div class="field">
+                                        <label>
+                                            開始日
+                                            <span class="must">必須</span>
+                                        </label>
 
-        <select id="status" name="status">
-	        <option value="not_started">未着手</option>
-	        <option value="in_progress">進行中</option>
-	        <option value="done">完了</option>
-	        <option value="on_hold">保留</option>
-        </select>
-    </div>
+                                        <input type="date" id="start_date" name="start_date" placeholder="YYYY/MM/DD">
+                                    </div>
 
-    <!-- 優先度 -->
-    <div class="field">
-        <label>
-            優先度
-            <span class="must">必須</span>
-        </label>
+                                    <!-- 期限 -->
+                                    <div class="field">
+                                        <label>期限</label>
 
-        <select id="priority"name="priority">
-            <option value="in_progress">中</option>
-            <option value="done">高</option>
-            <option value="canceled">低</option>
-        </select>
-    </div>
+                                        <input type="date" id="due_date" name="due_date" placeholder="YYYY/MM/DD">
+                                    </div>
 
-    <!-- 担当者 -->
-    <div class="field">
-        <label>
-            担当者
-            <span class="must">必須</span>
-        </label>
-		
-	        <select id="assigne" name="assigne">
-	        <c:forEach var="uib" items="${userList}" >
-		    	<option><c:out value="${uib.name}" /></option>
-		    	</c:forEach>
-	        </select>
-        
-    </div>
+                                    <!-- 見積もり工数 -->
+                                    <div class="field">
+                                        <label>
+                                            見積もり工数
+                                            <span class="must">必須</span>
+                                        </label>
 
-    <!-- 開始日 -->
-    <div class="field">
-        <label>
-            開始日
-            <span class="must">必須</span>
-        </label>
+                                        <input type="text" id="estimated-manhours" name="estimated-manhours">
+                                    </div>
 
-        <input type="date" id="start_date" name="start_date" placeholder="YYYY/MM/DD">
-    </div>
+                                    <!-- 進捗率 -->
+                                    <div class="field">
+                                        <label>
+                                            進捗率
+                                            <span class="must">必須</span>
+                                        </label>
 
-    <!-- 期限 -->
-    <div class="field">
-        <label>期限</label>
+                                        <input type="range" name="progress" min="0" max="100" step="5" value="0">
+                                    </div>
 
-        <input type="date" id="due_date" name="due_date" placeholder="YYYY/MM/DD">
-    </div>
+                                    <!-- 説明 -->
+                                    <div class="field">
+                                        <label>説明</label>
 
-    <!-- 見積もり工数 -->
-    <div class="field">
-        <label>
-            見積もり工数
-            <span class="must">必須</span>
-        </label>
+                                        <input type="text" id="description" name="description" style="width: 500px;">
+                                    </div>
 
-        <input type="text" id="estimated-manhours" name="estimated-manhours">
-    </div>
+                                </form>
 
-    <!-- 進捗率 -->
-    <div class="field">
-        <label>
-            進捗率
-            <span class="must">必須</span>
-        </label>
+                                <div class="function">
+                                    <!-- 保存 -->
+                                    <button type="submit" name="botton_id" value="登録">
+                                        保存
+                                    </button>
 
-        <input type="range" name="progress" min="0" max="100" step="5" value="0">
-    </div>
+                                    <!-- 戻る -->
+                                    <button type="button" id="back" onclick="history.back()">
+                                        戻る
+                                    </button>
 
-    <!-- 説明 -->
-    <div class="field">
-        <label>説明</label>
+                                    <!-- キャンセル（入力クリア）-->
+                                    <button type="button" id="clearBtn">
+                                        キャンセル
+                                    </button>
+                                </div>
+                    </div>
+                    <script>
+                        document.getElementById("clearBtn")
+                            .addEventListener("click", function () {
+                                document.getElementById("projectForm").reset();
+                            });
+                    </script>
+                </main>
+        </body>
 
-        <input type="text" id="description" name="description" style="width: 500px;">
-    </div>
-
-    <!-- 保存 -->
-    <button type="submit" name="botton_id" value="登録">
-        保存
-    </button>
-
-</form>
-
-<!-- 戻る -->
-<button type ="button" id="back" onclick="history.back()">
-    戻る
-</button>
-
-<!-- キャンセル（入力クリア）-->
-<button type="button" id="clearBtn">
-    キャンセル
-</button>
-
-<script>
-document.getElementById("clearBtn")
-    .addEventListener("click", function () {
-        document.getElementById("projectForm").reset();
-    });
-</script>
-
-</body>
-</html>
+        </html>
