@@ -121,8 +121,9 @@
         <c:out value="${project.projectName}" /></a>
         </td>
         <td><c:out value="${project.customerName}" /></td>
-        <td><c:out value="${project.customerName}" /></td>
-        <td><c:out value="${project.projectManagerId}" /></td>
+        <td><c:out value="${project.status}" /></td>
+        <td><c:out value="${project.priority}"/></td>
+        <td><c:out value="${project.projectManagerName}" /></td>
         <td><c:out value="${project.startDate}" /></td>
         <td><c:out value="${project.dueDate}" /></td>
         <td><c:out value="${project.progressRate}" /></td>
