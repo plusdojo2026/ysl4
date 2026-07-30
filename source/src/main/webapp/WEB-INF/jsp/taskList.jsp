@@ -141,7 +141,7 @@
 					<tr>
 						<td><c:out value="${e.projectName}" /></td> <!-- 案件名 -->
 						<td> 
-							<a href="${pageContext.request.contextPath}/Controller?page_id=T002">
+							<a href="${pageContext.request.contextPath}/Controller?page_id=T002&task_id=${e.taskId}">
 								<c:out value="${e.taskName}" /> <!-- タスク名 -->
 							</a>
 						</td>
