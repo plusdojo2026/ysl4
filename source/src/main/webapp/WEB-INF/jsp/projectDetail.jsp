@@ -24,6 +24,7 @@
 <meta charset="UTF-8">
 <title>案件詳細</title>
 
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
