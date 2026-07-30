@@ -25,7 +25,7 @@
 
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-	<form method="POST" action="<c:url value='/Controller'/>">
+	<form method="POST" action="<c:url value='/Controller'/">
 	
 	<!-- 上の左側の象さんの画像 -->
 	<div class ="sub -header-left">
@@ -118,7 +118,7 @@
         <td><c:out value="${project.projectCode}" /></td>
         <td>
         <a href="${pageContext.request.contextPath}/Controller?page_id=P002" crass="html" data-page="P002">
-        <c:out value="${project.projectName}" /></a>
+        <c:out value="${project.projectName}" /><a href="${xt.request.contextPath}"/projectDetail.jsp></a></a>
         </td>
         <td><c:out value="${project.customerName}" /></td>
         <td><c:out value="${project.status}" /></td>
