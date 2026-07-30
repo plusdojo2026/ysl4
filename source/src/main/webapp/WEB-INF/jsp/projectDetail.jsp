@@ -24,7 +24,6 @@
 <meta charset="UTF-8">
 <title>案件詳細</title>
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
@@ -38,13 +37,13 @@
              src="${pageContext.request.contextPath}/img/elephant(1).png"
              alt="案件詳細">
 
-        <div>
+        <div class="text-area">
             <h1 class="title-main">案件詳細</h1>
             <p class="title-sub">案件詳細と関連タスク・工数ログを確認出来ます</p>
         </div>
     </div>
 
-    <div class="detail-button-area">
+    <td colspan="3">
 
         <form action="${pageContext.request.contextPath}/Controller" method="get">
             <input type="hidden" name="page_id" value="P001">
@@ -69,27 +68,29 @@
             </button>
         </form>
 
-    </div>
+    </td>
 
     <div class="syousai1">
         <div class="detail-row">
-            <label>案件コード</label>
-            <span><c:out value="${displayProject.projectCode}" /></span>
-        </div>
+        <table border=1 style="white-space:nowrap">
+        <tr>
+            <th>案件コード</th>
+            <td><span><c:out value="${displayProject.projectCode}" /></span></td>
+        
 
-        <div class="detail-row">
-            <label>案件名</label>
-            <span><c:out value="${displayProject.projectName}" /></span>
-        </div>
+        
+            <th>案件名</th>
+            <td><span><c:out value="${displayProject.projectName}" /></span></td>
+     
 
-        <div class="detail-row">
-            <label>顧客名</label>
-            <span><c:out value="${displayProject.customerName}" /></span>
-        </div>
+        
+            <th>顧客名</th>
+            <td><span><c:out value="${displayProject.customerName}" /></span></td>
+       
 
-        <div class="detail-row">
-            <label>PM</label>
-            <span>
+       
+            <th>PM</th>
+            <td><span>
                 <c:choose>
                     <c:when test="${not empty displayProject.projectManagerName}">
                         <c:out value="${displayProject.projectManagerName}" />
@@ -98,48 +99,55 @@
                         <c:out value="${displayProject.projectManagerId}" />
                     </c:otherwise>
                 </c:choose>
-            </span>
-        </div>
+            </span></td>
+            <th>ステータス</th>
+            <td><span><c:out value="${displayProject.status}" /></span></td>
+      </tr>
+      <tr>
 
-        <div class="detail-row">
-            <label>ステータス</label>
-            <span><c:out value="${displayProject.status}" /></span>
-        </div>
+        
+            
+     
 
-        <div class="detail-row">
-            <label>優先度</label>
-            <span><c:out value="${displayProject.priority}" /></span>
-        </div>
+      
+            <th>優先度</th>
+            <td><span><c:out value="${displayProject.priority}" /></span></td>
+        <
 
-        <div class="detail-row">
-            <label>期間</label>
-            <span>
+        
+            <th>期間</th>
+            <td><span>
                 <c:out value="${displayProject.startDate}" />
                 ～
                 <c:out value="${displayProject.dueDate}" />
-            </span>
-        </div>
+            </span></td>
+        
 
-        <div class="detail-row">
-            <label>見積工数</label>
-            <span><c:out value="${displayProject.estimatedManhours}" />h</span>
-        </div>
+       
+            <th>見積工数</th>
+            <td><span><c:out value="${displayProject.estimatedManhours}" />h</span></td>
+        
 
-        <div class="detail-row">
-            <label>実績工数</label>
-            <span><c:out value="${displayProject.actualManhours}" />h</span>
-        </div>
+       
+            <th>実績工数</th>
+            <td><span><c:out value="${displayProject.actualManhours}" />h</span></td>
+       
 
-        <div class="detail-row">
-            <label>進捗</label>
-            <span><c:out value="${displayProject.progressRate}" />%</span>
+        
+            <th>進捗</th>
+            <td><span><c:out value="${displayProject.progressRate}" />%</span></td>
         </div>
-
+</tr>
+<tr>
         <div class="detail-row detail-description">
-            <label>説明</label>
-            <span><c:out value="${displayProject.description}" /></span>
+            <th>説明</th>
+            <td colspan="9"><span><c:out value="${displayProject.description}" /></span></td>
+            </tr>
         </div>
     </div>
+</table>
+
+
 
     <div class="syosai2-1">
         <p class="title2">
@@ -151,7 +159,7 @@
 
         <div class="syousai2-2">
             <table>
-                <thead>
+                <!--  <thead>-->
                     <tr>
                         <th>タスク名</th>
                         <th>担当者</th>
@@ -162,7 +170,7 @@
                         <th>進捗</th>
                         <th>操作</th>
                     </tr>
-                </thead>
+                <!-- </thead> -->
 
                 <tbody>
                     <c:forEach var="task" items="${displayTaskList}">
@@ -183,28 +191,12 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-
-                            <td>
-                                <c:out value="${task.status}" />
-                            </td>
-
-                            <td>
-                                <c:out value="${task.dueDate}" />
-                            </td>
-
-                            <td>
-                                <c:out value="${task.estimatedManhours}" />h
-                            </td>
-
-                            <td>
-                                <c:out value="${task.actualManhours}" />h
-                            </td>
-
-                            <td>
-                                <progress value="${task.progress}" max="100"></progress>
-                                <c:out value="${task.progress}" />%
-                            </td>
-
+                            <td><c:out value="${task.status}" /></td>
+                            <td><c:out value="${task.dueDate}" /></td>
+                            <td><c:out value="${task.estimatedManhours}" />h</td>
+                            <td><c:out value="${task.actualManhours}" />h</td>
+                            <td><progress value="${task.progress}" max="100"></progress>
+                                <c:out value="${task.progress}" />%</td>
                             <td>
                                 <div class="table-action-area">
                                     <form action="${pageContext.request.contextPath}/Controller" method="get">
@@ -252,7 +244,7 @@
 
         <div class="syousai3-2">
             <table>
-                <thead>
+                <!--  <thead>-->
                     <tr>
                         <th>作業日</th>
                         <th>タスク名</th>
@@ -260,9 +252,9 @@
                         <th>工数</th>
                         <th>作業内容</th>
                     </tr>
-                </thead>
+                <!-- </thead> -->
 
-                <tbody>
+                <!--  <tbody>-->
                     <c:forEach var="log" items="${displayWorkLogList}">
                         <tr>
                             <td><c:out value="${log.workDate}" /></td>
@@ -280,7 +272,7 @@
                             </td>
                         </tr>
                     </c:if>
-                </tbody>
+                <!--  </tbody>-->
             </table>
         </div>
     </div>
