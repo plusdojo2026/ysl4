@@ -182,7 +182,7 @@
 
 <div class ="projectbtn">
 <!-- 戻る -->
-<button type ="button" id=back onclick="history.go(-1);">
+<button type ="button" id="back" onclick="history.go(-1);">
     戻る
 </button>
 
