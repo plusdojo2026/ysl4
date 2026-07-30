@@ -144,7 +144,7 @@
 						<a href="${pageContext.request.contextPath}/Controller?page_id=T002" data-page="T002">
 						<c:out value="${e.taskName}" />
 						</a></td>
-						<td><c:out value="${e.name}" /></td>
+						<td><c:out value="${e.taskName}" /></td>
 						<td><c:out value="${e.status}" /></td>
 						<td><span><c:out value="${e.priority}" /></span></td>
 						<td><span><c:out value="${e.estimatedManhours}" /></span></td>
