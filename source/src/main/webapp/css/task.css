@@ -30,10 +30,6 @@
 	margin-bottom: 25px;
 }
 
-.regist-elephant {
-	width: 180px;
-	height: auto;
-}
 
 .text-wrap {
 	flex: 1;
@@ -246,7 +242,32 @@
 	width:120px;
 }
 
+
+
 .title-main{
+	margin-bottom: 0;
+	color: #333;
+	font-size: 2rem;
+}
+
+.title-sub{
+	margin-top: 5px;
+	color: #666;
+}
+
+.sub-header-right{
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	width: 900px;
+	margin: 10px auto 20px;
+}
+
+.regist-elephant{
+	width: 120px;
+}
+/* .title-main{
+	
 	color:var(--headline-color);
 	margin:0;
 	font-size:2rem;
@@ -256,9 +277,13 @@
 	margin:0;
 	font-size:0.9rem;
 	color:#666;
-}
+} */
 
 /* セクション */
+
+a {
+	color: black;
+}
 
 .section-box{
 	background:#f8f8f8;
@@ -283,7 +308,18 @@
 
 /* 入力項目 */
 
+form#projectForm{
+	width: 900px;
+	margin: 20px auto;
+	padding: 25px;
+	background: #f8f8f8;
+	border-radius: 30px;
+	display: grid;
+	grid-template-columns: repeat(3,1fr); /* 3列にする */
+}
 .field{
+	
+	width: min(1000px, calc(100% - 40px));
 	display:flex;
 	flex-direction:column;
 }
