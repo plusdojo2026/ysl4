@@ -80,15 +80,19 @@ public class WorkLogAction {
      */
     public String regist() {
 
+    	//ログインユーザーを取得
         UserDTO loginUser = getLoginUser();
 
+        //未ログインなら一覧へ戻す
         if (loginUser == null) {
             return REDIRECT_TASK_LIST + "&msg=" + encode("ログインしてください");
         }
 
+        //登録用DTOを作る、入力チェックを行う
         WorkLogDTO workLogDto = createWorkLogDtoForRegist(loginUser);
         String errorMessage = validateForRegist(workLogDto);
 
+        //エラー時はタスク詳細へ
         if (hasText(errorMessage)) {
             setRegistFormData(workLogDto);
             request.setAttribute("errMsg", errorMessage);
@@ -96,9 +100,11 @@ public class WorkLogAction {
             return JSP_WORK_LOG_MODAL;
         }
 
+        //工数ログを登録する
         WorkLogService service = new WorkLogService();
         int result = service.regist(workLogDto);
 
+        //登録時成功時はタスク詳細へ
         if (result > 0) {
             return createTaskDetailRedirect(
                     workLogDto.getTaskId(),

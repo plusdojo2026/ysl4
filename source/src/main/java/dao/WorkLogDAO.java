@@ -20,7 +20,7 @@ public class WorkLogDAO {
     private final Connection conn;
 
     /** 工数ログID列名 */
-    private static final String WORK_LOG_ID_COLUMN = "work_logs__id";
+    private static final String WORK_LOG_ID_COLUMN = "work_logs_id";
 
     /** 最新工数ログ表示件数 */
     private static final int LATEST_LIMIT = 10;

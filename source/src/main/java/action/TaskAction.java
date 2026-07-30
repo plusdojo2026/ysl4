@@ -85,15 +85,19 @@ public class TaskAction {
      */
     public String detail() {
 
+    	//タスクIDを取得する
         int taskId = parseInt(getParam("task_id", "taskId"));
 
+        //タスクIDが不正の場合、一覧画面に遷移
         if (taskId <= 0) {
             return REDIRECT_TASK_LIST + "&msg=" + encode("タスクIDが不正です");
         }
 
+        //タスク詳細と工数ログを取得する
         TaskService service = new TaskService();
         TaskDTO taskDto = service.findById(taskId);
 
+        //対象タスクがない場合一覧へ遷移
         if (taskDto == null) {
             return REDIRECT_TASK_LIST + "&msg=" + encode("対象タスクが見つかりません");
         }
