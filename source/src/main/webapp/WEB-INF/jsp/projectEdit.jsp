@@ -51,7 +51,7 @@
 		</section>
 </div>
 
-
+<div class="atama">
 		<c:if test="${not empty errMsg}">
 			<div class="error">
 				<c:out value="${errMsg}" />
@@ -199,7 +199,8 @@
 				</tr>
 			</table>
 		</div>
-
+</div>
+<div class="atama">
 		<div class="kousuu">
 			<table>
 				<tr>
@@ -253,6 +254,7 @@
 				</tr>
 			</table>
 		</div>
+</div>
 
 		<input type="hidden" id="completed_task_count" value="${displayProject.completedTaskCount}">
 		<input type="hidden" id="task_count" value="${displayProject.taskCount}">

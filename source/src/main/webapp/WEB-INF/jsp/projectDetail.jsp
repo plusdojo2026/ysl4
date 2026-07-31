@@ -173,6 +173,8 @@
             </span>
         </p>
 
+
+<div class="atama">
         <div class="syousai2-2">
             <table border="1" id="project-table" class="member-table table table-bordered">
                 <thead>
