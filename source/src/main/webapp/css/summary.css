@@ -1,363 +1,496 @@
 /* 月次集計画面 */
 .summary-page {
-    background-color: #fef9fb;
+	background-color: #fef9fb;
 }
 
 /* メイン領域 */
 .summary-main {
-    width: min(1000px, calc(100% - 40px));
-    margin: 0 auto;
-    padding: 40px 50px;
-    min-height: 600px;
-    background-color: #fff0f9;
-    box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20);
+	width: 1000px;
+	margin: 0 auto;
+	padding: 40px 50px;
+	min-height: 600px;
+	background-color: #fff0f9;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;
 }
 
 /* 画面上部 */
 .summary-hero {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 22px;
-    align-items: center;
-    margin-bottom: 24px;
+	display: grid;
+	grid-template-columns: 120px 1fr;
+	gap: 22px;
+	align-items: center;
+	margin-bottom: 24px;
 }
 
 /* 画面上部画像領域 */
 .summary-hero-image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 /* 画面上部画像 */
 .summary-elephant {
-    width: 95px;
-    height: auto;
-    display: block;
+	width: 95px;
+	height: auto;
+	display: block;
 }
 
 /* タイトル */
 .summary-title {
-    margin: 0;
-    color: var(--headline-color, #EF5B9C);
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+	margin: 0;
+	color: var(--headline-color, #EF5B9C);
+	font-size: 32px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
 }
 
 /* リード文 */
 .summary-lead {
-    margin: 8px 0 0;
-    color: var(--paragraph-color, #000000);
-    font-size: 15px;
-    font-weight: 400;
+	margin: 8px 0 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 15px;
+	font-weight: 400;
 }
 
 /* 検索カード */
 .summary-search {
-    margin-bottom: 22px;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+	margin-bottom: 22px;
+	padding: 20px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
 }
 
 /* 検索フォーム */
 .summary-form {
-    margin: 0;
+	margin: 0;
 }
 
 /* 検索条件配置 */
 .summary-search-grid {
-    display: grid;
-    grid-template-columns: 220px auto;
-    gap: 18px;
-    align-items: end;
+	display: grid;
+	grid-template-columns: 220px 1fr;
+	gap: 18px;
+	align-items: end;
 }
 
 /* 入力項目 */
 .summary-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
 }
 
 /* ラベル */
 .summary-field label,
 .summary-detail-search label {
-    color: var(--paragraph-color, #000000);
-    font-size: 14px;
-    font-weight: 500;
+	color: var(--paragraph-color, #000000);
+	font-size: 14px;
+	font-weight: 500;
 }
 
 /* 月入力 */
 .summary-field input {
-    height: 38px;
-    padding: 0 12px;
-    background-color: #ffffff;
-    border: 1.5px solid #e1e5e9;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 400;
+	height: 38px;
+	padding: 0 12px;
+	color: var(--paragraph-color, #000000);
+	background-color: #ffffff;
+	border: 1.5px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 400;
+	box-sizing: border-box;
 }
 
 /* 月入力フォーカス */
 .summary-field input:focus {
-    outline: none;
-    border-color: #eeeeee;
-    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);
+	outline: none;
+	border-color: #eeeeee;
+	box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.20);
 }
 
 /* ボタン領域 */
 .summary-button-area {
-    display: flex;
-    gap: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
 }
 
 /* CSVボタン */
 .csv-btn {
-    height: 1.7em;
-    padding-left: 9px;
-    padding-right: 9px;
-    cursor: pointer;
-    color: var(--button-color, #F067A6);
-    background-color: var(--background-color, #F8F8F8);
-    border: 1.5px solid var(--hightlight-color, #F6ADC6);
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: 400;
+	height: 1.7em;
+	padding-left: 9px;
+	padding-right: 9px;
+	cursor: pointer;
+	color: var(--button-color, #F067A6);
+	background-color: var(--background-color, #F8F8F8);
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 4px;
+	font-size: 16px;
+	font-weight: 400;
 }
 
 /* CSVボタンホバー */
 .csv-btn:hover {
-    color: #ffffff;
-    background-color: #F6ADC6;
+	color: #ffffff;
+	background-color: #F6ADC6;
 }
 
 /* 集計カード配置 */
 .summary-dashboard {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 22px;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 12px;
+	margin-bottom: 22px;
 }
 
 /* 集計カード */
 .summary-count-card {
-    width: 24%;
-    min-height: 88px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px;
-    background-color: #ffffff;
-    border: 1px solid #e1e5e9;
-    border-radius: 8px;
-    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+	min-height: 88px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
 }
 
 /* 集計カード画像 */
 .summary-count-card img {
-    width: 48px;
-    height: 48px;
-    object-fit: contain;
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+	flex: 0 0 auto;
+}
+
+/* 集計テキスト */
+.summary-count-text {
+	min-width: 0;
 }
 
 /* 集計ラベル */
 .summary-count-label {
-    display: block;
-    margin-bottom: 2px;
-    color: var(--paragraph-color, #000000);
-    font-size: 13px;
-    font-weight: 500;
+	display: block;
+	margin-bottom: 2px;
+	color: var(--paragraph-color, #000000);
+	font-size: 13px;
+	font-weight: 500;
+	white-space: nowrap;
 }
 
 /* 集計値 */
 .summary-count-value {
-    color: var(--paragraph-color, #000000);
-    font-size: 28px;
-    font-weight: 500;
-    line-height: 1.2;
+	color: var(--paragraph-color, #000000);
+	font-size: 28px;
+	font-weight: 500;
+	line-height: 1.2;
 }
 
 /* 単位 */
 .summary-count-unit {
-    margin-left: 2px;
-    color: var(--paragraph-color, #000000);
-    font-size: 13px;
-    font-weight: 400;
+	margin-left: 2px;
+	color: var(--paragraph-color, #000000);
+	font-size: 13px;
+	font-weight: 400;
 }
 
-/* 2列配置 */
-.summary-two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 22px;
+/* 案件別とメンバー別の縦配置 */
+.summary-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+	margin-bottom: 22px;
 }
 
 /* カード */
 .summary-card {
-    padding: 18px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    box-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+	padding: 18px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* 表用カード */
+.summary-table-card,
+.summary-detail-card {
+	width: 100%;
 }
 
 /* カード見出し */
 .summary-card-header {
-    margin-bottom: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 14px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #f1d8e4;
 }
 
 /* カード見出し文字 */
 .summary-card-header h2 {
-    margin: 0;
-    color: var(--paragraph-color, #000000);
-    font-size: 18px;
-    font-weight: 500;
+	margin: 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 18px;
+	font-weight: 500;
 }
 
 /* テーブル横スクロール */
 .summary-table-wrap {
-    overflow-x: auto;
+	width: 100%;
+	overflow-x: auto;
 }
 
 /* テーブル */
 .summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
+	width: 100% !important;
+	min-width: 100%;
+	margin: 0 !important;
+	border-collapse: collapse !important;
+	table-layout: fixed;
+	background-color: #ffffff;
 }
 
 /* DataTables対策 */
 .summary-table.dataTable {
-    border-collapse: collapse;
+	width: 100% !important;
+	border-collapse: collapse !important;
+}
+
+/* Bootstrapテーブル対策 */
+.summary-page table.summary-table,
+.summary-page table.summary-table.table,
+.summary-page table.summary-table.table-bordered {
+	margin-bottom: 0;
+	border: none;
 }
 
 /* テーブル見出し */
 .summary-table th {
-    padding: 10px 12px;
-    color: var(--paragraph-color, #000000);
-    background-color: #ffffff;
-    border-top: 1px solid #e1e5e9;
-    border-bottom: 1px solid #e1e5e9;
-    border-left: none;
-    border-right: none;
-    text-align: left;
-    white-space: nowrap;
-    font-size: 14px;
-    font-weight: 500;
+	padding: 10px 12px !important;
+	color: var(--paragraph-color, #000000) !important;
+	background-color: #fff7fb !important;
+	border-top: none !important;
+	border-bottom: 1px solid #f1d8e4 !important;
+	border-left: none !important;
+	border-right: none !important;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 14px;
+	font-weight: 500;
 }
 
 /* テーブル本文 */
 .summary-table td {
-    padding: 9px 12px;
-    color: var(--paragraph-color, #000000);
-    border-top: 1px solid #e1e5e9;
-    border-bottom: 1px solid #e1e5e9;
-    border-left: none;
-    border-right: none;
-    vertical-align: middle;
-    font-size: 14px;
-    font-weight: 400;
+	padding: 10px 12px !important;
+	color: var(--paragraph-color, #000000) !important;
+	background-color: #ffffff;
+	border-top: none !important;
+	border-bottom: 1px solid #f1d8e4 !important;
+	border-left: none !important;
+	border-right: none !important;
+	vertical-align: middle;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.6;
+	word-break: break-word;
+}
+
+/* テーブル行ホバー */
+.summary-table tbody tr:hover td {
+	background-color: #fff7fb;
+}
+
+/* 数値セル */
+.summary-number-cell {
+	text-align: right;
+	white-space: nowrap;
+}
+
+/* 作業内容セル */
+.summary-content-cell {
+	white-space: normal;
+	word-break: break-word;
+}
+
+/* 案件別テーブル列幅 */
+.summary-project-table .summary-col-code {
+	width: 16%;
+}
+
+.summary-project-table .summary-col-name {
+	width: 42%;
+}
+
+.summary-project-table .summary-col-hours {
+	width: 14%;
+}
+
+.summary-project-table .summary-col-rate {
+	width: 14%;
+}
+
+/* メンバー別テーブル列幅 */
+.summary-member-table .summary-col-member {
+	width: 36%;
+}
+
+.summary-member-table .summary-col-hours {
+	width: 18%;
+}
+
+.summary-member-table .summary-col-count {
+	width: 16%;
+}
+
+.summary-member-table .summary-col-rate {
+	width: 12%;
+}
+
+/* 工数明細テーブル列幅 */
+.summary-worklog-table .summary-col-date {
+	width: 12%;
+}
+
+.summary-worklog-table .summary-col-project {
+	width: 20%;
+}
+
+.summary-worklog-table .summary-col-task {
+	width: 20%;
+}
+
+.summary-worklog-table .summary-col-user {
+	width: 12%;
+}
+
+.summary-worklog-table .summary-col-workhours {
+	width: 9%;
+}
+
+.summary-worklog-table .summary-col-content {
+	width: 27%;
 }
 
 /* 明細検索 */
 .summary-detail-search {
-    display: grid;
-    grid-template-columns: 1fr 120px;
-    gap: 12px;
-    align-items: end;
-    margin-bottom: 14px;
+	display: grid;
+	grid-template-columns: 1fr 120px;
+	gap: 12px;
+	align-items: end;
+	margin-bottom: 14px;
 }
 
 /* 明細検索ラベル */
 .summary-detail-search label {
-    grid-column: 1 / -1;
+	grid-column: 1 / -1;
 }
 
 /* キーワード入力枠 */
 .keyword-input-wrap {
-    position: relative;
+	position: relative;
 }
 
 /* 検索アイコン */
 .search-icon {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    color: #9ca3af;
-    font-size: 18px;
-    transform: translateY(-50%);
+	position: absolute;
+	left: 12px;
+	top: 50%;
+	color: #9ca3af;
+	font-size: 18px;
+	transform: translateY(-50%);
 }
 
 /* 明細検索入力 */
 .keyword-input-wrap input {
-    width: 100%;
-    height: 38px;
-    padding: 0 12px 0 38px;
-    color: var(--paragraph-color, #000000);
-    background-color: #ffffff;
-    border: 1.5px solid #e1e5e9;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 400;
+	width: 100%;
+	height: 38px;
+	padding: 0 12px 0 38px;
+	color: var(--paragraph-color, #000000);
+	background-color: #ffffff;
+	border: 1.5px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 400;
+	box-sizing: border-box;
 }
 
 /* 明細検索入力フォーカス */
 .keyword-input-wrap input:focus {
-    outline: none;
-    border-color: #eeeeee;
-    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);
+	outline: none;
+	border-color: #eeeeee;
+	box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.20);
+}
+
+/* クリアボタン */
+.summary-detail-search .clear-btn {
+	height: 38px;
+	padding-left: 16px;
+	padding-right: 16px;
+}
+
+/* DataTables外枠 */
+.summary-page .dataTables_wrapper {
+	width: 100%;
 }
 
 /* DataTables検索欄非表示 */
-.dataTables_filter {
-    display: none;
+.summary-page .dataTables_filter {
+	display: none;
+}
+
+/* DataTables件数切替非表示 */
+.summary-page .dataTables_length {
+	display: none;
 }
 
 /* DataTables情報 */
-.dataTables_info {
-    margin: 12px 0 8px;
-    color: #5f6b7a;
-    font-size: 13px;
-    font-weight: 400;
+.summary-page .dataTables_info {
+	margin: 12px 0 8px;
+	color: #5f6b7a;
+	font-size: 13px;
+	font-weight: 400;
 }
 
 /* DataTablesページャー */
-.dataTables_paginate {
-    margin: 18px 0 0;
-    text-align: center;
+.summary-page .dataTables_paginate {
+	margin: 18px 0 0;
+	text-align: center;
 }
 
 /* DataTablesページボタン */
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-    min-width: 38px;
-    min-height: 34px;
-    margin: 0 3px;
-    padding: 6px 10px;
-    color: var(--paragraph-color, #000000) !important;
-    background: #ffffff !important;
-    border: 1px solid #e1e5e9 !important;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: 400;
+.summary-page .dataTables_wrapper .dataTables_paginate .paginate_button {
+	min-width: 38px;
+	min-height: 34px;
+	margin: 0 3px;
+	padding: 6px 10px;
+	color: var(--paragraph-color, #000000) !important;
+	background: #ffffff !important;
+	border: 1px solid #e1e5e9 !important;
+	border-radius: 4px;
+	font-size: 13px;
+	font-weight: 400;
 }
 
 /* 選択中ページボタン */
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-    color: #ffffff !important;
-    background: var(--button-color, #F067A6) !important;
-    border-color: var(--button-color, #F067A6) !important;
+.summary-page .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+	color: #ffffff !important;
+	background: var(--button-color, #F067A6) !important;
+	border-color: var(--button-color, #F067A6) !important;
 }
 
 /* 空データ */
-.dataTables_empty {
-    padding: 28px !important;
-    color: #9ca3af !important;
-    text-align: center !important;
-    font-size: 14px !important;
-    font-weight: 400 !important;
+.summary-page .dataTables_empty {
+	padding: 28px !important;
+	color: #9ca3af !important;
+	text-align: center !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
 }
 
 /* =========================================
@@ -624,4 +757,295 @@
 .home-progress-cell span {
 	font-size: 12px; /* 文字サイズ指定 進捗率 */
 	font-weight: 400; /* 文字太さ指定 進捗率 */
+}
+
+/* =========================================
+   パスワードリセット画面
+========================================= */
+
+/* 画面全体 */
+.password-reset-page {
+	background-color: #fef9fb;
+}
+
+/* メイン領域 */
+.password-reset-main {
+	width: min(1000px, calc(100% - 40px));
+	margin: 0 auto;
+	padding: 40px 50px;
+	min-height: 600px;
+	background-color: #fff0f9;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;
+}
+
+/* 画面上部 */
+.password-reset-hero {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: 24px;
+	padding: 20px 24px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* 画面上部左側 */
+.password-reset-hero-left {
+	display: flex;
+	align-items: center;
+	gap: 22px;
+}
+
+/* ゾウ画像 */
+.password-reset-elephant {
+	width: 95px;
+	height: auto;
+	display: block;
+}
+
+/* タイトル領域 */
+.password-reset-title-area {
+	min-width: 0;
+}
+
+/* タイトル */
+.password-reset-title {
+	margin: 0;
+	color: var(--headline-color, #EF5B9C);
+	font-size: 32px;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+}
+
+/* リード文 */
+.password-reset-lead {
+	margin: 8px 0 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 15px;
+	font-weight: 400;
+}
+
+/* 説明ボックス */
+.password-reset-guide {
+	width: 360px;
+	padding: 12px 16px;
+	color: #5f6b7a;
+	background-color: #ffffff;
+	border: 2px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.7;
+}
+
+/* メッセージ共通 */
+.password-reset-message {
+	margin-bottom: 18px;
+	padding: 12px 14px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* エラーメッセージ */
+.password-reset-message-error {
+	color: #991b1b;
+	background-color: #fee2e2;
+	border: 1px solid #fecaca;
+}
+
+/* 成功メッセージ */
+.password-reset-message-success {
+	color: #166534;
+	background-color: #dcfce7;
+	border: 1px solid #86efac;
+}
+
+/* 入力カード */
+.password-reset-card {
+	width: 620px;
+	margin: 0 auto;
+	padding: 28px 32px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* フォーム */
+.password-reset-form {
+	margin: 0;
+}
+
+/* 対象メンバー表示 */
+.password-reset-target {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 22px;
+	padding: 16px;
+	background-color: #fff7fb;
+	border: 1px solid #ffe0ec;
+	border-radius: 10px;
+}
+
+/* 対象メンバーアイコン */
+.password-reset-target-icon {
+	width: 54px;
+	height: 54px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+}
+
+/* 対象メンバーアイコン画像 */
+.password-reset-target-icon img {
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+}
+
+/* 対象メンバー情報 */
+.password-reset-target-info {
+	min-width: 0;
+}
+
+/* 対象メンバーラベル */
+.password-reset-target-label {
+	margin: 0 0 2px;
+	color: #5f6b7a;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+/* 対象メンバー名 */
+.password-reset-target-name {
+	margin: 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 20px;
+	font-weight: 600;
+}
+
+/* 対象メンバー詳細 */
+.password-reset-target-detail {
+	margin: 4px 0 0;
+	color: #5f6b7a;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+/* 区切り */
+.password-reset-separator {
+	margin: 0 8px;
+	color: #c0c4cc;
+}
+
+/* 入力項目 */
+.password-reset-field {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	margin-bottom: 18px;
+}
+
+/* 入力ラベル */
+.password-reset-field label {
+	color: var(--paragraph-color, #000000);
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* 入力欄 */
+.password-reset-input {
+	width: 100%;
+	height: 40px;
+	padding: 0 12px;
+	color: var(--paragraph-color, #000000);
+	background-color: #ffffff;
+	border: 1.5px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 400;
+	box-sizing: border-box;
+}
+
+/* 入力欄フォーカス */
+.password-reset-input:focus {
+	outline: none;
+	border-color: #eeeeee;
+	box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.20);
+}
+
+/* 注意書き */
+.password-reset-note {
+	margin: 2px 0 22px;
+	padding: 12px 14px;
+	background-color: #fff7fb;
+	border: 1px solid #ffe0ec;
+	border-radius: 8px;
+}
+
+/* 注意書き文字 */
+.password-reset-note p {
+	margin: 0;
+	color: #5f6b7a;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.7;
+}
+
+/* ボタン領域 */
+.password-reset-button-row {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+/* ボタン共通 */
+.password-reset-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	min-width: 96px;
+	padding: 0 18px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+/* 戻るボタン */
+.password-reset-button-sub {
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+}
+
+/* リセットボタン */
+.password-reset-button-main {
+	color: var(--button-text-color, #ffffff);
+	background-color: var(--button-color, #F067A6);
+	border: 1.5px solid var(--button-color, #F067A6);
+}
+
+/* 戻るボタンホバー */
+.password-reset-button-sub:hover {
+	color: #ffffff;
+	background-color: var(--hightlight-color, #F6ADC6);
+}
+
+/* リセットボタンホバー */
+.password-reset-button-main:hover {
+	background-color: #EF5B9C;
+	border-color: #EF5B9C;
 }
