@@ -6,6 +6,7 @@ import java.util.List;
 
 import dao.ProjectsDAO;
 import dao.TaskDAO;
+import dao.WorkLogDAO;
 import model.DashboardDTO;
 import model.ProjectsDTO;
 import model.TaskDTO;
@@ -20,11 +21,26 @@ public class DashboardService extends DBAccess {
      * ダッシュボード表示用の件数と一覧をまとめて取得
      * @param userId ログインユーザーID
      * @return ダッシュボード表示用DTO
+     * @throws SQLException 
      */
-    public DashboardDTO getDashboard(int userId) {
+    public DashboardDTO getDashboard(int userId) throws SQLException {
+    	
+        // DB接続を開始
+        access();
+
 
         // 戻り値用DTOを作成
         DashboardDTO dashboardDto = new DashboardDTO();
+        
+        //工数ログDAOを作成する
+        WorkLogDAO workLogDao = new WorkLogDAO(conn);
+        
+        try {
+			dashboardDto.setThisMonthWorkHours(workLogDao.sumThisMonthByUserId(userId));
+		} catch (SQLException e) {
+			// TODO 自動生成された catch ブロック
+			e.printStackTrace();
+		}
 
         // ユーザーIDが不正な場合は空DTOを返す
         if (userId <= 0) {
@@ -226,4 +242,8 @@ public class DashboardService extends DBAccess {
         }
 
         return taskList;
-    }}
+    }
+    
+
+    
+}

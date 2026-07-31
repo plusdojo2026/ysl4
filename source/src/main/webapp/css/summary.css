@@ -360,59 +360,268 @@
     font-weight: 400 !important;
 }
 
-/* タブレット幅 */
-@media (max-width: 900px) {
-    .summary-main {
-        width: min(100% - 24px, 1000px);
-        padding: 28px 24px;
-    }
+/* =========================================
+   ホーム画面
+========================================= */
 
-    .summary-dashboard {
-        flex-wrap: wrap;
-    }
-
-    .summary-count-card {
-        width: calc(50% - 6px);
-    }
-
-    .summary-two-column {
-        grid-template-columns: 1fr;
-    }
-
-    .summary-search-grid {
-        grid-template-columns: 1fr;
-    }
+/* ホーム画面全体 */
+.home-page {
+	background-color: #fef9fb;
 }
 
-/* スマホ幅 */
-@media (max-width: 640px) {
-    .summary-main {
-        width: min(100% - 16px, 1000px);
-        padding: 24px 16px;
-    }
+/* ホームメイン領域 */
+.home-main {
+	width: min(1000px, calc(100% - 40px));
+	margin: 0 auto;
+	padding: 40px 50px;
+	min-height: 600px;
+	background-color: #fff0f9;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;
+}
 
-    .summary-hero {
-        grid-template-columns: 1fr;
-    }
+/* 上部歓迎エリア */
+.welcome-section {
+	margin-bottom: 24px;
+}
 
-    .summary-elephant {
-        width: 80px;
-    }
+/* 歓迎エリア内側 */
+.welcome-text {
+	display: flex;
+	align-items: center;
+	gap: 22px;
+}
 
-    .summary-title {
-        font-size: 26px;
-    }
+/* ゾウ画像 */
+.welcome-icon {
+	width: 120px;
+	height: auto;
+	display: block;
+}
 
-    .summary-dashboard {
-        display: block;
-    }
+/* 歓迎メッセージ */
+.welcome-message {
+	min-width: 0;
+}
 
-    .summary-count-card {
-        width: 100%;
-        margin-bottom: 10px;
-    }
+/* ホームタイトル */
+.home-title {
+	margin: 0;
+	color: var(--headline-color, #EF5B9C);
+	font-size: 30px; /* 文字サイズ指定 ホームタイトル */
+	font-weight: 600; /* 文字太さ指定 ホームタイトル */
+	letter-spacing: 0.03em;
+}
 
-    .summary-detail-search {
-        grid-template-columns: 1fr;
-    }
+/* ホーム説明文 */
+.home-lead {
+	margin: 8px 0 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 15px; /* 文字サイズ指定 説明文 */
+	font-weight: 400; /* 文字太さ指定 説明文 */
+}
+
+/* ホーム用サマリーカード配置 */
+.home-page .summary-card-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 14px;
+	margin-bottom: 26px;
+}
+
+/* ホーム用サマリーカード */
+.home-page .summary-card {
+	position: relative;
+	min-height: 110px;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px 16px 28px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* カードアイコン */
+.home-page .card-icon {
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+}
+
+/* カードアイコン画像 */
+.home-page .card-icon img {
+	width: 46px;
+	height: 46px;
+	object-fit: contain;
+}
+
+/* カード情報 */
+.home-page .summary-info {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+/* カードラベル */
+.home-page .summary-label {
+	margin: 0;
+	color: #5f6b7a;
+	font-size: 13px; /* 文字サイズ指定 カードラベル */
+	font-weight: 500; /* 文字太さ指定 カードラベル */
+}
+
+/* カード値 */
+.home-page .summary-value {
+	margin: 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 14px; /* 文字サイズ指定 カード値 */
+	font-weight: 400; /* 文字太さ指定 カード値 */
+}
+
+/* カード数値 */
+.home-page .summary-value span {
+	color: var(--paragraph-color, #000000);
+	font-size: 28px; /* 文字サイズ指定 カード数値 */
+	font-weight: 600; /* 文字太さ指定 カード数値 */
+	line-height: 1.2;
+}
+
+/* 警告数値 */
+.home-page .warning-text span {
+	color: #d64545;
+}
+
+/* カードリンク */
+.home-page .card-link {
+	position: absolute;
+	right: 14px;
+	bottom: 10px;
+	color: var(--button-color, #F067A6);
+	font-size: 12px; /* 文字サイズ指定 カードリンク */
+	font-weight: 400; /* 文字太さ指定 カードリンク */
+}
+
+/* 下部2列グリッド */
+.dashboard-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 18px;
+}
+
+/* 一覧カード */
+.section-card {
+	padding: 18px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* 一覧カード上部 */
+.section-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 12px;
+}
+
+/* 一覧カードタイトル */
+.section-header h2 {
+	margin: 0;
+	color: var(--paragraph-color, #000000);
+	font-size: 18px; /* 文字サイズ指定 セクションタイトル */
+	font-weight: 600; /* 文字太さ指定 セクションタイトル */
+}
+
+/* 一覧リンク */
+.text-link {
+	color: var(--button-color, #F067A6);
+	font-size: 13px; /* 文字サイズ指定 一覧リンク */
+	font-weight: 400; /* 文字太さ指定 一覧リンク */
+}
+
+/* テーブル横スクロール */
+.table-wrap {
+	overflow-x: auto;
+}
+
+/* ホームテーブル */
+.data-table {
+	width: 100%;
+	border-collapse: collapse;
+	background-color: #ffffff;
+}
+
+/* ホームテーブル見出し */
+.data-table th {
+	padding: 9px 10px;
+	color: var(--paragraph-color, #000000);
+	background-color: #fff7fb;
+	border-top: 1px solid #f1d8e4;
+	border-bottom: 1px solid #f1d8e4;
+	text-align: left;
+	white-space: nowrap;
+	font-size: 13px; /* 文字サイズ指定 テーブル見出し */
+	font-weight: 500; /* 文字太さ指定 テーブル見出し */
+}
+
+/* ホームテーブル本文 */
+.data-table td {
+	padding: 9px 10px;
+	color: var(--paragraph-color, #000000);
+	border-bottom: 1px solid #f1d8e4;
+	vertical-align: middle;
+	font-size: 13px; /* 文字サイズ指定 テーブル本文 */
+	font-weight: 400; /* 文字太さ指定 テーブル本文 */
+}
+
+/* バッジ */
+.badge {
+	display: inline-block;
+	padding: 2px 8px;
+	color: var(--button-color, #F067A6);
+	background-color: #fff0f8;
+	border: 1px solid #ffd7e8;
+	border-radius: 999px;
+	font-size: 12px; /* 文字サイズ指定 バッジ */
+	font-weight: 500; /* 文字太さ指定 バッジ */
+	white-space: nowrap;
+}
+
+/* 期限超過行 */
+.overdue-row td {
+	background-color: #fff6f6;
+}
+
+/* 空データ */
+.empty-cell {
+	padding: 24px !important;
+	color: #9ca3af !important;
+	text-align: center !important;
+	font-size: 13px !important; /* 文字サイズ指定 空データ */
+	font-weight: 400 !important; /* 文字太さ指定 空データ */
+}
+
+/* 進捗セル */
+.home-progress-cell {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+/* 進捗バー */
+.home-progress-cell progress {
+	width: 72px;
+	height: 8px;
+}
+
+/* 進捗率文字 */
+.home-progress-cell span {
+	font-size: 12px; /* 文字サイズ指定 進捗率 */
+	font-weight: 400; /* 文字太さ指定 進捗率 */
 }
