@@ -699,3 +699,633 @@ font-weight: 400;
     font-weight: 500 !important;
     font-family: "Yu Gothic UI", "Meiryo", sans-serif !important;
 }
+
+/* ========================================
+   メンバー登録画面
+======================================== */
+
+/* 登録画面用の色定義 */
+.member-regist-page {
+    --member-regist-main: var(--hightlight-color, #f6adc6);
+    --member-regist-dark: var(--button-color, #f067a6);
+    --member-regist-title: var(--headline-color, #ef5b9c);
+    --member-regist-bg: #fff7fb;
+    --member-regist-form-bg: #fff0f7;
+    --member-regist-card: #ffffff;
+    --member-regist-border: #ecdde4;
+    --member-regist-input-border: #cfd4da;
+    --member-regist-text: #333333;
+    --member-regist-muted: #6f6f6f;
+    --member-regist-shadow: 0 4px 16px rgba(97, 96, 96, 0.12);
+
+    min-height: 100vh;
+    margin: 0;
+    color: var(--member-regist-text);
+    background-color: var(--member-regist-bg);
+}
+
+/* 全要素の幅計算を統一 */
+.member-regist-page *,
+.member-regist-page *::before,
+.member-regist-page *::after {
+    box-sizing: border-box;
+}
+
+/* メイン領域 */
+.member-regist-page .member-regist-main {
+    width: calc(100% - 48px);
+    max-width: 1050px;
+    margin: 28px auto 56px;
+    padding: 0;
+}
+
+/* ========================================
+   タイトル
+======================================== */
+
+/* タイトルカード */
+.member-regist-page .member-regist-headline {
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin: 0 0 24px;
+    padding: 26px 36px;
+    background-color: #ffffff;
+    border: 1px solid var(--member-regist-border);
+    border-radius: 18px;
+    box-shadow: var(--member-regist-shadow);
+}
+
+/* タイトル側 */
+.member-regist-page .member-regist-title-area {
+    min-width: 0;
+}
+
+/* 管理者専用ラベル */
+.member-regist-page .member-regist-admin-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 4px 12px;
+    color: var(--member-regist-dark);
+    background-color: #fff5f9;
+    border: 1px solid var(--member-regist-main);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* タイトル */
+.member-regist-page .member-regist-title {
+    margin: 0;
+    color: var(--member-regist-title);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.03em;
+}
+
+/* サブタイトル */
+.member-regist-page .member-regist-subtitle {
+    margin: 8px 0 0;
+    color: var(--member-regist-muted);
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+/* 右側案内 */
+.member-regist-page .member-regist-guide {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+/* 案内文 */
+.member-regist-page .member-regist-guide-text {
+    text-align: right;
+}
+
+/* 案内見出し */
+.member-regist-page .member-regist-guide-text strong {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--member-regist-dark);
+    font-size: 15px;
+}
+
+/* 案内補足 */
+.member-regist-page .member-regist-guide-text p {
+    margin: 0;
+    color: var(--member-regist-muted);
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+/* ゾウ画像 */
+.member-regist-page .member-regist-elephant {
+    width: 115px;
+    height: 100px;
+    display: block;
+    object-fit: contain;
+}
+
+/* ========================================
+   メッセージ
+======================================== */
+
+/* エラーメッセージ */
+.member-regist-page .member-regist-error {
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 13px 16px;
+    color: #a61b1b;
+    background-color: #fff0f0;
+    border: 1px solid #f1b7b7;
+    border-left: 5px solid #d9534f;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* 成功メッセージ */
+.member-regist-page .member-regist-message {
+    width: 100%;
+    margin: 0 0 18px;
+    padding: 13px 16px;
+    color: #246c3c;
+    background-color: #effaf3;
+    border: 1px solid #bfe8cd;
+    border-left: 5px solid #3aa76d;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   フォーム外枠
+======================================== */
+
+/* フォーム全体 */
+.member-regist-page .member-regist-form {
+    width: 100%;
+    margin: 0;
+    padding: 28px;
+    background-color: var(--member-regist-form-bg);
+    border: 1px solid #f1dce6;
+    border-radius: 20px;
+    box-shadow: var(--member-regist-shadow);
+}
+
+/* 入力区分 */
+.member-regist-page .member-form-section {
+    width: 100%;
+    margin: 0 0 22px;
+    padding: 24px 26px;
+    background-color: var(--member-regist-card);
+    border: 1px solid var(--member-regist-border);
+    border-radius: 12px;
+}
+
+/* 最後の入力区分 */
+.member-regist-page .member-form-section:last-of-type {
+    margin-bottom: 0;
+}
+
+/* 区分タイトル */
+.member-regist-page .member-form-section-title {
+    margin: 0 0 20px;
+    padding: 0 0 11px;
+    color: var(--member-regist-title);
+    border-bottom: 1px solid #efcfdd;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* ========================================
+   入力項目
+======================================== */
+
+/* 2列配置 */
+.member-regist-page .member-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 26px;
+}
+
+/* 入力項目 */
+.member-regist-page .member-field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* 横幅全体 */
+.member-regist-page .member-field-full {
+    grid-column: 1 / -1;
+}
+
+/* ラベル */
+.member-regist-page .member-field > label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 24px;
+    margin: 0 0 7px;
+    padding: 0;
+    color: var(--member-regist-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* 必須ラベル */
+.member-regist-page .member-required {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    height: 20px;
+    margin: 0;
+    padding: 0 6px;
+    color: #ffffff;
+    background-color: var(--member-regist-dark);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* 入力欄共通 */
+.member-regist-page .member-field input[type="text"],
+.member-regist-page .member-field input[type="email"],
+.member-regist-page .member-field input[type="password"] {
+    width: 100%;
+    height: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0 13px;
+    color: var(--member-regist-text);
+    background-color: #ffffff;
+    border: 1px solid var(--member-regist-input-border);
+    border-radius: 6px;
+    box-shadow: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 44px;
+    appearance: none;
+}
+
+/* 入力欄ホバー */
+.member-regist-page .member-field input[type="text"]:hover,
+.member-regist-page .member-field input[type="email"]:hover,
+.member-regist-page .member-field input[type="password"]:hover {
+    border-color: #b8bec5;
+}
+
+/* 入力欄フォーカス */
+.member-regist-page .member-field input[type="text"]:focus,
+.member-regist-page .member-field input[type="email"]:focus,
+.member-regist-page .member-field input[type="password"]:focus {
+    border-color: var(--member-regist-dark);
+    box-shadow: 0 0 0 3px rgba(240, 103, 166, 0.13);
+}
+
+/* 補足文 */
+.member-regist-page .member-field-note {
+    min-height: 18px;
+    margin: 6px 0 0;
+    color: var(--member-regist-muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ========================================
+   パスワード
+======================================== */
+
+/* パスワード入力枠 */
+.member-regist-page .member-password-wrap {
+    position: relative;
+    width: 100%;
+}
+
+/* 表示ボタン分の余白 */
+.member-regist-page .member-password-wrap input {
+    padding-right: 72px;
+}
+
+/* 表示切替ボタン */
+.member-regist-page .member-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    width: 55px;
+    min-width: 55px;
+    height: 30px;
+    min-height: 30px;
+    margin: 0;
+    padding: 0;
+    color: var(--member-regist-dark);
+    background-color: #ffffff;
+    border: 1px solid var(--member-regist-main);
+    border-radius: 5px;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 28px;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+
+/* 表示切替ボタンホバー */
+.member-regist-page .member-password-toggle:hover {
+    color: #ffffff;
+    background-color: var(--member-regist-main);
+    border-color: var(--member-regist-main);
+}
+
+/* 不一致 */
+.member-regist-page .member-password-message.is-error {
+    color: #b42318;
+}
+
+/* 一致 */
+.member-regist-page .member-password-message.is-success {
+    color: #287d48;
+}
+
+/* ========================================
+   権限設定
+======================================== */
+
+/* 権限ラベル */
+.member-regist-page .member-form-section > .member-field > label {
+    margin-bottom: 10px;
+}
+
+/* 権限カード配置 */
+.member-regist-page .member-radio-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* 権限カード */
+.member-regist-page .member-radio-card {
+    position: relative;
+    display: block;
+    margin: 0;
+    cursor: pointer;
+}
+
+/* 標準ラジオボタンを非表示 */
+.member-regist-page .member-radio-card > input[type="radio"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    padding: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* 権限カード本体 */
+.member-regist-page .member-radio-content {
+    min-height: 84px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px 18px 16px 48px;
+    background-color: #ffffff;
+    border: 1px solid var(--member-regist-input-border);
+    border-radius: 8px;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* 独自ラジオボタン */
+.member-regist-page .member-radio-content::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    width: 18px;
+    height: 18px;
+    background-color: #ffffff;
+    border: 2px solid #bfc5ca;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+/* 選択中の中心点 */
+.member-regist-page .member-radio-content::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 23px;
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+
+/* 権限名 */
+.member-regist-page .member-radio-content strong {
+    display: block;
+    margin: 0 0 5px;
+    color: var(--member-regist-text);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* 権限説明 */
+.member-regist-page .member-radio-content small {
+    display: block;
+    color: var(--member-regist-muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* 選択中のカード */
+.member-regist-page
+.member-radio-card
+input[type="radio"]:checked
++ .member-radio-content {
+    background-color: #fff6fa;
+    border-color: var(--member-regist-dark);
+    box-shadow: 0 0 0 3px rgba(240, 103, 166, 0.11);
+}
+
+/* 選択中の外枠 */
+.member-regist-page
+.member-radio-card
+input[type="radio"]:checked
++ .member-radio-content::before {
+    border-color: var(--member-regist-dark);
+}
+
+/* 選択中の中心点 */
+.member-regist-page
+.member-radio-card
+input[type="radio"]:checked
++ .member-radio-content::after {
+    background-color: var(--member-regist-dark);
+}
+
+/* キーボード操作 */
+.member-regist-page
+.member-radio-card
+input[type="radio"]:focus-visible
++ .member-radio-content {
+    outline: 2px solid var(--member-regist-main);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   有効状態
+======================================== */
+
+/* 有効状態案内 */
+.member-regist-page .member-valid-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0 0;
+    padding: 12px 14px;
+    background-color: #f7faf8;
+    border: 1px solid #d5e9dc;
+    border-radius: 7px;
+}
+
+/* 有効ラベル */
+.member-regist-page .member-valid-mark {
+    min-width: 48px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0 10px;
+    color: #ffffff;
+    background-color: #38a169;
+    border-radius: 13px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* 有効状態説明 */
+.member-regist-page .member-valid-info p {
+    margin: 0;
+    color: #53635a;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* ========================================
+   操作ボタン
+======================================== */
+
+/* ボタン領域 */
+.member-regist-page .member-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    margin: 26px 0 0;
+    padding: 22px 0 0;
+    border-top: 1px solid #edcedb;
+}
+
+/* ボタン共通 */
+.member-regist-page .member-form-actions a,
+.member-regist-page .member-form-actions button {
+    width: auto;
+    min-width: 142px;
+    height: 42px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 18px;
+    border-radius: 5px;
+    box-shadow: none;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 一覧ボタン */
+.member-regist-page .member-list-button {
+    color: #666666;
+    background-color: #ffffff;
+    border: 1px solid #bfc5ca;
+}
+
+/* 保存終了ボタン */
+.member-regist-page .member-save-button {
+    color: var(--member-regist-dark);
+    background-color: #ffffff;
+    border: 1px solid var(--member-regist-main);
+}
+
+/* 続けて登録ボタン */
+.member-regist-page .member-continue-button {
+    min-width: 190px;
+    color: #ffffff;
+    background-color: var(--member-regist-dark);
+    border: 1px solid var(--member-regist-dark);
+}
+
+/* 一覧ボタンホバー */
+.member-regist-page .member-list-button:hover {
+    color: #333333;
+    background-color: #f5f5f5;
+    border-color: #aeb4ba;
+}
+
+/* 保存終了ボタンホバー */
+.member-regist-page .member-save-button:hover {
+    color: #ffffff;
+    background-color: var(--member-regist-main);
+    border-color: var(--member-regist-main);
+}
+
+/* 続けて登録ボタンホバー */
+.member-regist-page .member-continue-button:hover {
+    color: #ffffff;
+    background-color: var(--member-regist-main);
+    border-color: var(--member-regist-main);
+}
+
+/* 押下時 */
+.member-regist-page .member-form-actions a:active,
+.member-regist-page .member-form-actions button:active,
+.member-regist-page .member-password-toggle:active {
+    transform: translateY(1px);
+}
+
+/* フォーカス */
+.member-regist-page .member-form-actions a:focus-visible,
+.member-regist-page .member-form-actions button:focus-visible,
+.member-regist-page .member-password-toggle:focus-visible {
+    outline: 2px solid var(--member-regist-main);
+    outline-offset: 2px;
+}

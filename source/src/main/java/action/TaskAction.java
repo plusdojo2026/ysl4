@@ -218,7 +218,7 @@ public class TaskAction {
         request.setAttribute("task", taskDto);
         setFormData(new TaskService().getTaskFormData(taskDto.getProjectId()));
 
-        return JSP_TASK_FORM;
+        return JSP_TASK_DETAIL;
     }
 
     /**

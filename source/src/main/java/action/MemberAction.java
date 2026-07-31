@@ -20,8 +20,11 @@ public class MemberAction {
     /** メンバー一覧画面 */
     private static final String JSP_MEMBER_LIST = "/WEB-INF/jsp/memberList.jsp";
 
-    /** メンバー登録編集画面 */
+    /** メンバー登録画面 */
     private static final String JSP_MEMBER_FORM = "/WEB-INF/jsp/memberRegist.jsp";
+    
+    /** メンバー編集画面 */
+    private static final String JSP_MEMBER_EDIT = "/WEB-INF/jsp/memberEdit.jsp";
 
     /** パスワードリセット画面 */
     private static final String JSP_PASSWORD_RESET = "/WEB-INF/jsp/passwordReset.jsp";
@@ -94,48 +97,98 @@ public class MemberAction {
         return JSP_MEMBER_FORM;
     }
 
+
     /**
-     * メンバーを登録する
-     * @return 遷移先
+
+    * メンバーを登録する.
+    * @return 遷移先.
      */
     public String regist() {
 
+        // 管理者以外はホームへ戻す
         if (!isAdminUser()) {
-            return REDIRECT_HOME + "&msg=" + encode("管理者のみ利用できます");
+            return REDIRECT_HOME
+                    + "&msg="
+                    + encode("管理者のみ利用できます");
         }
 
+        // 画面入力から登録用DTOを作成
         UserDTO userDto = createUserDtoForRegist();
-        String errorMessage = validateForRegist(userDto);
 
+        // 確認用パスワードを取得
+        String confirmPassword = getParam("confirm_password","confirmPassword");
+
+        // 押されたボタンを取得
+        String buttonId = getParam("button_id","buttonId");
+
+        // 入力内容を確認
+        String errorMessage = validateForRegist(
+                userDto,
+                confirmPassword
+        );
+
+        // 入力エラー時は登録画面へ戻す
         if (hasText(errorMessage)) {
+
             request.setAttribute("errMsg", errorMessage);
             request.setAttribute("mode", "regist");
             request.setAttribute("user", userDto);
+
             return JSP_MEMBER_FORM;
         }
 
         UserService service = new UserService();
 
+        // ログインIDの重複を確認
         if (service.existsLoginId(userDto.getLoginId())) {
-            request.setAttribute("errMsg", "同じログインIDが既に登録されています");
+
+            request.setAttribute(
+                    "errMsg",
+                    "同じログインIDが既に登録されています"
+            );
+
             request.setAttribute("mode", "regist");
             request.setAttribute("user", userDto);
+
             return JSP_MEMBER_FORM;
         }
 
+        // メンバーを登録
         int result = service.regist(userDto);
 
-        if (result > 0) {
-            return REDIRECT_MEMBER_LIST + "&msg=" + encode("メンバーを登録しました");
+        // 登録失敗時は登録画面へ戻す
+        if (result <= 0) {
+
+            request.setAttribute(
+                    "errMsg",
+                    "メンバー登録に失敗しました"
+            );
+
+            request.setAttribute("mode", "regist");
+            request.setAttribute("user", userDto);
+
+            return JSP_MEMBER_FORM;
         }
 
-        request.setAttribute("errMsg", "メンバー登録に失敗しました");
-        request.setAttribute("mode", "regist");
-        request.setAttribute("user", userDto);
+        // 続けて登録する場合は入力欄を初期化
+        if ("保存して続けて登録".equals(buttonId)) {
 
-        return JSP_MEMBER_FORM;
+            request.setAttribute(
+                    "successMsg",
+                    "メンバーを登録しました"
+            );
+
+            request.setAttribute("mode", "regist");
+            request.setAttribute("user", new UserDTO());
+
+            return JSP_MEMBER_FORM;
+        }
+
+        // 保存終了時は一覧へ移動
+        return REDIRECT_MEMBER_LIST
+                + "&msg="
+                + encode("メンバーを登録しました");
     }
-
     /**
      * メンバー編集画面を表示する
      * @return 遷移先JSP
@@ -162,7 +215,7 @@ public class MemberAction {
         request.setAttribute("mode", "update");
         request.setAttribute("user", userDto);
 
-        return JSP_MEMBER_FORM;
+        return JSP_MEMBER_EDIT;
     }
 
     /**
@@ -182,7 +235,7 @@ public class MemberAction {
             request.setAttribute("errMsg", errorMessage);
             request.setAttribute("mode", "update");
             request.setAttribute("user", userDto);
-            return JSP_MEMBER_FORM;
+            return JSP_MEMBER_EDIT;
         }
 
         UserService service = new UserService();
@@ -196,7 +249,7 @@ public class MemberAction {
         request.setAttribute("mode", "update");
         request.setAttribute("user", userDto);
 
-        return JSP_MEMBER_FORM;
+        return JSP_MEMBER_EDIT;
     }
 
     /**
@@ -329,39 +382,59 @@ public class MemberAction {
     }
 
     /**
-     * 登録時の入力チェックを行う
-     * @param userDto ユーザーDTO
-     * @return エラーメッセージ
-     */
-    private String validateForRegist(UserDTO userDto) {
 
+    * 登録時の入力チェックを行う.
+    * @param userDto ユーザーDTO.
+    * @param confirmPassword 確認用パスワード.
+    * @return エラーメッセージ.
+     */
+    private String validateForRegist(
+            UserDTO userDto,
+            String confirmPassword
+    ) {
+
+        // ログインIDを確認
         if (!hasText(userDto.getLoginId())) {
             return "ログインIDを入力してください";
         }
 
+        // 初期パスワードを確認
         if (!hasText(userDto.getPasswordHash())) {
             return "初期パスワードを入力してください";
         }
 
+        // パスワードの文字数を確認
         if (userDto.getPasswordHash().length() < 6) {
             return "初期パスワードは6文字以上で入力してください";
         }
 
+        // 確認用パスワードを確認
+        if (!hasText(confirmPassword)) {
+            return "確認用パスワードを入力してください";
+        }
+
+        // パスワードの一致を確認
+        if (!userDto.getPasswordHash().equals(confirmPassword)) {
+            return "確認用パスワードが一致しません";
+        }
+
+        // 氏名を確認
         if (!hasText(userDto.getName())) {
             return "氏名を入力してください";
         }
 
+        // メールアドレスを確認
         if (!hasText(userDto.getEmail())) {
             return "メールアドレスを入力してください";
         }
 
+        // メールアドレス形式を確認
         if (!userDto.getEmail().contains("@")) {
             return "メールアドレスの形式が正しくありません";
         }
 
         return "";
     }
-
     /**
      * 更新時の入力チェックを行う
      * @param userDto ユーザーDTO

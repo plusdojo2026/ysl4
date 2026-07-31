@@ -1,435 +1,829 @@
-/*全体*/
+/* ========================================
+   タスク一覧画面
+======================================== */
 
-.main {
-    width: 900px;
-    margin: 20px auto;
-    padding: 25px;
-    background: #fff0f9;
-    border-radius: 30px;
-    display: grid;
+/* タスク一覧画面全体 */
+.task-list-page {
+    background-color: #fef9fb;
+}
+
+/* タスク一覧のコンテンツ領域 */
+.task-list-main {
+    width: min(1000px, calc(100% - 40px));
+    margin: 24px auto 40px;
     flex: 1 0 auto;
-    /* grid-template-columns: repeat(2,1fr); 2列にする */
+}
+
+/* タイトルと集計カードを囲む領域 */
+.task-list-page .main {
+    width: 100%;
+    margin: 0 0 22px;
+    padding: 25px;
+    background-color: #fff0f9;
+    border-radius: 30px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16);
-    /* width: min(1000px, calc(100% - 40px));
-    color: var(--member-text-color);
-    margin: 0 100px 0 100px;
-	padding-left: 0px;
-	padding-right: 0px;
-	max-width: 1000px;
-	background-color: #fff0f9;
-	box-shadow: var(--member-shadow);
-	flex: 1 0 auto;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16); */
-    /* max-width: 1400px;
-	margin: 30px auto;
-	padding: 0 20px 40px; */
-    /* min-height: 600px; */
 }
 
-/* タイトルエリア */
+/* ========================================
+   タイトルエリア
+======================================== */
 
-.under-header {
+/* タイトル領域 */
+.task-list-page .under-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    background: #ffffff;
+    gap: 28px;
+    min-height: 155px;
+    margin-bottom: 25px;
+    padding: 20px 35px;
+    background-color: #ffffff;
     border-radius: 25px;
-    padding: 25px 35px;
-    margin-bottom: 25px;
 }
 
-
-.text-wrap {
-    flex: 1;
-    padding-left: 30px;
-}
-
-.text-wrap h3 {
-    font-size: 2.2rem;
-    margin: 0;
-    font-weight: bold;
-    color: #000;
-}
-
-.text-wrap h4 {
-    margin-top: 10px;
-    font-weight: normal;
-    color: #555;
-}
-
-/* 
-   ダッシュボードカード
- */
-
-.member-dashboard {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.member-count {
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    min-height: 100px;
-}
-
-.member-count img {
-    width: 55px;
-    height: 55px;
+/* タイトル画像 */
+.task-list-page .regist-elephant {
+    width: 120px;
+    height: auto;
+    flex: 0 0 auto;
     object-fit: contain;
 }
 
-.actual-member-count {
+/* タイトル文字領域 */
+.task-list-page .text-wrap {
+    min-width: 0;
+    padding-left: 0;
+    flex: 1;
+}
+
+/* タイトル */
+.task-list-page .text-wrap h3 {
+    margin: 0;
+    color: var(--headline-color);
+    font-size: 2.2rem;
+    font-weight: bold;
+}
+
+/* タイトル下の説明 */
+.task-list-page .text-wrap h4 {
+    margin: 10px 0 0;
+    color: #555555;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+/* ========================================
+   集計カード
+======================================== */
+
+/* 集計カード全体 */
+.task-list-page .member-dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin: 0;
+}
+
+/* 集計カード */
+.task-list-page .member-count {
+    min-width: 0;
+    min-height: 105px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: #ffffff;
+    border: 1px solid #f1dce5;
+    border-radius: 20px;
+}
+
+/* 集計カード画像 */
+.task-list-page .member-count img {
+    width: 55px;
+    height: 55px;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+/* 集計カード文字領域 */
+.task-list-page .member-count-text {
+    min-width: 0;
+}
+
+/* 集計カードラベル */
+.task-list-page .block-box {
+    display: block;
+    margin-bottom: 5px;
+    color: #666666;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+/* 件数と単位 */
+.task-list-page .task-count-line {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: nowrap;
+}
+
+/* 件数 */
+.task-list-page .actual-member-count {
+    margin-left: 0;
+    color: var(--headline-color);
     font-size: 2rem;
     font-weight: bold;
-    color: var(--headline-color);
-    margin-left: 5px;
+    line-height: 1;
 }
 
-.block-box {
-    display: block;
+/* 件数単位 */
+.task-list-page .task-count-unit {
+    margin-left: 4px;
+    color: #333333;
     font-size: 14px;
-    color: #666;
 }
 
-/* 
+/* ========================================
    検索エリア
- */
+======================================== */
 
-.member-search {
-    width: 900px;
-    margin: 20px auto;
-    padding: 25px;
+/* 検索カード */
+.task-list-page .member-search {
+    width: 100%;
+    margin: 0 0 22px;
+    padding: 24px 28px;
     background: #fff0f9;
     border-radius: 30px;
-    display: grid;
-    flex: 1 0 auto;
-    /* grid-template-columns: repeat(2,1fr); 2列にする */
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16);
-
-    /* width: min(1000px, calc(100% - 40px));
-    color: var(--member-text-color);
-    margin: 0 100px 0 100px;
-    padding-left: 0px;
-    padding-right: 0px;
-    max-width: 1000px;
-    background-color: white;
-    box-shadow: var(--member-shadow); */
-    
-    /* width: 100%;
-	margin: 0 auto 22px;
-	padding: 20px;
-	background-color: white;
-	border-radius: 20px; */
-    /* background: white;
-	padding: 20px;
-	border-radius: 20px;
-	margin-bottom: 25px; */
-    /* width: min(1000px, calc(100% - 40px)); */
-    /* min-height: 50px; */
-    /* color: var(--member-text-color);
-    margin: 0 100px 0 100px;
-	padding-left: 0px;
-	padding-right: 0px;
-	max-width: 1000px;
-	/* background-color: #fff0f9; */
-    /* margin-bottom: 22px;
-    padding: 20px;
-    background-color: var(--member-card-color);
-    border-radius: 5px;
-    box-shadow: var(--member-shadow); */
+    box-shadow: 2px 0 10px rgba(0,0,0,.16);
 }
 
-.member-search table {
-    width: 100%;
-}
-
-.member-search td {
-    padding: 5px;
-    font-size: 14px;
-}
-
-.keyword {
-    width: 220px;
-    height: 40px;
-    padding: 10px;
-    border: 2px solid #dedede;
-    border-radius: 8px;
-}
-
-.member-search select {
-    width: 180px;
-    height: 40px;
-    border: 2px solid #dedede;
-    border-radius: 8px;
-    padding: 5px;
-    background-color: white;
-}
-
-.submit-btn {
-    width: 150px;
-    height: 40px;
-    border-radius: 8px;
-    font-weight: bold;
-    background-color: #F6ADC6;
-}
-
-.submit-btn2 {
-    width: 100px;
-    height: 40px;
-    border-radius: 8px;
-    font-weight: bold;
-    background-color: #F6ADC6;
-}
-
-.button_edit {
+/* 1行 = ラベル + 入力欄 */
+.task-list-page .search-row {
     display: flex;
+    align-items: center;
+    margin-bottom: 14px;
 }
 
-.button_regist {
-    display: flex;
-}
-
-.clear-btn {
+/* ラベル */
+.task-list-page .search-row label {
     width: 90px;
-    height: 40px;
-    border-radius: 8px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
 }
 
-/* 
-   テーブル
- */
-
-.member-list {
-    background: #fff0f96e;
-    border-radius: 30px;
-    padding: 20px;
-    color: black;
+/* キーワード入力 */
+.task-list-page .search-row input[type="text"] {
+    width: 300px;
+    height: 44px;
+    padding: 0 14px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
 }
 
-.member-list a {
-    color: #337ab7;
+/* セレクトボックス */
+.task-list-page .search-row select {
+    width: 250px;
+    height: 44px;
+    padding: 0 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 16px;
 }
 
-.member-list a:hover {
-    text-decoration: underline;
+/* フォーカス */
+.task-list-page .search-row input:focus,
+.task-list-page .search-row select:focus {
+    outline: none;
+    border-color: var(--hightlight-color);
+    box-shadow: 0 0 0 3px rgba(246,173,198,.2);
 }
 
-.member-list table {
+/* ボタンエリア */
+.task-list-page .search-button-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+/* クリア */
+.task-list-page .search-button-area .clear-btn {
+    width: 120px;
+    height: 48px;
+    border-radius: 10px;
+}
+
+/* 自分のタスク */
+.task-list-page .search-button-area .submit-btn {
+    width: 210px;
+    height: 48px;
+    border-radius: 10px;
+}
+
+/* タスク登録 */
+.task-list-page .search-button-area .submit-btn2 {
+    width: 150px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: #fff;
+    background: var(--button-color);
+    text-decoration: none;
+}
+
+.task-list-page .search-button-area .submit-btn2:hover {
+    background: var(--hightlight-color);
+}
+/* ========================================
+   タスク一覧テーブル
+======================================== */
+
+/* テーブルを囲むカード */
+.task-list-page .member-list {
     width: 100%;
-    border-collapse: collapse;
-    overflow: hidden;
+    margin: 0;
+    padding: 20px;
+    color: #000000;
+    background-color: rgba(255, 240, 249, 0.43);
+    border-radius: 30px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.10);
+}
+
+/* 横幅が足りない場合は表だけ横スクロール */
+.task-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #ffffff;
     border-radius: 15px;
 }
 
-.member-list thead tr {
+/* タスク一覧テーブル */
+.task-list-page .task-list-table {
+    width: 100% !important;
+    min-width: 900px;
+    margin: 0 !important;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+/* テーブルヘッダー */
+.task-list-page .task-list-table thead tr {
     background-color: #fafafa;
 }
 
-.member-list th {
-    padding: 15px;
+/* 見出しセル */
+.task-list-page .task-list-table th {
+    padding: 13px 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    font-size: 13px;
     font-weight: bold;
-    border-bottom: 2px solid #ddd;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.member-list td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
+/* データセル */
+.task-list-page .task-list-table td {
+    padding: 11px 10px;
+    vertical-align: middle;
+    border: 1px solid #eeeeee;
+    font-size: 13px;
+    text-align: center;
 }
 
-.member-list tr:hover {
-    background: #fff7fa;
+/* 案件名とタスク名は左寄せ */
+.task-list-page .task-list-table td:nth-child(1),
+.task-list-page .task-list-table td:nth-child(2) {
+    text-align: left;
+}
+
+/* 行ホバー */
+.task-list-page .task-list-table tbody tr:hover {
+    background-color: #fff7fa;
+}
+
+/* テーブルリンク */
+.task-list-page .task-list-table a {
+    color: #337ab7;
+    overflow-wrap: anywhere;
+}
+
+/* テーブルリンクのホバー */
+.task-list-page .task-list-table a:hover {
+    text-decoration: underline;
+}
+
+/* 工数 */
+.task-hours-cell {
+    white-space: nowrap;
+}
+
+/* 操作列 */
+.task-operation-cell {
+    white-space: nowrap;
+}
+
+/* ステータス文字 */
+.task-status-text {
+    display: inline-block;
+    min-width: 58px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+/* 優先度文字 */
+.task-priority-text {
+    display: inline-block;
+    min-width: 35px;
+    padding: 3px 8px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+/* 期限 */
+.task-due-date {
+    white-space: nowrap;
+}
+
+/* ========================================
+   DataTables調整
+======================================== */
+
+/* DataTables全体 */
+.task-list-page .dataTables_wrapper {
+    width: 100%;
+}
+
+/* 上部と下部の操作領域 */
+.task-list-page .dataTables_wrapper .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* DataTablesが生成する検索欄を非表示 */
+.task-list-page .dataTables_filter {
+    display: none;
+}
+
+/* 表示件数 */
+.task-list-page .dataTables_length {
+    margin-bottom: 12px;
+}
+
+/* 表示件数セレクト */
+.task-list-page .dataTables_length select {
+    height: 34px;
+    padding: 0 6px;
+    background-color: #ffffff;
+    border: 1px solid #dedede;
+    border-radius: 5px;
+}
+
+/* 件数情報 */
+.task-list-page .dataTables_info {
+    padding-top: 15px;
+    font-size: 13px;
+}
+
+/* ページ送り */
+.task-list-page .dataTables_paginate {
+    padding-top: 8px;
+}
+
+/* ページ送りリンク */
+.task-list-page .pagination > li > a,
+.task-list-page .pagination > li > span {
+    color: var(--button-color);
+}
+
+/* 選択中ページ */
+.task-list-page .pagination > .active > a,
+.task-list-page .pagination > .active > a:hover,
+.task-list-page .pagination > .active > span {
+    color: #ffffff;
+    background-color: var(--button-color);
+    border-color: var(--button-color);
 }
 
 
+css
 
-/* タスク登録のCSS */
+/* ========================================
+   タスク登録画面
+======================================== */
 
-.task-container {
-    max-width: 500px;
-    margin: 20px 50px;
-    background: #fff;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .1);
+/* タスク登録画面全体 */
+.task-regist-page {
+    background-color: #fef9fb;
 }
 
-/* ヘッダー */
+/* タスク登録画面のメイン領域 */
+.task-regist-main {
+    width: min(1000px, calc(100% - 40px));
+    margin: 24px auto 40px;
+    flex: 1 0 auto;
+}
 
-.title-area {
+/* ========================================
+   タイトル領域
+======================================== */
+
+/* タイトルカード */
+.task-regist-headline {
+    width: 100%;
+    min-height: 145px;
     display: flex;
     align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 22px;
+    padding: 24px 34px;
+    background-color: #ffffff;
+    border: 1px solid #f2e4eb;
+    border-radius: 24px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.10);
 }
 
-.title-area img {
-    width: 120px;
+/* タイトル文字領域 */
+.task-regist-title-area {
+    min-width: 0;
 }
 
-
-
-.title-main {
-    margin-bottom: 0;
-    color: #333;
+/* タイトル */
+.task-regist-page .title-main {
+    margin: 0;
+    color: var(--headline-color);
     font-size: 2rem;
+    font-weight: bold;
 }
 
-.title-sub {
-    margin-top: 5px;
-    color: #666;
+/* タイトル下の説明 */
+.task-regist-page .title-sub {
+    margin: 8px 0 0;
+    color: #666666;
+    font-size: 1rem;
+    font-weight: normal;
 }
 
-.sub-header-right {
+/* タイトル右側 */
+.task-regist-guide {
     display: flex;
     align-items: center;
-    gap: 20px;
-    width: 900px;
-    margin: 10px auto 20px;
+    justify-content: flex-end;
+    gap: 18px;
+    flex: 0 0 auto;
 }
 
-.regist-elephant {
-    width: 120px;
+/* タイトル右側画像 */
+.task-regist-guide .regist-elephant {
+    width: 110px;
+    height: auto;
+    display: block;
+    object-fit: contain;
 }
 
-/* .title-main{
-	
-	color:var(--headline-color);
-	margin:0;
-	font-size:2rem;
+/* タイトル右側の説明 */
+.task-regist-guide p {
+    margin: 0;
+    color: #555555;
+    font-size: 15px;
+    font-weight: normal;
+    white-space: nowrap;
 }
 
-.title-sub{
-	margin:0;
-	font-size:0.9rem;
-	color:#666;
-} */
+/* ========================================
+   エラーメッセージ
+======================================== */
 
-/* セクション */
-
-
-.section-box {
-    background: #f8f8f8;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
+/* 登録エラー */
+.task-regist-error {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 12px 16px;
+    color: #991b1b;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
 }
 
-.section-title {
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #666;
-}
+/* ========================================
+   登録フォーム
+======================================== */
 
-/* 2列レイアウト */
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-/* 入力項目 */
-
-form#projectForm {
-    width: 900px;
-    margin: 20px auto;
-    padding: 25px;
-    background: #fff0f9;
+/* フォームカード */
+.task-regist-form {
+    width: 100%;
+    margin: 0;
+    padding: 30px 34px;
+    background-color: #fff0f9;
     border-radius: 30px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);/* 2列にする */
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16);
 }
 
-.field {
+/* 入力項目の2列配置 */
+.task-regist-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 42px;
+    row-gap: 18px;
+}
 
-    width: min(1000px, calc(100% - 40px));
+/* 入力項目 */
+.task-regist-page .field {
+    width: 100%;
+    min-width: 0;
     display: flex;
     flex-direction: column;
 }
 
-.field label {
+/* 入力ラベル */
+.task-regist-page .field > label,
+.task-regist-page .progress-label-row label {
+    display: block;
+    margin: 0 0 7px;
+    color: #000000;
+    font-size: 16px;
     font-weight: bold;
-    margin-bottom: 5px;
+    line-height: 1.4;
 }
 
-.field input,
-.field select {
-    width: 100%;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0 10px;
-}
-
-#description {
-    width: 100% !important;
-    height: 80px;
-}
-
-/* 必須 */
-
-.must {
-    background: #ff82a6;
-    color: #fff;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 4px;
-    margin-left: 5px;
-}
-
-/* 案件情報 */
-
-.project-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.project-code {
-    font-size: 2rem;
-    color: var(--headline-color);
-    font-weight: bold;
-}
-
-.project-name {
-    font-size: 1.8rem;
-    font-weight: bold;
-}
-
-/* ボタン */
-
-.button-area {
-    display: flex;
+/* 案件コード */
+.field-project-code {
+    min-height: 52px;
     justify-content: center;
-    gap: 15px;
-    margin-top: 25px;
 }
 
-.button-area button {
-    min-width: 120px;
-    height: 45px;
-    border-radius: 8px;
+/* 案件コードの値 */
+.project-code-value {
+    min-height: 24px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+/* 右上の配置調整 */
+.field-project-code-space {
+    min-height: 52px;
+}
+
+/* 必須ラベル */
+.task-regist-page .must {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+    padding: 2px 7px;
+    color: #ffffff;
+    background-color: #ff82a6;
+    border: none;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.4;
+    vertical-align: middle;
+}
+
+/* テキスト入力 */
+.task-regist-page .field input[type="text"],
+.task-regist-page .field input[type="number"],
+.task-regist-page .field input[type="date"] {
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    padding: 0 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1.5px solid #cccccc;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+/* セレクトボックス */
+.task-regist-page .field select {
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    padding: 0 38px 0 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1.5px solid #cccccc;
+    border-radius: 7px;
+    font-size: 16px;
+    font-weight: normal;
     cursor: pointer;
 }
 
-.save-btn {
-    background: var(--button-color);
-    color: white;
-    border: none;
+/* 説明欄 */
+.task-regist-page .field textarea {
+    width: 100%;
+    min-height: 120px;
+    margin: 0;
+    padding: 12px 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1.5px solid #cccccc;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.6;
+    resize: vertical;
 }
 
-.back-btn,
-.cancel-btn {
-    background: white;
-    border: 1px solid #999;
+/* フォーカス */
+.task-regist-page .field input:focus,
+.task-regist-page .field select:focus,
+.task-regist-page .field textarea:focus {
+    outline: none;
+    border-color: var(--hightlight-color);
+    box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.20);
 }
+
+/* 無効な入力 */
+.task-regist-page .field input:invalid:not(:placeholder-shown),
+.task-regist-page .field select:invalid {
+    border-color: #e7a1b8;
+}
+
+/* ========================================
+   見積もり工数
+======================================== */
+
+/* 工数入力欄 */
+.manhours-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+/* 工数入力 */
+.manhours-input-wrap input {
+    padding-right: 58px !important;
+}
+
+/* 工数単位 */
+.input-unit {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    color: #666666;
+    font-size: 14px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* ========================================
+   進捗率
+======================================== */
+
+/* 進捗率項目 */
+.field-progress {
+    justify-content: flex-start;
+}
+
+/* 進捗率の見出し行 */
+.progress-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+/* 進捗率の数値 */
+.progress-label-row output {
+    min-width: 48px;
+    color: var(--headline-color);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* 進捗バー */
+.task-regist-page .field input[type="range"] {
+    width: 100%;
+    height: 8px;
+    margin: 14px 0 4px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    accent-color: var(--button-color);
+}
+
+/* 進捗率の目盛り */
+.task-regist-page .progress-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3px;
+}
+
+/* 進捗率の目盛り文字 */
+.task-regist-page .progress-scale span {
+    color: #777777;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+/* ========================================
+   説明欄
+======================================== */
+
+/* 説明欄を右側へ配置 */
+.field-description {
+    grid-column: 2;
+}
+
+/* ========================================
+   操作ボタン
+======================================== */
+
+/* ボタン領域 */
+.task-regist-button-area {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid #f2d7e3;
+}
+
+/* ボタン共通 */
+.task-regist-button-area button {
+    min-width: 120px;
+    height: 44px;
+    margin: 0;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.1s ease;
+}
+
+/* 保存ボタン */
+.task-regist-save-btn {
+    color: #ffffff;
+    background-color: var(--button-color);
+    border: 1.5px solid var(--button-color);
+}
+
+/* 保存ボタンのホバー */
+.task-regist-save-btn:hover {
+    color: #ffffff;
+    background-color: var(--hightlight-color);
+    border-color: var(--hightlight-color);
+    box-shadow: 0 4px 10px rgba(240, 103, 166, 0.22);
+}
+
+/* 戻るボタン */
+.task-regist-back-btn {
+    color: var(--button-color);
+    background-color: #ffffff;
+    border: 1.5px solid var(--hightlight-color);
+}
+
+/* クリアボタン */
+.task-regist-clear-btn {
+    color: var(--button-color);
+    background-color: #ffffff;
+    border: 1.5px solid var(--hightlight-color);
+}
+
+/* 戻るボタンとクリアボタンのホバー */
+.task-regist-back-btn:hover,
+.task-regist-clear-btn:hover {
+    color: #ffffff;
+    background-color: var(--hightlight-color);
+    border-color: var(--hightlight-color);
+}
+
+/* ボタン押下時 */
+.task-regist-button-area button:active {
+    transform: translateY(1px);
+}
+
+/* キーボード操作時 */
+.task-regist-button-area button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.30);
+}
+
 
 /* タスク詳細画面 */
 
@@ -1061,25 +1455,870 @@ form#projectForm {
     margin-top: 16px;
 }
 
+/* ========================================
+   タスク編集画面
+======================================== */
 
-/* タスク編集 */
-.edit-main {
-    margin-left: 50px;
+/* 画面全体 */
+.task-edit-page {
+    min-height: 100vh;
+    background-color: #fef9fb;
 }
-.headline{
-    width: 900px;
-    margin: 20px auto 0px;
-    padding: 5px 25px 0px;
-    background: #fff3fa;
+
+/* メイン領域 */
+.task-edit-main {
+    width: min(1180px, calc(100% - 40px));
+    margin: 24px auto 48px;
+}
+
+/* ========================================
+   タイトル領域
+======================================== */
+
+/* タイトルカード */
+.task-edit-headline {
+    min-height: 145px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 22px;
+    padding: 24px 34px;
+    background-color: #ffffff;
+    border: 1px solid #f2e4eb;
+    border-radius: 24px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* タイトル領域 */
+.task-edit-title-area {
+    min-width: 0;
+}
+
+/* メインタイトル */
+.task-edit-page .title-main {
+    margin: 0;
+    color: var(--headline-color);
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* サブタイトル */
+.task-edit-page .title-sub {
+    margin: 8px 0 0;
+    color: #666666;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+/* 右側案内 */
+.task-edit-guide {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 18px;
+    flex: 0 0 auto;
+}
+
+/* 案内画像 */
+.task-edit-elephant {
+    width: 110px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+/* 案内文 */
+.task-edit-guide p {
+    margin: 0;
+    color: #555555;
+    font-size: 15px;
+    white-space: nowrap;
+}
+
+/* ========================================
+   エラーメッセージ
+======================================== */
+
+/* エラー表示 */
+.task-edit-error {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    color: #991b1b;
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   フォーム全体
+======================================== */
+
+/* 編集フォーム */
+.task-edit-form {
+    margin: 0;
+    padding: 30px;
+    background-color: #fff0f9;
     border-radius: 30px;
-    /* display: grid; */
-    flex: 1 0 auto;
-    /* grid-template-columns: repeat(2,1fr); 2列にする */
-    /* box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16); */
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16);
 }
-.function{
-    width: 900px;
-    margin: 20px auto 25px;
-    padding: 5px 25px 0px;
-    flex: 1 0 auto;
+
+/* 入力領域と概要領域 */
+.task-edit-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    align-items: start;
+    gap: 28px;
+}
+
+/* 編集項目領域 */
+.task-edit-fields {
+    min-width: 0;
+}
+
+/* 入力区分 */
+.task-edit-section {
+    margin-bottom: 24px;
+    padding: 24px;
+    background-color: #ffffff;
+    border: 1px solid #f3dce6;
+    border-radius: 18px;
+}
+
+/* 最後の入力区分 */
+.task-edit-section:last-child {
+    margin-bottom: 0;
+}
+
+/* 入力区分タイトル */
+.task-edit-section-title {
+    margin: 0 0 20px;
+    padding-bottom: 10px;
+    color: var(--headline-color);
+    border-bottom: 2px solid #f5cfdf;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 2列配置 */
+.task-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+    row-gap: 18px;
+}
+
+/* 横幅全体を使用 */
+.task-edit-grid .field-full {
+    grid-column: 1 / -1;
+}
+
+/* 入力項目 */
+.task-edit-page .field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ラベル */
+.task-edit-page .field > label,
+.task-edit-progress-heading label {
+    display: block;
+    margin: 0 0 7px;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+/* 必須表示 */
+.task-edit-page .must {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6px;
+    padding: 2px 7px;
+    color: #ffffff;
+    background-color: #ff82a6;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 1.4;
+    vertical-align: middle;
+}
+
+/* 読み取り専用表示 */
+.task-edit-readonly {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    color: #555555;
+    background-color: #f8f8f8;
+    border: 1.5px solid #dddddd;
+    border-radius: 7px;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+/* テキスト入力 */
+.task-edit-page .field input[type="text"],
+.task-edit-page .field input[type="number"],
+.task-edit-page .field input[type="date"] {
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    padding: 0 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1.5px solid #cccccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* セレクトボックス */
+.task-edit-page .field select {
+    width: 100%;
+    height: 48px;
+    margin: 0;
+    padding: 0 38px 0 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1.5px solid #cccccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* 説明欄 */
+.task-edit-page .field textarea {
+    width: 100%;
+    min-height: 135px;
+    margin: 0;
+    padding: 12px 14px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1.5px solid #cccccc;
+    border-radius: 7px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+/* フォーカス表示 */
+.task-edit-page .field input:focus,
+.task-edit-page .field select:focus,
+.task-edit-page .field textarea:focus {
+    outline: none;
+    border-color: var(--hightlight-color);
+    box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.2);
+}
+
+/* ========================================
+   工数入力
+======================================== */
+
+/* 単位付き入力欄 */
+.task-edit-unit-input {
+    position: relative;
+}
+
+/* 単位分の余白 */
+.task-edit-unit-input input {
+    padding-right: 46px !important;
+}
+
+/* 単位 */
+.task-edit-unit-input span {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    color: #666666;
+    font-size: 14px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* ========================================
+   進捗率
+======================================== */
+
+/* 進捗見出し */
+.task-edit-progress-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* 進捗数値 */
+.task-edit-progress-heading output {
+    min-width: 50px;
+    color: var(--headline-color);
+    font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* 進捗バー */
+.task-edit-page input[type="range"] {
+    width: 100%;
+    height: 8px;
+    margin: 14px 0 5px;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    accent-color: var(--button-color);
+}
+
+/* 進捗目盛り */
+.task-edit-progress-scale {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* 進捗目盛り文字 */
+.task-edit-progress-scale span {
+    color: #777777;
+    font-size: 12px;
+}
+
+/* ========================================
+   概要領域
+======================================== */
+
+/* 概要カード領域 */
+.task-edit-summary {
+    position: sticky;
+    top: 20px;
+    padding: 22px;
+    background-color: #ffffff;
+    border: 1px solid #f3dce6;
+    border-radius: 18px;
+}
+
+/* 概要タイトル */
+.task-edit-summary-title {
+    margin: 0 0 18px;
+    color: var(--headline-color);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 概要カード */
+.task-edit-summary-card {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 13px;
+    padding: 14px;
+    background-color: #fff7fb;
+    border: 1px solid #f5dce7;
+    border-radius: 12px;
+}
+
+/* 概要画像 */
+.task-edit-summary-card img {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    object-fit: contain;
+}
+
+/* 概要文字領域 */
+.task-edit-summary-card div {
+    min-width: 0;
+}
+
+/* 概要ラベル */
+.task-edit-summary-label {
+    display: block;
+    margin-bottom: 3px;
+    color: #777777;
+    font-size: 12px;
+}
+
+/* 概要数値 */
+.task-edit-summary-card strong {
+    display: block;
+    color: #333333;
+    font-size: 20px;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+/* 更新日時 */
+.task-edit-date-info {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid #eeeeee;
+}
+
+/* 更新日時ラベル */
+.task-edit-date-info span {
+    display: block;
+    margin-bottom: 5px;
+    color: #777777;
+    font-size: 12px;
+}
+
+/* 更新日時値 */
+.task-edit-date-info strong {
+    display: block;
+    color: #555555;
+    font-size: 13px;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+/* ========================================
+   操作ボタン
+======================================== */
+
+/* ボタン領域 */
+.task-edit-button-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid #f2d7e3;
+}
+
+/* ボタン共通 */
+.task-edit-button-area button {
+    min-width: 120px;
+    height: 44px;
+    margin: 0;
+    padding: 0 20px;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.1s ease;
+}
+
+/* 保存ボタン */
+.task-edit-save-button {
+    color: #ffffff;
+    background-color: var(--button-color);
+    border: 1.5px solid var(--button-color);
+}
+
+/* 保存ボタン操作時 */
+.task-edit-save-button:hover {
+    color: #ffffff;
+    background-color: var(--hightlight-color);
+    border-color: var(--hightlight-color);
+    box-shadow: 0 4px 10px rgba(240, 103, 166, 0.22);
+}
+
+/* 戻るボタン */
+.task-edit-back-button {
+    color: var(--button-color);
+    background-color: #ffffff;
+    border: 1.5px solid var(--hightlight-color);
+}
+
+/* キャンセルボタン */
+.task-edit-reset-button {
+    color: var(--button-color);
+    background-color: #ffffff;
+    border: 1.5px solid var(--hightlight-color);
+}
+
+/* 戻るとキャンセルの操作時 */
+.task-edit-back-button:hover,
+.task-edit-reset-button:hover {
+    color: #ffffff;
+    background-color: var(--hightlight-color);
+    border-color: var(--hightlight-color);
+}
+
+/* ボタン押下時 */
+.task-edit-button-area button:active {
+    transform: translateY(1px);
+}
+
+/* キーボード操作時 */
+.task-edit-button-area button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.3);
+}
+
+
+/* ========================================
+   タスク一覧画面の配置修正
+======================================== */
+
+/* タスク一覧画面内ではpaddingを横幅に含める */
+.task-list-page .main,
+.task-list-page .task-search-area,
+.task-list-page .task-list-area,
+.task-list-page .task-search-area *,
+.task-list-page .task-list-area * {
+    box-sizing: border-box;
+}
+
+/* タイトル、検索、一覧の横幅を統一 */
+.task-list-page .main,
+.task-list-page .task-search-area,
+.task-list-page .task-list-area {
+    width: 100%;
+    max-width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* ========================================
+   検索エリア
+======================================== */
+
+/* 検索カード */
+.task-list-page .task-search-area {
+    display: block !important;
+    margin-top: 20px;
+    margin-bottom: 24px;
+    padding: 25px;
+    background-color: #fff0f9;
+    border-radius: 30px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.16);
+}
+
+/* 検索項目を横一列に配置 */
+.task-list-page .task-search-area .task-search-grid {
+    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: flex-end;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 16px;
+}
+
+/* 検索項目 */
+.task-list-page .task-search-area .task-search-field {
+    min-width: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 7px;
+    margin: 0;
+}
+
+/* キーワード */
+.task-list-page .task-search-area .task-keyword-field {
+    width: 220px;
+    flex: 0 0 220px;
+}
+
+/* 案件 */
+.task-list-page .task-search-area .task-search-field:nth-child(2) {
+    width: 160px;
+    flex: 0 0 160px;
+}
+
+/* ステータス */
+.task-list-page .task-search-area .task-search-field:nth-child(3) {
+    width: 150px;
+    flex: 0 0 150px;
+}
+
+/* 担当者 */
+.task-list-page .task-search-area .task-search-field:nth-child(4) {
+    width: 150px;
+    flex: 0 0 150px;
+}
+
+/* 優先度 */
+.task-list-page .task-search-area .task-search-field:nth-child(5) {
+    width: 120px;
+    flex: 0 0 120px;
+}
+
+/* 検索項目名 */
+.task-list-page .task-search-area .task-search-field label {
+    display: block;
+    width: 100%;
+    margin: 0;
+    color: #000000;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+/* キーワード入力欄 */
+.task-list-page .task-search-area .keyword {
+    width: 100% !important;
+    min-width: 0;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0 12px;
+    background-color: #ffffff;
+    border: 2px solid #dedede;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* セレクトボックス */
+.task-list-page .task-search-area select {
+    width: 100% !important;
+    min-width: 0;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0 10px;
+    background-color: #ffffff;
+    border: 2px solid #dedede;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* 入力欄選択時 */
+.task-list-page .task-search-area .keyword:focus,
+.task-list-page .task-search-area select:focus {
+    outline: none;
+    border-color: var(--hightlight-color);
+    box-shadow: 0 0 0 3px rgba(246, 173, 198, 0.2);
+}
+
+/* ========================================
+   検索操作ボタン
+======================================== */
+
+/* 検索カード下部 */
+.task-list-page .task-search-area .task-search-actions {
+    width: 100%;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 22px;
+}
+
+/* 左側ボタン領域 */
+.task-list-page .task-search-area .button_edit {
+    width: auto;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin: 0;
+}
+
+/* 右側ボタン領域 */
+.task-list-page .task-search-area .button_regist {
+    width: auto;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+}
+
+/* クリアボタン */
+.task-list-page .task-search-area .clear-btn {
+    width: 90px;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0 12px;
+    border-radius: 8px;
+}
+
+/* 自分のタスクボタン */
+.task-list-page .task-search-area .submit-btn {
+    width: 150px;
+    height: 40px;
+    margin: 0 !important;
+    padding: 0 14px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* タスク登録ボタン */
+.task-list-page .task-search-area .submit-btn2 {
+    width: 140px;
+    min-width: 140px;
+    height: 40px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    margin: 0 !important;
+    padding: 0 16px;
+    color: #ffffff !important;
+    background-color: var(--button-color);
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    text-decoration: none !important;
+    white-space: nowrap;
+}
+
+/* タスク登録ボタンの全状態で文字を白に固定 */
+.task-list-page .task-search-area .submit-btn2:link,
+.task-list-page .task-search-area .submit-btn2:visited,
+.task-list-page .task-search-area .submit-btn2:hover,
+.task-list-page .task-search-area .submit-btn2:focus,
+.task-list-page .task-search-area .submit-btn2:active {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+/* タスク登録ボタン選択時 */
+.task-list-page .task-search-area .submit-btn2:hover {
+    background-color: var(--hightlight-color);
+}
+
+/* ========================================
+   タスク一覧エリア
+======================================== */
+
+/* 一覧カード */
+.task-list-page .task-list-area {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(255, 240, 249, 0.43);
+    border-radius: 30px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.10);
+}
+
+/* テーブルをカード内へ収める */
+.task-list-page .task-list-area .task-table-wrap {
+    width: 100%;
+    overflow: hidden;
+    background-color: #ffffff;
+    border-radius: 15px;
+}
+
+/* テーブル本体 */
+.task-list-page .task-list-area .task-list-table {
+    width: 100% !important;
+    min-width: 0;
+    margin: 0 !important;
+    background-color: #ffffff;
+    border-collapse: collapse !important;
+    border-spacing: 0;
+    table-layout: auto;
+}
+
+/* DataTables適用後 */
+.task-list-page .task-list-area table.dataTable {
+    width: 100% !important;
+    margin: 0 !important;
+    border-collapse: collapse !important;
+}
+
+/* テーブル見出し */
+.task-list-page .task-list-area .task-list-table thead tr {
+    background-color: #fafafa;
+}
+
+/* 見出しセル */
+.task-list-page .task-list-area .task-list-table th {
+    padding: 13px 12px;
+    color: #000000;
+    background-color: #fafafa;
+    border: 1px solid #dddddd;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.4;
+    text-align: left;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+/* データセル */
+.task-list-page .task-list-area .task-list-table td {
+    padding: 11px 12px;
+    color: #000000;
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* 行選択時 */
+.task-list-page .task-list-area .task-list-table tbody tr:hover td {
+    background-color: #fff7fa;
+}
+
+/* 一覧内リンク */
+.task-list-page .task-list-area .task-list-table a {
+    color: #337ab7;
+    white-space: nowrap;
+}
+
+/* 一覧内リンク選択時 */
+.task-list-page .task-list-area .task-list-table a:hover {
+    text-decoration: underline;
+}
+
+/* 期限、工数、操作列 */
+.task-list-page .task-due-date,
+.task-list-page .task-hours-cell,
+.task-list-page .task-operation-cell {
+    white-space: nowrap;
+}
+
+/* ========================================
+   DataTables
+======================================== */
+
+/* DataTables全体 */
+.task-list-page .task-list-area .dataTables_wrapper {
+    width: 100%;
+    padding: 0;
+}
+
+/* Bootstrapの負の余白を解除 */
+.task-list-page .task-list-area .dataTables_wrapper > .row {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* Bootstrapの列余白を解除 */
+.task-list-page .task-list-area .dataTables_wrapper > .row > div {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+/* DataTables標準検索欄 */
+.task-list-page .task-list-area .dataTables_filter {
+    display: none;
+}
+
+/* 表示件数 */
+.task-list-page .task-list-area .dataTables_length {
+    margin-bottom: 12px;
+}
+
+/* 件数表示 */
+.task-list-page .task-list-area .dataTables_info {
+    padding-top: 14px;
+    font-size: 13px;
+}
+
+/* ページ送り */
+.task-list-page .task-list-area .dataTables_paginate {
+    padding-top: 8px;
 }
