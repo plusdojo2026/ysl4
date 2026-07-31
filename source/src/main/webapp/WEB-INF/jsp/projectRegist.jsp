@@ -17,19 +17,26 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
-<body>
+<body class="member-page">
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-<main class="project-regist-area">
+<main class="project-main">
 
-    <div class="zou">
-        <img src="${pageContext.request.contextPath}/img/elephant(1).png" alt="案件登録">
+
+<div class="atama">
+<section class="project-hero">
+    <div class="project-hero-image">
+        <img class="regist-elephant" 
+        src="${pageContext.request.contextPath}/img/elephant(1).png" alt="案件登録">
     </div>
 
-    <div class="text-area">
-        <h1 class="projectimg">案件登録</h1>
+
+    <div class="project-hero-text">
+        <h1 class="project-title">案件登録</h1>
         <p class="subtitle">新しい案件詳細を入力してください</p>
     </div>
+</section>
+</div>
 
     <form id="projectForm"
           method="post"
@@ -38,6 +45,8 @@
 
         <input type="hidden" name="page_id" value="P003">
 
+
+<div class="atama">
         <div class="sub-header-right">
             <div class="setumeidesu" style="border: 2px solid #F6ADC6;">
                 入力内容を確認して保存しましょう<br>
@@ -58,7 +67,7 @@
             </div>
         </c:if>
 
-        <div class="field">
+        <div class="field-a">
             <table id="main-table">
                 <tr>
                     <td>
@@ -80,9 +89,9 @@
                                name="project_name"
                                value="${displayProject.projectName}">
                     </td>
-                </tr>
+                
 
-                <tr>
+                
                     <td>
                         顧客名<br>
 
@@ -91,7 +100,8 @@
                                name="customer_name"
                                value="${displayProject.customerName}">
                     </td>
-
+</tr>
+<tr>
                     <td>
                         担当PM
                         <span class="required-item">必須</span><br>
@@ -114,9 +124,9 @@
                             </c:if>
                         </select>
                     </td>
-                </tr>
+                
 
-                <tr>
+                
                     <td>
                         ステータス
                         <span class="required-item">必須</span><br>
@@ -166,9 +176,9 @@
                                value="0"
                                readonly>
                     </td>
-                </tr>
+                
 
-                <tr>
+                
                     <td>
                         開始日
                         <span class="required-item">必須</span><br>
@@ -202,6 +212,8 @@
                 </tr>
             </table>
         </div>
+</div>
+
 
         <div class="projectbtn">
             <button type="button" id="back">

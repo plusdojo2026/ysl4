@@ -19,9 +19,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
-<body>
+<body class="member-page">
 
-	<%@ include file="/WEB-INF/jsp/header.jsp"%>
+
 
 	<form id="projectEditForm"
 		method="post"
@@ -29,17 +29,28 @@
 
 		<input type="hidden" name="page_id" value="P004">
 		<input type="hidden" name="project_id" id="project_id" value="${displayProject.projectId}">
+	<%@ include file="/WEB-INF/jsp/header.jsp"%>
 
-		<div class="sub-header-left">
+<main class="project-main">
+
+
+<div class="atama">
+  <section class="project-hero">
+		<div class="project-hero-image">
 			<img class="regist-elephant"
 				src="${pageContext.request.contextPath}/img/smileelephant.png"
 				alt="案件編集">
+</div>
 
-			<div>
-				<h1 class="title-main">案件編集</h1>
-				<p class="title-sub">登録済み案件情報を更新してください</p>
+
+			<div class="project-hero-text">
+				<h1 class="project-title">案件編集</h1>
+				<p class="subtitle">登録済み案件情報を更新してください</p>
 			</div>
-		</div>
+		
+		</section>
+</div>
+
 
 		<c:if test="${not empty errMsg}">
 			<div class="error">
@@ -154,7 +165,8 @@
 							</c:if>
 						</select>
 					</td>
-
+</tr>
+<tr>
 					<td>見積工数<span class="repuired-item">必須</span></td>
 					<td>
 						<input type="number"
@@ -164,9 +176,9 @@
 							step="0.5"
 							value="${displayProject.estimatedManhours}">
 					</td>
-				</tr>
+				
 
-				<tr>
+				
 					<td>実績工数</td>
 					<td>
 						<input type="number"
@@ -175,9 +187,10 @@
 							value="${displayProject.actualManhours}"
 							readonly>
 					</td>
-
+</tr>
+<tr>
 					<td>説明</td>
-					<td colspan="4">
+					<td colspan="3">
 						<input type="text"
 							id="description"
 							name="description"
@@ -254,17 +267,18 @@
 			<div class="bar" id="js-bar"></div>
 		</div>
 
-		<div class="btnirir">
+		<div class="projectbtn">
 			<button type="button" id="back">戻る</button>
 
 			<button type="button" id="move">案件詳細へ</button>
 
-			<button type="submit" id="save" name="button_id" value="更新">
+			<button type="submit" id="comp" name="button_id" value="更新">
 				保存
 			</button>
 		</div>
 	</form>
 
+</main>
 	<%@ include file="/WEB-INF/jsp/footer.jsp"%>
 
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

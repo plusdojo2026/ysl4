@@ -28,54 +28,68 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
-<body>
+<body class="member-page">
 <%@ include file="/WEB-INF/jsp/header.jsp" %>
 
-<main class="main">
+<main class="project-main">
 
-    <div class="sub-header-left">
+
+<div class="atama">
+<section class="project-hero">
+    <div class="project-hero-image">
         <img class="regist-elephant"
              src="${pageContext.request.contextPath}/img/elephant(1).png"
              alt="案件詳細">
+</div>
 
-        <div class="text-area">
-            <h1 class="title-main">案件詳細</h1>
-            <p class="title-sub">案件詳細と関連タスク・工数ログを確認出来ます</p>
+
+        <div class="project-hero-text">
+            <h1 class="project-title">案件詳細</h1>
+            <p class="subtitle">案件詳細と関連タスク・工数ログを確認出来ます</p>
         </div>
-    </div>
+   
 
+<section class="project-dashboard">
     <td colspan="3">
-
-        <form action="${pageContext.request.contextPath}/Controller" method="get">
+<div class="project-hero-action">
+<table id ="aaa">
+        <td><form action="${pageContext.request.contextPath}/Controller" method="get">
             <input type="hidden" name="page_id" value="P001">
-            <button type="submit" class="back-btn">
+            <button type="submit" id="back" class="back-btn">
                 戻る
             </button>
-        </form>
+        </form></td>
 
-        <form action="${pageContext.request.contextPath}/Controller" method="get">
+        <td><form action="${pageContext.request.contextPath}/Controller" method="get">
             <input type="hidden" name="page_id" value="P004">
             <input type="hidden" name="project_id" value="${displayProject.projectId}">
             <button type="submit" class="edit-btn">
                 編集
             </button>
-        </form>
+        </form></td>
 
-        <form action="${pageContext.request.contextPath}/Controller" method="get">
+        <td><form action="${pageContext.request.contextPath}/Controller" method="get">
             <input type="hidden" name="page_id" value="T003">
             <input type="hidden" name="project_id" value="${displayProject.projectId}">
             <button type="submit" class="task-add-btn">
                 ＋タスク追加
-            </button>
+            </button></td>
         </form>
-
+        </table>
+</div>
     </td>
+    </section>
+</div>
+</section>
+</div>
 
+
+<div class="atama">
     <div class="syousai1">
         <div class="detail-row">
-        <table border=1 style="white-space:nowrap">
+        <table border="1">
         <tr>
-            <th>案件コード</th>
+            <th>案件コード<br></th>
             <td><span><c:out value="${displayProject.projectCode}" /></span></td>
         
 
@@ -113,7 +127,7 @@
       
             <th>優先度</th>
             <td><span><c:out value="${displayProject.priority}" /></span></td>
-        <
+        
 
         
             <th>期間</th>
@@ -141,13 +155,14 @@
 </tr>
 <tr>
         <div class="detail-row detail-description">
-            <th>説明</th>
+            <th>説明</th><br>
             <td colspan="9"><span><c:out value="${displayProject.description}" /></span></td>
             </tr>
+            </table>
         </div>
     </div>
-</table>
 
+</div>
 
 
     <div class="syosai2-1">
@@ -159,8 +174,8 @@
         </p>
 
         <div class="syousai2-2">
-            <table>
-                <!--  <thead>-->
+            <table border="1" id="project-table" class="member-table table table-bordered">
+                <thead>
                     <tr>
                         <th>タスク名</th>
                         <th>担当者</th>
@@ -171,7 +186,7 @@
                         <th>進捗</th>
                         <th>操作</th>
                     </tr>
-                <!-- </thead> -->
+                </thead> 
 
                 <tbody>
                     <c:forEach var="task" items="${displayTaskList}">
@@ -244,8 +259,8 @@
         </p>
 
         <div class="syousai3-2">
-            <table>
-                <!--  <thead>-->
+            <table border="1" id="project-table" class="member-table table table-bordered">
+                 <thead>
                     <tr>
                         <th>作業日</th>
                         <th>タスク名</th>
@@ -253,9 +268,9 @@
                         <th>工数</th>
                         <th>作業内容</th>
                     </tr>
-                <!-- </thead> -->
+                 </thead>
 
-                <!--  <tbody>-->
+                 <tbody>
                     <c:forEach var="log" items="${displayWorkLogList}">
                         <tr>
                             <td><c:out value="${log.workDate}" /></td>
@@ -273,7 +288,7 @@
                             </td>
                         </tr>
                     </c:if>
-                <!--  </tbody>-->
+                </tbody>
             </table>
         </div>
     </div>

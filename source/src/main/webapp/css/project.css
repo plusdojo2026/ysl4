@@ -3,16 +3,6 @@
 /* width: 15%; */
 }
 
-/.zou{
-    margin-left: 150px;
-}
- 
-.text-area{
- padding-bottom: 50px;
- margin-left: 350px;
- margin-top: -140px;
- width: fit-content;
-} 
 /* .projectimg {
    margin-left: 150px;
     top: 100px;   /* 上へ10px */
@@ -24,11 +14,6 @@
     justify-content: center;
 }
 
-.subtitle {
- 
-    left: 200px;   /* 右へ20px */
-    top: -120px;   /* 上へ10px */
-} 
 
 /* .zousann{
     width: 5%;
@@ -44,23 +29,25 @@
 
 
 .sub-header-right {
-     /*margin-left: 700px; 右に*/
-      width: 30%;
+     margin-left: 700px; 
+      width: fit-content;
+      border-radius: 1rem; 
                  /* 角丸の半径 */
-      padding: 10px; /* 枠線の内側の余白 */
-      /* display: flex; */
+      padding: 10px;
+       /* 枠線の内側の余白 */
+      display: flex; 
       
-} */
+} 
 
-/* .field {
+.field-a{
 width: fit-content;
-    /* margin-top: 300px; */
-    /*display: flex; */
-    /* margin-left: 200px; */
+    margin-top: -110px; 
+    display: flex; 
+    margin-left: 50px; 
       /* justify-content: center; */
      /* flex-direction: column;
-align-items: center;
-} */
+align-items: center;*/
+} 
 
 #main-table{
      width:fit-content;
@@ -80,33 +67,92 @@ height: 40px;
 border-radius: 0.5rem;            /* 角丸の半径 */
 }
 
-#comp {
-height: 40px;
-width: 50px; /* 横幅を500pxに固定 */
-  background-color: white;
-  border-radius: 0.5rem;            /* 角丸の半径 */
-  background-color: #f11294; 
-    color: white;              /* 文字色 */
-    border: none;              /* 枠線なし */
+.atama{
+ background:white;
+ border-radius: 30px;
+ margin-top: 20px;
 }
 
-#back {
-    height: 40px;
-width: 50px; /* 横幅を500pxに固定 */
+
+
+
+/*案件詳細へボタン*/
+#move{
+	height: 40px;
+width: 90px; 
   background-color: white;
   border-radius: 0.5rem;  
 }
 
+/*一覧の編集ボタン*/
+.edit-btn{
+	height: 40px;
+width: 50px; /* 横幅 */
+  background-color: white;
+  border-radius: 0.5rem;
+  color: #5f6b7a;
+  border-color: #ffc0cb;
+}
+
+/*詳細のタスク追加ボタン*/
+.task-add-btn{
+	height: 40px;
+width: 100px; /* 横幅 */
+  background-color: white;
+  border-radius: 0.5rem;
+}
+
+/*詳細の編集ボタン*/
+.small-edit-btn{
+	 border-radius: 0.5rem;            /* 角丸の半径 */
+	 border-color: #F6ADC6;
+}
+
+/*詳細の削除ボタン*/
+.small-delete-btn{
+	border-radius: 0.5rem;
+	border-color: cornflowerblue;
+}
+
+/*詳細のタスク数*/
+.detail-count{
+	color: #EF5B9C;
+}
+#comp {
+height: 40px;
+width: 50px; /* 横幅 */
+  background-color: white;
+  border-radius: 0.5rem;            /* 角丸の半径 */
+  background-color: #F067A6; /*ちょうどいいピンク*/
+    color: white;              /* 文字色 */
+    border: none;              /* 枠線なし */
+}
+
+#aaa {
+/*	margin:0px 200px 0px 0px;*/
+	margin-left: -50px;
+	
+}
+
+
+
+#back {
+    height: 40px;
+width: 50px; /* 横幅 */
+  background-color: white;
+  border-radius: 0.5rem; 
+}
+
 #clearBtn {
     height: 40px;
-    width: 100px; /* 横幅を500pxに固定 */
+    width: 100px; /* 横幅*/
   background-color: white;
   border-radius: 0.5rem;
 }
 
 #description {
     height: 40px;
-    width: 400%;
+    width: 200%;
 }
 
 #clearBtn{
@@ -123,6 +169,23 @@ width: 50px; /* 横幅を500pxに固定 */
     width:fit-content;
     margin: 0 auto;
 }
+
+#project-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+#project-table th,
+#project-table td {
+    text-align: center;
+    padding: 8px;
+}
+
+#project-table progress {
+    width: 100%;
+    max-width: 100px;
+}
+
 
 /* 必須または任意の記号 */
 /* spanタグの中にクラスを指定してください。 */
@@ -226,3 +289,185 @@ header {
 	--button-color: #F067A6;
 	--button-text-color: #ffffff
 }
+
+
+
+
+
+/*ここから徹夜コピペ仮*/
+.member-page {
+    --member-main-color: var(--hightlight-color, #F6ADC6);
+    --member-button-color: var(--button-color, #F067A6);
+    --member-card-color: var(--tertiary-color, #ffffff);
+    --member-bg-color: #fff0f9;
+    --member-border-color: #e1e5e9;
+    --member-text-color: var(--paragraph-color, #000000);
+    --member-muted-color: #5f6b7a;
+    --member-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
+
+    background-color: #fff0f9;
+}
+
+/* メイン領域コピペ */
+.project-main {
+    width: min(1000px, calc(100% - 40px));
+    min-height: 600px;
+    color: var(--member-text-color);
+    margin: 0 100px 0 100px;
+	padding-left: 0px;
+	padding-right: 0px;
+	max-width: 1000px;
+	background-color: #fff0f9;
+	/* 影をつける設定 */
+	/* box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20); */
+	flex: 1 0 auto;/* 画面の余白を埋めて、フッターを一番下へ押し出す */
+}
+
+/* 画面上部 */
+.project-hero {
+    display: grid;
+    grid-template-columns: 150px 1fr 180px;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+
+    /* ゾウ画像領域 */
+ .project-hero-image{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ゾウ画像領域 */
+.member-hero-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 既存画像ファイルのゾウ */
+.regist-elephant {
+    width: 130px;
+    height: auto;
+    display: block;
+}
+
+/* 見出し領域 */
+.project-hero-text {
+    min-width: 0;
+}
+
+/* ページタイトル */
+.project-title {
+    margin: 0;
+    color: var(--headline-color, #EF5B9C);
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+/* 上のボタン領域 */
+.member-hero-action {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 編集画面上部ボタン３つ */
+.project-dashboard {
+    display: inline-block;  
+    justify-content: space-between;
+    gap: 12px;
+/*    margin: 0 0 22px;*/
+}
+
+/* 一覧検索カード */
+/*.project-search-field {*/
+/*    margin-bottom: 22px;*/
+/*    padding: 20px;*/
+/*    background-color: var(--member-card-color);*/
+/*    border-radius: 5px;*/
+/*    box-shadow: var(--member-shadow);*/
+/*}*/
+
+/* 検索条件配置 */
+/*.search-grid {*/
+/*    display: grid;*/
+/*    grid-template-columns: 1.4fr 1fr 1fr 90px;*/
+/*    gap: 18px;*/
+/*    align-items: end;*/
+/*}*/
+
+/* 検索項目 */
+/*.search-field {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 6px;*/
+/*}*/
+
+/* 検索項目ラベル */
+/*.search-field label {*/
+/*    color: var(--member-text-color);*/
+/*    font-size: 14px;*/
+/*    font-weight: 600;*/
+/*}*/
+
+/* キーワード入力枠 */
+/*.keyword-input-wrap {*/
+/*    position: relative;*/
+/*}*/
+
+/* 検索入力とセレクト */
+/*.search-field input,*/
+/*.search-field select {*/
+/*    width: 100%;*/
+/*    height: 38px;*/
+/*    padding: 0 12px;*/
+/*    color: var(--member-text-color);*/
+/*    background-color: #ffffff;*/
+/*    border: 1.5px solid var(--member-border-color);*/
+/*    border-radius: 8px;*/
+/*    font-size: 14px;*/
+/*    font-weight: 400;*/
+/*}*/
+
+/* キーワード入力 */
+/*.keyword-input-wrap input {*/
+/*    padding-left: 38px;*/
+/*}*/
+
+/* 入力フォーカス */
+/*.search-field input:focus,*/
+/*.search-field select:focus {*/
+/*    outline: none;*/
+/*    border-color: #eeeeee;*/
+/*    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+/* プレースホルダー */
+/*.search-field input::placeholder {*/
+/*    color: #9ca3af;*/
+/*}*/
+
+/* クリアボタン領域 */
+/*.clear-button-area {*/
+/*    display: flex;*/
+/*    align-items: flex-end;*/
+/*}*/
+
+/* クリアボタン */
+/*.clear-btn {*/
+/*    width: 100%;*/
+/*    height: 38px;*/
+/*    color: var(--member-button-color);*/
+/*    background-color: var(--background-color, #F8F8F8);*/
+/*    border: 1.5px solid var(--member-main-color);*/
+/*    border-radius: 4px;*/
+/*    font-size: 14px;*/
+/*    font-weight: 500;*/
+/*}*/
+
+/* クリアボタンホバー */
+/*.clear-btn:hover {*/
+/*    background-color: #F6ADC6;*/
+/*    color: #ffffff;*/
+/*}*/

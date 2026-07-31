@@ -24,23 +24,29 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/css/project.css">
 </head>
 
-<body>
+<body class="member-page">
 
 	<%@ include file="/WEB-INF/jsp/header.jsp"%>
 
-	<main class="main">
+	<main class="project-main">
 
-		<section class="sub-header-left">
+<div class="atama">
+		<section class="project-hero">
+		<div class="project-hero-image">
 			<img class="regist-elephant"
 				src="${pageContext.request.contextPath}/img/smileelephant.png"
 				alt="案件一覧">
+         </div>
 
-			<div>
-				<h1 class="title-main">案件一覧</h1>
-				<p class="title-sub">登録済み案件を検索・確認出来ます</p>
+
+
+			<div class="project-hero-text">
+				<h1 class="project-title">案件一覧</h1>
+				<p class="subtitle">登録済み案件を検索・確認出来ます</p>
 			</div>
 
-			<div class="member-hero-action">
+
+			<div class="project-hero-action">
 				<form action="${pageContext.request.contextPath}/Controller" method="get">
 					<input type="hidden" name="page_id" value="P003">
 
@@ -51,7 +57,10 @@
 				</form>
 			</div>
 		</section>
+</div>
 
+
+<div class="atama">
 		<section class="member-search">
 			<form id="projectSearchForm" onsubmit="return false;">
 
@@ -87,7 +96,9 @@
 
 			</form>
 		</section>
+</div>
 
+<div class="atama">
 		<section class="annkennitirann1-1">
 			<p class="title2">案件一覧</p>
 
@@ -209,6 +220,7 @@
 				</table>
 			</div>
 		</section>
+</div>
 
 	</main>
 
