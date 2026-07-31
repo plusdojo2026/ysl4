@@ -525,7 +525,7 @@ body.login-page main.login-wrapper {
 
 /* ユーザー名 */
 .user-name {
-	color: var(--paragraph-color, #000000);
+	color: var(--paragraph-color, rgb(255, 255, 255));
 	font-size: 14px; /* 文字サイズ指定 ユーザー名 */
 	font-weight: 500; /* 文字太さ指定 ユーザー名 */
 	white-space: nowrap;

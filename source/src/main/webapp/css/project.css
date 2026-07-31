@@ -1,473 +1,652 @@
-/* .title-area { 
-    /* display: flex; */
-/* width: 15%; */
+/* =========================================
+   案件画面共通
+========================================= */
+
+/* 案件画面の背景 */
+.project-edit-page,
+.project-regist-page,
+.project-list-page,
+.project-detail-page {
+	background-color: #fff0f9;
 }
 
-/* .projectimg {
-   margin-left: 150px;
-    top: 100px;   /* 上へ10px */
-} */
-
-/* .project-regist-area {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+/* 必須ラベル */
+.required-item,
+.repuired-item {
+	display: inline-block;
+	margin-left: 6px;
+	padding: 2px 5px;
+	color: var(--paragraph-color, #000000);
+	background-color: var(--secondary-color, #F5C9C6);
+	border: 1px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 5px;
+	font-size: 10px;
+	font-weight: 400;
+	vertical-align: middle;
 }
 
-
-/* .zousann{
-    width: 5%;
-    height: 5%;
-} */
-
- .setumeidesu {
-    border-radius: 0.5rem; 
-    width: fit-content;
-    margin-left: 1000px;
-
-} 
-
-
-.sub-header-right {
-     margin-left: 700px; 
-      width: fit-content;
-      border-radius: 1rem; 
-                 /* 角丸の半径 */
-      padding: 10px;
-       /* 枠線の内側の余白 */
-      display: flex; 
-      
-} 
-
-.field-a{
-width: fit-content;
-    margin-top: -110px; 
-    display: flex; 
-    margin-left: 50px; 
-      /* justify-content: center; */
-     /* flex-direction: column;
-align-items: center;*/
-} 
-
-#main-table{
-     width:fit-content;
-    margin: 0 auto;
-}
-
-input[type="text"] {
-    width: 100px;
-height: 40px;
-border-radius: 0.5rem;            /* 角丸の半径 */
-
-}
-
-select {
-     width: 100px;
-height: 40px;
-border-radius: 0.5rem;            /* 角丸の半径 */
-}
-
-.atama{
- background:white;
- border-radius: 30px;
- margin-top: 20px;
-}
-
-
-
-
-/*案件詳細へボタン*/
-#move{
-	height: 40px;
-width: 90px; 
-  background-color: white;
-  border-radius: 0.5rem;  
-}
-
-/*一覧の編集ボタン*/
-.edit-btn{
-	height: 40px;
-width: 50px; /* 横幅 */
-  background-color: white;
-  border-radius: 0.5rem;
-  color: #5f6b7a;
-  border-color: #ffc0cb;
-}
-
-/*詳細のタスク追加ボタン*/
-.task-add-btn{
-	height: 40px;
-width: 100px; /* 横幅 */
-  background-color: white;
-  border-radius: 0.5rem;
-}
-
-/*詳細の編集ボタン*/
-.small-edit-btn{
-	 border-radius: 0.5rem;            /* 角丸の半径 */
-	 border-color: #F6ADC6;
-}
-
-/*詳細の削除ボタン*/
-.small-delete-btn{
-	border-radius: 0.5rem;
-	border-color: cornflowerblue;
-}
-
-/*詳細のタスク数*/
-.detail-count{
-	color: #EF5B9C;
-}
-#comp {
-height: 40px;
-width: 50px; /* 横幅 */
-  background-color: white;
-  border-radius: 0.5rem;            /* 角丸の半径 */
-  background-color: #F067A6; /*ちょうどいいピンク*/
-    color: white;              /* 文字色 */
-    border: none;              /* 枠線なし */
-}
-
-#aaa {
-/*	margin:0px 200px 0px 0px;*/
-	margin-left: -50px;
-	
-}
-
-
-
-#back {
-    height: 40px;
-width: 50px; /* 横幅 */
-  background-color: white;
-  border-radius: 0.5rem; 
-}
-
-#clearBtn {
-    height: 40px;
-    width: 100px; /* 横幅*/
-  background-color: white;
-  border-radius: 0.5rem;
-}
-
-#description {
-    height: 40px;
-    width: 200%;
-}
-
-#clearBtn{
-    background-color: white;
-  border-radius: 0.5rem;  
-}
-
-#back{
-    background-color: white;
-  border-radius: 0.5rem; 
-}
-
-.projectbtn {
-    width:fit-content;
-    margin: 0 auto;
-}
-
-#project-table {
-    width: 100%;
-    table-layout: fixed;
-}
-
-#project-table th,
-#project-table td {
-    text-align: center;
-    padding: 8px;
-}
-
-#project-table progress {
-    width: 100%;
-    max-width: 100px;
-}
-
-
-/* 必須または任意の記号 */
-/* spanタグの中にクラスを指定してください。 */
-/* 例：<td>ログインID<span class="required-item">必須</span></td> */
-.required-item {
-    padding: 2px;
-    background-color: var(--secondary-color);
-    border-radius: 5px;
-    border: 1px solid var(--hightlight-color);
-    font-size: 10px;
-}
+/* 任意ラベル */
 .option-item {
-    padding: 2px;
-    background-color: var(--tertiary-color);
-    border-radius: 5px;
-    border: 1px solid #e1e5e9;
-    font-size: 10px;
+	display: inline-block;
+	margin-left: 6px;
+	padding: 2px 5px;
+	color: var(--paragraph-color, #000000);
+	background-color: var(--tertiary-color, #ffffff);
+	border: 1px solid #e1e5e9;
+	border-radius: 5px;
+	font-size: 10px;
+	font-weight: 400;
+	vertical-align: middle;
 }
-/*headerのCSS-----------------------------------*/
 
-header {
-	background-color: var(--main-color);
-	color: var(--headline-color);
-	height: 65px;
-	/* 影をつける設定 */
-	position: relative;
-	box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.20);
-	z-index: 5;
+/* =========================================
+   案件編集画面
+========================================= */
+
+/* 案件編集メイン */
+.project-edit-main {
+	width: 1000px;
+	min-height: 600px;
+	margin: 0 auto;
+	padding: 28px 32px 36px;
+	color: var(--paragraph-color, #000000);
+	background-color: #fff0f9;
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;
+}
+
+/* 画面上部カード */
+.project-edit-header-card {
 	display: flex;
 	align-items: center;
-	justify-content: center;/* 左右に配置を分ける */
-	padding: 10px 20px;
+	justify-content: space-between;
+	gap: 24px;
+	margin-bottom: 20px;
+	padding: 20px 24px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 30px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
 }
 
-/* ナビゲーション */
-.side-nav {
+/* 画面上部左側 */
+.project-edit-header-left {
 	display: flex;
-	gap: 20px;
-	padding: 30px 0 0 50px;
+	align-items: center;
+	gap: 22px;
+	min-width: 0;
 }
 
-.header-left {
+/* ゾウ画像 */
+.project-edit-elephant {
+	width: 118px;
+	height: auto;
+	display: block;
+	flex: 0 0 auto;
+}
+
+/* タイトル領域 */
+.project-edit-title-area {
+	min-width: 0;
+}
+
+/* タイトル */
+.project-edit-title {
+	margin: 0;
+	color: var(--headline-color, #EF5B9C);
+	font-size: 32px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+}
+
+/* サブタイトル */
+.project-edit-subtitle {
+	margin: 8px 0 0;
+	color: #5f6b7a;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+/* 説明ボックス */
+.project-edit-guide {
+	width: 280px;
+	padding: 12px 16px;
+	color: #5f6b7a;
+	background-color: #ffffff;
+	border: 2px solid #F6ADC6;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.7;
+}
+
+/* エラー */
+.project-edit-error {
+	margin: 0 0 18px;
+	padding: 12px 14px;
+	color: #991b1b;
+	background-color: #fee2e2;
+	border: 1px solid #fecaca;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* 編集フォーム */
+.project-edit-form {
+	margin: 0;
+}
+
+/* 入力カード */
+.project-edit-form-card {
+	margin-bottom: 20px;
+	padding: 24px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 30px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* 入力グリッド */
+.project-edit-form-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 18px 24px;
+}
+
+/* 入力項目 */
+.project-edit-field {
 	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	min-width: 0;
 }
 
-/* ユーザーアイコン */
-.user-status {
-	width: 60%;
+/* 横幅全体 */
+.project-edit-field-full {
+	grid-column: 1 / -1;
 }
 
-.icon-area {
-	width: 20%;
+/* 入力ラベル */
+.project-edit-field label {
+	color: var(--paragraph-color, #000000);
+	font-size: 14px;
+	font-weight: 600;
 }
 
-/* ユーザーの名前 */
-.user-name {
-	font-size: 15px;
-}
-
-.header-actions {
-	display: flex;
-}
-
-
-
-/* ヘッダーのロゴサイズ */
-.app-logo {
-	width: 15%;
-	padding: 2px 0 0 3px;
-}
-
-/* ナビゲーションを１行にする */
-.side-nav {
-	display: flex;
-	gap: 8px;
-}
-
-
-/*footerのCSS-----------------------------------*/
-.footer{		
+/* 入力欄共通 */
+.project-edit-input,
+.project-edit-select,
+.project-edit-textarea {
 	width: 100%;
-	padding: 15px 20px;/* 余白で高さ調整 */	
-	background-color: #ffc0cb; /* 背景が透けないように */
-	text-align: right;
-	font-size: 1rem;
+	color: var(--paragraph-color, #000000);
+	background-color: #ffffff;
+	border: 1.5px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 400;
 	box-sizing: border-box;
 }
 
-/*すべてのページに適応される*/
-:root {
-	--main-color: #F6ADC6;
-	--secondary-color: #F5C9C6;
-	--tertiary-color: #fff;
-	--background-color: #F8F8F8;
-	--hightlight-color: #F6ADC6;
-	--stroke-color: #000000;
-	
-	/* 文字の色のCSS変数 */
-	--headline-color: #EF5B9C;
-	--paragraph-color: #000000;
-	--button-color: #F067A6;
-	--button-text-color: #ffffff
+/* inputとselect */
+.project-edit-input,
+.project-edit-select {
+	height: 40px;
+	padding: 0 12px;
 }
 
-
-
-
-
-/*ここから徹夜コピペ仮*/
-.member-page {
-    --member-main-color: var(--hightlight-color, #F6ADC6);
-    --member-button-color: var(--button-color, #F067A6);
-    --member-card-color: var(--tertiary-color, #ffffff);
-    --member-bg-color: #fff0f9;
-    --member-border-color: #e1e5e9;
-    --member-text-color: var(--paragraph-color, #000000);
-    --member-muted-color: #5f6b7a;
-    --member-shadow: 0px 2px 10px 0px rgba(97, 96, 96, 0.14);
-
-    background-color: #fff0f9;
+/* textarea */
+.project-edit-textarea {
+	min-height: 96px;
+	padding: 10px 12px;
+	line-height: 1.7;
+	resize: vertical;
 }
 
-/* メイン領域コピペ */
-.project-main {
-    width: min(1000px, calc(100% - 40px));
-    min-height: 600px;
-    color: var(--member-text-color);
-    margin: 0 100px 0 100px;
-	padding-left: 0px;
-	padding-right: 0px;
-	max-width: 1000px;
+/* readonly */
+.project-edit-readonly {
+	background-color: #f8f8f8;
+	color: #5f6b7a;
+	cursor: default;
+}
+
+/* フォーカス */
+.project-edit-input:focus,
+.project-edit-select:focus,
+.project-edit-textarea:focus {
+	outline: none;
+	border-color: #eeeeee;
+	box-shadow: 2px 0 5px 0 rgba(0, 0, 0, 0.20);
+}
+
+/* サマリーカード */
+.project-edit-summary-card {
+	margin-bottom: 20px;
+	padding: 22px 24px;
+	background-color: #ffffff;
+	border: 1px solid #ffe0ec;
+	border-radius: 30px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
+}
+
+/* サマリー配置 */
+.project-edit-summary-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 14px;
+}
+
+/* サマリー項目 */
+.project-edit-summary-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 78px;
+	padding: 12px 14px;
+	background-color: #fff7fb;
+	border: 1px solid #ffe0ec;
+	border-radius: 12px;
+}
+
+/* サマリー画像 */
+.project-edit-summary-icon {
+	width: 42px;
+	height: 42px;
+	object-fit: contain;
+	flex: 0 0 auto;
+}
+
+/* サマリーテキスト */
+.project-edit-summary-text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+/* サマリーラベル */
+.project-edit-summary-label {
+	color: #5f6b7a;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+/* サマリー値 */
+.project-edit-summary-value {
+	color: var(--paragraph-color, #000000);
+	font-size: 14px;
+	font-weight: 400;
+}
+
+/* サマリー数値 */
+.project-edit-summary-value span {
+	color: var(--headline-color, #EF5B9C);
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+/* 進捗ラベル */
+.project-edit-progress-label {
+	display: flex;
+	justify-content: space-between;
+	gap: 12px;
+	margin-top: 18px;
+	color: #5f6b7a;
+	font-size: 13px;
+	font-weight: 500;
+}
+
+/* 進捗トラック */
+.project-edit-progress-track {
+	width: 100%;
+	height: 12px;
+	margin-top: 8px;
+	overflow: hidden;
+	background-color: #f2f2f2;
+	border-radius: 999px;
+}
+
+/* 進捗バー */
+.project-edit-progress-bar {
+	width: 0;
+	height: 100%;
+	background-color: var(--button-color, #F067A6);
+	border-radius: 999px;
+	transition: width 0.25s ease;
+}
+
+/* ボタン領域 */
+.project-edit-button-area {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	margin-top: 24px;
+}
+
+/* ボタン共通 */
+.project-edit-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	min-width: 76px;
+	padding: 0 16px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	box-sizing: border-box;
+}
+
+/* 幅広ボタン */
+.project-edit-button-wide {
+	min-width: 112px;
+}
+
+/* サブボタン */
+.project-edit-button-sub {
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+}
+
+/* メインボタン */
+.project-edit-button-main {
+	color: var(--button-text-color, #ffffff);
+	background-color: var(--button-color, #F067A6);
+	border: 1.5px solid var(--button-color, #F067A6);
+}
+
+/* サブボタンホバー */
+.project-edit-button-sub:hover {
+	color: #ffffff;
+	background-color: var(--hightlight-color, #F6ADC6);
+}
+
+/* メインボタンホバー */
+.project-edit-button-main:hover {
+	background-color: #EF5B9C;
+	border-color: #EF5B9C;
+}
+
+/* =========================================
+   既存画面互換
+========================================= */
+
+/* 案件登録メイン */
+.project-regist-area {
+	width: 1000px;
+	min-height: 600px;
+	margin: 0 auto;
+	padding: 28px 32px 36px;
 	background-color: #fff0f9;
-	/* 影をつける設定 */
-	/* box-shadow: 2px 0px 10px 0px rgba(0, 0, 0, 0.20); */
-	flex: 1 0 auto;/* 画面の余白を埋めて、フッターを一番下へ押し出す */
+	box-shadow: 2px 0 10px 0 rgba(0, 0, 0, 0.20);
+	flex: 1 0 auto;
 }
 
-/* 画面上部 */
-.project-hero {
-    display: grid;
-    grid-template-columns: 150px 1fr 180px;
-    align-items: center;
-    gap: 24px;
-    margin-bottom: 24px;
-
-    /* ゾウ画像領域 */
- .project-hero-image{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* 登録画面ゾウ */
+.zou {
+	display: flex;
+	justify-content: center;
+	margin-bottom: 10px;
 }
 
-/* ゾウ画像領域 */
-.member-hero-image {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* 登録画面タイトル領域 */
+.text-area {
+	text-align: center;
+	margin-bottom: 20px;
 }
 
-/* 既存画像ファイルのゾウ */
-.regist-elephant {
-    width: 130px;
-    height: auto;
-    display: block;
+/* 登録画面タイトル */
+.projectimg {
+	margin: 0;
+	color: var(--headline-color, #EF5B9C);
+	font-size: 32px;
+	font-weight: 700;
 }
 
-/* 見出し領域 */
-.project-hero-text {
-    min-width: 0;
+/* 登録画面サブタイトル */
+.subtitle {
+	margin: 8px 0 0;
+	color: #5f6b7a;
+	font-size: 14px;
+	font-weight: 400;
 }
 
-/* ページタイトル */
-.project-title {
-    margin: 0;
-    color: var(--headline-color, #EF5B9C);
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+/* 説明ボックス */
+.setumeidesu {
+	width: fit-content;
+	padding: 12px 16px;
+	color: #5f6b7a;
+	background-color: #ffffff;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 400;
+	line-height: 1.7;
 }
 
-/* 上のボタン領域 */
-.member-hero-action {
-    display: flex;
-    justify-content: flex-end;
+/* 説明ボックス配置 */
+.sub-header-right {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 18px;
 }
 
-/* 編集画面上部ボタン３つ */
-.project-dashboard {
-    display: inline-block;  
-    justify-content: space-between;
-    gap: 12px;
-/*    margin: 0 0 22px;*/
+/* 旧カード */
+.atama {
+	margin-top: 20px;
+	padding: 22px 24px;
+	background-color: #ffffff;
+	border-radius: 30px;
+	box-shadow: 0 2px 10px rgba(97, 96, 96, 0.12);
 }
 
-/* 一覧検索カード */
-/*.project-search-field {*/
-/*    margin-bottom: 22px;*/
-/*    padding: 20px;*/
-/*    background-color: var(--member-card-color);*/
-/*    border-radius: 5px;*/
-/*    box-shadow: var(--member-shadow);*/
-/*}*/
+/* 入力領域 */
+.field,
+.field-a {
+	width: 100%;
+}
 
-/* 検索条件配置 */
-/*.search-grid {*/
-/*    display: grid;*/
-/*    grid-template-columns: 1.4fr 1fr 1fr 90px;*/
-/*    gap: 18px;*/
-/*    align-items: end;*/
-/*}*/
+/* 旧table */
+.field table,
+#main-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 14px 12px;
+}
 
-/* 検索項目 */
-/*.search-field {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    gap: 6px;*/
-/*}*/
+/* 旧tableセル */
+.field td,
+#main-table td {
+	color: var(--paragraph-color, #000000);
+	font-size: 14px;
+	font-weight: 500;
+	vertical-align: top;
+}
 
-/* 検索項目ラベル */
-/*.search-field label {*/
-/*    color: var(--member-text-color);*/
-/*    font-size: 14px;*/
-/*    font-weight: 600;*/
-/*}*/
+/* 旧input */
+.field input[type="text"],
+.field input[type="date"],
+.field input[type="number"],
+.field select,
+#main-table input[type="text"],
+#main-table input[type="date"],
+#main-table input[type="number"],
+#main-table select {
+	width: 100%;
+	height: 40px;
+	padding: 0 12px;
+	border: 1.5px solid #e1e5e9;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 400;
+	box-sizing: border-box;
+}
 
-/* キーワード入力枠 */
-/*.keyword-input-wrap {*/
-/*    position: relative;*/
-/*}*/
+/* 登録画面ボタン */
+.project-regist-area .projectbtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 12px;
+	margin-top: 24px;
+}
 
-/* 検索入力とセレクト */
-/*.search-field input,*/
-/*.search-field select {*/
-/*    width: 100%;*/
-/*    height: 38px;*/
-/*    padding: 0 12px;*/
-/*    color: var(--member-text-color);*/
-/*    background-color: #ffffff;*/
-/*    border: 1.5px solid var(--member-border-color);*/
-/*    border-radius: 8px;*/
-/*    font-size: 14px;*/
-/*    font-weight: 400;*/
-/*}*/
+/* 登録画面ボタン共通 */
+.project-regist-area #back,
+.project-regist-area #clearBtn,
+.project-regist-area #comp {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	min-width: 76px;
+	padding: 0 16px;
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	cursor: pointer;
+	box-sizing: border-box;
+}
 
-/* キーワード入力 */
-/*.keyword-input-wrap input {*/
-/*    padding-left: 38px;*/
-/*}*/
+/* 登録画面サブボタン */
+.project-regist-area #back,
+.project-regist-area #clearBtn {
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+}
 
-/* 入力フォーカス */
-/*.search-field input:focus,*/
-/*.search-field select:focus {*/
-/*    outline: none;*/
-/*    border-color: #eeeeee;*/
-/*    box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.2);*/
-/*}*/
+/* 登録画面メインボタン */
+.project-regist-area #comp {
+	color: var(--button-text-color, #ffffff);
+	background-color: var(--button-color, #F067A6);
+	border: 1.5px solid var(--button-color, #F067A6);
+}
 
-/* プレースホルダー */
-/*.search-field input::placeholder {*/
-/*    color: #9ca3af;*/
-/*}*/
+/* 工数カード */
+.kousuu {
+	width: 100%;
+}
 
-/* クリアボタン領域 */
-/*.clear-button-area {*/
-/*    display: flex;*/
-/*    align-items: flex-end;*/
-/*}*/
+/* 工数table */
+.kousuu table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 12px;
+}
 
-/* クリアボタン */
-/*.clear-btn {*/
-/*    width: 100%;*/
-/*    height: 38px;*/
-/*    color: var(--member-button-color);*/
-/*    background-color: var(--background-color, #F8F8F8);*/
-/*    border: 1.5px solid var(--member-main-color);*/
-/*    border-radius: 4px;*/
-/*    font-size: 14px;*/
-/*    font-weight: 500;*/
-/*}*/
+/* 工数セル */
+.kousuu td {
+	color: var(--paragraph-color, #000000);
+	font-size: 14px;
+	font-weight: 500;
+	vertical-align: middle;
+}
 
-/* クリアボタンホバー */
-/*.clear-btn:hover {*/
-/*    background-color: #F6ADC6;*/
-/*    color: #ffffff;*/
-/*}*/
+/* 案件一覧table */
+#project-table {
+	width: 100%;
+	table-layout: fixed;
+	border-collapse: collapse;
+	background-color: #ffffff;
+}
+
+/* 案件一覧セル */
+#project-table th,
+#project-table td {
+	padding: 8px;
+	text-align: center;
+	border-bottom: 1px solid #f1d8e4;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+/* 案件一覧見出し */
+#project-table th {
+	background-color: #fff7fb;
+	font-weight: 600;
+}
+
+/* progress */
+#project-table progress {
+	width: 100%;
+	max-width: 100px;
+}
+
+/* 詳細ボタン領域 */
+.detail-button-area {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-bottom: 16px;
+}
+
+/* 詳細ボタン */
+.back-btn,
+.edit-btn,
+.task-add-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: 40px;
+	padding: 0 14px;
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid var(--hightlight-color, #F6ADC6);
+	border-radius: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+/* 詳細ボタンホバー */
+.back-btn:hover,
+.edit-btn:hover,
+.task-add-btn:hover {
+	color: #ffffff;
+	background-color: var(--hightlight-color, #F6ADC6);
+}
+
+/* 小さい編集ボタン */
+.small-edit-btn {
+	padding: 5px 10px;
+	color: var(--button-color, #F067A6);
+	background-color: #ffffff;
+	border: 1.5px solid #F6ADC6;
+	border-radius: 8px;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+/* 小さい削除ボタン */
+.small-delete-btn {
+	padding: 5px 10px;
+	color: #2563eb;
+	background-color: #ffffff;
+	border: 1.5px solid #93c5fd;
+	border-radius: 8px;
+	font-size: 12px;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+/* 詳細数値 */
+.detail-count {
+	color: #EF5B9C;
+	font-weight: 700;
+}
+
+/* 空データ */
+.empty-cell {
+	padding: 22px !important;
+	color: #9ca3af !important;
+	text-align: center !important;
+	font-size: 13px !important;
+	font-weight: 400 !important;
+}
