@@ -1,5 +1,7 @@
 package action;
 
+import java.sql.SQLException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,8 +36,9 @@ public class DashboardAction {
      * ダッシュボード画面を表示
      * ログインユーザーIDを使って表示情報を取得する
      * @return 遷移先JSP
+     * @throws SQLException 
      */
-    public String show() {
+    public String show() throws SQLException {
 
         // セッションからログインユーザーを取得
         UserDTO loginUser = getLoginUser();

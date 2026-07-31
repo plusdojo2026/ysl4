@@ -279,6 +279,36 @@ public class WorkLogDAO {
 
         return 0f;
     }
+    
+    /**
+
+    ◦ 指定ユーザーの当月工数合計を取得する.
+    ◦ @param userId ユーザーID.
+    ◦ @return 当月工数合計.
+    ◦ @throws SQLException SQL例外.
+     */
+    public float sumThisMonthByUserId(int userId) throws SQLException {
+
+        String sql =
+                "SELECT COALESCE(SUM(man_hours), 0) AS total_manhours "
+                + "FROM WorkLogs "
+                + "WHERE user_id = ? "
+                + "AND DATE_FORMAT(work_date, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')";
+
+        try (PreparedStatement pStmt = conn.prepareStatement(sql)) {
+
+            pStmt.setInt(1, userId);
+
+            try (ResultSet rs = pStmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getFloat("total_manhours");
+                }
+            }
+        }
+
+        return 0f;
+    }
+
 
     /**
      * 工数ログ取得用の共通SQLを作る。
